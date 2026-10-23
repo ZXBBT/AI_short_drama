@@ -1,6 +1,9 @@
 # Source: https://huggingface.co/Comfy-Org/MiniMax-H3  pinned revision e5eb578a89295337b8ff433a035929ce0279e0b6 (lastModified 2026-09-29)
 # Sizes and sha256 read from the Hugging Face API on 2026-10-23 (not yet downloaded/verified locally).
 # Local path = ~/AI_models/comfyui/<repo_path>
+# Download/verify: scripts/fetch_models.sh (reads the two lines below)
+#repo: Comfy-Org/MiniMax-H3
+#revision: e5eb578a89295337b8ff433a035929ce0279e0b6
 repo_path	size_bytes	sha256	role
 diffusion_models/minimax_h3_fl2va_pruned_int8_convrot.safetensors	20970379616	e889202c41dafb67b10d67b97f0d8541508036a6090af23425a5c2615d03c47a	required
 text_encoders/qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors	15687142551	35a88d51044231fe332301d7a62aa81e3f2cba62febeb446e2c1e3e0ef76f2c6	required

@@ -1,0 +1,24 @@
+# Stage 3 download + verification, 2026-10-23T22:13:13Z
+repo Comfy-Org/MiniMax-H3 @ e5eb578a89295337b8ff433a035929ce0279e0b6 -> /Users/marcusmao/AI_models/comfyui (role: required*)
+GET  diffusion_models/minimax_h3_fl2va_pruned_int8_convrot.safetensors (20970 MB)
+OK   diffusion_models/minimax_h3_fl2va_pruned_int8_convrot.safetensors sha256 verified (216s)
+GET  text_encoders/qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors (15687 MB)
+OK   text_encoders/qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors sha256 verified (169s)
+GET  vae/minimax_h3_video_vae_fp16.safetensors (5207 MB)
+OK   vae/minimax_h3_video_vae_fp16.safetensors sha256 verified (51s)
+GET  vae/minimax_h3_audio_vae_fp32.safetensors (605 MB)
+OK   vae/minimax_h3_audio_vae_fp32.safetensors sha256 verified (6s)
+GET  loras/minimax_h3_fl2v_turbo_8step_v1.0_comfyui_bf16.safetensors (1956 MB)
+OK   loras/minimax_h3_fl2v_turbo_8step_v1.0_comfyui_bf16.safetensors sha256 verified (20s)
+ALL DONE
+
+# independent re-hash (scripts/verify_models.sh)
+OK       diffusion_models/minimax_h3_fl2va_pruned_int8_convrot.safetensors
+OK       text_encoders/qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors
+OK       vae/minimax_h3_video_vae_fp16.safetensors
+OK       vae/minimax_h3_audio_vae_fp32.safetensors
+OK       loras/minimax_h3_fl2v_turbo_8step_v1.0_comfyui_bf16.safetensors
+absent   text_encoders/qwen3vl_32b_minimax_h3_int8_convrot.safetensors (fallback (only if nvfp4 fails, decision D7))
+absent   vae/minimax_h3_video_vae_int8_convrot.safetensors (not used on MPS (decision D5))
+
+# ComfyUI v0.42.1 loader visibility: UNETLoader, CLIPLoader(type minimax), VAELoader x2, LoraLoaderModelOnly all list the files

@@ -29,3 +29,4 @@ Reinstall the venv exactly: `.venv/bin/python -m pip install -r ~/dev/AI_short_d
 | 2026-10-23 | 2 | torch / torchvision | 2.14.1 / 0.29.1 | MPS available; GPU working-set cap 51.8 GiB |
 | 2026-10-23 | 2 | comfy-kitchen / comfy-aimdo | 0.2.39 / 0.5.6 | pinned by ComfyUI requirements; aimdo inactive on macOS |
 | 2026-10-23 | 2 | frontend / templates | 1.55.18 / 0.11.89 | pinned by ComfyUI requirements |
+| 2026-10-23 | 3 | H3 model files | Comfy-Org/MiniMax-H3 @ `e5eb578a` | 5 required files from `models/manifest.tsv`, SHA-256 verified |
