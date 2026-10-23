@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-23",
+  "stage": 2,
+  "purpose": "practice smoke test + same-seed determinism check (practice only)",
+  "workflow": "workflows/official/image_sdxl_simple__templates-0.11.89.json (API-submitted, values unchanged except seed control fixed)",
+  "model": {"file": "checkpoints/sd_xl_base_1.0.safetensors", "sha256": "31e35c80fc4829d14f90153f4c74cd59c90b779f6afe05a74cd6120b893f7e5b"},
+  "params": {"seed": 812045847300606, "steps": 25, "cfg": 7, "sampler": "dpmpp_2m", "scheduler": "karras", "denoise": 1, "width": 1024, "height": 1024, "batch": 1},
+  "env": {"comfyui": "v0.42.1 (63be2f9)", "torch": "2.14.1", "python": "3.13.17", "device": "mps", "attention": "attention_sub_quad", "launch": "scripts/launch_comfyui.sh"},
+  "results": [
+    {"output": "~/AI_renders/comfyui/practice/sdxl_smoke_00001_.png", "wall_seconds": 19.4, "note": "includes model load from disk"},
+    {"output": "~/AI_renders/comfyui/practice/sdxl_smoke_repeat_00001_.png", "wall_seconds": 16.3, "note": "after /free (models unloaded, cache cleared)"}
+  ],
+  "determinism": "pixel-identical (max diff 0)",
+  "peak_process_rss_gib": 2.7,
+  "peak_memory_note": "process RSS only; MPS allocations are not fully reflected"
+}
