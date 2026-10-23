@@ -64,6 +64,12 @@ Each entry: what was decided, why, and what would make us revisit it.
   with ~11 GiB swap, because the CPU text encoder (15 GB) and MPS diffusion model (20 GB) are
   both resident. Watch swap as length/resolution grow.
 
+## D13 — Baseline render settings: 864×480, 20 steps, turbo off; turbo only for previews (2026-10-23)
+- **Why:** 864×480×56 frames (2.3 s) renders in ~9 min with swap < 10 GiB and good quality
+  (`docs/stage5-results.md`). Turbo halves sampling time but pushed swap to 24.8 GiB and changes
+  the look, so it is not the default.
+- **Revisit if:** swap behaviour of turbo is understood/fixed, or longer clips need a different budget.
+
 ## D11 — Launch only via `scripts/launch_comfyui.sh` (2026-10-23)
 - localhost only, `--disable-all-custom-nodes`, models from `config/extra_model_paths.yaml`,
   output to `~/AI_renders/comfyui`, wrapped in `caffeinate -i`.

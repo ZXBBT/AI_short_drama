@@ -40,11 +40,13 @@ def template_defaults():
         "video_vae": outer[7], "audio_vae": outer[8],
         "sampler": inner[123][0], "scheduler": inner[124][0], "steps": inner[137][0],
         "fps": inner[130][0], "bit_depth": inner[130][1],
+        "lora": outer[10], "lora_strength": outer[11], "turbo_steps": outer[12],
     }
 
 
 def build_prompt(p):
-    return {
+    model = ["lora", 0] if p["turbo"] else ["unet", 0]
+    graph = {
         "unet": {"class_type": "UNETLoader", "inputs": {"unet_name": p["unet"], "weight_dtype": "default"}},
         "clip": {"class_type": "CLIPLoader", "inputs": {"clip_name": p["clip"], "type": "minimax", "device": "default"}},
         "vae_v": {"class_type": "VAELoader", "inputs": {"vae_name": p["video_vae"]}},
@@ -55,8 +57,8 @@ def build_prompt(p):
         "noise": {"class_type": "RandomNoise", "inputs": {"noise_seed": p["seed"]}},
         "sampler": {"class_type": "KSamplerSelect", "inputs": {"sampler_name": p["sampler"]}},
         "sigmas": {"class_type": "BasicScheduler", "inputs": {
-            "model": ["unet", 0], "scheduler": p["scheduler"], "steps": p["steps"], "denoise": 1.0}},
-        "guider": {"class_type": "BasicGuider", "inputs": {"model": ["unet", 0], "conditioning": ["cond", 0]}},
+            "model": model, "scheduler": p["scheduler"], "steps": p["steps"], "denoise": 1.0}},
+        "guider": {"class_type": "BasicGuider", "inputs": {"model": model, "conditioning": ["cond", 0]}},
         "sample": {"class_type": "SamplerCustomAdvanced", "inputs": {
             "noise": ["noise", 0], "guider": ["guider", 0], "sampler": ["sampler", 0],
             "sigmas": ["sigmas", 0], "latent_image": ["cond", 1]}},
@@ -67,6 +69,10 @@ def build_prompt(p):
         "save": {"class_type": "SaveVideo", "inputs": {
             "video": ["video", 0], "filename_prefix": p["prefix"], "format": "auto", "format.codec": "auto"}},
     }
+    if p["turbo"]:  # template's turbo_mode=True branch: 8-step Lightning LoRA on the UNET
+        graph["lora"] = {"class_type": "LoraLoaderModelOnly", "inputs": {
+            "model": ["unet", 0], "lora_name": p["lora"], "strength_model": p["lora_strength"]}}
+    return graph
 
 
 class MemorySampler(threading.Thread):
@@ -169,12 +175,15 @@ def main():
     ap.add_argument("--steps", type=int, default=d["steps"])
     ap.add_argument("--seed", type=int, default=d["seed"])
     ap.add_argument("--prompt-file", type=pathlib.Path, help="default: template prompt")
+    ap.add_argument("--turbo", action="store_true", help="template turbo mode: Lightning LoRA + turbo steps")
+    ap.add_argument("--free", action="store_true", help="unload models and clear ComfyUI's cache first")
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args()
     if a.length % 17 != 5 or a.width % 32 or a.height % 32:
         raise SystemExit("length must be 17k+5, width/height multiples of 32")
 
-    p = dict(d, width=a.width, height=a.height, length=a.length, steps=a.steps, seed=a.seed,
+    steps = d["turbo_steps"] if a.turbo and a.steps == d["steps"] else a.steps
+    p = dict(d, width=a.width, height=a.height, length=a.length, steps=steps, seed=a.seed, turbo=a.turbo,
              video_vae=MPS_VIDEO_VAE, prefix=f"h3/{a.name}")
     if a.prompt_file:
         p["prompt"] = a.prompt_file.read_text().strip()
@@ -184,13 +193,17 @@ def main():
     if a.dry_run:
         print(json.dumps(prompt, indent=1)); return
 
+    import urllib.request
+    if a.free:
+        req = urllib.request.Request(f"http://{API}/free", data=b'{"unload_models": true, "free_memory": true}',
+                                     headers={"Content-Type": "application/json"})
+        urllib.request.urlopen(req); time.sleep(3)
     labels = {k: v["class_type"] for k, v in prompt.items()}
     mem = MemorySampler(); mem.start()
     started = dt.datetime.now().astimezone().isoformat(timespec="seconds")
     prompt_id, wall, times, events, error, hist = asyncio.run(run(prompt, labels))
     mem.stop.set(); mem.join()
 
-    import urllib.request
     stats = json.load(urllib.request.urlopen(f"http://{API}/system_stats"))
     record = {
         "name": a.name, "started": started, "prompt_id": prompt_id, "status": "error" if error else "success",
@@ -199,7 +212,8 @@ def main():
         "node_seconds": {labels.get(k, k): v for k, v in times.items()},
         "memory_gib": {"system_used_before": round(mem.base_used, 1), "system_used_peak": round(mem.peak_used, 1),
                        "swap_peak": round(mem.peak_swap, 2)},
-        "params": {k: p[k] for k in ("width", "height", "length", "fps", "steps", "seed", "sampler", "scheduler")},
+        "params": {k: p[k] for k in ("width", "height", "length", "fps", "steps", "seed", "sampler", "scheduler", "turbo")},
+        "cache_cleared_first": a.free,
         "duration_seconds": round(p["length"] / p["fps"], 2),
         "models": {k: p[k] for k in ("unet", "clip", "video_vae", "audio_vae")},
         "prompt_text": p["prompt"],
@@ -209,6 +223,7 @@ def main():
         "env": {"comfyui": stats["system"]["comfyui_version"], "pytorch": stats["system"].get("pytorch_version"),
                 "python": stats["system"].get("python_version", "").split()[0],
                 "device": [x.get("type") for x in stats.get("devices", [])],
+                "comfyui_argv": stats["system"].get("argv"),
                 "repo_commit": subprocess.run(["git", "-C", str(REPO), "rev-parse", "--short", "HEAD"],
                                               capture_output=True, text=True).stdout.strip()},
         "api_prompt": prompt,

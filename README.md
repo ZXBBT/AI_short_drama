@@ -40,7 +40,7 @@ runs/            per-render metadata (seed, params, versions, output path)
 | 2 | ComfyUI + PyTorch install, MPS micro-tests, small-model practice | ✅ 2026-10-23 — practice guide `docs/practice-sdxl.md` (hands-on by owner) |
 | 3 | Official H3 model download + checksum verification | ✅ 2026-10-23 — `models/verification/2026-10-23_stage3.txt` |
 | 4 | First low-res H3 test render | ✅ 2026-10-23 — `runs/2026-10-23/stage4_a_608x352_5f.json` |
-| 5 | Reproducibility check | — |
+| 5 | Reproducibility check + scaling | ✅ 2026-10-23 — `docs/stage5-results.md` (attention comparison skipped: swap stop rule) |
 | 6 | Short-drama pipeline | — |
 | 7 | Automation | — |
 | — | Licensing / commercial-use gate | required before monetization or client delivery |
