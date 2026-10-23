@@ -1,0 +1,19 @@
+# snapshot 2026-10-23T20:11:52Z
+## system
+ProductName:		macOS
+ProductVersion:		26.6.2
+BuildVersion:		25G83
+arch: arm64  rosetta: 0
+cpu: Apple M5 Max
+ram_bytes: 68719476736
+xcode_clt: 26.3.0.0.1.1771626560
+## tools
+git: git version 2.50.1 (Apple Git-155)
+brew: Homebrew 5.1.12
+python3.13: not installed
+ffmpeg: not installed
+hf: not installed
+## comfyui
+not installed at /Users/marcusmao/dev/ComfyUI
+## venv packages
+no venv at /Users/marcusmao/dev/ComfyUI/.venv

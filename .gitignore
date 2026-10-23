@@ -1,0 +1,47 @@
+# --- Model weights: live in ~/AI_models, never in Git ---
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.bin
+*.gguf
+*.onnx
+
+# --- Renders and media: live in ~/AI_renders ---
+*.mp4
+*.mov
+*.mkv
+*.webm
+*.avi
+*.gif
+*.wav
+*.flac
+*.mp3
+*.m4a
+*.aac
+*.exr
+
+# Images are ignored everywhere except small reference inputs
+*.png
+*.jpg
+*.jpeg
+*.webp
+!inputs/**/*.png
+!inputs/**/*.jpg
+!inputs/**/*.jpeg
+!inputs/**/*.webp
+
+# --- Python / environments / caches ---
+.venv/
+venv/
+__pycache__/
+*.pyc
+.cache/
+.ipynb_checkpoints/
+
+# --- Secrets (e.g. Hugging Face token) ---
+.env
+*.token
+
+# --- macOS ---
+.DS_Store
