@@ -19,9 +19,9 @@ Sampling times include loading the diffusion model to MPS (~15–30 s).
 1. **Reproducible:** `stage5_repro_a` vs `stage4_a` — decoded video frames and audio samples
    identical (max diff 0), after clearing ComfyUI's cache. Same seed + same graph + same
    environment ⇒ same output on this Mac.
-2. **Scaling:** sampling grows roughly linearly with frames at 608×352 (≈4 s/frame-step-batch
-   beyond fixed overhead) and ~2× when pixels double (608×352 → 864×480). Text encoding is a
-   constant ~29 s per prompt (CPU).
+2. **Scaling:** at 608×352, sampling took 72 → 97 → 222 s for 5 → 22 → 56 frames. At 56 frames,
+   going from 608×352 to 864×480 (1.9× the pixels) took 2.0× longer (222 → 450 s). Text encoding
+   is a constant ~29 s per prompt (CPU).
 3. **Memory:** peak is dominated by resident models (~52 GiB at any size so far); activations add
    a few GiB at 864×480×56. Swap 6–11 GiB in normal runs.
 4. **Turbo (8-step LoRA):** 2.1× faster sampling, same composition, brighter / more saturated /
