@@ -56,6 +56,14 @@ Each entry: what was decided, why, and what would make us revisit it.
   chunking also limits tensor sizes (cf. INT_MAX issue #15315). `--use-pytorch-cross-attention`
   may be faster; compare only after a working baseline exists (Stage 5).
 
+## D12 — Scripted H3 renders via `scripts/run_h3_t2v.py`, defaults read from the official template (2026-10-23)
+- **Why:** every run gets an identical, recorded API graph + timings + memory + output checks in `runs/`.
+- The template's turbo switch / frame-count math nodes are replaced by their resolved values
+  (turbo off), which is graph-equivalent. UI-loadable equivalent: `workflows/project/h3_t2v_mps_baseline.json`.
+- **Observed (Run A, 608×352, 5 frames):** works end-to-end on MPS; system memory peaked ~53 GiB
+  with ~11 GiB swap, because the CPU text encoder (15 GB) and MPS diffusion model (20 GB) are
+  both resident. Watch swap as length/resolution grow.
+
 ## D11 — Launch only via `scripts/launch_comfyui.sh` (2026-10-23)
 - localhost only, `--disable-all-custom-nodes`, models from `config/extra_model_paths.yaml`,
   output to `~/AI_renders/comfyui`, wrapped in `caffeinate -i`.
