@@ -15,6 +15,11 @@ Each entry: what was decided, why, and what would make us revisit it.
 ## D3 — Python 3.13 (Homebrew `python@3.13`) in a dedicated venv (2026-10-23)
 - **Why:** ComfyUI README calls 3.13 "very well supported"; 3.14 may break some dependencies.
   Conda base is left untouched to avoid conda/pip mixing.
+- **Alternative considered:** uv-managed standalone Python (no shared Homebrew libs, exact patch
+  pin). Owner chose Homebrew, accepting upgrades of shared libs (ca-certificates, readline,
+  sqlite, xz). Installed with `HOMEBREW_NO_INSTALL_CLEANUP=1` so old versions were kept.
+- **Note:** `brew upgrade` can move python@3.13 to a newer patch release; record it in
+  `env/versions.md` if that happens.
 
 ## D4 — PyTorch stable 2.14.1, pinned (2026-10-23)
 - **Why:** ComfyUI README suggests nightly on Mac, but nightlies are not reproducible.
@@ -38,3 +43,21 @@ Each entry: what was decided, why, and what would make us revisit it.
 
 ## D8 — Add a small-model practice step to Stage 2, before H3 downloads (2026-10-23)
 - **Why:** learn the ComfyUI UI with seconds-long renders instead of minutes-long H3 renders.
+
+## D9 — Keep ComfyUI's default device policy on MPS; never force the text encoder to GPU (2026-10-23)
+- **Measured** (`scripts/mps_quant_check.py`, result GO): ComfyUI v0.42.1 puts text encoders on
+  **CPU** (vram_state SHARED) and diffusion model + VAE on **MPS**. MPS has no float8 dtype at all
+  (`Undefined type Float8_e4m3fn`), and nvfp4 block scales are float8, so the nvfp4 text encoder
+  only works on CPU. int8 ConvRot dequant + fp16 matmul on MPS is correct (rel.err 0.9%).
+- **Effect:** prompt encoding runs on CPU (slower, once per prompt). Do not use `--gpu-only`.
+
+## D10 — Keep default attention (`attention_sub_quad`) for now (2026-10-23)
+- **Why:** it is ComfyUI's default on this Mac and matched PyTorch SDPA (max diff 6e-5) in tests;
+  chunking also limits tensor sizes (cf. INT_MAX issue #15315). `--use-pytorch-cross-attention`
+  may be faster; compare only after a working baseline exists (Stage 5).
+
+## D11 — Launch only via `scripts/launch_comfyui.sh` (2026-10-23)
+- localhost only, `--disable-all-custom-nodes`, models from `config/extra_model_paths.yaml`,
+  output to `~/AI_renders/comfyui`, wrapped in `caffeinate -i`.
+- The template library also lists "Comfy Cloud" / "partner" MiniMax nodes and `api_*` templates;
+  those send work to paid remote services and are not used.

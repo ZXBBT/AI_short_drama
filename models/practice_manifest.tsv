@@ -1,0 +1,5 @@
+# Practice-only models (learning the ComfyUI UI; not used in the H3 pipeline or any delivered work).
+# Source: https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0  pinned revision 462165984030d82259a11f4367a4eed129e94a7b
+# License: CreativeML Open RAIL++-M. Local path = ~/AI_models/comfyui/<local_path>
+local_path	size_bytes	sha256	role
+checkpoints/sd_xl_base_1.0.safetensors	6938078334	31e35c80fc4829d14f90153f4c74cd59c90b779f6afe05a74cd6120b893f7e5b	practice (template image_sdxl_simple)

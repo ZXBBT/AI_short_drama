@@ -1,0 +1,13 @@
+# Tells ComfyUI where model weights live (outside Git and iCloud).
+# Passed explicitly by scripts/launch_comfyui.sh via --extra-model-paths-config.
+# is_default: true makes these the first folders listed and the default save location.
+project_models:
+  base_path: ~/AI_models/comfyui
+  is_default: true
+  checkpoints: checkpoints/
+  diffusion_models: diffusion_models/
+  text_encoders: text_encoders/
+  vae: vae/
+  loras: loras/
+  embeddings: embeddings/
+  model_patches: model_patches/

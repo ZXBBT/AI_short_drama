@@ -37,7 +37,7 @@ runs/            per-render metadata (seed, params, versions, output path)
 |---|---|---|
 | 0 | Read-only system & compatibility audit | ✅ 2026-10-23 — see `docs/stage0-findings.md` |
 | 1 | Project skeleton (this repo, folders, logs) | ✅ 2026-10-23 |
-| 2 | ComfyUI + PyTorch install, MPS micro-tests, small-model practice | ⏳ needs approval |
+| 2 | ComfyUI + PyTorch install, MPS micro-tests, small-model practice | 🟡 install + tests done 2026-10-23; practice model pending approval |
 | 3 | Official H3 model download + checksum verification | ⏳ needs approval |
 | 4 | First low-res H3 test render | — |
 | 5 | Reproducibility check | — |
