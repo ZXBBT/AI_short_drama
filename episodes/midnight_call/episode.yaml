@@ -18,7 +18,10 @@ assets:
 
 characters:
   woman:
-    description: young woman, beige knitted sweater, at a desk in a dim apartment at night
+    # Owner's choice 2026-10-23: the S001 keyframe is her reference (one front, 3/4-length view).
+    # Description = what that picture shows, so prompts and reference agree (6.2 finding 3).
+    description: young East Asian woman, long dark hair in a low side ponytail, long beige-grey
+      cardigan over a light top
     refs: [kf_S001_desk]
 
 shots:
