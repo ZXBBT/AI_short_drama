@@ -1,0 +1,30 @@
+# Midnight Call — owner's practice story (started in the UI 2026-10-23).
+# S001 is imported exactly from the owner's first UI take (ComfyUI prompt d27ef500,
+# output video/midnight_call/S001_take01_00001_.mp4) so Stage 6.2 can prove that
+# scripts/episode.py renders the same video as the UI. Add new shots below it.
+episode: midnight_call
+title: Midnight Call
+recipe: h3_base_v1
+
+defaults:
+  aspect: "9:16"
+  megapixels: 0.2      # 352x608
+  duration: 5          # 124 frames, 5.2 s
+  takes: 1
+
+assets:
+  # SDXL keyframe made by the owner (sdxl_simple_00023_.png), copied byte-identical.
+  kf_S001_desk: inputs/midnight_call/kf_S001_desk_v1.png
+
+characters:
+  woman:
+    description: young woman, beige knitted sweater, at a desk in a dim apartment at night
+    refs: [kf_S001_desk]
+
+shots:
+  S001:
+    type: i2v
+    first: kf_S001_desk
+    prompt_file: prompts/midnight_call/S001_take01_ui.txt
+    seed: 757358688076805
+    note: phone on the desk glows; she notices and leans toward it (UI take01 reproduction)

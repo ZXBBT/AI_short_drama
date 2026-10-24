@@ -22,3 +22,4 @@ revision. Confirmed 2026-10-23: both copies have the identical SHA-256 (`2339acd
 |---|---|---|---|
 | 2026-10-23 | 5 required H3 files, 44.4 GB | all SHA-256 verified twice; visible in ComfyUI loaders | `verification/2026-10-23_stage3.txt` |
 | 2026-10-23 | SDXL practice checkpoint, 6.9 GB | SHA-256 verified | `practice_manifest.tsv` |
+| 2026-10-23 | R2V model `minimax_h3_ref2va_pruned_int8_convrot`, 21.0 GB (role `r2v`) | SHA-256 verified; visible in ComfyUI loaders | `verification/2026-10-23_r2v.txt` |

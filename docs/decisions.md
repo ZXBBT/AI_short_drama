@@ -70,6 +70,23 @@ Each entry: what was decided, why, and what would make us revisit it.
   the look, so it is not the default.
 - **Revisit if:** swap behaviour of turbo is understood/fixed, or longer clips need a different budget.
 
+## D14 — Download the R2V model `minimax_h3_ref2va_pruned_int8_convrot` (2026-10-23)
+- **Why:** owner approved. Reference-to-video (and Multiframe Reference / Fun ControlNet) templates
+  need ref2va, a separate set of weights from fl2va. Same pruned int8 ConvRot format as the working
+  T2V model (D6), so the same MPS path is expected to work; not yet rendered on this Mac.
+- Manifest role `r2v`. R2V turbo LoRA not downloaded (turbo stays off, D13).
+- **Memory:** two 21 GB diffusion models must not be resident together; restart ComfyUI when
+  switching between fl2va and ref2va workflows.
+
+## D15 — Episode pipeline: shots as a dependency graph, versioned recipes, fingerprinted takes (2026-10-23)
+- **Why:** see `docs/automation-plan.md` §3–4. Blind last-frame chaining accumulates drift and
+  cannot tell which shots a re-render invalidates; explicit typed links + content fingerprints can.
+- `scripts/episode.py` builds the same API graphs as the proven paths (offline test: T2V graph
+  identical to `stage5_repro_a`; I2V graph matches the owner's UI run). Recipes in `config/recipes/`
+  change only by new version. No CFG knob: official H3 graphs use `BasicGuider`.
+- Safety: refuses to render while ComfyUI is busy (shared with the owner's UI), stops the batch on
+  any failure or swap > 20 GiB, unloads models when switching fl2va <-> ref2va.
+
 ## D11 — Launch only via `scripts/launch_comfyui.sh` (2026-10-23)
 - localhost only, `--disable-all-custom-nodes`, models from `config/extra_model_paths.yaml`,
   output to `~/AI_renders/comfyui`, wrapped in `caffeinate -i`.

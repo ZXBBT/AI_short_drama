@@ -25,6 +25,8 @@ workflows/
   official/      unmodified official ComfyUI templates (reference copies)
   project/       our edited workflows (diff against official/)
 prompts/         prompt text per shot
+episodes/        one folder per episode: episode.yaml (shots + links), selections.yaml
+config/recipes/  versioned generation settings shared by shots
 inputs/          small reference images used as workflow inputs
 subtitles/       .srt / .ass files
 scripts/         helper scripts
@@ -40,8 +42,8 @@ runs/            per-render metadata (seed, params, versions, output path)
 | 2 | ComfyUI + PyTorch install, MPS micro-tests, small-model practice | ✅ 2026-10-23 — practice guide `docs/practice-sdxl.md` (hands-on by owner) |
 | 3 | Official H3 model download + checksum verification | ✅ 2026-10-23 — `models/verification/2026-10-23_stage3.txt` |
 | 4 | First low-res H3 test render | ✅ 2026-10-23 — `runs/2026-10-23/stage4_a_608x352_5f.json` |
-| 5 | Reproducibility check + scaling | ✅ 2026-10-23 — `docs/stage5-results.md` (attention comparison skipped: swap stop rule) |
-| 6 | Short-drama pipeline | — |
+| 5 | Reproducibility check + scaling | ✅ 2026-10-23 — `docs/stage5-results.md` (attention comparison skipped: swap stop rule); hands-on guide `docs/practice-h3.md` |
+| 6 | Short-drama pipeline | 🔄 started 2026-10-23 — plan `docs/automation-plan.md`; 6.1 foundation done (`scripts/episode.py`, `episodes/`); 6.2 smoke tests next |
 | 7 | Automation | — |
 | — | Licensing / commercial-use gate | required before monetization or client delivery |
 

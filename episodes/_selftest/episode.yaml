@@ -1,0 +1,44 @@
+# Pipeline self-test (Stage 6.2). Tiny renders that exercise every code path; not story content.
+#   T1  T2V regression: must be pixel-identical to runs/2026-10-23/stage5_repro_a.json's video
+#   I1  I2V from an asset keyframe
+#   C1  continuation: first frame = sharpest frame of I1's selected take (dependency link)
+#   R1  first R2V render on this Mac (ref2va model, D14)
+# Run: scripts/episode.py render episodes/_selftest --auto-select
+episode: _selftest
+title: Pipeline self-test
+recipe: h3_base_v1
+
+defaults:
+  aspect: "9:16"
+  megapixels: 0.2      # 352x608
+  duration: 0.2        # 5 frames: mechanics only, far below H3's trained length
+  takes: 1
+
+assets:
+  kf_desk: inputs/midnight_call/kf_S001_desk_v1.png
+
+characters:
+  woman:
+    refs: [kf_desk]
+
+shots:
+  T1:
+    type: t2v
+    aspect: "16:9"     # 608x352, same as Stage 4/5 run A
+    prompt_file: prompts/official/h3_t2v_template.txt
+    seed: 757358688076805
+  I1:
+    type: i2v
+    first: kf_desk
+    prompt: The woman from <Picture 1> looks up from the desk. Quiet room ambience.
+    seed: 1
+  C1:
+    type: i2v
+    first: {shot: I1, frame: best}
+    prompt: Continue the shot from <Picture 1>. The woman turns her head toward the window. Quiet rain.
+    seed: 1
+  R1:
+    type: r2v
+    refs: [woman]
+    prompt: <Picture 1> is the woman in the beige sweater. Close-up of her face as she glances at a glowing phone. Soft rain sounds.
+    seed: 1

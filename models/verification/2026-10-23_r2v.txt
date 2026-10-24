@@ -1,0 +1,13 @@
+# R2V model download — 2026-10-23
+command: scripts/fetch_models.sh models/manifest.tsv r2v
+repo Comfy-Org/MiniMax-H3 @ e5eb578a89295337b8ff433a035929ce0279e0b6 -> /Users/marcusmao/AI_models/comfyui (role: r2v*)
+GET  diffusion_models/minimax_h3_ref2va_pruned_int8_convrot.safetensors (20970 MB)
+OK   diffusion_models/minimax_h3_ref2va_pruned_int8_convrot.safetensors sha256 verified (219s)
+ALL DONE
+exit 0
+
+local file:
+-rw-r--r--  1 marcusmao  staff  20970379616 Oct 23 17:18 ~/AI_models/comfyui/diffusion_models/minimax_h3_ref2va_pruned_int8_convrot.safetensors
+
+ComfyUI v0.42.1 /object_info UNETLoader unet_name options (running server, no restart):
+['minimax_h3_fl2va_pruned_int8_convrot.safetensors', 'minimax_h3_ref2va_pruned_int8_convrot.safetensors']
