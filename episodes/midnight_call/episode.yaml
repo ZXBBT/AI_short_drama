@@ -105,9 +105,27 @@ shots:
     note: >-
       he advances; changed 2026-10-23 (owner-approved) from an S004 continuation to R2V with both
       references, because S004 ends on the man alone. Framed over his shoulder so her face stays
-      large (wide shots blur faces at 352x608).
+      large (wide shots blur faces at 352x608). Result: H3 framed her full-body in both takes
+      (head ~30 px, features blurred, owner). EDIT: use selected take s501 as a ~2 s establishing
+      shot (frames 0-48), then cut to S005b.
     prompt: |-
       <Picture 1> is the woman: long dark hair in a low side ponytail, long beige-grey cardigan over a light top. <Picture 2> is the man: black hooded jacket with the hood up, face in shadow, a kitchen knife in his right hand. Keep both looks exactly.
       Cinematic thriller, dim apartment at night, cold light from a rain-streaked window.
       [0s-5s] Single continuous over-the-shoulder shot, no cut. The man is in the foreground, seen from behind, his knife visible at his side. Beyond him, the woman is seen from the waist up, facing the camera, her back against the window. He steps slowly toward her; she presses against the glass, terrified, breathing fast.
       Audio: his slow heavy footsteps, her fast frightened breathing, rain against the glass.
+  S005b:
+    type: r2v
+    refs: [woman]
+    duration: 3          # 73 frames
+    seed: 521
+    note: >-
+      close-up of her terror as he closes in (owner-approved 2026-10-23); her face fills the frame
+      so it stays sharp. Only her reference: a second full reference made H3 pull back to show both
+      people (S005); his shoulder is a generic dark shape in the foreground.
+    prompt: |-
+      <Picture 1> is the woman: long dark hair in a low side ponytail, long beige-grey cardigan over a light top. Keep her face and outfit exactly.
+      Cinematic thriller, night, cold blue light from a rain-streaked window behind her.
+      Single continuous shot, no cut. Tight close-up of her face, filling the frame, her back pressed against the window glass.
+      In the out-of-focus foreground, the dark shoulder of a man in a black hooded jacket slowly moves closer; the blade of a kitchen knife glints at the edge of the frame.
+      [0s-3s] Her eyes dart down to the knife and back up; she trembles, breathing fast, tears forming, too frightened to scream.
+      Audio: rain against the glass, her shaky rapid breathing, a slow heavy footstep.
