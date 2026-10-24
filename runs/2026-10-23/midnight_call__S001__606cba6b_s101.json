@@ -1,0 +1,299 @@
+{
+ "episode": "midnight_call",
+ "shot": "S001",
+ "take_id": "606cba6b_s101",
+ "fingerprint": "606cba6b2af10ee5a76fb9ac09914d971328c954084cf940be9e09eb7a1bb490",
+ "seed": 101,
+ "started": "2026-10-23T20:53:09-07:00",
+ "prompt_id": "f585f384-37c2-4173-bbe9-0e19d26aee54",
+ "status": "success",
+ "error": null,
+ "events": [
+  "execution_start",
+  "execution_cached",
+  "execution_success"
+ ],
+ "wall_seconds": 592.1,
+ "node_seconds": {
+  "VAELoader": 3.3,
+  "LoadImage": 0.0,
+  "CLIPLoader": 1.0,
+  "MiniMaxH3ImageToVideo": 29.8,
+  "UNETLoader": 0.1,
+  "BasicScheduler": 0.0,
+  "KSamplerSelect": 0.0,
+  "BasicGuider": 0.0,
+  "RandomNoise": 0.0,
+  "SamplerCustomAdvanced": 508.6,
+  "VAEDecodeAudio": 3.4,
+  "VAEDecode": 29.1,
+  "CreateVideo": 0.0,
+  "SaveVideo": 1.0
+ },
+ "memory_gib": {
+  "system_used_before": 16.5,
+  "system_used_peak": 56.1,
+  "swap_peak": 17.32,
+  "swap_limit": 20.0
+ },
+ "params": {
+  "type": "i2v",
+  "aspect": "9:16",
+  "megapixels": 0.2,
+  "duration": 5.0,
+  "width": 352,
+  "height": 608,
+  "length": 124
+ },
+ "recipe": {
+  "name": "h3_base_v1",
+  "sha256": "ba1f0779b3dc4cb42cabee4dad6ea88ba7e5fdb48d249d011fd6ac96ca15f04a",
+  "effective": {
+   "name": "h3_base_v1",
+   "created": "2026-10-23",
+   "sampler": "res_multistep",
+   "scheduler": "simple",
+   "steps": 20,
+   "fps": 24,
+   "bit_depth": 8,
+   "ref_image_size": "match",
+   "models": {
+    "fl2va": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "ref2va": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "video_vae": "minimax_h3_video_vae_fp16.safetensors",
+    "audio_vae": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  }
+ },
+ "inputs": {
+  "first": {
+   "asset": "kf_S001_desk",
+   "file": "inputs/midnight_call/kf_S001_desk_v1.png",
+   "sha256": "22eb5a378b31cc85f5bb12b469875109fbb543f67d47f405dc2696ebdc1fd341",
+   "uploaded_as": "ai_short_drama/22eb5a378b31cc85.png"
+  }
+ },
+ "prompt_text": "Single continuous cinematic shot, no cut. The woman from <Picture 1> stands by the wooden lattice window in warm, soft evening light, exactly as in the image.\n[0s-2s] She stands still, lost in thought. Somewhere behind her, out of frame, a phone starts ringing.\n[2s-5s] She slowly turns her head toward the sound, a little uneasy. The camera stays still. Natural blinking and breathing.\nAudio: a phone ringtone from across the room, quiet room ambience.",
+ "episode_file_sha256": "bc0ccb84ad668e8bdd780567206ddcb066349f4b2185911ddbe270b84785e8e0",
+ "env": {
+  "comfyui": "0.42.1",
+  "pytorch": "2.14.1",
+  "python": "3.13.17",
+  "comfyui_argv": [
+   "main.py",
+   "--listen",
+   "127.0.0.1",
+   "--port",
+   "8188",
+   "--extra-model-paths-config",
+   "/Users/marcusmao/dev/AI_short_drama/config/extra_model_paths.yaml",
+   "--output-directory",
+   "/Users/marcusmao/AI_renders/comfyui",
+   "--disable-all-custom-nodes"
+  ],
+  "repo_commit": "14fcd44",
+  "repo_dirty": true
+ },
+ "api_prompt": {
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "clip": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "type": "minimax",
+    "device": "default"
+   }
+  },
+  "vae_v": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+   }
+  },
+  "vae_a": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  },
+  "img_first": {
+   "class_type": "LoadImage",
+   "inputs": {
+    "image": "ai_short_drama/22eb5a378b31cc85.png"
+   }
+  },
+  "cond": {
+   "class_type": "MiniMaxH3ImageToVideo",
+   "inputs": {
+    "clip": [
+     "clip",
+     0
+    ],
+    "prompt": "Single continuous cinematic shot, no cut. The woman from <Picture 1> stands by the wooden lattice window in warm, soft evening light, exactly as in the image.\n[0s-2s] She stands still, lost in thought. Somewhere behind her, out of frame, a phone starts ringing.\n[2s-5s] She slowly turns her head toward the sound, a little uneasy. The camera stays still. Natural blinking and breathing.\nAudio: a phone ringtone from across the room, quiet room ambience.",
+    "width": 352,
+    "height": 608,
+    "length": 124,
+    "vae": [
+     "vae_v",
+     0
+    ],
+    "first_frame": [
+     "img_first",
+     0
+    ]
+   }
+  },
+  "noise": {
+   "class_type": "RandomNoise",
+   "inputs": {
+    "noise_seed": 101
+   }
+  },
+  "sampler": {
+   "class_type": "KSamplerSelect",
+   "inputs": {
+    "sampler_name": "res_multistep"
+   }
+  },
+  "sigmas": {
+   "class_type": "BasicScheduler",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "scheduler": "simple",
+    "steps": 20,
+    "denoise": 1.0
+   }
+  },
+  "guider": {
+   "class_type": "BasicGuider",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "conditioning": [
+     "cond",
+     0
+    ]
+   }
+  },
+  "sample": {
+   "class_type": "SamplerCustomAdvanced",
+   "inputs": {
+    "noise": [
+     "noise",
+     0
+    ],
+    "guider": [
+     "guider",
+     0
+    ],
+    "sampler": [
+     "sampler",
+     0
+    ],
+    "sigmas": [
+     "sigmas",
+     0
+    ],
+    "latent_image": [
+     "cond",
+     1
+    ]
+   }
+  },
+  "decode_v": {
+   "class_type": "VAEDecode",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "decode_a": {
+   "class_type": "VAEDecodeAudio",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_a",
+     0
+    ]
+   }
+  },
+  "video": {
+   "class_type": "CreateVideo",
+   "inputs": {
+    "images": [
+     "decode_v",
+     0
+    ],
+    "audio": [
+     "decode_a",
+     0
+    ],
+    "fps": 24,
+    "bit_depth": 8
+   }
+  },
+  "save": {
+   "class_type": "SaveVideo",
+   "inputs": {
+    "video": [
+     "video",
+     0
+    ],
+    "filename_prefix": "episodes/midnight_call/S001/S001_606cba6b_s101",
+    "format": "auto",
+    "format.codec": "auto"
+   }
+  }
+ },
+ "output": {
+  "file": "/Users/marcusmao/AI_renders/comfyui/episodes/midnight_call/S001/S001_606cba6b_s101_00001_.mp4",
+  "bytes": 480436,
+  "video": {
+   "frames": 124,
+   "width": 352,
+   "height": 608,
+   "fps": 24.0,
+   "codec": "h264",
+   "mean_min": 106.6,
+   "mean_max": 114.2,
+   "std_min": 68.5,
+   "black_frames": 0
+  },
+  "audio": {
+   "samples": 330668,
+   "sample_rate": 32000,
+   "finite": true,
+   "rms": 0.007613421936370271,
+   "peak": 0.05117879435420036
+  },
+  "sha256": "547712eef987a320349729e2e6e99d345fdc9197bafc5206e6ef35705e08b156"
+ },
+ "continuity": {
+  "median_frame_diff": 1.11,
+  "max_frame_diff": 8.7,
+  "cuts": [],
+  "first_frame_diff": 3.5
+ },
+ "warnings": []
+}

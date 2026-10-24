@@ -119,6 +119,11 @@ Mac** (memory risk). Grow duration one step at a time and watch swap.
 | 608 × 352 | 56 | ~4.5 min | 9 GiB |
 | 864 × 480 | 56 | ~9 min | 10 GiB |
 
+**Framing at low resolution.** At 352 × 608, a full-body wide shot leaves a face ~15 px tall,
+less than one cell of the model's 16 px latent grid, so eyes and mouth blur and drift (owner's
+finding on `midnight_call` S004, 2026-10-23). Keep faces that matter at medium shot or closer;
+use wide shots only where faces don't need to read (a door, a room, a silhouette).
+
 **Seed.** Same seed + same settings + same software = identical video (verified in Stage 5).
 Set *control after generate* to **fixed** while comparing settings; use **randomize** to explore.
 

@@ -332,7 +332,6 @@ def validate(ep):
                 E(f"{pre} <Video n>/<Audio n> tags need video/audio references, not supported yet")
             if not re.search(r"<Picture \d+>", p["prompt"]):
                 W(f"{pre} r2v prompt has no <Picture n> tags; references work best when named")
-            W(f"{pre} r2v has not been rendered on this Mac yet (Stage 6.2 smoke test)")
         elif refs:
             E(f"{pre} only r2v takes refs")
         for m in re.findall(r"<Picture (\d+)>", p["prompt"]):

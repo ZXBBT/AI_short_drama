@@ -1,0 +1,296 @@
+{
+ "episode": "midnight_call",
+ "shot": "S003",
+ "take_id": "d8297c41_s302",
+ "fingerprint": "d8297c41ac124985665b905f21cc79ae457aabeaaa339a94e9fa0de3713894ce",
+ "seed": 302,
+ "started": "2026-10-23T22:39:23-07:00",
+ "prompt_id": "6520466c-8814-4d69-8672-2c8e8af02362",
+ "status": "success",
+ "error": null,
+ "events": [
+  "execution_start",
+  "execution_cached",
+  "execution_success"
+ ],
+ "wall_seconds": 560.1,
+ "node_seconds": {
+  "RandomNoise": 0.0,
+  "SamplerCustomAdvanced": 533.2,
+  "VAEDecodeAudio": 0.5,
+  "VAEDecode": 26.0,
+  "CreateVideo": 0.0,
+  "SaveVideo": 0.4
+ },
+ "memory_gib": {
+  "system_used_before": 24.1,
+  "system_used_peak": 46.9,
+  "swap_peak": 4.39,
+  "swap_limit": 20.0
+ },
+ "params": {
+  "type": "i2v",
+  "aspect": "9:16",
+  "megapixels": 0.2,
+  "duration": 5.0,
+  "width": 352,
+  "height": 608,
+  "length": 124
+ },
+ "recipe": {
+  "name": "h3_base_v1",
+  "sha256": "ba1f0779b3dc4cb42cabee4dad6ea88ba7e5fdb48d249d011fd6ac96ca15f04a",
+  "effective": {
+   "name": "h3_base_v1",
+   "created": "2026-10-23",
+   "sampler": "res_multistep",
+   "scheduler": "simple",
+   "steps": 20,
+   "fps": 24,
+   "bit_depth": 8,
+   "ref_image_size": "match",
+   "models": {
+    "fl2va": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "ref2va": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "video_vae": "minimax_h3_video_vae_fp16.safetensors",
+    "audio_vae": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  }
+ },
+ "inputs": {
+  "first": {
+   "shot": "S002",
+   "take": "ce31bd58_s202",
+   "frame": "last",
+   "video": "/Users/marcusmao/AI_renders/comfyui/episodes/midnight_call/S002/S002_ce31bd58_s202_00001_.mp4",
+   "frames": 124,
+   "spec": "last",
+   "index": 123,
+   "sha256": "66784cae33f88d0b10c5d8442e00a06783906d70236c7d831ebc3025c5c41e5a",
+   "uploaded_as": "ai_short_drama/66784cae33f88d0b.png"
+  }
+ },
+ "prompt_text": "Continue the same close-up from <Picture 1> with no cut: the woman holds the phone to her ear.\n[0s-2s] Silence on the line. She frowns slightly.\n[2s-3s] Suddenly a blinding white flash lights up the window behind her and floods her face from the side.\n[3s-5s] She freezes, eyes wide, and slowly lowers the phone.\nAudio: rain, a sharp electrical crackle with the flash, then her held breath.",
+ "episode_file_sha256": "0b830552eb7c15b11bc65ca1c060aa8394e1155cf48ac2f6c9e2ec60e7221359",
+ "env": {
+  "comfyui": "0.42.1",
+  "pytorch": "2.14.1",
+  "python": "3.13.17",
+  "comfyui_argv": [
+   "main.py",
+   "--listen",
+   "127.0.0.1",
+   "--port",
+   "8188",
+   "--extra-model-paths-config",
+   "/Users/marcusmao/dev/AI_short_drama/config/extra_model_paths.yaml",
+   "--output-directory",
+   "/Users/marcusmao/AI_renders/comfyui",
+   "--disable-all-custom-nodes"
+  ],
+  "repo_commit": "14fcd44",
+  "repo_dirty": true
+ },
+ "api_prompt": {
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "clip": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "type": "minimax",
+    "device": "default"
+   }
+  },
+  "vae_v": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+   }
+  },
+  "vae_a": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  },
+  "img_first": {
+   "class_type": "LoadImage",
+   "inputs": {
+    "image": "ai_short_drama/66784cae33f88d0b.png"
+   }
+  },
+  "cond": {
+   "class_type": "MiniMaxH3ImageToVideo",
+   "inputs": {
+    "clip": [
+     "clip",
+     0
+    ],
+    "prompt": "Continue the same close-up from <Picture 1> with no cut: the woman holds the phone to her ear.\n[0s-2s] Silence on the line. She frowns slightly.\n[2s-3s] Suddenly a blinding white flash lights up the window behind her and floods her face from the side.\n[3s-5s] She freezes, eyes wide, and slowly lowers the phone.\nAudio: rain, a sharp electrical crackle with the flash, then her held breath.",
+    "width": 352,
+    "height": 608,
+    "length": 124,
+    "vae": [
+     "vae_v",
+     0
+    ],
+    "first_frame": [
+     "img_first",
+     0
+    ]
+   }
+  },
+  "noise": {
+   "class_type": "RandomNoise",
+   "inputs": {
+    "noise_seed": 302
+   }
+  },
+  "sampler": {
+   "class_type": "KSamplerSelect",
+   "inputs": {
+    "sampler_name": "res_multistep"
+   }
+  },
+  "sigmas": {
+   "class_type": "BasicScheduler",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "scheduler": "simple",
+    "steps": 20,
+    "denoise": 1.0
+   }
+  },
+  "guider": {
+   "class_type": "BasicGuider",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "conditioning": [
+     "cond",
+     0
+    ]
+   }
+  },
+  "sample": {
+   "class_type": "SamplerCustomAdvanced",
+   "inputs": {
+    "noise": [
+     "noise",
+     0
+    ],
+    "guider": [
+     "guider",
+     0
+    ],
+    "sampler": [
+     "sampler",
+     0
+    ],
+    "sigmas": [
+     "sigmas",
+     0
+    ],
+    "latent_image": [
+     "cond",
+     1
+    ]
+   }
+  },
+  "decode_v": {
+   "class_type": "VAEDecode",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "decode_a": {
+   "class_type": "VAEDecodeAudio",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_a",
+     0
+    ]
+   }
+  },
+  "video": {
+   "class_type": "CreateVideo",
+   "inputs": {
+    "images": [
+     "decode_v",
+     0
+    ],
+    "audio": [
+     "decode_a",
+     0
+    ],
+    "fps": 24,
+    "bit_depth": 8
+   }
+  },
+  "save": {
+   "class_type": "SaveVideo",
+   "inputs": {
+    "video": [
+     "video",
+     0
+    ],
+    "filename_prefix": "episodes/midnight_call/S003/S003_d8297c41_s302",
+    "format": "auto",
+    "format.codec": "auto"
+   }
+  }
+ },
+ "output": {
+  "file": "/Users/marcusmao/AI_renders/comfyui/episodes/midnight_call/S003/S003_d8297c41_s302_00001_.mp4",
+  "bytes": 483894,
+  "video": {
+   "frames": 124,
+   "width": 352,
+   "height": 608,
+   "fps": 24.0,
+   "codec": "h264",
+   "mean_min": 57.8,
+   "mean_max": 166.0,
+   "std_min": 42.1,
+   "black_frames": 0
+  },
+  "audio": {
+   "samples": 330668,
+   "sample_rate": 32000,
+   "finite": true,
+   "rms": 0.13656061485948756,
+   "peak": 0.8043708205223083
+  },
+  "sha256": "5a6fd290b5e8b37a7bab8bbdc10f75f3b055acf26fea31cbd83654f1c08d6b27"
+ },
+ "continuity": {
+  "median_frame_diff": 2.17,
+  "max_frame_diff": 10.3,
+  "cuts": [],
+  "first_frame_diff": 2.6
+ },
+ "warnings": []
+}

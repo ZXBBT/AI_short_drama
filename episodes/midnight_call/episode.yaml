@@ -1,7 +1,14 @@
 # Midnight Call — owner's practice story (started in the UI 2026-10-23).
-# S001 is imported exactly from the owner's first UI take (ComfyUI prompt d27ef500,
-# output video/midnight_call/S001_take01_00001_.mp4) so Stage 6.2 can prove that
-# scripts/episode.py renders the same video as the UI. Add new shots below it.
+# Story (owner): the phone rings, a sudden flash lights up outside, a man breaks in with a knife.
+#
+# DRAFT shot list by Claude 2026-10-23 — awaiting owner approval; nothing renders before that.
+# Graph:  S001 (keyframe)      S002 (ref) ──continues──► S003      S004 (ref) ──continues──► S005
+# S003/S005 wait until a take of S002/S004 is selected.
+#
+# History: the first S001 was the owner's UI take01 (prompt prompts/midnight_call/S001_take01_ui.txt,
+# seed 757358688076805); reproduced pixel-identical in Stage 6.2. Its keyframe (standing by a window)
+# did not match its prompt (desk), so H3 hard-cut at 1.5 s. The new S001 describes what the
+# keyframe shows. Old takes stay in runs/ under their old fingerprint.
 episode: midnight_call
 title: Midnight Call
 recipe: h3_base_v1
@@ -10,11 +17,13 @@ defaults:
   aspect: "9:16"
   megapixels: 0.2      # 352x608
   duration: 5          # 124 frames, 5.2 s
-  takes: 1
+  takes: 2             # best-of-2 seeds per shot
 
 assets:
   # SDXL keyframe made by the owner (sdxl_simple_00023_.png), copied byte-identical.
   kf_S001_desk: inputs/midnight_call/kf_S001_desk_v1.png
+  # Last frame (index 123) of S004 take 99b4a29a_s402, extracted with `episode.py frame ... last`.
+  ref_man: inputs/midnight_call/ref_man_v1.png
 
 characters:
   woman:
@@ -23,11 +32,82 @@ characters:
     description: young East Asian woman, long dark hair in a low side ponytail, long beige-grey
       cardigan over a light top
     refs: [kf_S001_desk]
+  man:
+    # Created by S004 (take s402); his look is now fixed by this frame for all later shots.
+    description: tall man, black hooded jacket with the hood up, face half in shadow, black
+      trousers, kitchen knife in his right hand
+    refs: [ref_man]
 
 shots:
   S001:
     type: i2v
     first: kf_S001_desk
-    prompt_file: prompts/midnight_call/S001_take01_ui.txt
-    seed: 757358688076805
-    note: phone on the desk glows; she notices and leans toward it (UI take01 reproduction)
+    seed: 101
+    note: opening; starts on the keyframe exactly as it looks, so no unwanted cut
+    prompt: |-
+      Single continuous cinematic shot, no cut. The woman from <Picture 1> stands by the wooden lattice window in warm, soft evening light, exactly as in the image.
+      [0s-2s] She stands still, lost in thought. Somewhere behind her, out of frame, a phone starts ringing.
+      [2s-5s] She slowly turns her head toward the sound, a little uneasy. The camera stays still. Natural blinking and breathing.
+      Audio: a phone ringtone from across the room, quiet room ambience.
+  S002:
+    type: r2v
+    refs: [woman]
+    seed: 201
+    note: she answers; close-up
+    prompt: |-
+      <Picture 1> is the woman: long dark hair in a low side ponytail, long beige-grey cardigan over a light top. Keep her face and outfit exactly.
+      Cinematic, dim apartment at night, warm lamp light, rain on the window behind her.
+      [0s-2s] Close-up. She looks at the ringing phone in her hand; the screen glows on her face. She hesitates.
+      [2s-5s] She raises the phone to her ear and says quietly: "Hello?" She listens; no answer. Slow push-in.
+      Audio: the ringtone stops, her soft voice, faint static on the line, rain.
+  S003:
+    type: i2v
+    first: {shot: S002, frame: last}
+    seed: 301
+    note: same camera continues S002; the flash outside
+    prompt: |-
+      Continue the same close-up from <Picture 1> with no cut: the woman holds the phone to her ear.
+      [0s-2s] Silence on the line. She frowns slightly.
+      [2s-3s] Suddenly a blinding white flash lights up the window behind her and floods her face from the side.
+      [3s-5s] She freezes, eyes wide, and slowly lowers the phone.
+      Audio: rain, a sharp electrical crackle with the flash, then her held breath.
+  S004a:
+    type: r2v
+    refs: [woman]
+    duration: 3          # 73 frames
+    seed: 411
+    note: reaction to the break-in; replaces S004's blurred wide part (owner-approved 2026-10-23)
+    prompt: |-
+      <Picture 1> is the woman: long dark hair in a low side ponytail, long beige-grey cardigan over a light top. Keep her face and outfit exactly.
+      Cinematic thriller, dim apartment at night, cold light from a rain-streaked window, warm lamp light.
+      Single continuous shot, no cut. Medium close-up, chest up.
+      [0s-1s] She slowly lowers the phone from her ear, still shaken.
+      [1s-3s] A loud crash comes from the front door off-screen; she flinches and snaps her head toward the sound, eyes wide with fear.
+      Audio: rain, a sudden loud bang of a door being forced open, her sharp gasp.
+  S004:
+    type: r2v
+    refs: [woman]
+    seed: 401
+    note: >-
+      wide; the break-in (creates the man). Both takes cut by themselves at ~3 s (wide -> door).
+      Owner: her face in the wide part is blurred/distorted (~15 px tall at 352x608).
+      EDIT: use selected take s402 only from frame 69 (the cut) to the end.
+    prompt: |-
+      <Picture 1> is the woman: long dark hair in a low side ponytail, long beige-grey cardigan over a light top. Keep her face and outfit exactly.
+      Cinematic thriller, dim apartment at night, warm lamp light, rain outside.
+      [0s-2s] Wide static shot of the room. The woman stands at the far side holding a phone, staring at the front door in the foreground.
+      [2s-5s] The door bursts open with a crash. A tall man in a dark hooded jacket steps inside, a kitchen knife in his hand, his face half in shadow.
+      Audio: rain, the door slamming against the wall, her sharp gasp.
+  S005:
+    type: r2v
+    refs: [woman, man]
+    seed: 501
+    note: >-
+      he advances; changed 2026-10-23 (owner-approved) from an S004 continuation to R2V with both
+      references, because S004 ends on the man alone. Framed over his shoulder so her face stays
+      large (wide shots blur faces at 352x608).
+    prompt: |-
+      <Picture 1> is the woman: long dark hair in a low side ponytail, long beige-grey cardigan over a light top. <Picture 2> is the man: black hooded jacket with the hood up, face in shadow, a kitchen knife in his right hand. Keep both looks exactly.
+      Cinematic thriller, dim apartment at night, cold light from a rain-streaked window.
+      [0s-5s] Single continuous over-the-shoulder shot, no cut. The man is in the foreground, seen from behind, his knife visible at his side. Beyond him, the woman is seen from the waist up, facing the camera, her back against the window. He steps slowly toward her; she presses against the glass, terrified, breathing fast.
+      Audio: his slow heavy footsteps, her fast frightened breathing, rain against the glass.

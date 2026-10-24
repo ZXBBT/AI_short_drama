@@ -48,7 +48,15 @@ check("T2V graph identical to stage5_repro_a", mine == proven,
 
 # 3. I2V graph == owner's UI graph (UI graph has switch/math nodes; resolve them by hand)
 ui = json.loads((REPO / "runs/2026-10-23/ui_midnight_call_S001_take01_00001.json").read_text())["api_prompt"]
-mc = E.Episode(REPO / "episodes/midnight_call")
+# the original S001 definition (reproduced pixel-identical in 6.2), independent of the live episode
+d_ui = temp_episode("""episode: midnight_call
+recipe: h3_base_v1
+defaults: {aspect: "9:16", megapixels: 0.2, duration: 5}
+assets: {kf_S001_desk: inputs/midnight_call/kf_S001_desk_v1.png}
+shots:
+  S001: {type: i2v, first: kf_S001_desk, prompt_file: prompts/midnight_call/S001_take01_ui.txt, seed: 757358688076805}
+""")
+mc = E.Episode(d_ui)
 p = mc.params("S001")
 g = E.build_graph(p, {"first": "x.png"}, "p", 757358688076805)
 res = ui["115"]["inputs"]

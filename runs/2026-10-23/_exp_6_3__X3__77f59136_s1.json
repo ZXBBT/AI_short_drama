@@ -1,0 +1,296 @@
+{
+ "episode": "_exp_6_3",
+ "shot": "X3",
+ "take_id": "77f59136_s1",
+ "fingerprint": "77f5913665c75198f851eb74cda39e0cea3a069217061d137b1b5fab29e2a5bd",
+ "seed": 1,
+ "started": "2026-10-23T20:39:25-07:00",
+ "prompt_id": "63a0fd5b-2bf2-4d5c-97a9-b4db52eab138",
+ "status": "success",
+ "error": null,
+ "events": [
+  "execution_start",
+  "execution_cached",
+  "execution_success"
+ ],
+ "wall_seconds": 707.7,
+ "node_seconds": {
+  "MiniMaxH3ReferenceToVideo": 26.4,
+  "BasicGuider": 0.0,
+  "SamplerCustomAdvanced": 641.8,
+  "VAEDecodeAudio": 0.6,
+  "VAEDecode": 38.3,
+  "CreateVideo": 0.0,
+  "SaveVideo": 0.5
+ },
+ "memory_gib": {
+  "system_used_before": 30.1,
+  "system_used_peak": 56.2,
+  "swap_peak": 7.46,
+  "swap_limit": 20.0
+ },
+ "params": {
+  "type": "r2v",
+  "aspect": "9:16",
+  "megapixels": 0.2,
+  "duration": 5.0,
+  "width": 352,
+  "height": 608,
+  "length": 124
+ },
+ "recipe": {
+  "name": "h3_base_v1",
+  "sha256": "ba1f0779b3dc4cb42cabee4dad6ea88ba7e5fdb48d249d011fd6ac96ca15f04a",
+  "effective": {
+   "name": "h3_base_v1",
+   "created": "2026-10-23",
+   "sampler": "res_multistep",
+   "scheduler": "simple",
+   "steps": 20,
+   "fps": 24,
+   "bit_depth": 8,
+   "ref_image_size": "match",
+   "models": {
+    "fl2va": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "ref2va": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "video_vae": "minimax_h3_video_vae_fp16.safetensors",
+    "audio_vae": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  }
+ },
+ "inputs": {
+  "ref0": {
+   "asset": "kf_woman",
+   "file": "inputs/midnight_call/kf_S001_desk_v1.png",
+   "sha256": "22eb5a378b31cc85f5bb12b469875109fbb543f67d47f405dc2696ebdc1fd341",
+   "uploaded_as": "ai_short_drama/22eb5a378b31cc85.png"
+  }
+ },
+ "prompt_text": "<Picture 1> is the woman: long dark hair in a low side ponytail, long beige-grey cardigan over a light top. Keep her face and outfit exactly.\nCinematic, dim apartment at night, warm lamp light.\n[0s-5s] Wide static shot of the whole room. She stands next to a wooden desk, full body visible, and slowly picks up a phone from the desk.\nAudio: rain outside, a quiet room, the faint click of the phone.",
+ "episode_file_sha256": "3c9af25cbd6a6e180f9a493e6000cc0d7ffef038934e4da46bd45f3a19b2cea9",
+ "env": {
+  "comfyui": "0.42.1",
+  "pytorch": "2.14.1",
+  "python": "3.13.17",
+  "comfyui_argv": [
+   "main.py",
+   "--listen",
+   "127.0.0.1",
+   "--port",
+   "8188",
+   "--extra-model-paths-config",
+   "/Users/marcusmao/dev/AI_short_drama/config/extra_model_paths.yaml",
+   "--output-directory",
+   "/Users/marcusmao/AI_renders/comfyui",
+   "--disable-all-custom-nodes"
+  ],
+  "repo_commit": "14fcd44",
+  "repo_dirty": true
+ },
+ "api_prompt": {
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "clip": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "type": "minimax",
+    "device": "default"
+   }
+  },
+  "vae_v": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+   }
+  },
+  "vae_a": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  },
+  "img_ref0": {
+   "class_type": "LoadImage",
+   "inputs": {
+    "image": "ai_short_drama/22eb5a378b31cc85.png"
+   }
+  },
+  "cond": {
+   "class_type": "MiniMaxH3ReferenceToVideo",
+   "inputs": {
+    "clip": [
+     "clip",
+     0
+    ],
+    "prompt": "<Picture 1> is the woman: long dark hair in a low side ponytail, long beige-grey cardigan over a light top. Keep her face and outfit exactly.\nCinematic, dim apartment at night, warm lamp light.\n[0s-5s] Wide static shot of the whole room. She stands next to a wooden desk, full body visible, and slowly picks up a phone from the desk.\nAudio: rain outside, a quiet room, the faint click of the phone.",
+    "width": 352,
+    "height": 608,
+    "length": 124,
+    "vae": [
+     "vae_v",
+     0
+    ],
+    "audio_vae": [
+     "vae_a",
+     0
+    ],
+    "ref_image_size": "match",
+    "ref_images.ref_image_0": [
+     "img_ref0",
+     0
+    ]
+   }
+  },
+  "noise": {
+   "class_type": "RandomNoise",
+   "inputs": {
+    "noise_seed": 1
+   }
+  },
+  "sampler": {
+   "class_type": "KSamplerSelect",
+   "inputs": {
+    "sampler_name": "res_multistep"
+   }
+  },
+  "sigmas": {
+   "class_type": "BasicScheduler",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "scheduler": "simple",
+    "steps": 20,
+    "denoise": 1.0
+   }
+  },
+  "guider": {
+   "class_type": "BasicGuider",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "conditioning": [
+     "cond",
+     0
+    ]
+   }
+  },
+  "sample": {
+   "class_type": "SamplerCustomAdvanced",
+   "inputs": {
+    "noise": [
+     "noise",
+     0
+    ],
+    "guider": [
+     "guider",
+     0
+    ],
+    "sampler": [
+     "sampler",
+     0
+    ],
+    "sigmas": [
+     "sigmas",
+     0
+    ],
+    "latent_image": [
+     "cond",
+     1
+    ]
+   }
+  },
+  "decode_v": {
+   "class_type": "VAEDecode",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "decode_a": {
+   "class_type": "VAEDecodeAudio",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_a",
+     0
+    ]
+   }
+  },
+  "video": {
+   "class_type": "CreateVideo",
+   "inputs": {
+    "images": [
+     "decode_v",
+     0
+    ],
+    "audio": [
+     "decode_a",
+     0
+    ],
+    "fps": 24,
+    "bit_depth": 8
+   }
+  },
+  "save": {
+   "class_type": "SaveVideo",
+   "inputs": {
+    "video": [
+     "video",
+     0
+    ],
+    "filename_prefix": "episodes/_exp_6_3/X3/X3_77f59136_s1",
+    "format": "auto",
+    "format.codec": "auto"
+   }
+  }
+ },
+ "output": {
+  "file": "/Users/marcusmao/AI_renders/comfyui/episodes/_exp_6_3/X3/X3_77f59136_s1_00001_.mp4",
+  "bytes": 365280,
+  "video": {
+   "frames": 124,
+   "width": 352,
+   "height": 608,
+   "fps": 24.0,
+   "codec": "h264",
+   "mean_min": 54.1,
+   "mean_max": 56.6,
+   "std_min": 38.2,
+   "black_frames": 0
+  },
+  "audio": {
+   "samples": 330668,
+   "sample_rate": 32000,
+   "finite": true,
+   "rms": 0.007261213162973564,
+   "peak": 0.26174023747444153
+  },
+  "sha256": "2fc476488ed1121931e09b02e6a810d87b3d19fe68f50d5db1f50df92c38bfd7"
+ },
+ "continuity": {
+  "median_frame_diff": 0.5,
+  "max_frame_diff": 1.5,
+  "cuts": []
+ },
+ "warnings": []
+}

@@ -1,0 +1,62 @@
+# Stage 6.3 experiments (story-independent). Reference = the woman's keyframe (owner's choice).
+#   X1-X3  R2V identity across angles the reference does / does not show (front, profile, wide)
+#   X4     size ladder + seed-vs-size: X1 at 0.4 MP, same seed
+#   X5     length ladder: X1 at 8 s (192 frames)
+# Riskiest last: the batch stops at the first failure or swap > 20 GiB.
+episode: _exp_6_3
+title: Stage 6.3 experiments
+recipe: h3_base_v1
+
+defaults:
+  aspect: "9:16"
+  megapixels: 0.2      # 352x608
+  duration: 5          # 124 frames
+  takes: 1
+
+assets:
+  kf_woman: inputs/midnight_call/kf_S001_desk_v1.png
+
+characters:
+  woman:
+    refs: [kf_woman]
+
+shots:
+  X1:
+    type: r2v
+    refs: [woman]
+    seed: 1
+    prompt: &x1 |-
+      <Picture 1> is the woman: long dark hair in a low side ponytail, long beige-grey cardigan over a light top. Keep her face and outfit exactly.
+      Cinematic, dim apartment at night, warm lamp light, rain on the window behind her.
+      [0s-5s] Close-up, front view. She looks toward the camera, then glances down at the phone in her hand. Slow push-in. Natural blinking and breathing.
+      Audio: soft rain on glass, quiet room ambience.
+  X2:
+    type: r2v
+    refs: [woman]
+    seed: 1
+    prompt: |-
+      <Picture 1> is the woman: long dark hair in a low side ponytail, long beige-grey cardigan over a light top. Keep her face and outfit exactly.
+      Cinematic, dim apartment at night, warm lamp light.
+      [0s-5s] Medium shot from the side, profile view. She walks slowly from left to right past a rain-streaked window; the camera tracks with her.
+      Audio: soft footsteps on a wooden floor, rain on glass.
+  X3:
+    type: r2v
+    refs: [woman]
+    seed: 1
+    prompt: |-
+      <Picture 1> is the woman: long dark hair in a low side ponytail, long beige-grey cardigan over a light top. Keep her face and outfit exactly.
+      Cinematic, dim apartment at night, warm lamp light.
+      [0s-5s] Wide static shot of the whole room. She stands next to a wooden desk, full body visible, and slowly picks up a phone from the desk.
+      Audio: rain outside, a quiet room, the faint click of the phone.
+  X4:
+    type: r2v
+    refs: [woman]
+    seed: 1
+    megapixels: 0.4    # 480x864
+    prompt: *x1
+  X5:
+    type: r2v
+    refs: [woman]
+    seed: 1
+    duration: 8        # 192 frames
+    prompt: *x1

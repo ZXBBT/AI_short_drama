@@ -118,7 +118,18 @@ A ranking aid is trusted only after it agrees with your past picks.
 Stage 7 then automates what 6.3/6.4 showed to be repetitive: overnight batch runner, review page
 with selection write-back, ranking aids, recipe experiments.
 
-## 6. Open questions the pilot must answer
+## 6. Pilot findings so far (2026-10-23)
+- R2V keeps the woman's identity from one front reference across front, profile and wide shots
+  (X1-X3); 9-12 min per 5 s shot at 352x608.
+- 0.4 MP x 5 s R2V does not fit: swap 32 GiB within a minute (X4, guard stopped it). Ceiling for
+  now: 352x608 x 5 s. Raising it needs the attention test or other approved changes.
+- Faces in wide shots blur and distort at 352x608 (owner, S004): frame faces at medium or closer.
+- H3 inserts its own cuts on dramatic events (S004: wide -> door at ~3 s, both seeds). A take can
+  then be used partly; the edit needs per-shot in/out points (6.4). A take ending on a different
+  subject cannot be continued by last frame: use references instead (S005 became R2V with a man
+  reference extracted from S004's last frame).
+
+## 7. Open questions the pilot must answer
 1. Do 5 s clips work at 0.4 MP, and does anything above 5 s fit in memory? (5 s at 0.2 MP: yes, ~9 min.)
 2. Does `continue_motion` (multi-frame guide) carry motion better than one still?
 3. Does a seed keep its composition at another size?

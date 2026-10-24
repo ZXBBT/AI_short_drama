@@ -1,0 +1,8 @@
+# Chosen take per shot (take id = fingerprint prefix + seed). Edit by hand or via
+# scripts/episode.py select. Shots that continue another shot use this take.
+S001: 606cba6b_s102
+S002: ce31bd58_s202
+S004: 99b4a29a_s402
+S003: d8297c41_s301
+S004a: 0ba0f91c_s411
+S005: a4705672_s501
