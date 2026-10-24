@@ -214,5 +214,27 @@ fake("A", fpA, 5, status="stopped_swap")
 s = E.shot_status(ep, "A"); check("swap stop -> needs_review, no more seeds", s["state"] == "needs_review" and not s["todo"], s)
 shutil.rmtree(d); shutil.rmtree(runs.parent)
 
+# 11. quality track Q3/Q4: character placeholders and the small-face warning
+d = temp_episode("""episode: t
+recipe: h3_base_v1
+assets: {kf: inputs/midnight_call/kf_S001_desk_v1.png}
+characters:
+  woman: {description: "young woman,\\n  long dark hair", refs: [kf]}
+shots:
+  A: {type: r2v, refs: [woman], prompt: '<Picture 1> is {woman}. Close-up.', seed: 1}
+  B: {type: r2v, refs: [woman], prompt: '<Picture 1> is {woman}. Wide shot of the room.', seed: 1}
+  C: {type: t2v, prompt: 'A {ghost} appears.', seed: 1}
+""")
+ep = E.Episode(d)
+check("placeholder expands to the description", ep.params("A")["prompt"] == "<Picture 1> is young woman, long dark hair. Close-up.",
+      ep.params("A")["prompt"])
+errs, warns = E.validate(ep)
+check("unknown placeholder is an error", any("{ghost}" in e for e in errs), errs)
+check("wide framing of a character warns", any("shot B" in w and "wide" in w for w in warns), warns)
+check("close-up does not warn", not any("shot A" in w for w in warns), warns)
+check("'eyes wide' is not a wide shot", not E.WIDE_WORDS.search("she stares, eyes wide with fear"))
+check("'Wide static shot' is a wide shot", bool(E.WIDE_WORDS.search("Wide static shot of the room")))
+shutil.rmtree(d)
+
 print(f"\n{'ALL PASSED' if not failures else f'{len(failures)} FAILED: {failures}'}")
 sys.exit(1 if failures else 0)

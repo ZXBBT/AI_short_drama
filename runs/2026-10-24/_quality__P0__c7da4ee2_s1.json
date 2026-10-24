@@ -1,0 +1,280 @@
+{
+ "episode": "_quality",
+ "shot": "P0",
+ "take_id": "c7da4ee2_s1",
+ "fingerprint": "c7da4ee2d6c2290a738393ececa09d60aefa7005e7a1075eab132f578ea56858",
+ "seed": 1,
+ "started": "2026-10-24T02:53:03-07:00",
+ "prompt_id": "d9bb4741-a4d5-42d3-a35a-adf003b25e1d",
+ "status": "success",
+ "error": null,
+ "events": [
+  "execution_start",
+  "execution_cached",
+  "execution_success"
+ ],
+ "wall_seconds": 178.1,
+ "node_seconds": {
+  "VAELoader": 2.6,
+  "CLIPLoader": 0.9,
+  "MiniMaxH3ImageToVideo": 18.3,
+  "UNETLoader": 0.1,
+  "BasicScheduler": 0.0,
+  "KSamplerSelect": 0.0,
+  "BasicGuider": 0.0,
+  "RandomNoise": 0.0,
+  "SamplerCustomAdvanced": 134.3,
+  "VAEDecodeAudio": 0.5,
+  "VAEDecode": 17.3,
+  "CreateVideo": 0.0,
+  "SaveVideo": 0.3
+ },
+ "memory_gib": {
+  "system_used_before": 46.0,
+  "system_used_peak": 52.4,
+  "swap_peak": 6.75,
+  "swap_limit": 20.0
+ },
+ "params": {
+  "type": "t2v",
+  "aspect": "9:16",
+  "megapixels": 1.0,
+  "duration": 0.2,
+  "width": 768,
+  "height": 1376,
+  "length": 5
+ },
+ "recipe": {
+  "name": "h3_base_v1",
+  "sha256": "ba1f0779b3dc4cb42cabee4dad6ea88ba7e5fdb48d249d011fd6ac96ca15f04a",
+  "effective": {
+   "name": "h3_base_v1",
+   "created": "2026-10-23",
+   "sampler": "res_multistep",
+   "scheduler": "simple",
+   "steps": 20,
+   "fps": 24,
+   "bit_depth": 8,
+   "ref_image_size": "match",
+   "models": {
+    "fl2va": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "ref2va": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "video_vae": "minimax_h3_video_vae_fp16.safetensors",
+    "audio_vae": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  }
+ },
+ "inputs": {},
+ "prompt_text": "An empty small apartment at night seen from the doorway, no people. A wooden desk with a warm desk lamp on the left, a large window with rain streaks and blue city lights at the back, a beige sofa on the right, warm lamp light and cold blue window light. Static photograph-like shot, realistic.",
+ "episode_file_sha256": "7e4dd1e0681d5259bd44c600b210398dd49db0fd0a1c7a9956e28a8aea4bda31",
+ "env": {
+  "comfyui": "0.42.1",
+  "pytorch": "2.14.1",
+  "python": "3.13.17",
+  "comfyui_argv": [
+   "main.py",
+   "--listen",
+   "127.0.0.1",
+   "--port",
+   "8188",
+   "--extra-model-paths-config",
+   "/Users/marcusmao/dev/AI_short_drama/config/extra_model_paths.yaml",
+   "--output-directory",
+   "/Users/marcusmao/AI_renders/comfyui",
+   "--disable-all-custom-nodes"
+  ],
+  "repo_commit": "2ce568a",
+  "repo_dirty": true
+ },
+ "api_prompt": {
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "clip": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "type": "minimax",
+    "device": "default"
+   }
+  },
+  "vae_v": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+   }
+  },
+  "vae_a": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  },
+  "cond": {
+   "class_type": "MiniMaxH3ImageToVideo",
+   "inputs": {
+    "clip": [
+     "clip",
+     0
+    ],
+    "prompt": "An empty small apartment at night seen from the doorway, no people. A wooden desk with a warm desk lamp on the left, a large window with rain streaks and blue city lights at the back, a beige sofa on the right, warm lamp light and cold blue window light. Static photograph-like shot, realistic.",
+    "width": 768,
+    "height": 1376,
+    "length": 5,
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "noise": {
+   "class_type": "RandomNoise",
+   "inputs": {
+    "noise_seed": 1
+   }
+  },
+  "sampler": {
+   "class_type": "KSamplerSelect",
+   "inputs": {
+    "sampler_name": "res_multistep"
+   }
+  },
+  "sigmas": {
+   "class_type": "BasicScheduler",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "scheduler": "simple",
+    "steps": 20,
+    "denoise": 1.0
+   }
+  },
+  "guider": {
+   "class_type": "BasicGuider",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "conditioning": [
+     "cond",
+     0
+    ]
+   }
+  },
+  "sample": {
+   "class_type": "SamplerCustomAdvanced",
+   "inputs": {
+    "noise": [
+     "noise",
+     0
+    ],
+    "guider": [
+     "guider",
+     0
+    ],
+    "sampler": [
+     "sampler",
+     0
+    ],
+    "sigmas": [
+     "sigmas",
+     0
+    ],
+    "latent_image": [
+     "cond",
+     1
+    ]
+   }
+  },
+  "decode_v": {
+   "class_type": "VAEDecode",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "decode_a": {
+   "class_type": "VAEDecodeAudio",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_a",
+     0
+    ]
+   }
+  },
+  "video": {
+   "class_type": "CreateVideo",
+   "inputs": {
+    "images": [
+     "decode_v",
+     0
+    ],
+    "audio": [
+     "decode_a",
+     0
+    ],
+    "fps": 24,
+    "bit_depth": 8
+   }
+  },
+  "save": {
+   "class_type": "SaveVideo",
+   "inputs": {
+    "video": [
+     "video",
+     0
+    ],
+    "filename_prefix": "episodes/_quality/P0/P0_c7da4ee2_s1",
+    "format": "auto",
+    "format.codec": "auto"
+   }
+  }
+ },
+ "output": {
+  "file": "/Users/marcusmao/AI_renders/comfyui/episodes/_quality/P0/P0_c7da4ee2_s1_00001_.mp4",
+  "bytes": 173897,
+  "video": {
+   "frames": 5,
+   "width": 768,
+   "height": 1376,
+   "fps": 24.0,
+   "codec": "h264",
+   "mean_min": 72.0,
+   "mean_max": 86.5,
+   "std_min": 48.8,
+   "black_frames": 0
+  },
+  "audio": {
+   "samples": 12800,
+   "sample_rate": 32000,
+   "finite": true,
+   "rms": 0.20134420773474693,
+   "peak": 0.5409907698631287
+  },
+  "sha256": "55c5943922602699626b63c5dacf8eac981699919c1756ed6d4a9a3ad6155435"
+ },
+ "continuity": {
+  "median_frame_diff": 4.22,
+  "max_frame_diff": 9.2,
+  "cuts": []
+ },
+ "warnings": []
+}

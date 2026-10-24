@@ -1,0 +1,336 @@
+{
+ "episode": "_quality",
+ "shot": "Q1SM",
+ "take_id": "b985e1db_s1",
+ "fingerprint": "b985e1db45c9554faa1d7b211a307f55da5c4850c525ebf5160b1cfbaaca1e44",
+ "seed": 1,
+ "started": "2026-10-24T01:51:34-07:00",
+ "prompt_id": "c8adf698-bd62-42a4-a6e6-4fd9a6a235fa",
+ "status": "success",
+ "error": null,
+ "events": [
+  "execution_start",
+  "execution_cached",
+  "execution_success"
+ ],
+ "wall_seconds": 809.8,
+ "node_seconds": {
+  "MiniMaxH3ReferenceToVideo": 67.3,
+  "BasicGuider": 0.0,
+  "SamplerCustomAdvanced": 708.5,
+  "VAEDecodeAudio": 0.6,
+  "VAEDecode": 32.4,
+  "CreateVideo": 0.0,
+  "SaveVideo": 0.9
+ },
+ "memory_gib": {
+  "system_used_before": 25.8,
+  "system_used_peak": 57.6,
+  "swap_peak": 14.51,
+  "swap_limit": 20.0
+ },
+ "params": {
+  "type": "r2v",
+  "aspect": "9:16",
+  "megapixels": 0.2,
+  "duration": 5.0,
+  "width": 352,
+  "height": 608,
+  "length": 124
+ },
+ "recipe": {
+  "name": "h3_base_v1",
+  "sha256": "ba1f0779b3dc4cb42cabee4dad6ea88ba7e5fdb48d249d011fd6ac96ca15f04a",
+  "effective": {
+   "name": "h3_base_v1",
+   "created": "2026-10-23",
+   "sampler": "res_multistep",
+   "scheduler": "simple",
+   "steps": 20,
+   "fps": 24,
+   "bit_depth": 8,
+   "ref_image_size": "max",
+   "models": {
+    "fl2va": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "ref2va": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "video_vae": "minimax_h3_video_vae_fp16.safetensors",
+    "audio_vae": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  }
+ },
+ "inputs": {
+  "ref0": {
+   "asset": "kf_woman",
+   "file": "inputs/midnight_call/kf_S001_desk_v1.png",
+   "sha256": "22eb5a378b31cc85f5bb12b469875109fbb543f67d47f405dc2696ebdc1fd341",
+   "uploaded_as": "ai_short_drama/22eb5a378b31cc85.png"
+  },
+  "ref1": {
+   "asset": "ref_woman_front",
+   "file": "inputs/midnight_call/ref_woman_front_v1.png",
+   "sha256": "e5b706fe1523f746ed34acec694b22d37861f5d9758e35f7b1c38fc8136edbf3",
+   "uploaded_as": "ai_short_drama/e5b706fe1523f746.png"
+  },
+  "ref2": {
+   "asset": "ref_woman_profile",
+   "file": "inputs/midnight_call/ref_woman_profile_v1.png",
+   "sha256": "c6f9a9e0a4bb2466a23619ca62e6333c4cfcfb82dc6fb90328a839a63bf8100a",
+   "uploaded_as": "ai_short_drama/c6f9a9e0a4bb2466.png"
+  }
+ },
+ "prompt_text": "<Picture 1>, <Picture 2> and <Picture 3> all show the same woman: young East Asian woman, long dark hair in a low side ponytail, long beige-grey cardigan over a light top. Keep her face and outfit exactly.\nCinematic, dim apartment at night, warm lamp light, rain on the window.\nSingle continuous shot, no cut. Medium-wide shot from the knees up, static camera.\nShe stands by the window holding her phone, then slowly turns her head toward the camera with a worried expression.\nAudio: rain on the window, a quiet room.",
+ "episode_file_sha256": "3ced11bbcf12f1b89e0154af9db86456a6f6d7a0411b6aff696bd8d47a5826bf",
+ "env": {
+  "comfyui": "0.42.1",
+  "pytorch": "2.14.1",
+  "python": "3.13.17",
+  "comfyui_argv": [
+   "main.py",
+   "--listen",
+   "127.0.0.1",
+   "--port",
+   "8188",
+   "--extra-model-paths-config",
+   "/Users/marcusmao/dev/AI_short_drama/config/extra_model_paths.yaml",
+   "--output-directory",
+   "/Users/marcusmao/AI_renders/comfyui",
+   "--disable-all-custom-nodes"
+  ],
+  "repo_commit": "2ce568a",
+  "repo_dirty": true
+ },
+ "api_prompt": {
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "clip": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "type": "minimax",
+    "device": "default"
+   }
+  },
+  "vae_v": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+   }
+  },
+  "vae_a": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  },
+  "img_ref0": {
+   "class_type": "LoadImage",
+   "inputs": {
+    "image": "ai_short_drama/22eb5a378b31cc85.png"
+   }
+  },
+  "img_ref1": {
+   "class_type": "LoadImage",
+   "inputs": {
+    "image": "ai_short_drama/e5b706fe1523f746.png"
+   }
+  },
+  "img_ref2": {
+   "class_type": "LoadImage",
+   "inputs": {
+    "image": "ai_short_drama/c6f9a9e0a4bb2466.png"
+   }
+  },
+  "cond": {
+   "class_type": "MiniMaxH3ReferenceToVideo",
+   "inputs": {
+    "clip": [
+     "clip",
+     0
+    ],
+    "prompt": "<Picture 1>, <Picture 2> and <Picture 3> all show the same woman: young East Asian woman, long dark hair in a low side ponytail, long beige-grey cardigan over a light top. Keep her face and outfit exactly.\nCinematic, dim apartment at night, warm lamp light, rain on the window.\nSingle continuous shot, no cut. Medium-wide shot from the knees up, static camera.\nShe stands by the window holding her phone, then slowly turns her head toward the camera with a worried expression.\nAudio: rain on the window, a quiet room.",
+    "width": 352,
+    "height": 608,
+    "length": 124,
+    "vae": [
+     "vae_v",
+     0
+    ],
+    "audio_vae": [
+     "vae_a",
+     0
+    ],
+    "ref_image_size": "max",
+    "ref_images.ref_image_0": [
+     "img_ref0",
+     0
+    ],
+    "ref_images.ref_image_1": [
+     "img_ref1",
+     0
+    ],
+    "ref_images.ref_image_2": [
+     "img_ref2",
+     0
+    ]
+   }
+  },
+  "noise": {
+   "class_type": "RandomNoise",
+   "inputs": {
+    "noise_seed": 1
+   }
+  },
+  "sampler": {
+   "class_type": "KSamplerSelect",
+   "inputs": {
+    "sampler_name": "res_multistep"
+   }
+  },
+  "sigmas": {
+   "class_type": "BasicScheduler",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "scheduler": "simple",
+    "steps": 20,
+    "denoise": 1.0
+   }
+  },
+  "guider": {
+   "class_type": "BasicGuider",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "conditioning": [
+     "cond",
+     0
+    ]
+   }
+  },
+  "sample": {
+   "class_type": "SamplerCustomAdvanced",
+   "inputs": {
+    "noise": [
+     "noise",
+     0
+    ],
+    "guider": [
+     "guider",
+     0
+    ],
+    "sampler": [
+     "sampler",
+     0
+    ],
+    "sigmas": [
+     "sigmas",
+     0
+    ],
+    "latent_image": [
+     "cond",
+     1
+    ]
+   }
+  },
+  "decode_v": {
+   "class_type": "VAEDecode",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "decode_a": {
+   "class_type": "VAEDecodeAudio",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_a",
+     0
+    ]
+   }
+  },
+  "video": {
+   "class_type": "CreateVideo",
+   "inputs": {
+    "images": [
+     "decode_v",
+     0
+    ],
+    "audio": [
+     "decode_a",
+     0
+    ],
+    "fps": 24,
+    "bit_depth": 8
+   }
+  },
+  "save": {
+   "class_type": "SaveVideo",
+   "inputs": {
+    "video": [
+     "video",
+     0
+    ],
+    "filename_prefix": "episodes/_quality/Q1SM/Q1SM_b985e1db_s1",
+    "format": "auto",
+    "format.codec": "auto"
+   }
+  }
+ },
+ "output": {
+  "file": "/Users/marcusmao/AI_renders/comfyui/episodes/_quality/Q1SM/Q1SM_b985e1db_s1_00001_.mp4",
+  "bytes": 513743,
+  "video": {
+   "frames": 124,
+   "width": 352,
+   "height": 608,
+   "fps": 24.0,
+   "codec": "h264",
+   "mean_min": 56.7,
+   "mean_max": 61.9,
+   "std_min": 46.7,
+   "black_frames": 0
+  },
+  "audio": {
+   "samples": 330668,
+   "sample_rate": 32000,
+   "finite": true,
+   "rms": 0.007091564475079184,
+   "peak": 0.396946519613266
+  },
+  "sha256": "2c1a1fa4a3613e3b81b3ced946a16a2fc299013b64fc140aa19307beb942c9d0"
+ },
+ "continuity": {
+  "median_frame_diff": 2.12,
+  "max_frame_diff": 47.4,
+  "cuts": [
+   {
+    "frame": 61,
+    "diff": 47.4,
+    "x_median": 22.4
+   }
+  ]
+ },
+ "warnings": [
+  "hard cut(s) at frame [61]"
+ ]
+}

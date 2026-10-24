@@ -1,0 +1,127 @@
+# Quality track experiments (owner request 2026-10-24): blurry / misaligned faces at a distance,
+# and keeping the female lead consistent. One borderline test shot (medium-wide, knees up, face
+# ~40-60 px at 352x608); every variant uses the same seed, so only the tested setting differs.
+#   QB   baseline: 1 reference (keyframe), ref_image_size match, 0.2 MP, 5 s
+#   Q1M  ref_image_size max (reference kept at full 704x1216 instead of halved)
+#   Q1S  character sheet: 3 references (keyframe + front + profile), match
+#   Q1SM character sheet + max
+#   Q2L  baseline at 3 s (fair twin for Q2H)
+#   Q2H  0.4 MP (480x864) at 3 s: ~1.4x larger face; X4 showed 0.4 MP x 5 s does not fit
+episode: _quality
+title: Quality track experiments
+recipe: h3_base_v1
+
+defaults:
+  aspect: "9:16"
+  megapixels: 0.2
+  duration: 5
+  takes: 1
+  max_rerolls: 0       # compare like with like; no automatic re-rolls
+
+assets:
+  kf_woman: inputs/midnight_call/kf_S001_desk_v1.png
+  # frames from approved takes: X1 (front, frame 0) and X2 (profile, frame 100) of episodes/_exp_6_3
+  ref_woman_front: inputs/midnight_call/ref_woman_front_v1.png
+  ref_woman_profile: inputs/midnight_call/ref_woman_profile_v1.png
+
+characters:
+  woman:
+    description: young East Asian woman, long dark hair in a low side ponytail, long beige-grey
+      cardigan over a light top
+    refs: [kf_woman]
+  woman_sheet:
+    description: young East Asian woman, long dark hair in a low side ponytail, long beige-grey
+      cardigan over a light top
+    refs: [kf_woman, ref_woman_front, ref_woman_profile]
+
+shots:
+  QB:
+    type: r2v
+    refs: [woman]
+    seed: 1
+    prompt: &one_ref |-
+      <Picture 1> is {woman}. Keep her face and outfit exactly.
+      Cinematic, dim apartment at night, warm lamp light, rain on the window.
+      Single continuous shot, no cut. Medium-wide shot from the knees up, static camera.
+      She stands by the window holding her phone, then slowly turns her head toward the camera with a worried expression.
+      Audio: rain on the window, a quiet room.
+  Q1M:
+    type: r2v
+    refs: [woman]
+    seed: 1
+    recipe_overrides: {ref_image_size: max}
+    prompt: *one_ref
+  Q1S:
+    type: r2v
+    refs: [woman_sheet]
+    seed: 1
+    prompt: &sheet |-
+      <Picture 1>, <Picture 2> and <Picture 3> all show the same woman: {woman}. Keep her face and outfit exactly.
+      Cinematic, dim apartment at night, warm lamp light, rain on the window.
+      Single continuous shot, no cut. Medium-wide shot from the knees up, static camera.
+      She stands by the window holding her phone, then slowly turns her head toward the camera with a worried expression.
+      Audio: rain on the window, a quiet room.
+  Q1SM:
+    type: r2v
+    refs: [woman_sheet]
+    seed: 1
+    recipe_overrides: {ref_image_size: max}
+    prompt: *sheet
+  Q2L:
+    type: r2v
+    refs: [woman]
+    seed: 1
+    duration: 3
+    prompt: *one_ref
+  Q2H:
+    type: r2v
+    refs: [woman]
+    seed: 1
+    duration: 3
+    megapixels: 0.4
+    prompt: *one_ref
+
+  # ---- overnight batch 2 (2026-10-24, owner asleep; approved: quality track + location test) ----
+  QA:    # attention test: identical to Q2H, rendered with ComfyUI started with --use-pytorch-cross-attention
+    type: r2v
+    refs: [woman]
+    seed: 1
+    duration: 3
+    megapixels: 0.4
+    note: same graph as Q2H; only the ComfyUI attention setting differs (see the take record's comfyui_argv)
+    prompt: *one_ref
+  Q3a:   # size ladder: 0.5 MP (544x960) x 3 s
+    type: r2v
+    refs: [woman]
+    seed: 1
+    duration: 3
+    megapixels: 0.5
+    prompt: *one_ref
+  Q3b:   # length ladder at 0.4 MP: 4 s = 107 frames (4.5 s would round up to 124 = X4, which failed)
+    type: r2v
+    refs: [woman]
+    seed: 1
+    duration: 4
+    megapixels: 0.4
+    prompt: *one_ref
+  G1:    # the owner's reference video genre: daylight selfie extreme close-up, 480x864
+    type: t2v
+    seed: 1
+    duration: 3
+    megapixels: 0.4
+    prompt: &selfie |-
+      Vertical 9:16 selfie video shot on a phone front camera. Extreme close-up of a young East Asian woman's face filling the frame, natural soft daylight outdoors under green trees, shallow depth of field, realistic skin texture with visible pores, light natural makeup, straight dark hair with bangs.
+      Single continuous shot, no cut. She looks into the camera, smiles softly and tilts her head slightly; subtle handheld movement.
+      Audio: a light breeze, distant birds, soft outdoor ambience.
+  G2:    # same at our usual 352x608
+    type: t2v
+    seed: 1
+    duration: 3
+    prompt: *selfie
+  P0:    # location plate for the location-reference test: a 5-frame T2V at ~1 MP used as a still
+    type: t2v
+    seed: 1
+    duration: 0.2
+    megapixels: 1.0
+    prompt: |-
+      An empty small apartment at night seen from the doorway, no people. A wooden desk with a warm desk lamp on the left, a large window with rain streaks and blue city lights at the back, a beige sofa on the right, warm lamp light and cold blue window light. Static photograph-like shot, realistic.

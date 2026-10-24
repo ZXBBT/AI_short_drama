@@ -1,0 +1,50 @@
+# Location-reference test (owner-approved 2026-10-24): does a background picture keep the same room
+# across shots when given to R2V as a second reference, and does it pull the camera back like two
+# character references did (S005)? Plate = frame 0 of episodes/_quality P0 (5-frame T2V at ~1 MP).
+episode: _location
+title: Location reference test
+recipe: h3_base_v1
+
+defaults:
+  aspect: "9:16"
+  megapixels: 0.4      # 480x864 (fits at 3 s, Q2H)
+  duration: 3
+  takes: 1
+  max_rerolls: 0
+
+assets:
+  kf_woman: inputs/midnight_call/kf_S001_desk_v1.png
+  room_plate: inputs/_location/room_plate_v1.png
+
+characters:
+  woman:
+    description: young East Asian woman, long dark hair in a low side ponytail, long beige-grey
+      cardigan over a light top
+    refs: [kf_woman]
+
+shots:
+  L1:
+    type: r2v
+    refs: [woman, room_plate]
+    seed: 1
+    prompt: |-
+      <Picture 1> is {woman}. <Picture 2> is her apartment: keep the room, furniture, lamp and window exactly as shown.
+      Cinematic, night. Single continuous shot, no cut. Medium shot from the waist up: she sits at the wooden desk under the warm lamp, reading a letter, the rainy window behind her. Static camera.
+      Audio: rain on the window, paper rustling.
+  L2:
+    type: r2v
+    refs: [woman, room_plate]
+    seed: 1
+    prompt: |-
+      <Picture 1> is {woman}. <Picture 2> is her apartment: keep the room, furniture, lamp and window exactly as shown.
+      Cinematic, night. Single continuous shot, no cut. Medium shot from the waist up: she stands by the rainy window looking out, the beige sofa and the desk lamp visible behind her. Slow push-in.
+      Audio: rain on the window, distant traffic.
+  L0:
+    type: r2v
+    refs: [woman]
+    seed: 1
+    note: control for L1 (same prompt, no room reference)
+    prompt: |-
+      <Picture 1> is {woman}.
+      Cinematic, night. Single continuous shot, no cut. Medium shot from the waist up: she sits at the wooden desk under the warm lamp, reading a letter, the rainy window behind her. Static camera.
+      Audio: rain on the window, paper rustling.

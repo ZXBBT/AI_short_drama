@@ -50,3 +50,6 @@ __pycache__/
 .Rhistory
 .RData
 .Rproj.user/
+
+# Third-party reference images: kept on this Mac only, never in Git (owner decision 2026-10-24)
+inputs/_owner_selfie/

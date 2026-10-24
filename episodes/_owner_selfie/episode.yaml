@@ -1,0 +1,38 @@
+# Owner's own test (2026-10-24): owner's character reference + owner's prompt (word for word; only
+# "the reference picture" -> "<Picture 1>", which R2V needs). Goal: compare with the Douyin video the
+# owner showed (same genre). Reference = owner's screenshot, cropped to face + hair (app buttons,
+# search bar and caption removed so H3 cannot copy them). Learning test only (licensing gate).
+# The image is NOT in Git (third-party content, owner decision): it exists only on this Mac at
+# inputs/_owner_selfie/ref_girl_v1.png, so this episode does not validate on another computer.
+episode: _owner_selfie
+title: Owner selfie test
+recipe: h3_base_v1
+
+defaults:
+  aspect: "9:16"
+  takes: 1
+  max_rerolls: 0
+
+assets:
+  ref_girl: inputs/_owner_selfie/ref_girl_v1.png
+
+characters:
+  girl:
+    description: black-haired girl with naturally drooping bangs, big clear eyes, light makeup, fair skin, plain top
+    refs: [ref_girl]
+
+shots:
+  U1:    # best size that fits (Q2H): 480x864, 3 s. The prompt describes ~8-10 s of action; 3 s compresses it.
+    type: r2v
+    refs: [girl]
+    megapixels: 0.4
+    duration: 3
+    seeds: [11, 12]
+    prompt_file: prompts/_owner_selfie/selfie_owner_v1.txt
+  U2:    # full 5 s at our usual 352x608: more time for the camera moves, fewer pixels
+    type: r2v
+    refs: [girl]
+    megapixels: 0.2
+    duration: 5
+    seed: 11
+    prompt_file: prompts/_owner_selfie/selfie_owner_v1.txt

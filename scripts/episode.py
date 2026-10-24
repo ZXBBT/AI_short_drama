@@ -44,6 +44,11 @@ TESTED = {"pixels": 864 * 480, "frames": 124}  # largest sizes rendered successf
 OVERRIDABLE = ("sampler", "scheduler", "steps", "ref_image_size")
 SHOT_KEYS = {"type", "prompt", "prompt_file", "seed", "seeds", "takes", "aspect", "megapixels", "duration",
              "first", "last", "refs", "recipe_overrides", "note", "allow_cuts", "max_rerolls"}
+PLACEHOLDER = re.compile(r"\{([A-Za-z_][\w-]*)\}")  # {woman} -> that character's description
+# shot-size terms only ("eyes wide" must not count)
+WIDE_WORDS = re.compile(r"\bwide(?:-angle)?\s+(?:static\s+)?(?:shot|angle|view)\b|\bfull[- ]body\b"
+                        r"|\blong shot\b|\bestablishing shot\b", re.I)
+SMALL_FACE_SHORT_EDGE = 480  # below this, wide/full-body faces are ~15-30 px and blur (owner, S004/S005)
 REROLL_SEED_OFFSET = 1000  # re-roll k of a shot uses seed = first seed + 1000 + k (deterministic)
 BEST_WINDOW_S = 1.0  # frame: best = sharpest frame within the last second
 
@@ -201,6 +206,7 @@ class Episode:
             p["prompt"] = text[:-1] if text.endswith("\n") else text  # editors add one newline
         else:
             p["prompt"] = s.get("prompt", "")
+        p["prompt"] = self.expand(p["prompt"])
         if "seeds" in s:
             p["seeds"] = [int(x) for x in s["seeds"]]
         elif "seed" in s:
@@ -213,6 +219,15 @@ class Episode:
         r.update(s.get("recipe_overrides") or {})
         p["recipe"] = r
         return p
+
+    def expand(self, text):
+        """Replace {character} with that character's description, so every shot uses the same words."""
+        def sub(m):
+            c = self.characters.get(m.group(1)) or {}
+            if not c.get("description"):
+                raise KeyError(f"prompt placeholder {{{m.group(1)}}} is not a character with a description")
+            return " ".join(str(c["description"]).split())
+        return PLACEHOLDER.sub(sub, text)
 
     def deps(self, sid):
         """Shots this shot continues from (via first/last frame links)."""
@@ -345,6 +360,10 @@ def validate(ep):
         for m in re.findall(r"<Picture (\d+)>", p["prompt"]):
             if not 1 <= int(m) <= n_img:
                 E(f"{pre} prompt mentions <Picture {m}> but the shot has {n_img} image(s)")
+        if (min(p["width"], p["height"]) < SMALL_FACE_SHORT_EDGE and (t == "r2v" or IMAGE_INPUTS[t])
+                and WIDE_WORDS.search(p["prompt"])):
+            W(f"{pre} wide/full-body framing at {p['width']}x{p['height']}: faces come out ~15-30 px and blur; "
+              f"keep faces that matter at medium shot or closer, or show the character from behind/in silhouette")
         if p["width"] * p["height"] > TESTED["pixels"] or p["length"] > TESTED["frames"]:
             W(f"{pre} {p['width']}x{p['height']}x{p['length']} is larger than anything tested here "
               f"({TESTED['pixels']} px, {TESTED['frames']} frames) — watch swap")

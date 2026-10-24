@@ -1,0 +1,50 @@
+# EXAMPLE brief (Stage 8 draft format, docs/stage8-brief-format.md). Not used by any tool yet.
+# This is what the owner would have written to get the Midnight Call episode.
+episode: midnight_call
+title: Midnight Call
+
+plot: |
+  Late at night a young woman is alone in her apartment. Her phone rings; she answers, but no one
+  speaks. A sudden flash lights up outside the window. Then the front door is forced open and a
+  man with a knife breaks in. She backs against the window, terrified.
+
+beats:                       # optional: moments that must be in the episode
+  - the phone rings and she turns toward it
+  - she answers "Hello?", silence on the line
+  - a blinding flash outside the window
+  - the door bursts open, a hooded man with a knife
+  - close-up of her terror as he closes in
+
+target:
+  length_s: 30
+  aspect: "9:16"
+  language: en
+
+style: realistic cinematic thriller, night, warm lamp light against cold window light, tense
+
+characters:
+  woman:
+    description: young East Asian woman, long dark hair in a low side ponytail, long beige-grey
+      cardigan over a light top
+    images: [inputs/midnight_call/kf_S001_desk_v1.png]
+    voice: soft, nervous
+  man:
+    description: tall man, black hooded jacket with the hood up, face half in shadow, black
+      trousers, kitchen knife in his right hand
+    images: []               # none: the first shot showing him creates his look
+
+locations:
+  apartment:
+    description: small dim apartment at night, wooden furniture, a desk, a large window with rain
+    images: []
+
+dialogue:
+  - {character: woman, line: "Hello?"}
+
+budget:
+  takes_per_shot: 2
+  max_render_hours: 3
+
+review:
+  picks: owner               # owner | auto
+  final: true

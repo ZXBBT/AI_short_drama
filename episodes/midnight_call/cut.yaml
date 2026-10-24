@@ -5,7 +5,7 @@
 # gain_db = optional per-shot audio adjustment before the whole mix is levelled.
 # subs = subtitles; times in seconds from the start of the TAKE (not of the trimmed part).
 episode: midnight_call
-version: v1
+version: v2               # v2 = v1's edit and sound + a 1080x1920 output (owner request)
 loudness:
   target_lufs: -14.0     # integrated loudness of the whole episode (common platform target)
   ceiling_dbtp: -1.0     # true-peak ceiling; if reaching the target would exceed it, the
@@ -14,6 +14,7 @@ audio_fade_ms: 10        # fade at every cut, so sounds cut mid-wave don't click
 sizes:
   - native               # 352x608, the render size
   - 720x1280             # Lanczos upscale to 742x1280, centre-cropped to 720 (9:16)
+  - 1080x1920            # Lanczos upscale (enlargement only: no new detail)
 
 sequence:
   - shot: S001

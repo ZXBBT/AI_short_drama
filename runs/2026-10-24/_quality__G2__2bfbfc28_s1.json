@@ -1,0 +1,280 @@
+{
+ "episode": "_quality",
+ "shot": "G2",
+ "take_id": "2bfbfc28_s1",
+ "fingerprint": "2bfbfc287cd128616b1bd8131266d835ba2426da8d6e07827843fd4dfe8f9e34",
+ "seed": 1,
+ "started": "2026-10-24T02:47:33-07:00",
+ "prompt_id": "cd6e6e9f-fad0-43e2-b9a6-453fa7e20d73",
+ "status": "success",
+ "error": null,
+ "events": [
+  "execution_start",
+  "execution_cached",
+  "execution_success"
+ ],
+ "wall_seconds": 325.2,
+ "node_seconds": {
+  "VAELoader": 2.2,
+  "CLIPLoader": 0.9,
+  "MiniMaxH3ImageToVideo": 20.4,
+  "UNETLoader": 0.1,
+  "BasicScheduler": 0.0,
+  "KSamplerSelect": 0.0,
+  "BasicGuider": 0.0,
+  "RandomNoise": 0.0,
+  "SamplerCustomAdvanced": 280.2,
+  "VAEDecodeAudio": 0.6,
+  "VAEDecode": 15.1,
+  "CreateVideo": 0.0,
+  "SaveVideo": 0.4
+ },
+ "memory_gib": {
+  "system_used_before": 45.4,
+  "system_used_peak": 53.1,
+  "swap_peak": 6.99,
+  "swap_limit": 20.0
+ },
+ "params": {
+  "type": "t2v",
+  "aspect": "9:16",
+  "megapixels": 0.2,
+  "duration": 3.0,
+  "width": 352,
+  "height": 608,
+  "length": 73
+ },
+ "recipe": {
+  "name": "h3_base_v1",
+  "sha256": "ba1f0779b3dc4cb42cabee4dad6ea88ba7e5fdb48d249d011fd6ac96ca15f04a",
+  "effective": {
+   "name": "h3_base_v1",
+   "created": "2026-10-23",
+   "sampler": "res_multistep",
+   "scheduler": "simple",
+   "steps": 20,
+   "fps": 24,
+   "bit_depth": 8,
+   "ref_image_size": "match",
+   "models": {
+    "fl2va": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "ref2va": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "video_vae": "minimax_h3_video_vae_fp16.safetensors",
+    "audio_vae": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  }
+ },
+ "inputs": {},
+ "prompt_text": "Vertical 9:16 selfie video shot on a phone front camera. Extreme close-up of a young East Asian woman's face filling the frame, natural soft daylight outdoors under green trees, shallow depth of field, realistic skin texture with visible pores, light natural makeup, straight dark hair with bangs.\nSingle continuous shot, no cut. She looks into the camera, smiles softly and tilts her head slightly; subtle handheld movement.\nAudio: a light breeze, distant birds, soft outdoor ambience.",
+ "episode_file_sha256": "7e4dd1e0681d5259bd44c600b210398dd49db0fd0a1c7a9956e28a8aea4bda31",
+ "env": {
+  "comfyui": "0.42.1",
+  "pytorch": "2.14.1",
+  "python": "3.13.17",
+  "comfyui_argv": [
+   "main.py",
+   "--listen",
+   "127.0.0.1",
+   "--port",
+   "8188",
+   "--extra-model-paths-config",
+   "/Users/marcusmao/dev/AI_short_drama/config/extra_model_paths.yaml",
+   "--output-directory",
+   "/Users/marcusmao/AI_renders/comfyui",
+   "--disable-all-custom-nodes"
+  ],
+  "repo_commit": "2ce568a",
+  "repo_dirty": true
+ },
+ "api_prompt": {
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "clip": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "type": "minimax",
+    "device": "default"
+   }
+  },
+  "vae_v": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+   }
+  },
+  "vae_a": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  },
+  "cond": {
+   "class_type": "MiniMaxH3ImageToVideo",
+   "inputs": {
+    "clip": [
+     "clip",
+     0
+    ],
+    "prompt": "Vertical 9:16 selfie video shot on a phone front camera. Extreme close-up of a young East Asian woman's face filling the frame, natural soft daylight outdoors under green trees, shallow depth of field, realistic skin texture with visible pores, light natural makeup, straight dark hair with bangs.\nSingle continuous shot, no cut. She looks into the camera, smiles softly and tilts her head slightly; subtle handheld movement.\nAudio: a light breeze, distant birds, soft outdoor ambience.",
+    "width": 352,
+    "height": 608,
+    "length": 73,
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "noise": {
+   "class_type": "RandomNoise",
+   "inputs": {
+    "noise_seed": 1
+   }
+  },
+  "sampler": {
+   "class_type": "KSamplerSelect",
+   "inputs": {
+    "sampler_name": "res_multistep"
+   }
+  },
+  "sigmas": {
+   "class_type": "BasicScheduler",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "scheduler": "simple",
+    "steps": 20,
+    "denoise": 1.0
+   }
+  },
+  "guider": {
+   "class_type": "BasicGuider",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "conditioning": [
+     "cond",
+     0
+    ]
+   }
+  },
+  "sample": {
+   "class_type": "SamplerCustomAdvanced",
+   "inputs": {
+    "noise": [
+     "noise",
+     0
+    ],
+    "guider": [
+     "guider",
+     0
+    ],
+    "sampler": [
+     "sampler",
+     0
+    ],
+    "sigmas": [
+     "sigmas",
+     0
+    ],
+    "latent_image": [
+     "cond",
+     1
+    ]
+   }
+  },
+  "decode_v": {
+   "class_type": "VAEDecode",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "decode_a": {
+   "class_type": "VAEDecodeAudio",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_a",
+     0
+    ]
+   }
+  },
+  "video": {
+   "class_type": "CreateVideo",
+   "inputs": {
+    "images": [
+     "decode_v",
+     0
+    ],
+    "audio": [
+     "decode_a",
+     0
+    ],
+    "fps": 24,
+    "bit_depth": 8
+   }
+  },
+  "save": {
+   "class_type": "SaveVideo",
+   "inputs": {
+    "video": [
+     "video",
+     0
+    ],
+    "filename_prefix": "episodes/_quality/G2/G2_2bfbfc28_s1",
+    "format": "auto",
+    "format.codec": "auto"
+   }
+  }
+ },
+ "output": {
+  "file": "/Users/marcusmao/AI_renders/comfyui/episodes/_quality/G2/G2_2bfbfc28_s1_00001_.mp4",
+  "bytes": 758644,
+  "video": {
+   "frames": 73,
+   "width": 352,
+   "height": 608,
+   "fps": 24.0,
+   "codec": "h264",
+   "mean_min": 112.2,
+   "mean_max": 116.4,
+   "std_min": 61.0,
+   "black_frames": 0
+  },
+  "audio": {
+   "samples": 194668,
+   "sample_rate": 32000,
+   "finite": true,
+   "rms": 0.013012965154411837,
+   "peak": 0.09188686311244965
+  },
+  "sha256": "a655842e0f3ddb63aaf3adf78c02b11dce3c85819c266d9b7a7f19492d28b2c8"
+ },
+ "continuity": {
+  "median_frame_diff": 6.02,
+  "max_frame_diff": 18.8,
+  "cuts": []
+ },
+ "warnings": []
+}
