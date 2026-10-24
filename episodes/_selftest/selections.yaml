@@ -1,0 +1,14 @@
+# Chosen take per shot (take id = fingerprint prefix + seed). Edit by hand or via
+# scripts/episode.py select. Shots that continue another shot use this take.
+T1:
+  take: 95f3ead6_s757358688076805
+  note: auto-selected (--auto-select, tests only)
+I1:
+  take: 45b1aabd_s1
+  note: auto-selected (--auto-select, tests only)
+C1:
+  take: 7be73f50_s1
+  note: auto-selected (--auto-select, tests only)
+R1:
+  take: 0dc80209_s1
+  note: auto-selected (--auto-select, tests only)

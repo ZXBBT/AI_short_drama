@@ -43,7 +43,7 @@ runs/            per-render metadata (seed, params, versions, output path)
 | 3 | Official H3 model download + checksum verification | ✅ 2026-10-23 — `models/verification/2026-10-23_stage3.txt` |
 | 4 | First low-res H3 test render | ✅ 2026-10-23 — `runs/2026-10-23/stage4_a_608x352_5f.json` |
 | 5 | Reproducibility check + scaling | ✅ 2026-10-23 — `docs/stage5-results.md` (attention comparison skipped: swap stop rule); hands-on guide `docs/practice-h3.md` |
-| 6 | Short-drama pipeline | 🔄 started 2026-10-23 — plan `docs/automation-plan.md`; 6.1 foundation done (`scripts/episode.py`, `episodes/`); 6.2 smoke tests next |
+| 6 | Short-drama pipeline | 🔄 started 2026-10-23 — plan `docs/automation-plan.md`; 6.1 foundation done (`scripts/episode.py`, `episodes/`); 6.2 smoke tests done (`docs/stage6-2-results.md`); 6.3 pilot next |
 | 7 | Automation | — |
 | — | Licensing / commercial-use gate | required before monetization or client delivery |
 

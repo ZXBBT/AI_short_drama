@@ -11,7 +11,7 @@ recipe: h3_base_v1
 defaults:
   aspect: "9:16"
   megapixels: 0.2      # 352x608
-  duration: 0.2        # 5 frames: mechanics only, far below H3's trained length
+  duration: 0.2        # 5 frames: mechanics only. 6.2 finding: at 5 frames I2V ignores its image
   takes: 1
 
 assets:

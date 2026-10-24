@@ -83,6 +83,12 @@ check("I2V keyframe asset is byte-identical to the UI input",
 for name in ("midnight_call", "_selftest"):
     errs, warns = E.validate(E.Episode(REPO / "episodes" / name))
     check(f"validate {name}: no errors", not errs, errs)
+    e = E.Episode(REPO / "episodes" / name)
+    try:
+        json.dumps([e.params(s) for s in e.shots]); ok = True
+    except TypeError as ex:
+        ok = ex
+    check(f"{name}: shot parameters are plain JSON (records can be written)", ok is True, ok)
 
 # 5. validation catches mistakes
 BASE = """episode: t
@@ -148,6 +154,20 @@ if vid.exists():
     check("frame at 1.0 s", i_t == 24, i_t)
     check("frame best within last second", 100 <= i_best <= 123, i_best)
     print(f"     info: best frame = {i_best}, sharpness {info['sharpness']}")
+
+    # 9. continuity checks against the owner's takes (cut at frame 36 in take01, none in take02)
+    kf = REPO / "inputs/midnight_call/kf_S001_desk_v1.png"
+    c1, w1 = E.continuity(vid, kf)
+    check("detects the unwanted cut in take01", [c["frame"] for c in c1["cuts"]] == [36], c1["cuts"])
+    check("take01 frame 0 follows the keyframe", c1["first_frame_diff"] < E.FIRST_FRAME_MAX_DIFF, c1["first_frame_diff"])
+    c2, _ = E.continuity(vid.with_name("S001_take01_00002_.mp4"))
+    check("no false cut in take02", c2["cuts"] == [], c2["cuts"])
+i1 = sorted((E.RENDERS / "episodes/_selftest/I1").glob("*.mp4"))
+if i1:
+    c, w = E.continuity(i1[0], REPO / "inputs/midnight_call/kf_S001_desk_v1.png")
+    check("flags 5-frame i2v that ignored its image", any("frame 0" in x for x in w), c)
+    idx, _, _ = E.extract_frame(i1[0], "best")
+    check("best on a 5-frame clip = last frame", idx == 4, idx)
 
 print(f"\n{'ALL PASSED' if not failures else f'{len(failures)} FAILED: {failures}'}")
 sys.exit(1 if failures else 0)

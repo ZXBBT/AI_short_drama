@@ -3,7 +3,7 @@
 # Change a recipe only by creating a new version file (h3_base_v2.yaml) + a decision-log entry,
 # so old takes stay reproducible.
 name: h3_base_v1
-created: 2026-10-23
+created: "2026-10-23"   # quoted: unquoted YAML dates become date objects
 sampler: res_multistep
 scheduler: simple
 steps: 20

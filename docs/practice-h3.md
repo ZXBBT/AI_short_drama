@@ -180,7 +180,12 @@ per take (`runs/2026-10-23/ui_midnight_call_*`). First + last frame ⚠️ untes
 5. **Prompt:** refer to the image as `<Picture 1>` and describe what moves, the camera and the
    sound, e.g. `The woman from <Picture 1> turns toward the window as rain starts; slow push-in;
    audio: rain on glass.` Don't re-describe everything visible; describe the change.
-6. Run. Write down the time and swap peak; this will be the first I2V measurement on this Mac.
+6. Run. Write down the time and swap peak.
+
+**The keyframe must already show the prompt's scene.** If the picture shows her standing by a
+window but the prompt describes her at a desk, H3 obeys the prompt and inserts a hard cut to a
+new scene (seen in `midnight_call` take01 at 1.5 s, despite "no cut" in the prompt). Make the
+keyframe match the shot's opening, or describe what the keyframe shows.
 
 **First + last frame (FLF2V):** add a second **Load Image** node (double-click the canvas →
 search "Load Image"), and drag its IMAGE output onto the subgraph's `last_frame` input. H3 then

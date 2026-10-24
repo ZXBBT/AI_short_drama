@@ -128,7 +128,8 @@ def extract_frame(video, spec):
     if spec == "last":
         idx = n - 1
     elif spec == "best":
-        lo = max(0, n - round(BEST_WINDOW_S * fps))
+        lo = n - max(1, min(round(BEST_WINDOW_S * fps), n // 4))  # short clips: last quarter only
+        lo = max(0, lo)
         scores = {i: sharpness(frames[i]) for i in range(lo, n)}
         idx = max(scores, key=scores.get)
         info["sharpness"] = {"chosen": round(scores[idx], 1), "last": round(scores[n - 1], 1), "window": [lo, n - 1]}
@@ -136,6 +137,36 @@ def extract_frame(video, spec):
         idx = min(n - 1, max(0, round(float(spec) * fps)))
     info["index"] = idx
     return idx, frames[idx], info
+
+
+CUT_RATIO, CUT_MIN = 10, 30  # a frame change >10x the clip's median and >30/255 = hard cut
+FIRST_FRAME_MAX_DIFF = 20    # i2v: frame 0 vs input image; owner's good take = 3.8, ignored = 73
+
+
+def continuity(video, first_image=None):
+    """Hard-cut detection and (for i2v) how closely frame 0 follows the input image.
+
+    Measured 2026-10-23: owner's take01 had an unwanted cut at frame 36 (29x median), take02 none
+    (max 5x); a 5-frame i2v ignored its first image (diff 73 vs 3.8 for a 124-frame take).
+    """
+    with av.open(str(video)) as c:
+        fs = [f.to_ndarray(format="rgb24").astype(np.int16) for f in c.decode(video=0)]
+    out, warn = {}, []
+    if len(fs) > 2:
+        d = np.array([np.abs(fs[i + 1] - fs[i]).mean() for i in range(len(fs) - 1)])
+        med = max(float(np.median(d)), 0.5)
+        cuts = [{"frame": int(i) + 1, "diff": round(float(d[i]), 1), "x_median": round(float(d[i]) / med, 1)}
+                for i in np.flatnonzero((d > CUT_RATIO * med) & (d > CUT_MIN))]
+        out.update(median_frame_diff=round(med, 2), max_frame_diff=round(float(d.max()), 1), cuts=cuts)
+        if cuts:
+            warn.append(f"hard cut(s) at frame {[c['frame'] for c in cuts]}")
+    if first_image is not None:
+        h, w = fs[0].shape[:2]
+        ref = np.asarray(Image.open(first_image).convert("RGB").resize((w, h), Image.BILINEAR)).astype(np.int16)
+        out["first_frame_diff"] = round(float(np.abs(fs[0] - ref).mean()), 1)
+        if out["first_frame_diff"] > FIRST_FRAME_MAX_DIFF:
+            warn.append(f"frame 0 does not follow the input image (diff {out['first_frame_diff']})")
+    return out, warn
 
 
 # ---------- episode model ----------
@@ -552,12 +583,14 @@ def render_take(ep, st, seed, swap_limit):
                 problems.append("audio missing or non-finite")
             if problems:
                 rec["status"], rec["error"] = "failed_checks", {"checks": problems}
+            first = st["images"].get("first")
+            rec["continuity"], rec["warnings"] = continuity(out, first[0] if first else None)
         else:
             rec["status"], rec["error"] = "error", {"checks": ["no output file in history"]}
     path = REPO / "runs" / dt.date.today().isoformat() / f"{ep.name}__{p['id']}__{take_id}.json"
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(rec, indent=1))
-    print(json.dumps({k: rec[k] for k in ("status", "error", "wall_seconds", "memory_gib")}, indent=1))
+    path.write_text(json.dumps(rec, indent=1, default=str))  # default=str: e.g. YAML dates
+    print(json.dumps({k: rec.get(k) for k in ("status", "error", "warnings", "wall_seconds", "memory_gib")}, indent=1))
     print("record:", path.relative_to(REPO), flush=True)
     return rec
 
@@ -574,6 +607,8 @@ def cmd_render(ep, shots, dry_run, auto_select, swap_limit):
         q = api_get("/queue")
         if q["queue_running"] or q["queue_pending"]:
             raise SystemExit("ComfyUI is busy (a render is running or queued, maybe from the UI). Try again when idle.")
+        # unknown models may still be loaded (UI session, other family): start clean (D14)
+        api_post("/free", {"unload_models": True, "free_memory": True}); time.sleep(3)
     last_family = None
     for sid in order(ep):
         if shots and sid not in shots:

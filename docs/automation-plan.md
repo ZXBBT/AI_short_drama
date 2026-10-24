@@ -110,8 +110,8 @@ A ranking aid is trusted only after it agrees with your past picks.
 ## 5. Stage 6 sub-steps (each ends with a checkpoint)
 | Step | Deliverable | Needs |
 |---|---|---|
-| **6.1 Foundation** | this plan; episode format; recipe file; `scripts/episode.py` with `validate`, `plan`, `render`, `select`, `frame`; offline tests | — |
-| **6.2 Smoke tests** | via the API: T2V regression (must match Stage 5 output exactly), tiny I2V, tiny continuation, **first R2V on this Mac**; reproduce owner's S001 take to prove script = UI | ComfyUI free for ~25 min |
+| **6.1 Foundation** ✅ | this plan; episode format; recipe file; `scripts/episode.py` with `validate`, `plan`, `render`, `select`, `frame`; offline tests | — |
+| **6.2 Smoke tests** ✅ `docs/stage6-2-results.md` | via the API: T2V regression (must match Stage 5 output exactly), tiny I2V, tiny continuation, **first R2V on this Mac**; reproduce owner's S001 take to prove script = UI | ComfyUI free for ~25 min |
 | **6.3 Pilot experiments** | 3–5 shot pilot (owner's story): clip length ladder (5 s+), R2V identity test, scheduler A/B, seed-vs-size test; review page | owner's story + reference images; several hours of rendering |
 | **6.4 Assembly** | join selected takes, `.srt` from dialogue, loudness matching, episode manifest | decide tool: PyAV (already installed) vs ffmpeg CLI (not installed; install needs approval) |
 
