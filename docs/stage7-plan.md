@@ -20,7 +20,7 @@ end (owner's choice). Builds on Stage 6 (`docs/automation-plan.md`).
 | **7.1 Batch runner** ✅ | `allow_cuts` / `max_rerolls` per shot; quality-check re-rolls; `scripts/pipeline.py` (validate → start ComfyUI if needed → render everything renderable → review sheets → assemble when possible → summary JSON + exit code) |
 | **7.2 Review page** ✅ | `scripts/review_server.py`: http://127.0.0.1:8189, every take playable with its checks and timings; "Pick" writes `selections.yaml` |
 | **7.3 Cut helpers** ✅ | `assemble.py --init` writes a default cut list; `loudness.per_shot: auto` narrows shot-to-shot volume jumps (explicit `gain_db` wins) |
-| **7.4 End-to-end test** | `_selftest` run through `pipeline.py` with ComfyUI started by the pipeline itself (needs owner's go-ahead for ~15 min of rendering) |
+| **7.4 End-to-end test** ✅ `docs/stage7-results.md` | `_selftest` run through `pipeline.py` with ComfyUI started by the pipeline itself (needs owner's go-ahead for ~15 min of rendering) |
 
 ## Rules kept
 Same safety as Stage 6: refuse while ComfyUI is busy, unload models first and between families,

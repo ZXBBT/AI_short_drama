@@ -1,0 +1,304 @@
+{
+ "episode": "_e2e",
+ "shot": "E2",
+ "take_id": "59d71dc4_s7101",
+ "fingerprint": "59d71dc4f41ba41ce489bf26e5fc1dd704b79c72837c98ae5f39f75c857fd865",
+ "seed": 7101,
+ "started": "2026-10-24T00:58:10-07:00",
+ "prompt_id": "8bad4b86-7692-43fa-afca-43576e6ac684",
+ "status": "success",
+ "error": null,
+ "events": [
+  "execution_start",
+  "execution_cached",
+  "execution_success"
+ ],
+ "wall_seconds": 170.2,
+ "node_seconds": {
+  "VAELoader": 2.1,
+  "LoadImage": 0.0,
+  "CLIPLoader": 0.9,
+  "MiniMaxH3ImageToVideo": 26.7,
+  "UNETLoader": 0.1,
+  "BasicScheduler": 0.0,
+  "KSamplerSelect": 0.0,
+  "BasicGuider": 0.0,
+  "RandomNoise": 0.0,
+  "SamplerCustomAdvanced": 132.3,
+  "VAEDecodeAudio": 0.6,
+  "VAEDecode": 6.8,
+  "CreateVideo": 0.0,
+  "SaveVideo": 0.3
+ },
+ "memory_gib": {
+  "system_used_before": 11.8,
+  "system_used_peak": 52.1,
+  "swap_peak": 3.62,
+  "swap_limit": 20.0
+ },
+ "params": {
+  "type": "i2v",
+  "aspect": "9:16",
+  "megapixels": 0.2,
+  "duration": 1.0,
+  "width": 352,
+  "height": 608,
+  "length": 39
+ },
+ "recipe": {
+  "name": "h3_base_v1",
+  "sha256": "ba1f0779b3dc4cb42cabee4dad6ea88ba7e5fdb48d249d011fd6ac96ca15f04a",
+  "effective": {
+   "name": "h3_base_v1",
+   "created": "2026-10-23",
+   "sampler": "res_multistep",
+   "scheduler": "simple",
+   "steps": 20,
+   "fps": 24,
+   "bit_depth": 8,
+   "ref_image_size": "match",
+   "models": {
+    "fl2va": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "ref2va": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "video_vae": "minimax_h3_video_vae_fp16.safetensors",
+    "audio_vae": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  }
+ },
+ "inputs": {
+  "first": {
+   "shot": "E1",
+   "take": "23a02c9a_s7001",
+   "frame": "last",
+   "video": "/Users/marcusmao/AI_renders/comfyui/episodes/_e2e/E1/E1_23a02c9a_s7001_00001_.mp4",
+   "frames": 39,
+   "spec": "last",
+   "index": 38,
+   "sha256": "b922ab0222fb111667a5391004b4527129267109cd8fdc7e2307472fe35c3d66",
+   "uploaded_as": "ai_short_drama/b922ab0222fb1116.png"
+  }
+ },
+ "prompt_text": "Continue the same shot from <Picture 1> with no cut. The camera keeps pushing in slowly; a car passes in the distance.\nAudio: distant traffic, light rain, a car passing.",
+ "episode_file_sha256": "88ef22f877c7f27eaa0e3f076c293a379d658ed7e9387681a0d58eae55cce840",
+ "env": {
+  "comfyui": "0.42.1",
+  "pytorch": "2.14.1",
+  "python": "3.13.17",
+  "comfyui_argv": [
+   "main.py",
+   "--listen",
+   "127.0.0.1",
+   "--port",
+   "8188",
+   "--extra-model-paths-config",
+   "/Users/marcusmao/dev/AI_short_drama/config/extra_model_paths.yaml",
+   "--output-directory",
+   "/Users/marcusmao/AI_renders/comfyui",
+   "--disable-all-custom-nodes"
+  ],
+  "repo_commit": "bafbb13",
+  "repo_dirty": true
+ },
+ "api_prompt": {
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "clip": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "type": "minimax",
+    "device": "default"
+   }
+  },
+  "vae_v": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+   }
+  },
+  "vae_a": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  },
+  "img_first": {
+   "class_type": "LoadImage",
+   "inputs": {
+    "image": "ai_short_drama/b922ab0222fb1116.png"
+   }
+  },
+  "cond": {
+   "class_type": "MiniMaxH3ImageToVideo",
+   "inputs": {
+    "clip": [
+     "clip",
+     0
+    ],
+    "prompt": "Continue the same shot from <Picture 1> with no cut. The camera keeps pushing in slowly; a car passes in the distance.\nAudio: distant traffic, light rain, a car passing.",
+    "width": 352,
+    "height": 608,
+    "length": 39,
+    "vae": [
+     "vae_v",
+     0
+    ],
+    "first_frame": [
+     "img_first",
+     0
+    ]
+   }
+  },
+  "noise": {
+   "class_type": "RandomNoise",
+   "inputs": {
+    "noise_seed": 7101
+   }
+  },
+  "sampler": {
+   "class_type": "KSamplerSelect",
+   "inputs": {
+    "sampler_name": "res_multistep"
+   }
+  },
+  "sigmas": {
+   "class_type": "BasicScheduler",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "scheduler": "simple",
+    "steps": 20,
+    "denoise": 1.0
+   }
+  },
+  "guider": {
+   "class_type": "BasicGuider",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "conditioning": [
+     "cond",
+     0
+    ]
+   }
+  },
+  "sample": {
+   "class_type": "SamplerCustomAdvanced",
+   "inputs": {
+    "noise": [
+     "noise",
+     0
+    ],
+    "guider": [
+     "guider",
+     0
+    ],
+    "sampler": [
+     "sampler",
+     0
+    ],
+    "sigmas": [
+     "sigmas",
+     0
+    ],
+    "latent_image": [
+     "cond",
+     1
+    ]
+   }
+  },
+  "decode_v": {
+   "class_type": "VAEDecode",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "decode_a": {
+   "class_type": "VAEDecodeAudio",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_a",
+     0
+    ]
+   }
+  },
+  "video": {
+   "class_type": "CreateVideo",
+   "inputs": {
+    "images": [
+     "decode_v",
+     0
+    ],
+    "audio": [
+     "decode_a",
+     0
+    ],
+    "fps": 24,
+    "bit_depth": 8
+   }
+  },
+  "save": {
+   "class_type": "SaveVideo",
+   "inputs": {
+    "video": [
+     "video",
+     0
+    ],
+    "filename_prefix": "episodes/_e2e/E2/E2_59d71dc4_s7101",
+    "format": "auto",
+    "format.codec": "auto"
+   }
+  }
+ },
+ "output": {
+  "file": "/Users/marcusmao/AI_renders/comfyui/episodes/_e2e/E2/E2_59d71dc4_s7101_00001_.mp4",
+  "bytes": 220103,
+  "video": {
+   "frames": 39,
+   "width": 352,
+   "height": 608,
+   "fps": 24.0,
+   "codec": "h264",
+   "mean_min": 24.2,
+   "mean_max": 29.5,
+   "std_min": 36.3,
+   "black_frames": 0
+  },
+  "audio": {
+   "samples": 104000,
+   "sample_rate": 32000,
+   "finite": true,
+   "rms": 0.014250779830689989,
+   "peak": 0.11782274395227432
+  },
+  "sha256": "979d12a75f7debba09cb9ea0f1476dd931c59e8b629216002332f8eec5d7f63d"
+ },
+ "continuity": {
+  "median_frame_diff": 2.76,
+  "max_frame_diff": 5.7,
+  "cuts": [],
+  "first_frame_diff": 4.4
+ },
+ "warnings": []
+}

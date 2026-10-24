@@ -1,0 +1,113 @@
+{
+ "episode": "_e2e",
+ "version": "v1",
+ "created": "2026-10-24T01:01:04-07:00",
+ "cut_file": "episodes/_e2e/cut.yaml",
+ "cut_sha256": "7d6b798a6b719fc0d7f65f1cc23e15efa965bfd545e04140dfcced3f823feb3c",
+ "timeline": [
+  {
+   "shot": "E1",
+   "take": "23a02c9a_s7001",
+   "in": 0,
+   "out": 38,
+   "frames": 39,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 0.0,
+   "end_s": 1.625
+  },
+  {
+   "shot": "E2",
+   "take": "59d71dc4_s7101",
+   "in": 0,
+   "out": 38,
+   "frames": 39,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 1.625,
+   "end_s": 3.25
+  }
+ ],
+ "sources": [
+  {
+   "shot": "E1",
+   "take": "23a02c9a_s7001",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/_e2e/E1/E1_23a02c9a_s7001_00001_.mp4",
+   "sha256": "8c920f470fc8f6c723fb0c9b4d5a4aa63a0c5209a2189e7c6794ecb864242536",
+   "frames_in_take": 39,
+   "in": 0,
+   "out": 38,
+   "audio_len_diff_samples": 0
+  },
+  {
+   "shot": "E2",
+   "take": "59d71dc4_s7101",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/_e2e/E2/E2_59d71dc4_s7101_00001_.mp4",
+   "sha256": "979d12a75f7debba09cb9ea0f1476dd931c59e8b629216002332f8eec5d7f63d",
+   "frames_in_take": 39,
+   "in": 0,
+   "out": 38,
+   "audio_len_diff_samples": 0
+  }
+ ],
+ "audio": {
+  "sample_rate": 48000,
+  "fade_ms": 10,
+  "per_shot_before_mix": {
+   "E1": {
+    "lufs": -18.0,
+    "true_peak_dbtp": -7.1,
+    "auto_gain_db": -2.1
+   },
+   "E2": {
+    "lufs": -34.2,
+    "true_peak_dbtp": -18.3,
+    "auto_gain_db": 2.1
+   }
+  },
+  "per_shot_mode": "auto",
+  "mix_lufs": -22.5,
+  "mix_true_peak_dbtp": -9.22,
+  "gain_db": 8.22,
+  "peak_limited": true,
+  "out_lufs": -14.28,
+  "out_true_peak_dbtp": -1.0,
+  "codec": "aac 192k"
+ },
+ "video": {
+  "codec": "libx264",
+  "crf": 18,
+  "preset": "medium",
+  "pix_fmt": "yuv420p",
+  "fps": 24,
+  "upscale": "lanczos to target height, centre crop"
+ },
+ "subtitles": {
+  "file": "subtitles/_e2e_v1.srt",
+  "entries": 0
+ },
+ "outputs": [
+  {
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/_e2e/_final/_e2e_v1_352x608.mp4",
+   "width": 352,
+   "height": 608,
+   "frames": 78,
+   "bytes": 547138,
+   "sha256": "2ebdb413414a0678ff4695a2ddcd6b90c851c58192a7a724221d7b212749a442"
+  },
+  {
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/_e2e/_final/_e2e_v1_720x1280.mp4",
+   "width": 720,
+   "height": 1280,
+   "frames": 78,
+   "bytes": 1415210,
+   "sha256": "96bbd814e49689605e2fea8bbdc5484abd90f9f003470aec82aae0c38b0267e3"
+  }
+ ],
+ "env": {
+  "pyav": "19.0.2",
+  "libavcodec": "63.1.102",
+  "repo_commit": "bafbb13",
+  "repo_dirty": true
+ }
+}

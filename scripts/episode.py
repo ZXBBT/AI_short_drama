@@ -423,8 +423,11 @@ def fingerprint(p, image_shas):
     return hashlib.sha256(blob).hexdigest()
 
 
-def resolve_images(ep, sid, materialize):
-    """Map image slots to local files. Returns ({slot: (path, provenance)}, blocked_reason)."""
+def resolve_images(ep, sid):
+    """Map image slots to local files. Returns ({slot: (path, provenance)}, blocked_reason).
+
+    Continuation frames are extracted from the picked take on first use (cheap, deterministic,
+    written to the renders folder), so "blocked" only ever means "waiting for a pick"."""
     s, out = ep.shots[sid], {}
     for key in ("first", "last"):
         v = s.get(key)
@@ -440,16 +443,13 @@ def resolve_images(ep, sid, materialize):
                 return None, f"selected take {take} of {up} has no successful record"
             frame_png = RENDERS / "episodes" / ep.name / "_frames" / f"{up}_{take}_{spec}.png"
             prov = {"shot": up, "take": take, "frame": spec, "video": rec["output"]["file"]}
-            if materialize or frame_png.exists():
-                if not frame_png.exists():
-                    _, rgb, info = extract_frame(rec["output"]["file"], spec)
-                    frame_png.parent.mkdir(parents=True, exist_ok=True)
-                    Image.fromarray(rgb).save(frame_png)
-                    (frame_png.with_suffix(".json")).write_text(json.dumps(info, indent=1))
-                prov.update(json.loads(frame_png.with_suffix(".json").read_text()))
-                out[key] = (frame_png, prov)
-            else:
-                return None, f"frame from {up}/{take} not extracted yet (render will extract it)"
+            if not frame_png.exists():
+                _, rgb, info = extract_frame(rec["output"]["file"], spec)
+                frame_png.parent.mkdir(parents=True, exist_ok=True)
+                Image.fromarray(rgb).save(frame_png)
+                (frame_png.with_suffix(".json")).write_text(json.dumps(info, indent=1))
+            prov.update(json.loads(frame_png.with_suffix(".json").read_text()))
+            out[key] = (frame_png, prov)
     for i, aid in enumerate(ep.ref_assets(sid)):
         out[f"ref{i}"] = (REPO / ep.assets[aid], {"asset": aid, "file": ep.assets[aid]})
     return out, None
@@ -482,11 +482,11 @@ def take_problems(rec, p):
     return out
 
 
-def shot_status(ep, sid, materialize=False):
+def shot_status(ep, sid):
     """State of one shot: blocked | todo (seeds to render next) | done (enough good takes) |
     needs_review (re-roll budget used up without enough good takes)."""
     p = ep.params(sid)
-    imgs, blocked = resolve_images(ep, sid, materialize)
+    imgs, blocked = resolve_images(ep, sid)
     st = {"id": sid, "type": p["type"], "family": FAMILY[p["type"]], "size": f"{p['width']}x{p['height']}",
           "frames": p["length"], "seeds": p["seeds"], "needed": len(p["seeds"]), "selected": ep.selected_take(sid)}
     if blocked:
@@ -652,7 +652,7 @@ def cmd_render(ep, shots, dry_run, auto_select, swap_limit):
             continue
         # re-evaluate after every take: a take that fails a quality check makes the next seed due
         while True:
-            st = shot_status(ep, sid, materialize=not dry_run)
+            st = shot_status(ep, sid)
             if st["state"] == "blocked":
                 print(f"-- {sid}: blocked, {st['reason']}"); break
             if st["state"] in ("done", "needs_review"):

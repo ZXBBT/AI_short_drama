@@ -1,0 +1,18 @@
+# Edit decision list (created by assemble.py --init; edit freely). Assemble with:
+#   ~/dev/ComfyUI/.venv/bin/python scripts/assemble.py episodes/_e2e/cut.yaml
+# in/out = first/last frame used (inclusive); gain_db = per-shot audio adjustment;
+# subs = subtitles, times in seconds from the start of the take.
+episode: _e2e
+version: v1
+loudness:
+  target_lufs: -14.0
+  ceiling_dbtp: -1.0
+  per_shot: auto         # auto = narrow shot-to-shot jumps to +-6 LU of the median shot; off = as rendered
+audio_fade_ms: 10
+sizes:
+  - native
+  - 720x1280
+
+sequence:
+  - shot: E1
+  - shot: E2
