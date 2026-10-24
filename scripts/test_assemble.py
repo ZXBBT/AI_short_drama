@@ -83,6 +83,11 @@ with tempfile.TemporaryDirectory() as td:
     check("dialogue becomes a voice-timed subtitle", len(subs) == 1 and subs[0]["text"] == "Hello?" and 4.4 < subs[0]["start"] < 4.9,
           subs)
     check("1080p output and auto levelling by default", "1080x1920" in cut["sizes"] and cut["loudness"]["per_shot"] == "auto")
+check("cover size: 352x608 -> 1080x1920 trims the sides (as before)", A.cover_size(352, 608, 1080, 1920) == (1112, 1920),
+      A.cover_size(352, 608, 1080, 1920))
+check("cover size: 480x864 -> 1080x1920 trims top/bottom", A.cover_size(480, 864, 1080, 1920) == (1080, 1944),
+      A.cover_size(480, 864, 1080, 1920))
+check("cover size: 352x608 -> 720x1280 unchanged from v1 (742x1280)", A.cover_size(352, 608, 720, 1280) == (742, 1280))
 check("next version v1 -> v2", A.next_version("v1") == "v2" and A.next_version("v9") == "v10")
 check("no voice found (silence) -> lines spread evenly over the take",
       A.time_lines(np.zeros((2, A.SR * 4)), ["a", "b"]) == [(0.0, 2.0, "a"), (2.0, 4.0, "b")])

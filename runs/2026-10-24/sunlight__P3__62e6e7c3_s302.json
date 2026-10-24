@@ -1,0 +1,298 @@
+{
+ "episode": "sunlight",
+ "shot": "P3",
+ "take_id": "62e6e7c3_s302",
+ "fingerprint": "62e6e7c3ed86c7ad6c2bb026bc89ed1ba4a8d43678093981bc4ce87a7bf12870",
+ "seed": 302,
+ "started": "2026-10-24T15:36:35-07:00",
+ "prompt_id": "f6b4bf05-45cb-4618-8c8e-f195f1e573a2",
+ "status": "success",
+ "error": null,
+ "events": [
+  "execution_start",
+  "execution_cached",
+  "execution_success"
+ ],
+ "wall_seconds": 598.7,
+ "node_seconds": {
+  "RandomNoise": 0.0,
+  "SamplerCustomAdvanced": 576.1,
+  "VAEDecodeAudio": 0.3,
+  "VAEDecode": 21.9,
+  "CreateVideo": 0.0,
+  "SaveVideo": 0.3
+ },
+ "memory_gib": {
+  "system_used_before": 31.2,
+  "system_used_peak": 45.2,
+  "swap_peak": 4.87,
+  "swap_limit": 20.0
+ },
+ "params": {
+  "type": "i2v",
+  "aspect": "9:16",
+  "megapixels": 0.4,
+  "duration": 3.0,
+  "width": 480,
+  "height": 864,
+  "length": 73
+ },
+ "recipe": {
+  "name": "h3_base_v2",
+  "sha256": "7e5b59ee9bb152e0f5298a95d51b3c10d2ab13296645a0107b3e39f527535355",
+  "effective": {
+   "name": "h3_base_v2",
+   "created": "2026-10-24",
+   "sampler": "res_multistep",
+   "scheduler": "simple",
+   "steps": 20,
+   "fps": 24,
+   "bit_depth": 8,
+   "attention": "pytorch",
+   "ref_image_size": "match",
+   "models": {
+    "fl2va": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "ref2va": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "video_vae": "minimax_h3_video_vae_fp16.safetensors",
+    "audio_vae": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  }
+ },
+ "inputs": {
+  "first": {
+   "shot": "P2",
+   "take": "fe851aeb_s201",
+   "frame": "last",
+   "video": "/Users/marcusmao/AI_renders/comfyui/episodes/sunlight/P2/P2_fe851aeb_s201_00001_.mp4",
+   "frames": 107,
+   "spec": "last",
+   "index": 106,
+   "sha256": "14a842c02665de5a961eb283f78983d8cc2a706f2af2d875a206da084980017e",
+   "uploaded_as": "ai_short_drama/14a842c02665de5a.png"
+  }
+ },
+ "prompt_text": "Continue the same shot from <Picture 1> with no cut, static camera.\nSomeone off-screen calls her name. She looks up from the phone toward the left, surprised, and her face lights up.\nRealistic skin texture, dappled afternoon sunlight.\nAudio: a friendly voice calling \"Lin!\" from a distance, birdsong.",
+ "episode_file_sha256": "9966d3d1bd33e21c9babc83da245f3ee4748041ffb98a0efefbc68fc51ee797d",
+ "env": {
+  "comfyui": "0.42.1",
+  "pytorch": "2.14.1",
+  "python": "3.13.17",
+  "comfyui_argv": [
+   "main.py",
+   "--listen",
+   "127.0.0.1",
+   "--port",
+   "8188",
+   "--extra-model-paths-config",
+   "/Users/marcusmao/dev/AI_short_drama/config/extra_model_paths.yaml",
+   "--output-directory",
+   "/Users/marcusmao/AI_renders/comfyui",
+   "--disable-all-custom-nodes",
+   "--use-pytorch-cross-attention"
+  ],
+  "repo_commit": "26bc3dc",
+  "repo_dirty": true
+ },
+ "api_prompt": {
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "clip": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "type": "minimax",
+    "device": "default"
+   }
+  },
+  "vae_v": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+   }
+  },
+  "vae_a": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  },
+  "img_first": {
+   "class_type": "LoadImage",
+   "inputs": {
+    "image": "ai_short_drama/14a842c02665de5a.png"
+   }
+  },
+  "cond": {
+   "class_type": "MiniMaxH3ImageToVideo",
+   "inputs": {
+    "clip": [
+     "clip",
+     0
+    ],
+    "prompt": "Continue the same shot from <Picture 1> with no cut, static camera.\nSomeone off-screen calls her name. She looks up from the phone toward the left, surprised, and her face lights up.\nRealistic skin texture, dappled afternoon sunlight.\nAudio: a friendly voice calling \"Lin!\" from a distance, birdsong.",
+    "width": 480,
+    "height": 864,
+    "length": 73,
+    "vae": [
+     "vae_v",
+     0
+    ],
+    "first_frame": [
+     "img_first",
+     0
+    ]
+   }
+  },
+  "noise": {
+   "class_type": "RandomNoise",
+   "inputs": {
+    "noise_seed": 302
+   }
+  },
+  "sampler": {
+   "class_type": "KSamplerSelect",
+   "inputs": {
+    "sampler_name": "res_multistep"
+   }
+  },
+  "sigmas": {
+   "class_type": "BasicScheduler",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "scheduler": "simple",
+    "steps": 20,
+    "denoise": 1.0
+   }
+  },
+  "guider": {
+   "class_type": "BasicGuider",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "conditioning": [
+     "cond",
+     0
+    ]
+   }
+  },
+  "sample": {
+   "class_type": "SamplerCustomAdvanced",
+   "inputs": {
+    "noise": [
+     "noise",
+     0
+    ],
+    "guider": [
+     "guider",
+     0
+    ],
+    "sampler": [
+     "sampler",
+     0
+    ],
+    "sigmas": [
+     "sigmas",
+     0
+    ],
+    "latent_image": [
+     "cond",
+     1
+    ]
+   }
+  },
+  "decode_v": {
+   "class_type": "VAEDecode",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "decode_a": {
+   "class_type": "VAEDecodeAudio",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_a",
+     0
+    ]
+   }
+  },
+  "video": {
+   "class_type": "CreateVideo",
+   "inputs": {
+    "images": [
+     "decode_v",
+     0
+    ],
+    "audio": [
+     "decode_a",
+     0
+    ],
+    "fps": 24,
+    "bit_depth": 8
+   }
+  },
+  "save": {
+   "class_type": "SaveVideo",
+   "inputs": {
+    "video": [
+     "video",
+     0
+    ],
+    "filename_prefix": "episodes/sunlight/P3/P3_62e6e7c3_s302",
+    "format": "auto",
+    "format.codec": "auto"
+   }
+  }
+ },
+ "output": {
+  "file": "/Users/marcusmao/AI_renders/comfyui/episodes/sunlight/P3/P3_62e6e7c3_s302_00001_.mp4",
+  "bytes": 645469,
+  "video": {
+   "frames": 73,
+   "width": 480,
+   "height": 864,
+   "fps": 24.0,
+   "codec": "h264",
+   "mean_min": 97.0,
+   "mean_max": 99.4,
+   "std_min": 60.9,
+   "black_frames": 0
+  },
+  "audio": {
+   "samples": 194668,
+   "sample_rate": 32000,
+   "finite": true,
+   "rms": 0.04281202196325559,
+   "peak": 0.32119983434677124
+  },
+  "sha256": "a5a642c4e283a3bc9773ae34ca3262f163f9c11143eb69b73d523bae2cff7f1d"
+ },
+ "continuity": {
+  "median_frame_diff": 1.25,
+  "max_frame_diff": 3.6,
+  "cuts": [],
+  "first_frame_diff": 5.8
+ },
+ "warnings": []
+}

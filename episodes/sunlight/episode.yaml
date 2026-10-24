@@ -75,9 +75,11 @@ shots:
     type: r2v
     refs: [lin]
     seed: 501
-    note: she gets up to meet them
+    note: >-
+      she gets up to meet them. 2026-10-24: owner asked to fix the trousers (first takes showed jeans,
+      P2/P3 show black trousers); added to this prompt only, so P2-P4 keep their takes.
     prompt: |-
-      <Picture 1> is {lin}. Keep her face, hair and outfit exactly.
+      <Picture 1> is {lin}. Keep her face, hair and outfit exactly. She wears black trousers, the same as in the earlier shots, not jeans.
       {park}. Single continuous shot, no cut. Medium shot from the waist up, the camera follows her slightly.
       She stands up from the bench, slips the phone into her pocket and walks off toward the left, smiling.
       Realistic skin texture, natural afternoon sunlight.

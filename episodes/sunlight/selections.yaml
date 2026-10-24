@@ -1,0 +1,25 @@
+# Chosen take per shot (take id = fingerprint prefix + seed). Edit by hand, via
+# scripts/episode.py select or the review page. Shots that continue another shot use
+# this take. _confirmed = the picks the owner confirmed on the review page (Stage 8).
+P1:
+  take: 769280ba_s101
+  note: 'auto-pick: no clear face in any take; first good take; confirm on the review
+    page'
+P2:
+  take: fe851aeb_s201
+  note: 'auto-pick: face quality 0.509, 117.9 px; confirm on the review page'
+P4: 224814f7_s401
+P5:
+  take: 2dbfc28a_s502
+  note: 'auto-pick: face quality 0.414, 95.9 px; confirm on the review page'
+P3:
+  take: 62e6e7c3_s302
+  note: 'auto-pick: face quality 0.528, 111.9 px; confirm on the review page'
+_confirmed:
+  at: '2026-10-24T16:19:46-07:00'
+  picks:
+    P1: 769280ba_s101
+    P2: fe851aeb_s201
+    P3: 62e6e7c3_s302
+    P4: 224814f7_s401
+    P5: 2dbfc28a_s502

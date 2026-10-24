@@ -1,0 +1,305 @@
+{
+ "episode": "sunlight",
+ "shot": "P5",
+ "take_id": "2dbfc28a_s501",
+ "fingerprint": "2dbfc28ace85dccea77ebe62495508e681d5d958e1972ae00c412dba6b5a25dd",
+ "seed": 501,
+ "started": "2026-10-24T15:58:17-07:00",
+ "prompt_id": "c746ed4c-6c78-42f1-9055-3c024bdbcdd3",
+ "status": "success",
+ "error": null,
+ "events": [
+  "execution_start",
+  "execution_cached",
+  "execution_success"
+ ],
+ "wall_seconds": 535.5,
+ "node_seconds": {
+  "VAELoader": 2.2,
+  "LoadImage": 0.0,
+  "CLIPLoader": 0.9,
+  "MiniMaxH3ReferenceToVideo": 35.2,
+  "UNETLoader": 0.1,
+  "BasicScheduler": 0.0,
+  "KSamplerSelect": 0.0,
+  "BasicGuider": 0.0,
+  "RandomNoise": 0.0,
+  "SamplerCustomAdvanced": 465.5,
+  "VAEDecodeAudio": 2.5,
+  "VAEDecode": 27.9,
+  "CreateVideo": 0.0,
+  "SaveVideo": 1.0
+ },
+ "memory_gib": {
+  "system_used_before": 15.4,
+  "system_used_peak": 52.7,
+  "swap_peak": 8.73,
+  "swap_limit": 20.0
+ },
+ "params": {
+  "type": "r2v",
+  "aspect": "9:16",
+  "megapixels": 0.4,
+  "duration": 3.0,
+  "width": 480,
+  "height": 864,
+  "length": 73
+ },
+ "recipe": {
+  "name": "h3_base_v2",
+  "sha256": "7e5b59ee9bb152e0f5298a95d51b3c10d2ab13296645a0107b3e39f527535355",
+  "effective": {
+   "name": "h3_base_v2",
+   "created": "2026-10-24",
+   "sampler": "res_multistep",
+   "scheduler": "simple",
+   "steps": 20,
+   "fps": 24,
+   "bit_depth": 8,
+   "attention": "pytorch",
+   "ref_image_size": "match",
+   "models": {
+    "fl2va": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "ref2va": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "video_vae": "minimax_h3_video_vae_fp16.safetensors",
+    "audio_vae": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  }
+ },
+ "inputs": {
+  "ref0": {
+   "asset": "char_lin_1",
+   "file": "inputs/sunlight/ref_lin_v1.png",
+   "sha256": "408f5f917e5a12697265b68a7e8411ad788e204b5a64fa2bdf0e110d0d4ba9c2",
+   "uploaded_as": "ai_short_drama/408f5f917e5a1269.png"
+  }
+ },
+ "prompt_text": "<Picture 1> is young East Asian woman, long straight dark hair with bangs, natural light makeup, white T-shirt. Keep her face, hair and outfit exactly. She wears black trousers, the same as in the earlier shots, not jeans.\na quiet city park in the afternoon, a tree-lined path, a wooden bench, green leaves, dappled sunlight. Single continuous shot, no cut. Medium shot from the waist up, the camera follows her slightly.\nShe stands up from the bench, slips the phone into her pocket and walks off toward the left, smiling.\nRealistic skin texture, natural afternoon sunlight.\nAudio: footsteps on the gravel path, birdsong.",
+ "episode_file_sha256": "483ecee609734451161b04ef8b56397dcbda36bcb765dff001a37738180aa68e",
+ "env": {
+  "comfyui": "0.42.1",
+  "pytorch": "2.14.1",
+  "python": "3.13.17",
+  "comfyui_argv": [
+   "main.py",
+   "--listen",
+   "127.0.0.1",
+   "--port",
+   "8188",
+   "--extra-model-paths-config",
+   "/Users/marcusmao/dev/AI_short_drama/config/extra_model_paths.yaml",
+   "--output-directory",
+   "/Users/marcusmao/AI_renders/comfyui",
+   "--disable-all-custom-nodes",
+   "--use-pytorch-cross-attention"
+  ],
+  "repo_commit": "26bc3dc",
+  "repo_dirty": true
+ },
+ "api_prompt": {
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "clip": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "type": "minimax",
+    "device": "default"
+   }
+  },
+  "vae_v": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+   }
+  },
+  "vae_a": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  },
+  "img_ref0": {
+   "class_type": "LoadImage",
+   "inputs": {
+    "image": "ai_short_drama/408f5f917e5a1269.png"
+   }
+  },
+  "cond": {
+   "class_type": "MiniMaxH3ReferenceToVideo",
+   "inputs": {
+    "clip": [
+     "clip",
+     0
+    ],
+    "prompt": "<Picture 1> is young East Asian woman, long straight dark hair with bangs, natural light makeup, white T-shirt. Keep her face, hair and outfit exactly. She wears black trousers, the same as in the earlier shots, not jeans.\na quiet city park in the afternoon, a tree-lined path, a wooden bench, green leaves, dappled sunlight. Single continuous shot, no cut. Medium shot from the waist up, the camera follows her slightly.\nShe stands up from the bench, slips the phone into her pocket and walks off toward the left, smiling.\nRealistic skin texture, natural afternoon sunlight.\nAudio: footsteps on the gravel path, birdsong.",
+    "width": 480,
+    "height": 864,
+    "length": 73,
+    "vae": [
+     "vae_v",
+     0
+    ],
+    "audio_vae": [
+     "vae_a",
+     0
+    ],
+    "ref_image_size": "match",
+    "ref_images.ref_image_0": [
+     "img_ref0",
+     0
+    ]
+   }
+  },
+  "noise": {
+   "class_type": "RandomNoise",
+   "inputs": {
+    "noise_seed": 501
+   }
+  },
+  "sampler": {
+   "class_type": "KSamplerSelect",
+   "inputs": {
+    "sampler_name": "res_multistep"
+   }
+  },
+  "sigmas": {
+   "class_type": "BasicScheduler",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "scheduler": "simple",
+    "steps": 20,
+    "denoise": 1.0
+   }
+  },
+  "guider": {
+   "class_type": "BasicGuider",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "conditioning": [
+     "cond",
+     0
+    ]
+   }
+  },
+  "sample": {
+   "class_type": "SamplerCustomAdvanced",
+   "inputs": {
+    "noise": [
+     "noise",
+     0
+    ],
+    "guider": [
+     "guider",
+     0
+    ],
+    "sampler": [
+     "sampler",
+     0
+    ],
+    "sigmas": [
+     "sigmas",
+     0
+    ],
+    "latent_image": [
+     "cond",
+     1
+    ]
+   }
+  },
+  "decode_v": {
+   "class_type": "VAEDecode",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "decode_a": {
+   "class_type": "VAEDecodeAudio",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_a",
+     0
+    ]
+   }
+  },
+  "video": {
+   "class_type": "CreateVideo",
+   "inputs": {
+    "images": [
+     "decode_v",
+     0
+    ],
+    "audio": [
+     "decode_a",
+     0
+    ],
+    "fps": 24,
+    "bit_depth": 8
+   }
+  },
+  "save": {
+   "class_type": "SaveVideo",
+   "inputs": {
+    "video": [
+     "video",
+     0
+    ],
+    "filename_prefix": "episodes/sunlight/P5/P5_2dbfc28a_s501",
+    "format": "auto",
+    "format.codec": "auto"
+   }
+  }
+ },
+ "output": {
+  "file": "/Users/marcusmao/AI_renders/comfyui/episodes/sunlight/P5/P5_2dbfc28a_s501_00001_.mp4",
+  "bytes": 2288403,
+  "video": {
+   "frames": 73,
+   "width": 480,
+   "height": 864,
+   "fps": 24.0,
+   "codec": "h264",
+   "mean_min": 92.3,
+   "mean_max": 118.8,
+   "std_min": 61.2,
+   "black_frames": 0
+  },
+  "audio": {
+   "samples": 194668,
+   "sample_rate": 32000,
+   "finite": true,
+   "rms": 0.002530455309733809,
+   "peak": 0.03188014402985573
+  },
+  "sha256": "5b22dbcdc507f3721135103c42ad319746e73186c7fa976fda9232155fa81bba"
+ },
+ "continuity": {
+  "median_frame_diff": 22.22,
+  "max_frame_diff": 34.1,
+  "cuts": []
+ },
+ "warnings": []
+}

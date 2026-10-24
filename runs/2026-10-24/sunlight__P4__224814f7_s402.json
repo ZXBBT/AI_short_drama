@@ -1,0 +1,297 @@
+{
+ "episode": "sunlight",
+ "shot": "P4",
+ "take_id": "224814f7_s402",
+ "fingerprint": "224814f7301b8ab92b77f7e98a84e5fbb5ec88cee7481e85647c11eccbf9aef8",
+ "seed": 402,
+ "started": "2026-10-24T14:55:26-07:00",
+ "prompt_id": "ac49ebf4-47c5-484c-bbf4-3f8965a9f45a",
+ "status": "success",
+ "error": null,
+ "events": [
+  "execution_start",
+  "execution_cached",
+  "execution_success"
+ ],
+ "wall_seconds": 601.8,
+ "node_seconds": {
+  "RandomNoise": 0.0,
+  "SamplerCustomAdvanced": 577.8,
+  "VAEDecodeAudio": 0.5,
+  "VAEDecode": 23.1,
+  "CreateVideo": 0.0,
+  "SaveVideo": 0.4
+ },
+ "memory_gib": {
+  "system_used_before": 35.6,
+  "system_used_peak": 50.4,
+  "swap_peak": 3.4,
+  "swap_limit": 20.0
+ },
+ "params": {
+  "type": "r2v",
+  "aspect": "9:16",
+  "megapixels": 0.4,
+  "duration": 3.0,
+  "width": 480,
+  "height": 864,
+  "length": 73
+ },
+ "recipe": {
+  "name": "h3_base_v2",
+  "sha256": "7e5b59ee9bb152e0f5298a95d51b3c10d2ab13296645a0107b3e39f527535355",
+  "effective": {
+   "name": "h3_base_v2",
+   "created": "2026-10-24",
+   "sampler": "res_multistep",
+   "scheduler": "simple",
+   "steps": 20,
+   "fps": 24,
+   "bit_depth": 8,
+   "attention": "pytorch",
+   "ref_image_size": "match",
+   "models": {
+    "fl2va": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "ref2va": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "video_vae": "minimax_h3_video_vae_fp16.safetensors",
+    "audio_vae": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  }
+ },
+ "inputs": {
+  "ref0": {
+   "asset": "char_lin_1",
+   "file": "inputs/sunlight/ref_lin_v1.png",
+   "sha256": "408f5f917e5a12697265b68a7e8411ad788e204b5a64fa2bdf0e110d0d4ba9c2",
+   "uploaded_as": "ai_short_drama/408f5f917e5a1269.png"
+  }
+ },
+ "prompt_text": "<Picture 1> is young East Asian woman, long straight dark hair with bangs, natural light makeup, white T-shirt. Keep her face, hair and outfit exactly.\na quiet city park in the afternoon, a tree-lined path, a wooden bench, green leaves, dappled sunlight. Single continuous shot, no cut. Close-up of her face in soft dappled sunlight.\nShe smiles brightly, raises her hand to wave and calls out \"Over here!\".\nRealistic skin texture with visible pores, natural light, no plastic look.\nAudio: her bright, warm voice saying \"Over here!\", birdsong.",
+ "episode_file_sha256": "9966d3d1bd33e21c9babc83da245f3ee4748041ffb98a0efefbc68fc51ee797d",
+ "env": {
+  "comfyui": "0.42.1",
+  "pytorch": "2.14.1",
+  "python": "3.13.17",
+  "comfyui_argv": [
+   "main.py",
+   "--listen",
+   "127.0.0.1",
+   "--port",
+   "8188",
+   "--extra-model-paths-config",
+   "/Users/marcusmao/dev/AI_short_drama/config/extra_model_paths.yaml",
+   "--output-directory",
+   "/Users/marcusmao/AI_renders/comfyui",
+   "--disable-all-custom-nodes",
+   "--use-pytorch-cross-attention"
+  ],
+  "repo_commit": "26bc3dc",
+  "repo_dirty": true
+ },
+ "api_prompt": {
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "clip": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "type": "minimax",
+    "device": "default"
+   }
+  },
+  "vae_v": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+   }
+  },
+  "vae_a": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  },
+  "img_ref0": {
+   "class_type": "LoadImage",
+   "inputs": {
+    "image": "ai_short_drama/408f5f917e5a1269.png"
+   }
+  },
+  "cond": {
+   "class_type": "MiniMaxH3ReferenceToVideo",
+   "inputs": {
+    "clip": [
+     "clip",
+     0
+    ],
+    "prompt": "<Picture 1> is young East Asian woman, long straight dark hair with bangs, natural light makeup, white T-shirt. Keep her face, hair and outfit exactly.\na quiet city park in the afternoon, a tree-lined path, a wooden bench, green leaves, dappled sunlight. Single continuous shot, no cut. Close-up of her face in soft dappled sunlight.\nShe smiles brightly, raises her hand to wave and calls out \"Over here!\".\nRealistic skin texture with visible pores, natural light, no plastic look.\nAudio: her bright, warm voice saying \"Over here!\", birdsong.",
+    "width": 480,
+    "height": 864,
+    "length": 73,
+    "vae": [
+     "vae_v",
+     0
+    ],
+    "audio_vae": [
+     "vae_a",
+     0
+    ],
+    "ref_image_size": "match",
+    "ref_images.ref_image_0": [
+     "img_ref0",
+     0
+    ]
+   }
+  },
+  "noise": {
+   "class_type": "RandomNoise",
+   "inputs": {
+    "noise_seed": 402
+   }
+  },
+  "sampler": {
+   "class_type": "KSamplerSelect",
+   "inputs": {
+    "sampler_name": "res_multistep"
+   }
+  },
+  "sigmas": {
+   "class_type": "BasicScheduler",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "scheduler": "simple",
+    "steps": 20,
+    "denoise": 1.0
+   }
+  },
+  "guider": {
+   "class_type": "BasicGuider",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "conditioning": [
+     "cond",
+     0
+    ]
+   }
+  },
+  "sample": {
+   "class_type": "SamplerCustomAdvanced",
+   "inputs": {
+    "noise": [
+     "noise",
+     0
+    ],
+    "guider": [
+     "guider",
+     0
+    ],
+    "sampler": [
+     "sampler",
+     0
+    ],
+    "sigmas": [
+     "sigmas",
+     0
+    ],
+    "latent_image": [
+     "cond",
+     1
+    ]
+   }
+  },
+  "decode_v": {
+   "class_type": "VAEDecode",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "decode_a": {
+   "class_type": "VAEDecodeAudio",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_a",
+     0
+    ]
+   }
+  },
+  "video": {
+   "class_type": "CreateVideo",
+   "inputs": {
+    "images": [
+     "decode_v",
+     0
+    ],
+    "audio": [
+     "decode_a",
+     0
+    ],
+    "fps": 24,
+    "bit_depth": 8
+   }
+  },
+  "save": {
+   "class_type": "SaveVideo",
+   "inputs": {
+    "video": [
+     "video",
+     0
+    ],
+    "filename_prefix": "episodes/sunlight/P4/P4_224814f7_s402",
+    "format": "auto",
+    "format.codec": "auto"
+   }
+  }
+ },
+ "output": {
+  "file": "/Users/marcusmao/AI_renders/comfyui/episodes/sunlight/P4/P4_224814f7_s402_00001_.mp4",
+  "bytes": 1274156,
+  "video": {
+   "frames": 73,
+   "width": 480,
+   "height": 864,
+   "fps": 24.0,
+   "codec": "h264",
+   "mean_min": 96.4,
+   "mean_max": 112.4,
+   "std_min": 61.9,
+   "black_frames": 0
+  },
+  "audio": {
+   "samples": 194668,
+   "sample_rate": 32000,
+   "finite": true,
+   "rms": 0.0845592892055317,
+   "peak": 0.836418092250824
+  },
+  "sha256": "577417d591c0864730c22b8aa03989eba8b7e298015fc0f5c7d8bc0bb17ba686"
+ },
+ "continuity": {
+  "median_frame_diff": 12.7,
+  "max_frame_diff": 22.6,
+  "cuts": []
+ },
+ "warnings": []
+}

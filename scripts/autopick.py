@@ -1,6 +1,7 @@
 """Stage 8.4: automatic take picking and the owner's confirmation.
 
-Auto-pick (episodes with `review: {picks: auto}`): for every shot that has takes but no pick, choose
+Auto-pick (episodes with `review: {picks: auto}`): for every shot that has takes but no pick (or only an
+auto-pick of an older version of the shot), choose
 the good take whose main face scores best (macOS Vision face quality, then face size; the score
 matched every blur verdict the owner gave on Midnight Call). Shots without a face (establishing
 shots) get their first good take. Picks are written with a note "auto-pick: ...", so the review
@@ -46,9 +47,10 @@ def auto_pick(ep):
     """Pick a take for every finished shot without a pick. Returns the number of picks written."""
     n = 0
     for sid in E.order(ep):
-        if ep.selected_take(sid):
-            continue
         st = E.shot_status(ep, sid)
+        # an auto-pick of an older version of the shot is replaced; the owner's own picks never are
+        if ep.selected_take(sid) and not (is_auto(ep, sid) and st.get("stale_selection")):
+            continue
         if st["state"] not in ("done", "needs_review") or not st["done"]:
             continue
         candidates = st["good"] or st["done"]

@@ -102,8 +102,13 @@ def maybe_generate_cut(ep):
     if not path.exists():
         return str(AS.generate_cut(ep, "v1"))
     cut = E.load_yaml(path)
-    if cut.get("generated") and cut_state(ep)[0] == "stale":
+    if not cut.get("generated"):
+        return None
+    picks = {s: ep.selected_take(s) for s in ep.shots}
+    if cut_state(ep)[0] == "stale":  # assembled before, picks changed since: new version
         return str(AS.generate_cut(ep, AS.next_version(cut["version"])))
+    if cut.get("generated_from") != picks and cut_state(ep)[0] != "current":
+        return str(AS.generate_cut(ep, cut["version"]))  # never assembled: rebuild in place
     return None
 
 

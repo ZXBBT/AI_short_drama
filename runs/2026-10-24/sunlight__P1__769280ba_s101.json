@@ -1,0 +1,282 @@
+{
+ "episode": "sunlight",
+ "shot": "P1",
+ "take_id": "769280ba_s101",
+ "fingerprint": "769280ba950723acbe38ae83ae2ca6ea5252990ee6880880097908e44f3c1ada",
+ "seed": 101,
+ "started": "2026-10-24T13:59:38-07:00",
+ "prompt_id": "4cc04394-34c9-4771-936d-404ab314a790",
+ "status": "success",
+ "error": null,
+ "events": [
+  "execution_start",
+  "execution_cached",
+  "execution_success"
+ ],
+ "wall_seconds": 417.4,
+ "node_seconds": {
+  "VAELoader": 2.2,
+  "CLIPLoader": 0.9,
+  "MiniMaxH3ImageToVideo": 22.6,
+  "UNETLoader": 0.2,
+  "BasicScheduler": 0.0,
+  "KSamplerSelect": 0.0,
+  "BasicGuider": 0.0,
+  "RandomNoise": 0.0,
+  "SamplerCustomAdvanced": 364.5,
+  "VAEDecodeAudio": 2.2,
+  "VAEDecode": 23.8,
+  "CreateVideo": 0.0,
+  "SaveVideo": 0.7
+ },
+ "memory_gib": {
+  "system_used_before": 21.2,
+  "system_used_peak": 52.6,
+  "swap_peak": 4.3,
+  "swap_limit": 20.0
+ },
+ "params": {
+  "type": "t2v",
+  "aspect": "9:16",
+  "megapixels": 0.4,
+  "duration": 3.0,
+  "width": 480,
+  "height": 864,
+  "length": 73
+ },
+ "recipe": {
+  "name": "h3_base_v2",
+  "sha256": "7e5b59ee9bb152e0f5298a95d51b3c10d2ab13296645a0107b3e39f527535355",
+  "effective": {
+   "name": "h3_base_v2",
+   "created": "2026-10-24",
+   "sampler": "res_multistep",
+   "scheduler": "simple",
+   "steps": 20,
+   "fps": 24,
+   "bit_depth": 8,
+   "attention": "pytorch",
+   "ref_image_size": "match",
+   "models": {
+    "fl2va": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "ref2va": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "video_vae": "minimax_h3_video_vae_fp16.safetensors",
+    "audio_vae": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  }
+ },
+ "inputs": {},
+ "prompt_text": "Vertical 9:16 shot. a quiet city park in the afternoon, a tree-lined path, a wooden bench, green leaves, dappled sunlight. An empty wooden bench beside the path, afternoon sunlight flickering through the leaves, a light breeze moving the branches. No people.\nSingle continuous shot, no cut. Slow, gentle push-in toward the bench. Realistic, natural light.\nAudio: birdsong, leaves rustling, a distant city hum.",
+ "episode_file_sha256": "9966d3d1bd33e21c9babc83da245f3ee4748041ffb98a0efefbc68fc51ee797d",
+ "env": {
+  "comfyui": "0.42.1",
+  "pytorch": "2.14.1",
+  "python": "3.13.17",
+  "comfyui_argv": [
+   "main.py",
+   "--listen",
+   "127.0.0.1",
+   "--port",
+   "8188",
+   "--extra-model-paths-config",
+   "/Users/marcusmao/dev/AI_short_drama/config/extra_model_paths.yaml",
+   "--output-directory",
+   "/Users/marcusmao/AI_renders/comfyui",
+   "--disable-all-custom-nodes",
+   "--use-pytorch-cross-attention"
+  ],
+  "repo_commit": "26bc3dc",
+  "repo_dirty": false
+ },
+ "api_prompt": {
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "clip": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "type": "minimax",
+    "device": "default"
+   }
+  },
+  "vae_v": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+   }
+  },
+  "vae_a": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  },
+  "cond": {
+   "class_type": "MiniMaxH3ImageToVideo",
+   "inputs": {
+    "clip": [
+     "clip",
+     0
+    ],
+    "prompt": "Vertical 9:16 shot. a quiet city park in the afternoon, a tree-lined path, a wooden bench, green leaves, dappled sunlight. An empty wooden bench beside the path, afternoon sunlight flickering through the leaves, a light breeze moving the branches. No people.\nSingle continuous shot, no cut. Slow, gentle push-in toward the bench. Realistic, natural light.\nAudio: birdsong, leaves rustling, a distant city hum.",
+    "width": 480,
+    "height": 864,
+    "length": 73,
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "noise": {
+   "class_type": "RandomNoise",
+   "inputs": {
+    "noise_seed": 101
+   }
+  },
+  "sampler": {
+   "class_type": "KSamplerSelect",
+   "inputs": {
+    "sampler_name": "res_multistep"
+   }
+  },
+  "sigmas": {
+   "class_type": "BasicScheduler",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "scheduler": "simple",
+    "steps": 20,
+    "denoise": 1.0
+   }
+  },
+  "guider": {
+   "class_type": "BasicGuider",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "conditioning": [
+     "cond",
+     0
+    ]
+   }
+  },
+  "sample": {
+   "class_type": "SamplerCustomAdvanced",
+   "inputs": {
+    "noise": [
+     "noise",
+     0
+    ],
+    "guider": [
+     "guider",
+     0
+    ],
+    "sampler": [
+     "sampler",
+     0
+    ],
+    "sigmas": [
+     "sigmas",
+     0
+    ],
+    "latent_image": [
+     "cond",
+     1
+    ]
+   }
+  },
+  "decode_v": {
+   "class_type": "VAEDecode",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "decode_a": {
+   "class_type": "VAEDecodeAudio",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_a",
+     0
+    ]
+   }
+  },
+  "video": {
+   "class_type": "CreateVideo",
+   "inputs": {
+    "images": [
+     "decode_v",
+     0
+    ],
+    "audio": [
+     "decode_a",
+     0
+    ],
+    "fps": 24,
+    "bit_depth": 8
+   }
+  },
+  "save": {
+   "class_type": "SaveVideo",
+   "inputs": {
+    "video": [
+     "video",
+     0
+    ],
+    "filename_prefix": "episodes/sunlight/P1/P1_769280ba_s101",
+    "format": "auto",
+    "format.codec": "auto"
+   }
+  }
+ },
+ "output": {
+  "file": "/Users/marcusmao/AI_renders/comfyui/episodes/sunlight/P1/P1_769280ba_s101_00001_.mp4",
+  "bytes": 3781231,
+  "video": {
+   "frames": 73,
+   "width": 480,
+   "height": 864,
+   "fps": 24.0,
+   "codec": "h264",
+   "mean_min": 86.3,
+   "mean_max": 102.5,
+   "std_min": 49.1,
+   "black_frames": 0
+  },
+  "audio": {
+   "samples": 194668,
+   "sample_rate": 32000,
+   "finite": true,
+   "rms": 0.010769597616950385,
+   "peak": 0.03894408047199249
+  },
+  "sha256": "265bb1420ae7a24f7db4385ba3b197e03f30af671e6fce804c3674edf4442de1"
+ },
+ "continuity": {
+  "median_frame_diff": 10.71,
+  "max_frame_diff": 15.7,
+  "cuts": []
+ },
+ "warnings": []
+}

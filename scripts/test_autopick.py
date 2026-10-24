@@ -62,6 +62,14 @@ with tempfile.TemporaryDirectory() as td:
     check("owner's pick is not marked as auto", not AP.is_auto(ep, "A"))
     check("auto_pick never overrides an existing pick", AP.auto_pick(ep) == 0 and
           E.Episode(ep_dir, runs_dir=runs.parent).selected_take("A") == a1)
+    # a changed shot: its old auto-pick is replaced once the new version has takes; owner picks stay
+    y = (ep_dir / "episode.yaml").read_text().replace("prompt: c,", "prompt: c2,")
+    (ep_dir / "episode.yaml").write_text(y)
+    ep = E.Episode(ep_dir, runs_dir=runs.parent)
+    fps["C"] = E.shot_status(ep, "C")["fp"]
+    c3, c4 = fake("C", 4, 0.30), fake("C", 5, 0.55)
+    check("stale auto-pick is replaced by the new version's best take", AP.auto_pick(ep) == 1 and
+          E.Episode(ep_dir, runs_dir=runs.parent).selected_take("C") == c4)
     errs, warns = E.validate(E.Episode(ep_dir, runs_dir=runs.parent))
     check("_confirmed metadata does not upset validation", not any("_confirmed" in w for w in warns), warns)
 
