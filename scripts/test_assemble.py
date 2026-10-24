@@ -61,5 +61,31 @@ except SystemExit:
     check("init: refuses to overwrite", True)
 shutil.rmtree(d)
 
+# Stage 8.5: generated cut list from picks (temporary copy of Midnight Call with its real takes)
+import episode as E  # noqa: E402
+with tempfile.TemporaryDirectory() as td:
+    t_ = pathlib.Path(td) / "midnight_call"; t_.mkdir()
+    for f in ("episode.yaml", "selections.yaml"):
+        shutil.copy(E.REPO / "episodes/midnight_call" / f, t_ / f)
+    y = (t_ / "episode.yaml").read_text()
+    y = y.replace("    allow_cuts: true     # H3's own cut (wide -> door) is used in the edit", "    allow_cuts: false")
+    y = y.replace("    note: she answers; close-up", "    note: she answers; close-up\n    dialogue: [{character: woman, line: 'Hello?'}]")
+    (t_ / "episode.yaml").write_text(y)
+    cut = yaml.safe_load(A.generate_cut(E.Episode(t_), "v1").read_text())
+    seq = {e["shot"]: e for e in cut["sequence"]}
+    check("generated cut: every shot, in file order", [e["shot"] for e in cut["sequence"]] == list(E.Episode(t_).shots),
+          [e["shot"] for e in cut["sequence"]])
+    check("generated cut is marked and versioned", cut["generated"] is True and cut["version"] == "v1")
+    check("unwanted H3 cut -> longest uncut part (S004 frames 0-68)", (seq["S004"].get("in", 0), seq["S004"].get("out")) == (0, 68),
+          seq["S004"])
+    check("shots without cuts are used whole", "in" not in seq["S001"] and "out" not in seq["S001"])
+    subs = seq["S002"].get("subs") or []
+    check("dialogue becomes a voice-timed subtitle", len(subs) == 1 and subs[0]["text"] == "Hello?" and 4.4 < subs[0]["start"] < 4.9,
+          subs)
+    check("1080p output and auto levelling by default", "1080x1920" in cut["sizes"] and cut["loudness"]["per_shot"] == "auto")
+check("next version v1 -> v2", A.next_version("v1") == "v2" and A.next_version("v9") == "v10")
+check("no voice found (silence) -> lines spread evenly over the take",
+      A.time_lines(np.zeros((2, A.SR * 4)), ["a", "b"]) == [(0.0, 2.0, "a"), (2.0, 4.0, "b")])
+
 print(f"\n{'ALL PASSED' if not failures else f'{len(failures)} FAILED: {failures}'}")
 sys.exit(1 if failures else 0)

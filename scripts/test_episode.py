@@ -236,5 +236,19 @@ check("'eyes wide' is not a wide shot", not E.WIDE_WORDS.search("she stares, eye
 check("'Wide static shot' is a wide shot", bool(E.WIDE_WORDS.search("Wide static shot of the room")))
 shutil.rmtree(d)
 
+# 12. attention mode (D16): part of the fingerprint only when not ComfyUI's default
+p1 = E.Episode(REPO / "episodes/_selftest").params("T1")
+p2 = dict(p1, recipe=dict(p1["recipe"], attention="pytorch"))
+check("v1 recipe: no attention key -> 'default'", E.recipe_attention(p1["recipe"]) == "default")
+check("pytorch attention changes the fingerprint", E.fingerprint(p1, {}) != E.fingerprint(p2, {}))
+check("v2 recipe file says pytorch", E.recipe_attention(E.load_yaml(REPO / "config/recipes/h3_base_v2.yaml")) == "pytorch")
+check("argv with the flag -> pytorch", E.comfyui_attention(["main.py", "--use-pytorch-cross-attention"]) == "pytorch")
+check("argv without flags -> default", E.comfyui_attention(["main.py", "--port", "8188"]) == "default")
+check("other attention flag is reported", E.comfyui_attention(["--use-split-cross-attention"]).startswith("other"))
+for name in ("midnight_call", "_selftest", "_e2e"):
+    ep_ = E.Episode(REPO / "episodes" / name)
+    check(f"{name}: finished shots still recognised (v1 fingerprints unchanged)",
+          all(E.shot_status(ep_, s_)["state"] == "done" for s_ in ep_.shots))
+
 print(f"\n{'ALL PASSED' if not failures else f'{len(failures)} FAILED: {failures}'}")
 sys.exit(1 if failures else 0)

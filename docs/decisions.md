@@ -87,6 +87,18 @@ Each entry: what was decided, why, and what would make us revisit it.
 - Safety: refuses to render while ComfyUI is busy (shared with the owner's UI), stops the batch on
   any failure or swap > 20 GiB, unloads models when switching fl2va <-> ref2va.
 
+## D16 — PyTorch attention for new work: recipe `h3_base_v2` (owner-approved 2026-10-24)
+- **Why:** quality track test QA vs Q2H (same graph and seed, 480x864x73): same shot and face quality,
+  sampling 8 % faster, peak memory ~4 GB lower, swap peak 3.6 vs 9.4 GiB. Supersedes D10 for new work.
+- Exact pixels differ (different rounding), so the attention mode is part of the recipe
+  (`attention: pytorch`) and of the take fingerprint (only when not ComfyUI's default, so all
+  `h3_base_v1` fingerprints and finished takes stay valid).
+- `scripts/launch_comfyui.sh` starts PyTorch attention by default; `COMFY_ATTENTION=default` gives
+  ComfyUI's own default (sub-quadratic) for v1 episodes. `pipeline.py` starts ComfyUI in the
+  episode's mode; `episode.py render` refuses if the running ComfyUI is in the wrong mode.
+- Started without a Terminal, ComfyUI often ignores Ctrl+C (SIGINT); the pipeline falls back to
+  SIGTERM after 10 s (queue is always empty at that point).
+
 ## D11 — Launch only via `scripts/launch_comfyui.sh` (2026-10-23)
 - localhost only, `--disable-all-custom-nodes`, models from `config/extra_model_paths.yaml`,
   output to `~/AI_renders/comfyui`, wrapped in `caffeinate -i`.

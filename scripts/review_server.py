@@ -16,6 +16,7 @@ import sys
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+import autopick as AP  # noqa: E402
 import episode as E  # noqa: E402
 
 PAGE_CSS = """
@@ -40,9 +41,17 @@ details { margin:8px 0; } summary { cursor:pointer; color:var(--muted); } pre { 
 button { width:100%; padding:7px; border-radius:8px; border:1px solid var(--accent); background:transparent;
          color:var(--accent); font-weight:600; cursor:pointer; } .picked button { background:var(--accent); color:#fff; }
 .final video { width:min(360px,100%); }
+.badge { font-size:11px; padding:1px 6px; border-radius:999px; background:var(--accent); color:#fff; margin-left:4px; }
+.banner { display:flex; gap:14px; align-items:center; flex-wrap:wrap; }
+.banner button { width:auto; padding:7px 16px; } .ok { color:var(--good); font-weight:600; }
 """
 
 PAGE_JS = """
+async function confirmPicks(btn) {
+  btn.disabled = true;
+  const r = await fetch('/confirm', {method:'POST', headers:{'Content-Type':'application/json'}, body:'{}'});
+  if (r.ok) { location.reload(); } else { btn.disabled = false; btn.textContent = 'Confirm failed: ' + (await r.text()); }
+}
 async function pick(shot, take, btn) {
   btn.disabled = true; btn.textContent = 'Saving…';
   const r = await fetch('/select', {method:'POST', headers:{'Content-Type':'application/json'},
@@ -65,6 +74,14 @@ def render_page(ep):
     parts = [f"<header><h1>{esc(ep.data.get('title', ep.name))}</h1>"
              f"<div class='muted'>Episode <b>{esc(ep.name)}</b> · pick one take per shot · "
              f"choices are saved to <code>episodes/{esc(ep.name)}/selections.yaml</code></div></header><main>"]
+    if ep.review.get("final", True):
+        c = ep.selections.get(AP.CONFIRM_KEY) or {}
+        ok = AP.confirmed(ep, [s for s in ep.shots if ep.selected_take(s)]) and c
+        state = (f"<span class='ok'>Picks confirmed {esc(c.get('at', ''))}</span>" if ok else
+                 "<span>Picks not confirmed yet: the episode is assembled after you confirm.</span>")
+        mode = "auto-picked takes are marked" if ep.review.get("picks") == "auto" else "you pick each shot"
+        parts.append(f"<section class='banner'>{state}<span class='muted'>({mode})</span>"
+                     f"<button onclick='confirmPicks(this)'>Confirm picks</button></section>")
     cut = latest_cut(ep)
     if cut:
         vids = "".join(f"<div><video controls preload='metadata' src='/final/{i}'></video>"
@@ -80,10 +97,16 @@ def render_page(ep):
             r, picked = recs[tid], tid == st["selected"]
             problems = st["rejected"].get(tid, [])
             mem = r.get("memory_gib") or {}
+            cache = pathlib.Path(r["output"]["file"]).with_suffix(".faces.json")
+            fs = json.loads(cache.read_text())["summary"] if cache.exists() else None
+            face = (f" · face q {fs['quality_median']} / {fs['face_h_median']} px"
+                    if fs and fs.get("quality_median") is not None else "")
+            badge = "<span class='badge'>auto-picked</span>" if picked and AP.is_auto(ep, sid) else ""
             takes.append(
                 f"<div class='take{' picked' if picked else ''}'>"
                 f"<video controls preload='metadata' src='/video/{esc(sid)}/{esc(tid)}'></video>"
-                f"<div class='meta'>seed {esc(r['seed'])} · {r['wall_seconds'] / 60:.1f} min · swap {mem.get('swap_peak', '?')} GiB</div>"
+                f"<div class='meta'>seed {esc(r['seed'])} · {r['wall_seconds'] / 60:.1f} min · swap "
+                f"{mem.get('swap_peak', '?')} GiB{esc(face)}{badge}</div>"
                 + "".join(f"<div class='warn'>⚠ {esc(p)}</div>" for p in problems)
                 + f"<button onclick=\"pick('{esc(sid)}','{esc(tid)}',this)\">{'Picked' if picked else 'Pick'}</button></div>")
         reason = f"<div class='warn'>{esc(st['reason'])}</div>" if st.get("reason") else ""
@@ -173,14 +196,17 @@ class Handler(BaseHTTPRequestHandler):
         return self._send(404, "not found")
 
     def do_POST(self):
-        if not self._host_ok() or self.path != "/select":
+        if not self._host_ok() or self.path not in ("/select", "/confirm"):
             return self._send(403, "forbidden")
         origin = self.headers.get("Origin")
         if origin and origin not in (f"http://127.0.0.1:{self.port}", f"http://localhost:{self.port}"):
             return self._send(403, "forbidden origin")
         try:
-            body = json.loads(self.rfile.read(int(self.headers.get("Content-Length", 0))))
+            body = json.loads(self.rfile.read(int(self.headers.get("Content-Length", 0))) or b"{}")
             ep = E.Episode(self.episode_dir)
+            if self.path == "/confirm":
+                AP.confirm(ep)
+                return self._send(200, "ok")
             if body.get("shot") not in ep.shots:
                 return self._send(400, "unknown shot")
             E.write_selection(ep, body["shot"], str(body["take"]), note=None)

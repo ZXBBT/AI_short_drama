@@ -43,12 +43,13 @@ IMAGE_INPUTS = {"t2v": (), "i2v": ("first",), "flf2v": ("first", "last"), "r2v":
 TESTED = {"pixels": 864 * 480, "frames": 124}  # largest sizes rendered successfully on this Mac
 OVERRIDABLE = ("sampler", "scheduler", "steps", "ref_image_size")
 SHOT_KEYS = {"type", "prompt", "prompt_file", "seed", "seeds", "takes", "aspect", "megapixels", "duration",
-             "first", "last", "refs", "recipe_overrides", "note", "allow_cuts", "max_rerolls"}
+             "first", "last", "refs", "recipe_overrides", "note", "allow_cuts", "max_rerolls", "dialogue"}
 PLACEHOLDER = re.compile(r"\{([A-Za-z_][\w-]*)\}")  # {woman} -> that character's description
 # shot-size terms only ("eyes wide" must not count)
 WIDE_WORDS = re.compile(r"\bwide(?:-angle)?\s+(?:static\s+)?(?:shot|angle|view)\b|\bfull[- ]body\b"
                         r"|\blong shot\b|\bestablishing shot\b", re.I)
 SMALL_FACE_SHORT_EDGE = 480  # below this, wide/full-body faces are ~15-30 px and blur (owner, S004/S005)
+ATTENTION_FLAGS = {"pytorch": "--use-pytorch-cross-attention"}  # "default" = no flag (sub-quadratic here)
 REROLL_SEED_OFFSET = 1000  # re-roll k of a shot uses seed = first seed + 1000 + k (deterministic)
 BEST_WINDOW_S = 1.0  # frame: best = sharpest frame within the last second
 
@@ -190,6 +191,8 @@ class Episode:
         self.shots = self.data.get("shots") or {}
         self.assets = self.data.get("assets") or {}
         self.characters = self.data.get("characters") or {}
+        self.locations = self.data.get("locations") or {}   # Stage 8: {name} placeholders + plates
+        self.review = {"picks": "owner", "final": True} | (self.data.get("review") or {})
         self.sel_path = self.dir / "selections.yaml"
         self.selections = load_yaml(self.sel_path) if self.sel_path.exists() else {}
 
@@ -221,11 +224,11 @@ class Episode:
         return p
 
     def expand(self, text):
-        """Replace {character} with that character's description, so every shot uses the same words."""
+        """Replace {character} / {location} with its description, so every shot uses the same words."""
         def sub(m):
-            c = self.characters.get(m.group(1)) or {}
+            c = self.characters.get(m.group(1)) or self.locations.get(m.group(1)) or {}
             if not c.get("description"):
-                raise KeyError(f"prompt placeholder {{{m.group(1)}}} is not a character with a description")
+                raise KeyError(f"prompt placeholder {{{m.group(1)}}} is not a character or location with a description")
             return " ".join(str(c["description"]).split())
         return PLACEHOLDER.sub(sub, text)
 
@@ -308,6 +311,11 @@ def validate(ep):
             E(f"{pre} aspect must be one of {sorted(ASPECTS)}"); continue
         if not p["prompt"].strip():
             E(f"{pre} empty prompt")
+        for d_ in s.get("dialogue") or []:
+            if not isinstance(d_, dict) or d_.get("character") not in ep.characters or not d_.get("line"):
+                E(f"{pre} dialogue entries need a known character and a line: {d_}")
+            elif d_["line"] not in p["prompt"]:
+                W(f"{pre} dialogue line {d_['line']!r} does not appear in the prompt, so H3 will not say it")
         if not p["seeds"]:
             E(f"{pre} needs 'seed' (+ optional 'takes') or 'seeds' — explicit seeds keep takes reproducible")
         if len(set(p["seeds"])) != len(p["seeds"]):
@@ -384,6 +392,8 @@ def validate(ep):
         if isinstance(ep.shots[sid], dict):
             visit(sid, [])
     for sid in ep.selections:
+        if sid.startswith("_"):  # metadata such as _confirmed (Stage 8)
+            continue
         if sid not in ep.shots:
             W(f"selections.yaml: shot {sid} no longer exists")
     return errors, warnings
@@ -433,12 +443,29 @@ def build_graph(p, images, prefix, seed):
     return g
 
 
+def recipe_attention(recipe):
+    return (recipe or {}).get("attention", "default")
+
+
+def comfyui_attention(argv):
+    """Attention mode of a running ComfyUI, from its command line (/system_stats argv)."""
+    for mode, flag in ATTENTION_FLAGS.items():
+        if flag in argv:
+            return mode
+    other = [a for a in argv if a.endswith("-cross-attention")]
+    return "other:" + ",".join(other) if other else "default"
+
+
 def fingerprint(p, image_shas):
-    """Hash of everything that determines a take except the seed: graph, model checksums, input pixels."""
+    """Hash of everything that determines a take except the seed: graph, model checksums, input pixels,
+    and the attention mode when it is not ComfyUI's default (D16: same picture, different exact pixels)."""
     g = build_graph(p, {k: f"<{v}>" for k, v in image_shas.items()}, prefix="", seed=0)
     man = manifest()
     models = {f: man[f][2] for f in p["recipe"]["models"].values() if f in man}
-    blob = json.dumps({"graph": g, "models": models}, sort_keys=True).encode()
+    parts = {"graph": g, "models": models}
+    if recipe_attention(p["recipe"]) != "default":  # keeps fingerprints of h3_base_v1 takes unchanged
+        parts["attention"] = recipe_attention(p["recipe"])
+    blob = json.dumps(parts, sort_keys=True).encode()
     return hashlib.sha256(blob).hexdigest()
 
 
@@ -663,6 +690,11 @@ def cmd_render(ep, shots, dry_run, auto_select, swap_limit):
         q = api_get("/queue")
         if q["queue_running"] or q["queue_pending"]:
             raise SystemExit("ComfyUI is busy (a render is running or queued, maybe from the UI). Try again when idle.")
+        want, have = recipe_attention(ep.recipe), comfyui_attention(api_get("/system_stats")["system"].get("argv", []))
+        if want != have:
+            raise SystemExit(f"ComfyUI runs with '{have}' attention but recipe {ep.recipe_name} needs '{want}'. "
+                             f"Stop ComfyUI and let pipeline.py start it, or start it with "
+                             f"COMFY_ATTENTION={want} scripts/launch_comfyui.sh")
         # unknown models may still be loaded (UI session, other family): start clean (D14)
         api_post("/free", {"unload_models": True, "free_memory": True}); time.sleep(3)
     last_family, rendered = None, 0
@@ -706,10 +738,15 @@ def write_selection(ep, sid, take_id, note=None):
     if not ep.take_record(sid, take_id):
         raise SystemExit(f"no successful take {take_id} for {sid}; see 'plan' / runs/")
     ep.selections[sid] = {"take": take_id, "note": note} if note else take_id
-    ep.sel_path.write_text("# Chosen take per shot (take id = fingerprint prefix + seed). Edit by hand or via\n"
-                           "# scripts/episode.py select. Shots that continue another shot use this take.\n"
-                           + yaml.safe_dump(ep.selections, sort_keys=False, allow_unicode=True))
+    write_selections_file(ep)
     print(f"selected {sid} -> {take_id}")
+
+
+def write_selections_file(ep):
+    ep.sel_path.write_text("# Chosen take per shot (take id = fingerprint prefix + seed). Edit by hand, via\n"
+                           "# scripts/episode.py select or the review page. Shots that continue another shot use\n"
+                           "# this take. _confirmed = the picks the owner confirmed on the review page (Stage 8).\n"
+                           + yaml.safe_dump(ep.selections, sort_keys=False, allow_unicode=True))
 
 
 def main():

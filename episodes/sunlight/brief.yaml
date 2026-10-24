@@ -1,0 +1,45 @@
+# Stage 8.6 end-to-end test brief, PROPOSED by Claude 2026-10-24 for the owner's approval.
+# Chosen to play to what the quality track showed works: daylight, one character, faces at medium
+# shot or closer, a strong real-looking reference (a frame of our own G1 test render, 489 px face).
+episode: sunlight
+title: Sunlight
+
+plot: |
+  A sunny afternoon in a park. Lin, a young woman, sits alone on a bench under the trees, reading a
+  message on her phone. Slowly a smile spreads across her face. Someone calls her name from off-screen;
+  she looks up, her face lights up, she waves and calls back "Over here!", then gets up to meet them.
+
+beats:
+  - an establishing view of a sunlit park path and an empty bench
+  - Lin reads a message and starts to smile
+  - she hears her name and looks up
+  - close-up: bright smile, she waves and says "Over here!"
+  - she stands up and walks toward the person
+
+target:
+  length_s: 17
+  aspect: "9:16"
+  language: en
+
+style: realistic, natural afternoon sunlight through green leaves, soft dappled light on the face, warm and calm
+
+characters:
+  lin:
+    description: young East Asian woman, long straight dark hair with bangs, natural light makeup, white T-shirt
+    images: [inputs/sunlight/ref_lin_v1.png]
+    voice: bright, warm
+
+locations:
+  park:
+    description: a quiet city park in the afternoon, a tree-lined path, a wooden bench, green leaves, dappled sunlight
+
+dialogue:
+  - {character: lin, line: "Over here!"}
+
+budget:
+  takes_per_shot: 2
+  max_render_hours: 4
+
+review:
+  picks: auto          # the system pre-selects the best takes ...
+  final: true          # ... and you confirm them on the review page before assembly

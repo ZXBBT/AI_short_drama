@@ -21,6 +21,8 @@ import time
 import urllib.request
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+import assemble as AS  # noqa: E402
+import autopick as AP  # noqa: E402
 import episode as E  # noqa: E402
 import review_sheet as R  # noqa: E402
 
@@ -35,11 +37,12 @@ def comfyui_up():
         return False
 
 
-def start_comfyui(log_path, timeout_s=900):
-    """Start ComfyUI with the project launch script (localhost only); wait until it answers."""
+def start_comfyui(log_path, attention="pytorch", timeout_s=900):
+    """Start ComfyUI with the project launch script (localhost only) in the given attention mode."""
     log = open(log_path, "a")
     proc = subprocess.Popen(["/bin/zsh", str(REPO / "scripts/launch_comfyui.sh")], stdout=log,
-                            stderr=subprocess.STDOUT, start_new_session=True)
+                            stderr=subprocess.STDOUT, start_new_session=True,
+                            env=dict(os.environ, COMFY_ATTENTION=attention))
     t0 = time.time()
     while time.time() - t0 < timeout_s:
         if proc.poll() is not None:
@@ -53,9 +56,11 @@ def start_comfyui(log_path, timeout_s=900):
 
 
 def stop_comfyui(proc):
-    os.killpg(proc.pid, signal.SIGINT)  # same as Ctrl+C in its Terminal
+    # Ctrl+C first; started without a Terminal, ComfyUI often ignores it (seen 2026-10-24), so
+    # fall back to SIGTERM after 10 s. Only called when the queue is empty (nothing to lose).
+    os.killpg(proc.pid, signal.SIGINT)
     try:
-        proc.wait(60)
+        proc.wait(10)
     except subprocess.TimeoutExpired:
         os.killpg(proc.pid, signal.SIGTERM); proc.wait(30)
     print("ComfyUI stopped (it was started by the pipeline)")
@@ -73,6 +78,9 @@ def cut_state(ep):
     manifest = REPO / "runs"
     found = sorted(manifest.glob(f"*/{ep.name}__cut_{cut['version']}.json"))
     if not found:
+        if ep.review.get("final", True) and not AP.confirmed(ep, [e["shot"] for e in cut["sequence"]]):
+            return "waiting", ("picks not confirmed yet: open the review page (scripts/review_server.py "
+                               f"episodes/{ep.name}) and press 'Confirm picks'")
         return "ready", f"cut {cut['version']} not assembled yet"
     m = json.loads(found[-1].read_text())
     now = [(e["shot"], e.get("take") or ep.selected_take(e["shot"])) for e in cut["sequence"]]
@@ -81,6 +89,22 @@ def cut_state(ep):
         return "current", f"cut {cut['version']} already assembled ({found[-1].relative_to(REPO)})"
     return "stale", (f"cut {cut['version']} was assembled from different takes or a different cut.yaml; "
                      f"change 'version' in cut.yaml (e.g. v2) to assemble a new version without overwriting")
+
+
+def maybe_generate_cut(ep):
+    """Stage 8 episodes (with brief.yaml): write the cut list once every shot has a pick, and write a
+    new version when a generated cut no longer matches the picks. Hand-edited cuts are never touched."""
+    if not (ep.dir / "brief.yaml").exists():
+        return None
+    path = ep.dir / "cut.yaml"
+    if any(not ep.selected_take(s) for s in ep.shots):
+        return None
+    if not path.exists():
+        return str(AS.generate_cut(ep, "v1"))
+    cut = E.load_yaml(path)
+    if cut.get("generated") and cut_state(ep)[0] == "stale":
+        return str(AS.generate_cut(ep, AS.next_version(cut["version"])))
+    return None
 
 
 def main():
@@ -103,13 +127,23 @@ def main():
         if errors:
             summary["error"] = {"validation": errors}
             raise SystemExit("validation failed: " + "; ".join(errors))
-        if not a.no_render and any(E.shot_status(ep, s)["state"] == "todo" for s in ep.shots):
-            if not comfyui_up():
-                proc = start_comfyui(logs / f"comfyui_{stamp}.log")
-            summary["comfyui_started_by_pipeline"] = proc is not None
-            summary["rendered"] = E.cmd_render(ep, None, False, False, a.swap_limit) or 0
-        # fresh view after rendering
-        ep = E.Episode(a.episode)
+        # render -> auto-pick -> render shots that continue the new picks -> ... until nothing changes
+        summary["auto_picked"] = 0
+        for _ in range(len(ep.shots) + 1):
+            rendered = picked = 0
+            if not a.no_render and any(E.shot_status(ep, s)["state"] == "todo" for s in ep.shots):
+                if not comfyui_up():
+                    proc = start_comfyui(logs / f"comfyui_{stamp}.log", E.recipe_attention(ep.recipe))
+                summary["comfyui_started_by_pipeline"] = proc is not None
+                rendered = E.cmd_render(ep, None, False, False, a.swap_limit) or 0
+                summary["rendered"] += rendered
+            ep = E.Episode(a.episode)  # fresh view after rendering
+            if ep.review.get("picks") == "auto":
+                picked = AP.auto_pick(ep)
+                summary["auto_picked"] += picked
+                ep = E.Episode(a.episode)
+            if not picked or a.no_render:
+                break
         shots = {}
         for sid in E.order(ep):
             st = E.shot_status(ep, sid)
@@ -118,6 +152,7 @@ def main():
             if st["state"] in ("done", "needs_review") and st["done"] and not st["selected"]:
                 shots[sid]["review_sheet"] = str(R.sheet(ep, sid))
         summary["shots"] = shots
+        summary["cut_generated"] = maybe_generate_cut(ep)
         cs, detail = cut_state(ep)
         summary["cut"] = {"state": cs, "detail": detail}
         if cs == "ready":

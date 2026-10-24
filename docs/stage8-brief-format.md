@@ -1,6 +1,6 @@
 # Stage 8 draft — the episode brief (format proposal, 2026-10-24)
 
-Status: **draft for owner review**. Nothing is built yet. Goal: the owner writes one short brief
+Status: **built (8.1-8.5), 2026-10-24; end-to-end test (8.6) pending owner approval.** Goal: the owner writes one short brief
 (plot direction + a few character and background images); the system turns it into a shot list,
 renders, picks, edits and assembles a complete episode, stopping only where the owner wants to decide.
 
@@ -64,3 +64,26 @@ inputs/<name>/                  ← the owner's images (characters, backgrounds)
 2. **Dialogue:** Claude proposes the lines in the shot list; the owner approves them with the shot list.
    Lines written in the brief's `dialogue` are used as given.
 3. **Location reference test:** yes, 2-3 renders, after the quality track is finished.
+
+## 7. How to use it (built 2026-10-24)
+```
+PY=~/dev/ComfyUI/.venv/bin/python
+$PY scripts/brief.py validate   episodes/<name>   # 1. check your brief + reference faces
+$PY scripts/brief.py scaffold   episodes/<name>   # 2. episode.yaml without shots (recipe h3_base_v2)
+#    3. Claude drafts the shots + dialogue in episode.yaml; you approve them
+$PY scripts/brief.py check-plan episodes/<name>   # 4. rules + length + render-time estimate
+$PY scripts/pipeline.py episodes/<name> --stop-comfyui    # 5. render -> auto-pick -> render -> cut list
+$PY scripts/review_server.py episodes/<name>      # 6. watch, change picks, press "Confirm picks"
+$PY scripts/pipeline.py episodes/<name>           # 7. assembles (native + 1080x1920)
+```
+| Part | Script | What it enforces / does |
+|---|---|---|
+| 8.1 brief checker | `brief.py validate` | required fields; images exist; main reference face >= 300 px and quality >= 0.5 (warning) |
+| scaffold | `brief.py scaffold` | recipe `h3_base_v2` (PyTorch attention, D16); 480x864 / 3 s defaults; one picture per character; location plates; review settings |
+| 8.2 plan checker | `brief.py check-plan` | R2V = exactly one character; plates only as I2V start frames; only sizes/lengths proven on this Mac; `{name}` placeholders; dialogue present; length vs target; render hours vs budget |
+| 8.4 auto-pick | `autopick.py` via `pipeline.py` | best good take by face quality then size; marked "auto-pick"; your picks replace them; assembly waits for "Confirm picks" (`final: true`) |
+| 8.5 auto edit | `assemble.py` via `pipeline.py` | cut list from picks: story order, longest uncut part when H3 cut by itself unwanted, subtitles timed on the detected voice, auto levelling, native + 1080x1920; new version when picks change |
+
+Measured on Midnight Call: auto-pick agreed with the owner's picks on 6 of 7 shots; the voice
+detector placed "Hello?" at 4.65 s (the owner's take); check-plan flags S005 (two references) and S004
+(wide framing), the two shots the owner found blurred.

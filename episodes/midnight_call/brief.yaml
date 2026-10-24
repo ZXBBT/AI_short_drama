@@ -1,5 +1,6 @@
-# EXAMPLE brief (Stage 8 draft format, docs/stage8-brief-format.md). Not used by any tool yet.
-# This is what the owner would have written to get the Midnight Call episode.
+# EXAMPLE brief (Stage 8 format, docs/stage8-brief-format.md): what the owner would have written to get
+# Midnight Call. `scripts/brief.py validate|check-plan episodes/midnight_call` work on it; the episode's
+# cut.yaml is hand-made, so the pipeline never regenerates it.
 episode: midnight_call
 title: Midnight Call
 

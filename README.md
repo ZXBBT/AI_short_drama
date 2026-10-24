@@ -45,6 +45,7 @@ runs/            per-render metadata (seed, params, versions, output path)
 | 5 | Reproducibility check + scaling | ✅ 2026-10-23 — `docs/stage5-results.md` (attention comparison skipped: swap stop rule); hands-on guide `docs/practice-h3.md` |
 | 6 | Short-drama pipeline | 🔄 started 2026-10-23 — plan `docs/automation-plan.md`; 6.1 foundation done (`scripts/episode.py`, `episodes/`); 6.2 smoke tests done (`docs/stage6-2-results.md`); 6.3 pilot done (`docs/stage6-3-results.md`); 6.4 assembly done (`docs/stage6-4-results.md`) — first episode `midnight_call` v1; awaiting owner review |
 | 7 | Automation | 🔄 started 2026-10-24 — plan `docs/stage7-plan.md`; 7.1–7.4 done (`docs/stage7-results.md`): `pipeline.py`, `review_server.py`, re-rolls, cut helpers; end-to-end test passed |
+| 8 | Brief → episode | 🔄 started 2026-10-24 — `docs/stage8-brief-format.md`; 8.1–8.5 built and tested (`brief.py`, `autopick.py`, generated cuts); PyTorch attention adopted (D16); 8.6 end-to-end test next |
 | — | Licensing / commercial-use gate | required before monetization or client delivery |
 
 ## Rules

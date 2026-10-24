@@ -36,6 +36,18 @@ def helper():
     return BIN
 
 
+def faces_in_images(paths):
+    """Main (largest) face per image: {"path", "width", "height", "h", "quality"} (h None = no face)."""
+    out = subprocess.run([str(helper())] + [str(p) for p in paths], capture_output=True, text=True, check=True).stdout
+    res = []
+    for p, line in zip(paths, [x for x in out.splitlines() if x.strip()]):
+        r = json.loads(line)
+        f = max(r.get("faces") or [{}], key=lambda x: x.get("h", 0))
+        res.append({"path": str(p), "width": r.get("width"), "height": r.get("height"),
+                    "h": f.get("h"), "quality": f.get("quality")})
+    return res
+
+
 def faces_in_video(path):
     with av.open(str(path)) as c:
         frames = [f.to_image() for i, f in enumerate(c.decode(video=0))]
