@@ -1,0 +1,30 @@
+# Edit decision list for Midnight Call (Stage 6.4). Assemble with:
+#   ~/dev/ComfyUI/.venv/bin/python scripts/assemble.py episodes/midnight_call/cut.yaml
+# Each entry plays one take: the take selected in selections.yaml unless `take:` is given.
+# in/out = first/last frame used (inclusive, 24 fps, frame 0 = first frame of the take).
+# gain_db = optional per-shot audio adjustment before the whole mix is levelled.
+# subs = subtitles; times in seconds from the start of the TAKE (not of the trimmed part).
+episode: midnight_call
+version: v1
+loudness:
+  target_lufs: -14.0     # integrated loudness of the whole episode (common platform target)
+  ceiling_dbtp: -1.0     # true-peak ceiling; if reaching the target would exceed it, the
+                         # episode is left quieter instead of being compressed or limited
+audio_fade_ms: 10        # fade at every cut, so sounds cut mid-wave don't click
+sizes:
+  - native               # 352x608, the render size
+  - 720x1280             # Lanczos upscale to 742x1280, centre-cropped to 720 (9:16)
+
+sequence:
+  - shot: S001
+  - shot: S002
+    subs:
+      # Estimated from the audio (voice-like burst at 4.6-5.1 s); owner to check by ear.
+      - {start: 4.6, end: 5.1, text: "Hello?"}
+  - shot: S003
+  - shot: S004a
+  - shot: S004
+    in: 69               # H3's own cut: door bursts open (owner: her face blurred before it)
+  - shot: S005
+    out: 48              # ~2 s establishing shot; her face is too small to hold longer
+  - shot: S005b

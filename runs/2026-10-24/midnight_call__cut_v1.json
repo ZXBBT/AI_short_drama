@@ -1,0 +1,235 @@
+{
+ "episode": "midnight_call",
+ "version": "v1",
+ "created": "2026-10-24T00:17:54-07:00",
+ "cut_file": "episodes/midnight_call/cut.yaml",
+ "cut_sha256": "42041ff5c7bad7abbb35d00913033c1aad40dea3d86d46a7bb4a953f23e608a0",
+ "timeline": [
+  {
+   "shot": "S001",
+   "take": "606cba6b_s102",
+   "in": 0,
+   "out": 123,
+   "frames": 124,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 0.0,
+   "end_s": 5.167
+  },
+  {
+   "shot": "S002",
+   "take": "ce31bd58_s202",
+   "in": 0,
+   "out": 123,
+   "frames": 124,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 5.167,
+   "end_s": 10.333
+  },
+  {
+   "shot": "S003",
+   "take": "d8297c41_s301",
+   "in": 0,
+   "out": 123,
+   "frames": 124,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 10.333,
+   "end_s": 15.5
+  },
+  {
+   "shot": "S004a",
+   "take": "0ba0f91c_s411",
+   "in": 0,
+   "out": 72,
+   "frames": 73,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 15.5,
+   "end_s": 18.542
+  },
+  {
+   "shot": "S004",
+   "take": "99b4a29a_s402",
+   "in": 69,
+   "out": 123,
+   "frames": 55,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 18.542,
+   "end_s": 20.833
+  },
+  {
+   "shot": "S005",
+   "take": "a4705672_s501",
+   "in": 0,
+   "out": 48,
+   "frames": 49,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 20.833,
+   "end_s": 22.875
+  },
+  {
+   "shot": "S005b",
+   "take": "ed9e9ffd_s521",
+   "in": 0,
+   "out": 72,
+   "frames": 73,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 22.875,
+   "end_s": 25.917
+  }
+ ],
+ "sources": [
+  {
+   "shot": "S001",
+   "take": "606cba6b_s102",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/midnight_call/S001/S001_606cba6b_s102_00001_.mp4",
+   "sha256": "d73b4b7c83c7be26b36812f3aa03ea2767da64f96365610501cc5ed06c52c90e",
+   "frames_in_take": 124,
+   "in": 0,
+   "out": 123,
+   "audio_len_diff_samples": 1
+  },
+  {
+   "shot": "S002",
+   "take": "ce31bd58_s202",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/midnight_call/S002/S002_ce31bd58_s202_00001_.mp4",
+   "sha256": "f0b970d53666086485b20eeb21cd3310b8496377df6c655a556baf4bfbbeb7ce",
+   "frames_in_take": 124,
+   "in": 0,
+   "out": 123,
+   "audio_len_diff_samples": 1
+  },
+  {
+   "shot": "S003",
+   "take": "d8297c41_s301",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/midnight_call/S003/S003_d8297c41_s301_00001_.mp4",
+   "sha256": "f696d5b9ae93f6b7de4bb96d92d6d54def2870404683d029fb1fb231b6d36499",
+   "frames_in_take": 124,
+   "in": 0,
+   "out": 123,
+   "audio_len_diff_samples": 1
+  },
+  {
+   "shot": "S004a",
+   "take": "0ba0f91c_s411",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/midnight_call/S004a/S004a_0ba0f91c_s411_00001_.mp4",
+   "sha256": "5377e9a6c76f4373d107442f657acf06234fe81a30d4d3fcd3b839886851443b",
+   "frames_in_take": 73,
+   "in": 0,
+   "out": 72,
+   "audio_len_diff_samples": 1
+  },
+  {
+   "shot": "S004",
+   "take": "99b4a29a_s402",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/midnight_call/S004/S004_99b4a29a_s402_00001_.mp4",
+   "sha256": "7ed9304fddc55c87a8616b87c2959f7d2a0c9a6177dce57e0f56a0ae2f43818e",
+   "frames_in_take": 124,
+   "in": 69,
+   "out": 123,
+   "audio_len_diff_samples": 1
+  },
+  {
+   "shot": "S005",
+   "take": "a4705672_s501",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/midnight_call/S005/S005_a4705672_s501_00001_.mp4",
+   "sha256": "7d180ced02e7ceecd55856bd3ed9c076392604d16e3870a643dacb995d45cc3a",
+   "frames_in_take": 124,
+   "in": 0,
+   "out": 48,
+   "audio_len_diff_samples": 1
+  },
+  {
+   "shot": "S005b",
+   "take": "ed9e9ffd_s521",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/midnight_call/S005b/S005b_ed9e9ffd_s521_00001_.mp4",
+   "sha256": "85340ce211b130f041327e483c4c6e18e7482c43d2730914980afba4144e5d82",
+   "frames_in_take": 73,
+   "in": 0,
+   "out": 72,
+   "audio_len_diff_samples": 1
+  }
+ ],
+ "audio": {
+  "sample_rate": 48000,
+  "fade_ms": 10,
+  "per_shot_before_mix": {
+   "S001": {
+    "lufs": -18.4,
+    "true_peak_dbtp": -6.3
+   },
+   "S002": {
+    "lufs": -10.0,
+    "true_peak_dbtp": -0.5
+   },
+   "S003": {
+    "lufs": -17.2,
+    "true_peak_dbtp": -1.0
+   },
+   "S004a": {
+    "lufs": -20.0,
+    "true_peak_dbtp": -5.9
+   },
+   "S004": {
+    "lufs": -14.5,
+    "true_peak_dbtp": -0.6
+   },
+   "S005": {
+    "lufs": -31.6,
+    "true_peak_dbtp": -13.0
+   },
+   "S005b": {
+    "lufs": -29.8,
+    "true_peak_dbtp": -15.5
+   }
+  },
+  "mix_lufs": -17.0,
+  "mix_true_peak_dbtp": -0.52,
+  "gain_db": -0.48,
+  "peak_limited": true,
+  "out_lufs": -17.48,
+  "out_true_peak_dbtp": -1.0,
+  "codec": "aac 192k"
+ },
+ "video": {
+  "codec": "libx264",
+  "crf": 18,
+  "preset": "medium",
+  "pix_fmt": "yuv420p",
+  "fps": 24,
+  "upscale": "lanczos to target height, centre crop"
+ },
+ "subtitles": {
+  "file": "subtitles/midnight_call_v1.srt",
+  "entries": 1
+ },
+ "outputs": [
+  {
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/midnight_call/_final/midnight_call_v1_352x608.mp4",
+   "width": 352,
+   "height": 608,
+   "frames": 622,
+   "bytes": 2591284,
+   "sha256": "efa344de8c536f66af269a871129447de4e98d7a32cc30b4d130024023bde842"
+  },
+  {
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/midnight_call/_final/midnight_call_v1_720x1280.mp4",
+   "width": 720,
+   "height": 1280,
+   "frames": 622,
+   "bytes": 7541626,
+   "sha256": "73f70aed8394a9fa21d55caf5a4b149ce04adbf97abaa09f2117f3c7e35ac330"
+  }
+ ],
+ "env": {
+  "pyav": "19.0.2",
+  "libavcodec": "63.1.102",
+  "repo_commit": "dc86146",
+  "repo_dirty": true
+ }
+}

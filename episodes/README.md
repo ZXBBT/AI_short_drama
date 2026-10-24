@@ -6,6 +6,7 @@ One folder per episode. Design and reasons: `docs/automation-plan.md`.
 episodes/<name>/
   episode.yaml      what to render (you write it; Claude can draft it from a script)
   selections.yaml   which take you chose per shot (written by `episode.py select`, or by hand)
+  cut.yaml          the edit: play order, frame ranges, per-shot gain, subtitles, output sizes
 ```
 
 Takes (videos) go to `~/AI_renders/comfyui/episodes/<name>/<shot>/`; one record per take in
@@ -22,7 +23,9 @@ Run from the repo with ComfyUI's Python (`PY=~/dev/ComfyUI/.venv/bin/python`):
 | `$PY scripts/episode.py render episodes/X [--shot S001]` | renders missing takes, one at a time; refuses if ComfyUI is busy; stops on any failure or swap > 20 GiB | yes |
 | `$PY scripts/episode.py select episodes/X S001 <take_id>` | records your choice | no |
 | `$PY scripts/episode.py frame video.mp4 best out.png` | extracts a frame (best / last / seconds) | no |
-| `$PY scripts/test_episode.py` | offline self-tests of the tool | no |
+| `$PY scripts/review_sheet.py episodes/X S001 S002` | contact sheet of a shot's takes, for choosing | no |
+| `$PY scripts/assemble.py episodes/X/cut.yaml [--dry-run]` | joins the selected takes into the episode (see `cut.yaml`) | no |
+| `$PY scripts/test_episode.py`, `test_assemble.py` | offline self-tests | no |
 
 ## episode.yaml
 ```yaml

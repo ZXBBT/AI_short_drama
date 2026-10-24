@@ -1,0 +1,253 @@
+"""Assemble an episode from its cut list: selected takes, trims, audio joins, loudness, subtitles.
+
+    PY=~/dev/ComfyUI/.venv/bin/python
+    $PY scripts/assemble.py episodes/midnight_call/cut.yaml [--dry-run]
+
+Uses only PyAV (bundled FFmpeg libraries); no ComfyUI, no new software. Writes
+  ~/AI_renders/comfyui/episodes/<ep>/_final/<ep>_<version>_<size>.mp4 (+ .srt next to each),
+  subtitles/<ep>_<version>.srt (in Git) and runs/<date>/<ep>__cut_<version>.json (manifest).
+Video is re-encoded once (H.264 CRF 18); audio is resampled to 48 kHz, faded at every cut,
+levelled as a whole to the target loudness (never limited or compressed), AAC 192 kb/s.
+"""
+import argparse
+import datetime as dt
+import json
+import pathlib
+import shutil
+import subprocess
+import sys
+
+import av
+import numpy as np
+
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+import episode as E  # noqa: E402
+
+REPO = E.REPO
+SR = 48000
+FPS = 24
+SPF = SR // FPS  # audio samples per video frame (2000)
+
+
+# ---------- loudness (FFmpeg's ebur128 filter = ITU-R BS.1770 / EBU R128) ----------
+
+def measure(audio):
+    """Integrated loudness (LUFS) and true peak (dBTP) of a (2, N) float array at 48 kHz."""
+    g = av.filter.Graph()
+    src = g.add_abuffer(format="fltp", sample_rate=SR, layout="stereo", time_base=f"1/{SR}")
+    eb = g.add("ebur128", "metadata=1:peak=true")
+    sink = g.add("abuffersink")
+    src.link_to(eb); eb.link_to(sink); g.configure()
+    md = {}
+
+    def drain():
+        while True:
+            try:
+                f = g.pull()
+            except (av.BlockingIOError, av.EOFError):
+                return
+            if "lavfi.r128.I" in f.metadata:
+                md.update(f.metadata)
+    for i in range(0, audio.shape[1], 4800):
+        fr = av.AudioFrame.from_ndarray(np.ascontiguousarray(audio[:, i:i + 4800], dtype=np.float32),
+                                        format="fltp", layout="stereo")
+        fr.sample_rate, fr.pts = SR, i
+        g.push(fr); drain()
+    g.push(None); drain()
+    peaks = [float(v) for k, v in md.items() if k.startswith("lavfi.r128.true_peaks_ch")]
+    tp_lin = max(peaks) if peaks else float(np.abs(audio).max())
+    return float(md["lavfi.r128.I"]), 20 * np.log10(max(tp_lin, 1e-9))
+
+
+# ---------- sources ----------
+
+def load_entry(ep, entry):
+    sid = entry["shot"]
+    if sid not in ep.shots:
+        raise SystemExit(f"cut: shot {sid} not in episode")
+    take = entry.get("take") or ep.selected_take(sid)
+    if not take:
+        raise SystemExit(f"cut: {sid} has no selected take")
+    rec = ep.take_record(sid, take)
+    if not rec or "output" not in rec:
+        raise SystemExit(f"cut: no successful record for {sid} {take}")
+    path = pathlib.Path(rec["output"]["file"])
+    sha = E.sha256(path)
+    if rec["output"].get("sha256") and sha != rec["output"]["sha256"]:
+        raise SystemExit(f"cut: {path} changed since it was rendered (sha256 mismatch)")
+    with av.open(str(path)) as c:
+        frames = [f for f in c.decode(video=0)]
+    n = len(frames)
+    a, b = int(entry.get("in", 0)), int(entry.get("out", n - 1))
+    if not 0 <= a <= b < n:
+        raise SystemExit(f"cut: {sid} in/out {a}/{b} outside 0..{n - 1}")
+    with av.open(str(path)) as c:
+        rs = av.AudioResampler(format="fltp", layout="stereo", rate=SR)
+        chunks = [x.to_ndarray() for f in c.decode(audio=0) for x in rs.resample(f)]
+        chunks += [x.to_ndarray() for x in rs.resample(None)]
+    audio = np.concatenate(chunks, axis=1).astype(np.float64)
+    want = n * SPF
+    audio_len_diff = audio.shape[1] - want
+    audio = np.pad(audio, ((0, 0), (0, max(0, -audio_len_diff))))[:, :want]  # exactly n frames long
+    seg = audio[:, a * SPF:(b + 1) * SPF] * 10 ** (float(entry.get("gain_db", 0)) / 20)
+    st = E.shot_status(ep, sid)
+    return {"shot": sid, "take": take, "file": str(path), "sha256": sha, "frames_in_take": n,
+            "in": a, "out": b, "frames": b - a + 1, "video": frames[a:b + 1], "audio": seg,
+            "audio_len_diff_samples": int(audio_len_diff), "gain_db": float(entry.get("gain_db", 0)),
+            "stale": st.get("fp") is not None and not take.startswith(st["fp"][:8]),
+            "subs": entry.get("subs") or []}
+
+
+def fade(seg, ms):
+    n = min(int(SR * ms / 1000), seg.shape[1] // 2)
+    if n:
+        ramp = np.linspace(0.0, 1.0, n)
+        seg[:, :n] *= ramp
+        seg[:, -n:] *= ramp[::-1]
+    return seg
+
+
+# ---------- encoding ----------
+
+def encode(path, frames, audio, size):
+    """frames: decoded yuv420p VideoFrames at the render size; size 'native' or 'WxH'."""
+    w0, h0 = frames[0].width, frames[0].height
+    graph = None
+    if size == "native":
+        w, h = w0, h0
+    else:
+        w, h = (int(x) for x in size.split("x"))
+        sw = round(w0 * h / h0 / 2) * 2  # scale to target height, keep aspect, even width
+        if sw < w:
+            raise SystemExit(f"size {size}: aspect would need padding, not supported")
+        graph = av.filter.Graph()
+        src = graph.add_buffer(width=w0, height=h0, format="yuv420p", time_base=f"1/{FPS}")
+        sc = graph.add("scale", f"{sw}:{h}:flags=lanczos")
+        cr = graph.add("crop", f"{w}:{h}")  # centred by default
+        sink = graph.add("buffersink")
+        src.link_to(sc); sc.link_to(cr); cr.link_to(sink); graph.configure()
+    out = av.open(str(path), "w")
+    vs = out.add_stream("libx264", rate=FPS, options={"crf": "18", "preset": "medium"})
+    vs.width, vs.height, vs.pix_fmt = w, h, "yuv420p"
+    aus = out.add_stream("aac", rate=SR, layout="stereo")
+    aus.bit_rate = 192000
+    for i, fr in enumerate(frames):
+        fr = fr.reformat(format="yuv420p")
+        fr.pts, fr.time_base = i, vs.codec_context.time_base
+        if graph:
+            graph.push(fr); fr = graph.pull()
+            fr.pts = i
+        for p in vs.encode(fr):
+            out.mux(p)
+    for p in vs.encode():
+        out.mux(p)
+    a32 = audio.astype(np.float32)
+    for i in range(0, a32.shape[1], 1024):
+        af = av.AudioFrame.from_ndarray(np.ascontiguousarray(a32[:, i:i + 1024]), format="fltp", layout="stereo")
+        af.sample_rate, af.pts = SR, i
+        for p in aus.encode(af):
+            out.mux(p)
+    for p in aus.encode():
+        out.mux(p)
+    out.close()
+    return w, h
+
+
+def srt_time(t):
+    ms = round(t * 1000)
+    return f"{ms // 3600000:02d}:{ms // 60000 % 60:02d}:{ms // 1000 % 60:02d},{ms % 1000:03d}"
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("cut")
+    ap.add_argument("--dry-run", action="store_true", help="print the timeline only")
+    args = ap.parse_args()
+    cut_path = pathlib.Path(args.cut).resolve()
+    cut = E.load_yaml(cut_path)
+    ep = E.Episode(REPO / "episodes" / cut["episode"])
+    name = f"{ep.name}_{cut['version']}"
+
+    entries = [load_entry(ep, e) for e in cut["sequence"]]
+    t, subs, timeline = 0.0, [], []
+    for e in entries:
+        dur = e["frames"] / FPS
+        timeline.append({k: e[k] for k in ("shot", "take", "in", "out", "frames", "gain_db", "stale")}
+                        | {"start_s": round(t, 3), "end_s": round(t + dur, 3)})
+        for s in e["subs"]:
+            a = max(float(s["start"]), e["in"] / FPS) - e["in"] / FPS
+            b = min(float(s["end"]), (e["out"] + 1) / FPS) - e["in"] / FPS
+            if b > a:
+                subs.append((t + a, t + b, s["text"]))
+        t += dur
+    for row in timeline:
+        print(f"{row['start_s']:6.2f}-{row['end_s']:6.2f}s  {row['shot']:6} {row['take']:28} "
+              f"frames {row['in']}-{row['out']}" + ("  WARNING: take is from an older version of the shot" if row["stale"] else ""))
+    print(f"total {t:.2f} s, {sum(e['frames'] for e in entries)} frames, {len(subs)} subtitle(s)")
+    if args.dry_run:
+        return
+
+    per_shot = {}
+    for e in entries:
+        lufs, tp = measure(e["audio"])
+        per_shot[e["shot"]] = {"lufs": round(lufs, 1), "true_peak_dbtp": round(tp, 1)}
+        fade(e["audio"], cut.get("audio_fade_ms", 10))
+    mix = np.concatenate([e["audio"] for e in entries], axis=1)
+    lufs, tp = measure(mix)
+    target, ceiling = cut["loudness"]["target_lufs"], cut["loudness"]["ceiling_dbtp"]
+    gain = target - lufs
+    limited = tp + gain > ceiling
+    if limited:
+        gain = ceiling - tp
+    mix *= 10 ** (gain / 20)
+    lufs_out, tp_out = measure(mix)
+    print(f"loudness {lufs:.1f} LUFS / {tp:.1f} dBTP -> gain {gain:+.1f} dB -> {lufs_out:.1f} LUFS / {tp_out:.1f} dBTP"
+          + ("  (peak ceiling reached: quieter than target)" if limited else ""))
+
+    final = E.RENDERS / "episodes" / ep.name / "_final"
+    final.mkdir(parents=True, exist_ok=True)
+    srt = "".join(f"{i}\n{srt_time(a)} --> {srt_time(b)}\n{txt}\n\n" for i, (a, b, txt) in enumerate(subs, 1))
+    srt_repo = REPO / "subtitles" / f"{name}.srt"
+    srt_repo.write_text(srt)
+    frames = [f for e in entries for f in e["video"]]
+    outputs = []
+    for size in cut["sizes"]:
+        w, h = (frames[0].width, frames[0].height) if size == "native" else map(int, size.split("x"))
+        path = final / f"{name}_{w}x{h}.mp4"
+        encode(path, frames, mix, size)
+        shutil.copyfile(srt_repo, path.with_suffix(".srt"))
+        with av.open(str(path)) as c:
+            nv = sum(1 for _ in c.decode(video=0))
+        outputs.append({"file": str(path), "width": w, "height": h, "frames": nv, "bytes": path.stat().st_size,
+                        "sha256": E.sha256(path)})
+        print(f"wrote {path}  ({nv} frames, {path.stat().st_size / 1e6:.1f} MB)")
+
+    manifest = {
+        "episode": ep.name, "version": cut["version"],
+        "created": dt.datetime.now().astimezone().isoformat(timespec="seconds"),
+        "cut_file": str(cut_path.relative_to(REPO)), "cut_sha256": E.sha256(cut_path),
+        "timeline": timeline,
+        "sources": [{k: e[k] for k in ("shot", "take", "file", "sha256", "frames_in_take", "in", "out",
+                                        "audio_len_diff_samples")} for e in entries],
+        "audio": {"sample_rate": SR, "fade_ms": cut.get("audio_fade_ms", 10), "per_shot_before_mix": per_shot,
+                  "mix_lufs": round(lufs, 2), "mix_true_peak_dbtp": round(tp, 2), "gain_db": round(gain, 2),
+                  "peak_limited": bool(limited), "out_lufs": round(lufs_out, 2), "out_true_peak_dbtp": round(tp_out, 2),
+                  "codec": "aac 192k"},
+        "video": {"codec": "libx264", "crf": 18, "preset": "medium", "pix_fmt": "yuv420p", "fps": FPS,
+                  "upscale": "lanczos to target height, centre crop"},
+        "subtitles": {"file": str(srt_repo.relative_to(REPO)), "entries": len(subs)},
+        "outputs": outputs,
+        "env": {"pyav": av.__version__, "libavcodec": ".".join(map(str, av.library_versions["libavcodec"])),
+                "repo_commit": subprocess.run(["git", "-C", str(REPO), "rev-parse", "--short", "HEAD"],
+                                              capture_output=True, text=True).stdout.strip(),
+                "repo_dirty": bool(subprocess.run(["git", "-C", str(REPO), "status", "--porcelain"],
+                                                  capture_output=True, text=True).stdout.strip())},
+    }
+    mp = REPO / "runs" / dt.date.today().isoformat() / f"{ep.name}__cut_{cut['version']}.json"
+    mp.parent.mkdir(parents=True, exist_ok=True)
+    mp.write_text(json.dumps(manifest, indent=1))
+    print("manifest:", mp.relative_to(REPO))
+
+
+if __name__ == "__main__":
+    main()
