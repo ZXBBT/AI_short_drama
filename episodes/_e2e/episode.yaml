@@ -1,0 +1,28 @@
+# Stage 7.4 end-to-end test of scripts/pipeline.py (tiny, not story content).
+# Flow: pipeline renders E1 -> E2 waits for a pick of E1 (exit 2) -> pick via the review page ->
+# pipeline renders E2 -> pick E2 -> assemble.py --init -> pipeline assembles (exit 0).
+episode: _e2e
+title: Pipeline end-to-end test
+recipe: h3_base_v1
+
+defaults:
+  aspect: "9:16"
+  megapixels: 0.2      # 352x608
+  duration: 1          # 39 frames
+  takes: 1
+  max_rerolls: 1
+
+shots:
+  E1:
+    type: t2v
+    seed: 7001
+    prompt: |-
+      Cinematic, a quiet city street at night after rain, neon reflections on wet asphalt. Single continuous shot, no cut. Slow push-in.
+      Audio: distant traffic, light rain.
+  E2:
+    type: i2v
+    first: {shot: E1, frame: last}
+    seed: 7101
+    prompt: |-
+      Continue the same shot from <Picture 1> with no cut. The camera keeps pushing in slowly; a car passes in the distance.
+      Audio: distant traffic, light rain, a car passing.

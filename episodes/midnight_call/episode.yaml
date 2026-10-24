@@ -88,6 +88,7 @@ shots:
     type: r2v
     refs: [woman]
     seed: 401
+    allow_cuts: true     # H3's own cut (wide -> door) is used in the edit
     note: >-
       wide; the break-in (creates the man). Both takes cut by themselves at ~3 s (wide -> door).
       Owner: her face in the wide part is blurred/distorted (~15 px tall at 352x608).

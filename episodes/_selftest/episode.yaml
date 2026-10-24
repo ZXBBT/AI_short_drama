@@ -13,6 +13,7 @@ defaults:
   megapixels: 0.2      # 352x608
   duration: 0.2        # 5 frames: mechanics only. 6.2 finding: at 5 frames I2V ignores its image
   takes: 1
+  max_rerolls: 0       # I1 is expected to fail the frame-0 check at 5 frames; no re-rolls
 
 assets:
   kf_desk: inputs/midnight_call/kf_S001_desk_v1.png

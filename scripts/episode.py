@@ -43,7 +43,8 @@ IMAGE_INPUTS = {"t2v": (), "i2v": ("first",), "flf2v": ("first", "last"), "r2v":
 TESTED = {"pixels": 864 * 480, "frames": 124}  # largest sizes rendered successfully on this Mac
 OVERRIDABLE = ("sampler", "scheduler", "steps", "ref_image_size")
 SHOT_KEYS = {"type", "prompt", "prompt_file", "seed", "seeds", "takes", "aspect", "megapixels", "duration",
-             "first", "last", "refs", "recipe_overrides", "note"}
+             "first", "last", "refs", "recipe_overrides", "note", "allow_cuts", "max_rerolls"}
+REROLL_SEED_OFFSET = 1000  # re-roll k of a shot uses seed = first seed + 1000 + k (deterministic)
 BEST_WINDOW_S = 1.0  # frame: best = sharpest frame within the last second
 
 
@@ -172,8 +173,9 @@ def continuity(video, first_image=None):
 # ---------- episode model ----------
 
 class Episode:
-    def __init__(self, path):
+    def __init__(self, path, runs_dir=None):
         self.dir = pathlib.Path(path).resolve()
+        self.runs = pathlib.Path(runs_dir) if runs_dir else REPO / "runs"  # tests pass a temp dir
         self.data = load_yaml(self.dir / "episode.yaml")
         self.name = self.data.get("episode", self.dir.name)
         self.recipe_name = self.data.get("recipe")
@@ -205,6 +207,8 @@ class Episode:
             p["seeds"] = [int(s["seed"]) + i for i in range(int(get("takes", 1)))]
         else:
             p["seeds"] = []
+        p["allow_cuts"] = bool(get("allow_cuts", False))
+        p["max_rerolls"] = int(get("max_rerolls", 1))
         r = dict(self.recipe or {})
         r.update(s.get("recipe_overrides") or {})
         p["recipe"] = r
@@ -228,9 +232,9 @@ class Episode:
     # -- takes on disk --
     def takes(self, sid):
         recs = []
-        for f in sorted(REPO.glob(f"runs/*/{self.name}__{sid}__*.json")):
+        for f in sorted(self.runs.glob(f"*/{self.name}__{sid}__*.json")):
             r = json.loads(f.read_text())
-            r["_record"] = str(f.relative_to(REPO))
+            r["_record"] = str(f.relative_to(REPO)) if f.is_relative_to(REPO) else str(f)
             recs.append(r)
         return recs
 
@@ -293,6 +297,10 @@ def validate(ep):
             E(f"{pre} needs 'seed' (+ optional 'takes') or 'seeds' — explicit seeds keep takes reproducible")
         if len(set(p["seeds"])) != len(p["seeds"]):
             E(f"{pre} duplicate seeds")
+        if not isinstance(s.get("allow_cuts", (ep.data.get("defaults") or {}).get("allow_cuts", False)), bool):
+            E(f"{pre} allow_cuts must be true or false")
+        if not 0 <= p["max_rerolls"] <= 10:
+            E(f"{pre} max_rerolls must be 0..10")
         for k in set(s.get("recipe_overrides") or {}) - set(OVERRIDABLE):
             E(f"{pre} recipe_overrides may only set {OVERRIDABLE}")
         for k in ("first", "last"):
@@ -462,33 +470,63 @@ def order(ep):
     return seq
 
 
+def take_problems(rec, p):
+    """Quality-check failures that justify a re-roll; [] = good take. Human picks override these."""
+    if rec.get("status") != "success":
+        return [rec.get("status", "unknown")]
+    c, out = rec.get("continuity") or {}, []
+    if c.get("cuts") and not p["allow_cuts"]:
+        out.append(f"unwanted hard cut at frame {[x['frame'] for x in c['cuts']]}")
+    if (c.get("first_frame_diff") or 0) > FIRST_FRAME_MAX_DIFF:
+        out.append(f"frame 0 ignores the input image (diff {c['first_frame_diff']})")
+    return out
+
+
 def shot_status(ep, sid, materialize=False):
+    """State of one shot: blocked | todo (seeds to render next) | done (enough good takes) |
+    needs_review (re-roll budget used up without enough good takes)."""
     p = ep.params(sid)
     imgs, blocked = resolve_images(ep, sid, materialize)
     st = {"id": sid, "type": p["type"], "family": FAMILY[p["type"]], "size": f"{p['width']}x{p['height']}",
-          "frames": p["length"], "seeds": p["seeds"], "selected": ep.selected_take(sid)}
+          "frames": p["length"], "seeds": p["seeds"], "needed": len(p["seeds"]), "selected": ep.selected_take(sid)}
     if blocked:
-        return dict(st, state="blocked", reason=blocked, fp=None, todo=p["seeds"], done=[])
+        return dict(st, state="blocked", reason=blocked, fp=None, todo=p["seeds"], done=[], good=[], rejected={})
     shas = {k: sha256(v[0]) for k, v in imgs.items()}
     fp = fingerprint(p, shas)
-    ok = {r["seed"]: r["take_id"] for r in ep.takes(sid) if r.get("fingerprint") == fp and r.get("status") == "success"}
-    todo = [x for x in p["seeds"] if x not in ok]
+    recs = [r for r in ep.takes(sid) if r.get("fingerprint") == fp]
+    # a seed counts as tried once it produced a video (success or failed_checks: same seed = same video);
+    # errors and swap stops are retried on the next run
+    tried = {r["seed"] for r in recs if r.get("status") in ("success", "failed_checks")}
+    done = [r["take_id"] for r in recs if r.get("status") == "success"]
+    rejected = {r["take_id"]: take_problems(r, p) for r in recs
+                if r.get("status") in ("success", "failed_checks") and take_problems(r, p)}
+    good = [t for t in done if t not in rejected]
+    rerolls = [p["seeds"][0] + REROLL_SEED_OFFSET + k for k in range(p["max_rerolls"])] if p["seeds"] else []
+    missing = max(0, len(p["seeds"]) - len(good))
+    todo = [x for x in p["seeds"] + rerolls if x not in tried][:missing]
+    state = "done" if not missing else ("todo" if todo else "needs_review")
+    if missing and any(r.get("status") == "stopped_swap" for r in recs):
+        # a memory limit is not fixed by another seed: needs a smaller size or shorter duration
+        state, todo = "needs_review", []
+        st["reason"] = "swap limit reached at this size/length; reduce megapixels or duration"
     sel = st["selected"]
     stale_sel = bool(sel) and not sel.startswith(fp[:8])
-    return dict(st, state="done" if not todo else "todo", fp=fp, todo=todo, done=list(ok.values()),
+    return dict(st, state=state, fp=fp, todo=todo, done=done, good=good, rejected=rejected,
                 stale_selection=stale_sel, images=imgs, shas=shas, params=p)
 
 
 def cmd_plan(ep):
     print(f"episode {ep.name}  recipe {ep.recipe_name}")
-    print(f"{'shot':6} {'type':5} {'model':6} {'size':9} {'frames':>6}  {'state':8} {'takes':>9}  selected / note")
+    print(f"{'shot':6} {'type':5} {'model':6} {'size':9} {'frames':>6}  {'state':12} {'good':>5}  selected / note")
     for sid in order(ep):
         st = shot_status(ep, sid)
-        takes = f"{len(st['done'])}/{len(st['seeds'])}"
+        takes = f"{len(st['good'])}/{st['needed']}"
         note = st.get("reason") or (st["selected"] or "-")
         if st.get("stale_selection"):
             note += "  (selection is from an older version of this shot)"
-        print(f"{sid:6} {st['type']:5} {st['family']:6} {st['size']:9} {st['frames']:>6}  {st['state']:8} {takes:>9}  {note}")
+        if st.get("rejected"):
+            note += f"  [{len(st['rejected'])} take(s) failed checks]"
+        print(f"{sid:6} {st['type']:5} {st['family']:6} {st['size']:9} {st['frames']:>6}  {st['state']:12} {takes:>5}  {note}")
 
 
 # ---------- render ----------
@@ -608,32 +646,41 @@ def cmd_render(ep, shots, dry_run, auto_select, swap_limit):
             raise SystemExit("ComfyUI is busy (a render is running or queued, maybe from the UI). Try again when idle.")
         # unknown models may still be loaded (UI session, other family): start clean (D14)
         api_post("/free", {"unload_models": True, "free_memory": True}); time.sleep(3)
-    last_family = None
+    last_family, rendered = None, 0
     for sid in order(ep):
         if shots and sid not in shots:
             continue
-        st = shot_status(ep, sid, materialize=not dry_run)
-        if st["state"] == "blocked":
-            print(f"-- {sid}: blocked, {st['reason']}"); continue
-        if st["state"] == "done":
-            print(f"-- {sid}: done ({len(st['done'])} takes)")
-        for seed in st["todo"]:
+        # re-evaluate after every take: a take that fails a quality check makes the next seed due
+        while True:
+            st = shot_status(ep, sid, materialize=not dry_run)
+            if st["state"] == "blocked":
+                print(f"-- {sid}: blocked, {st['reason']}"); break
+            if st["state"] in ("done", "needs_review"):
+                extra = f", rejected: {st['rejected']}" if st["rejected"] else ""
+                print(f"-- {sid}: {st['state']} ({len(st['good'])}/{st['needed']} good takes{extra})"); break
+            seed = st["todo"][0]
             if dry_run:
                 names = {k: f"{UPLOAD_SUBFOLDER}/{st['shas'][k][:16]}.png" for k in st["images"]}
-                print(f"-- {sid}: would render seed {seed}, take {st['fp'][:8]}_s{seed}")
+                for s in st["todo"]:
+                    print(f"-- {sid}: would render seed {s}, take {st['fp'][:8]}_s{s}")
                 print(json.dumps(build_graph(st["params"], names, "<prefix>", seed)["cond"], indent=1)[:1500])
-                continue
+                break
             if last_family and last_family != st["family"]:
                 print(f"-- switching model family {last_family} -> {st['family']}: unloading models", flush=True)
                 api_post("/free", {"unload_models": True, "free_memory": True}); time.sleep(3)
             last_family = st["family"]
             rec = render_take(ep, st, seed, swap_limit)
-            if rec["status"] != "success":
+            rendered += 1
+            if rec["status"] != "success":  # errors, swap stops and defective videos need a human
                 raise SystemExit(f"stopping batch: {sid} {rec['status']}")
+            if problems := take_problems(rec, st["params"]):
+                print(f"-- {sid}: take {rec['take_id']} failed checks {problems}; next seed if budget allows", flush=True)
         if auto_select and not dry_run and not ep.selected_take(sid):
             st = shot_status(ep, sid)
             if st["done"]:
-                write_selection(ep, sid, st["done"][0], note="auto-selected (--auto-select, tests only)")
+                pick = (st["good"] or st["done"])[0]
+                write_selection(ep, sid, pick, note="auto-selected (--auto-select, tests only)")
+    return rendered
 
 
 def write_selection(ep, sid, take_id, note=None):

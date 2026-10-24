@@ -98,6 +98,53 @@ def load_entry(ep, entry):
             "subs": entry.get("subs") or []}
 
 
+def auto_gains(per_shot_lufs, explicit, window_lu=6.0, max_db=10.0):
+    """Per-shot gains that pull outliers to within +-window_lu of the median shot loudness.
+
+    Shots with an explicit gain_db, and near-silent shots (< -60 LUFS), are left alone. Keeps the
+    order of loudness (a crash stays louder than breathing) but narrows the extremes.
+    """
+    vals = sorted(v for s, v in per_shot_lufs.items() if s not in explicit and v > -60)
+    if not vals:
+        return {}
+    med = vals[len(vals) // 2] if len(vals) % 2 else (vals[len(vals) // 2 - 1] + vals[len(vals) // 2]) / 2
+    out = {}
+    for s, v in per_shot_lufs.items():
+        if s in explicit or v <= -60:
+            continue
+        g = (med + window_lu - v) if v > med + window_lu else (med - window_lu - v) if v < med - window_lu else 0.0
+        out[s] = round(max(-max_db, min(max_db, g)), 1)
+    return out
+
+
+DEFAULT_CUT = """# Edit decision list (created by assemble.py --init; edit freely). Assemble with:
+#   ~/dev/ComfyUI/.venv/bin/python scripts/assemble.py episodes/{ep}/cut.yaml
+# in/out = first/last frame used (inclusive); gain_db = per-shot audio adjustment;
+# subs = subtitles, times in seconds from the start of the take.
+episode: {ep}
+version: v1
+loudness:
+  target_lufs: -14.0
+  ceiling_dbtp: -1.0
+  per_shot: auto         # auto = narrow shot-to-shot jumps to +-6 LU of the median shot; off = as rendered
+audio_fade_ms: 10
+sizes:
+  - native
+  - 720x1280
+
+sequence:
+{seq}"""
+
+
+def init_cut(ep_dir):
+    ep = E.Episode(ep_dir)
+    path = ep.dir / "cut.yaml"
+    if path.exists():
+        raise SystemExit(f"{path} exists; not overwriting")
+    path.write_text(DEFAULT_CUT.format(ep=ep.name, seq="".join(f"  - shot: {s}\n" for s in ep.shots)))
+    print(f"wrote {path} with {len(ep.shots)} shots in file order")
+
+
 def fade(seg, ms):
     n = min(int(SR * ms / 1000), seg.shape[1] // 2)
     if n:
@@ -160,9 +207,12 @@ def srt_time(t):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("cut")
+    ap.add_argument("cut", help="cut.yaml (or the episode folder with --init)")
     ap.add_argument("--dry-run", action="store_true", help="print the timeline only")
+    ap.add_argument("--init", action="store_true", help="write a default cut.yaml for the episode folder")
     args = ap.parse_args()
+    if args.init:
+        init_cut(args.cut); return
     cut_path = pathlib.Path(args.cut).resolve()
     cut = E.load_yaml(cut_path)
     ep = E.Episode(REPO / "episodes" / cut["episode"])
@@ -191,6 +241,16 @@ def main():
     for e in entries:
         lufs, tp = measure(e["audio"])
         per_shot[e["shot"]] = {"lufs": round(lufs, 1), "true_peak_dbtp": round(tp, 1)}
+    explicit = {e["shot"] for e, raw in zip(entries, cut["sequence"]) if "gain_db" in raw}
+    suggested = auto_gains({s: v["lufs"] for s, v in per_shot.items()}, explicit)
+    use_auto = cut["loudness"].get("per_shot", "off") == "auto"
+    print("per-shot loudness: " + ", ".join(f"{s} {v['lufs']}" for s, v in per_shot.items()))
+    print(("auto per-shot gains: " if use_auto else "suggested per-shot gains (set loudness.per_shot: auto to apply): ")
+          + (", ".join(f"{s} {g:+.1f} dB" for s, g in suggested.items() if g) or "none"))
+    for e in entries:
+        if use_auto and suggested.get(e["shot"]):
+            e["audio"] *= 10 ** (suggested[e["shot"]] / 20)
+            per_shot[e["shot"]]["auto_gain_db"] = suggested[e["shot"]]
         fade(e["audio"], cut.get("audio_fade_ms", 10))
     mix = np.concatenate([e["audio"] for e in entries], axis=1)
     lufs, tp = measure(mix)
@@ -230,6 +290,7 @@ def main():
         "sources": [{k: e[k] for k in ("shot", "take", "file", "sha256", "frames_in_take", "in", "out",
                                         "audio_len_diff_samples")} for e in entries],
         "audio": {"sample_rate": SR, "fade_ms": cut.get("audio_fade_ms", 10), "per_shot_before_mix": per_shot,
+                  "per_shot_mode": cut["loudness"].get("per_shot", "off"),
                   "mix_lufs": round(lufs, 2), "mix_true_peak_dbtp": round(tp, 2), "gain_db": round(gain, 2),
                   "peak_limited": bool(limited), "out_lufs": round(lufs_out, 2), "out_true_peak_dbtp": round(tp_out, 2),
                   "codec": "aac 192k"},

@@ -17,6 +17,8 @@ Run from the repo with ComfyUI's Python (`PY=~/dev/ComfyUI/.venv/bin/python`):
 
 | Command | What it does | Needs ComfyUI running? |
 |---|---|---|
+| **`$PY scripts/pipeline.py episodes/X`** | **everything below in one go**: validate, start ComfyUI if needed, render with re-rolls, review sheets, assemble when all picks are made; exit 0 = done, 2 = waiting for you | starts it if needed |
+| `$PY scripts/review_server.py episodes/X` | review page at http://127.0.0.1:8189: play every take, click **Pick** | no |
 | `$PY scripts/episode.py validate episodes/X` | checks the file: ids, files, seeds, tags, links, sizes | no |
 | `$PY scripts/episode.py plan episodes/X` | render order and status of every shot (todo / done / blocked) | no |
 | `$PY scripts/episode.py render episodes/X --dry-run` | shows what would be rendered | no |
@@ -25,6 +27,7 @@ Run from the repo with ComfyUI's Python (`PY=~/dev/ComfyUI/.venv/bin/python`):
 | `$PY scripts/episode.py frame video.mp4 best out.png` | extracts a frame (best / last / seconds) | no |
 | `$PY scripts/review_sheet.py episodes/X S001 S002` | contact sheet of a shot's takes, for choosing | no |
 | `$PY scripts/assemble.py episodes/X/cut.yaml [--dry-run]` | joins the selected takes into the episode (see `cut.yaml`) | no |
+| `$PY scripts/assemble.py episodes/X --init` | writes a default `cut.yaml` (all shots in file order, auto levelling on) | no |
 | `$PY scripts/test_episode.py`, `test_assemble.py` | offline self-tests | no |
 
 ## episode.yaml
@@ -50,6 +53,8 @@ shots:
     seed: 757358688076805       # or seeds: [1, 2, 3]
     # takes: 3
     # recipe_overrides: {scheduler: beta}   # experiments only: sampler, scheduler, steps, ref_image_size
+    # allow_cuts: true          # H3's own hard cuts are wanted here (default false: a cut = failed check)
+    # max_rerolls: 1            # extra seeds when a take fails a check (default 1; seed = first + 1000 + k)
     note: free text
 ```
 
@@ -61,6 +66,11 @@ old takes stay on disk and in `runs/`.
 **Continuations** (`first: {shot: S001, frame: best}`) use the take selected in
 `selections.yaml`, so they show `blocked` until you select one. The chosen frame index is
 recorded; the earlier take must be cut at that frame when editing (see the plan, §3).
+
+**Quality checks and re-rolls.** Every take is checked for unwanted hard cuts and, for I2V, whether
+frame 0 follows the input image. A take that fails is kept (you can still pick it) but does not count
+as good; the renderer tries the next seed until the shot has enough good takes or its `max_rerolls`
+budget is used up (state `needs_review`). Errors, defective videos and swap stops halt the batch.
 
 ## Common mistakes
 - Editing a prompt and expecting old takes to count: they belong to the old fingerprint.

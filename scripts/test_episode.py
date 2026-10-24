@@ -177,5 +177,42 @@ if i1:
     idx, _, _ = E.extract_frame(i1[0], "best")
     check("best on a 5-frame clip = last frame", idx == 4, idx)
 
+# 10. re-roll policy (Stage 7.1), with fake records in a temp runs dir
+import json as _json  # noqa: E402
+d = temp_episode(BASE + "  A: {type: t2v, prompt: a, seed: 5, max_rerolls: 2}\n"
+                        "  B: {type: t2v, prompt: b, seed: 7, allow_cuts: true}")
+runs = pathlib.Path(tempfile.mkdtemp(prefix="runs_test_")) / "2026-10-24"
+runs.mkdir()
+ep = E.Episode(d, runs_dir=runs.parent)
+fpA, fpB = E.shot_status(ep, "A")["fp"], E.shot_status(ep, "B")["fp"]
+
+
+def fake(sid, fp, seed, status="success", cuts=()):
+    tid = f"{fp[:8]}_s{seed}"
+    (runs / f"t__{sid}__{tid}.json").write_text(_json.dumps({
+        "shot": sid, "take_id": tid, "fingerprint": fp, "seed": seed, "status": status,
+        "continuity": {"cuts": [{"frame": c} for c in cuts]}}))
+
+
+s = E.shot_status(ep, "A"); check("no takes -> todo first seed", (s["state"], s["todo"]) == ("todo", [5]), s["todo"])
+fake("A", fpA, 5, cuts=[30])
+s = E.shot_status(ep, "A"); check("unwanted cut -> re-roll seed 1005", (s["state"], s["todo"]) == ("todo", [1005]), s["todo"])
+fake("A", fpA, 1005)
+s = E.shot_status(ep, "A"); check("clean re-roll -> done", s["state"] == "done" and s["good"] == [f"{fpA[:8]}_s1005"], s)
+fake("B", fpB, 7, cuts=[40])
+s = E.shot_status(ep, "B"); check("allow_cuts: cut take counts as good", s["state"] == "done", s["rejected"])
+for f in runs.glob("t__A__*"):
+    f.unlink()
+for seed in (5, 1005, 1006):
+    fake("A", fpA, seed, cuts=[10])
+s = E.shot_status(ep, "A"); check("budget used up -> needs_review", s["state"] == "needs_review" and s["todo"] == [], s)
+for f in runs.glob("t__A__*"):
+    f.unlink()
+fake("A", fpA, 5, status="error")
+s = E.shot_status(ep, "A"); check("error -> same seed retried next run", s["todo"] == [5], s["todo"])
+fake("A", fpA, 5, status="stopped_swap")
+s = E.shot_status(ep, "A"); check("swap stop -> needs_review, no more seeds", s["state"] == "needs_review" and not s["todo"], s)
+shutil.rmtree(d); shutil.rmtree(runs.parent)
+
 print(f"\n{'ALL PASSED' if not failures else f'{len(failures)} FAILED: {failures}'}")
 sys.exit(1 if failures else 0)

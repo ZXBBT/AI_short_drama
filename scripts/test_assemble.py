@@ -38,5 +38,28 @@ check("fade leaves the middle", seg[0, A.SR // 2] == 1.0)
 check("srt time", A.srt_time(9.7667) == "00:00:09,767", A.srt_time(9.7667))
 check("srt time over a minute", A.srt_time(75.5) == "00:01:15,500", A.srt_time(75.5))
 
+# per-shot auto levelling (Stage 7.3), Midnight Call v1 measurements
+v = {"S001": -18.4, "S002": -10.0, "S003": -17.2, "S004a": -20.0, "S004": -14.5, "S005": -31.6, "S005b": -29.8}
+g = A.auto_gains(v, set())
+check("auto: loud outlier pulled down to median+6", g["S002"] == -2.4, g)
+check("auto: quiet outliers pulled up to median-6", (g["S005"], g["S005b"]) == (7.2, 5.4), g)
+check("auto: shots inside the window untouched", g["S001"] == g["S004"] == 0.0, g)
+check("auto: explicit gain_db wins", "S002" not in A.auto_gains(v, {"S002"}))
+check("auto: capped at 10 dB", A.auto_gains({"a": -20, "b": -20, "c": -60.5, "d": -45}, set())["d"] == 10.0)
+
+# --init writes a valid cut list in episode file order and never overwrites
+import shutil, tempfile, yaml  # noqa: E401,E402
+d = pathlib.Path(tempfile.mkdtemp(prefix="ep_init_"))
+(d / "episode.yaml").write_text("episode: t\nrecipe: h3_base_v1\nshots:\n  B: {type: t2v, prompt: b, seed: 1}\n  A: {type: t2v, prompt: a, seed: 1}\n")
+A.init_cut(d)
+c = yaml.safe_load((d / "cut.yaml").read_text())
+check("init: sequence in file order", [e["shot"] for e in c["sequence"]] == ["B", "A"], c["sequence"])
+check("init: auto levelling on by default", c["loudness"]["per_shot"] == "auto")
+try:
+    A.init_cut(d); check("init: refuses to overwrite", False)
+except SystemExit:
+    check("init: refuses to overwrite", True)
+shutil.rmtree(d)
+
 print(f"\n{'ALL PASSED' if not failures else f'{len(failures)} FAILED: {failures}'}")
 sys.exit(1 if failures else 0)
