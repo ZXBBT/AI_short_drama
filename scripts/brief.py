@@ -15,6 +15,7 @@ import json
 import pathlib
 import re
 import statistics
+import subprocess
 import sys
 
 import yaml
@@ -175,13 +176,24 @@ def validate_brief(b, ep_dir):
         warnings.append("no character images: H3 will invent the look and it may drift between shots")
     if images:
         import face_check  # noqa: E402 (only needed here; compiles the Swift helper once)
-        for (cid, i, path), f in zip(images, face_check.faces_in_images([p for _, _, p in images])):
-            label = f"character '{cid}' image {i + 1} ({path.name}): {f['width']:.0f}x{f['height']:.0f}"
-            if not f["h"]:
+        try:
+            faces = face_check.faces_in_images([p for _, _, p in images])
+        except (subprocess.SubprocessError, OSError, ValueError) as e:  # helper failed or gave unusable output
+            faces = [{"error": f"{type(e).__name__}: {e}"} for _ in images]
+        for (cid, i, path), f in zip(images, faces):  # one result per image (checked by faces_in_images)
+            w, h = f.get("width"), f.get("height")
+            size = f"{w:.0f}x{h:.0f}" if w is not None and h is not None else "size unknown"
+            label = f"character '{cid}' image {i + 1} ({path.name}): {size}"
+            if f.get("error"):  # the helper / Vision could not measure this image
+                (warnings if i else errors).append(f"{label}: face check failed ({f['error']}); "
+                                                   f"the face could not be measured")
+                continue
+            if not f.get("h"):
                 (warnings if i else errors).append(f"{label}: no face found")
                 continue
-            info.append(f"{label}, face {f['h']:.0f} px, quality {f['quality']:.2f}")
-            if i == 0 and (f["h"] < REF_FACE_MIN_PX or f["quality"] < REF_FACE_MIN_Q):
+            q = f.get("quality")
+            info.append(f"{label}, face {f['h']:.0f} px, quality " + (f"{q:.2f}" if q is not None else "unknown"))
+            if i == 0 and (f["h"] < REF_FACE_MIN_PX or (q is not None and q < REF_FACE_MIN_Q)):
                 warnings.append(f"{label}: main reference face is small or soft (want >= {REF_FACE_MIN_PX} px and "
                                 f"quality >= {REF_FACE_MIN_Q}); a large, sharp, real-looking face gives the most "
                                 f"realistic results")

@@ -56,7 +56,23 @@ $PY scripts/assemble.py episodes/<name>/cut.yaml        # final MP4s in ~/AI_ren
 Other tools: `scripts/qwen_image.py` (Qwen stills/edits; start ComfyUI with `--bf16-text-enc` for edits),
 `scripts/take_checks.py` (picture checks), `scripts/face_check.py`, `scripts/screen_insert.py`
 (green-screen phone UI), `scripts/audio_clip.py`, `scripts/launch_comfyui.sh`.
-Tests: `$PY scripts/test_<name>.py` (episode, brief, assemble, autopick, take_checks).
+
+## Checks
+
+```bash
+scripts/check.sh                            # standard checks: run before and after every change
+RUN_VISION_INTEGRATION=1 scripts/check.sh   # + optional real macOS Vision face check
+```
+
+- **Standard, deterministic** (`scripts/check.sh`, for developers and agents): the offline tests
+  (`test_episode`, `test_brief`, `test_assemble`, `test_autopick`, `test_take_checks`) plus
+  `episode.py validate` for every episode. No macOS Vision (the face check is stubbed), no ComfyUI, no
+  rendering, no network. Prints every check's full output and a PASS / FAIL / SKIP summary; exit 1 on
+  any failure. Uses the ComfyUI venv (`PY=...` to override). Episodes whose only problem is a missing
+  local-only reference picture listed in the script (gitignored by owner decision) are SKIPped.
+- **Optional, real Vision** (`RUN_VISION_INTEGRATION=1`, `scripts/test_vision_integration.py`): measures
+  two reference pictures with the Swift helper and runs `brief.py validate episodes/sunlight`. SKIP with
+  the reason when this environment cannot run Vision; a broken helper or wrong measurement is a FAIL.
 
 ## Where things live
 

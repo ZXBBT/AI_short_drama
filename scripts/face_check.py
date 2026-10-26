@@ -36,15 +36,51 @@ def helper():
     return BIN
 
 
+def is_number(v):
+    return v is None or (isinstance(v, (int, float)) and not isinstance(v, bool))
+
+
+def check_record(k, r):
+    """ValueError unless helper record k has numbers (or None) for sizes and a list of face objects."""
+    where = f"face helper output line {k}"
+    for key in ("width", "height"):
+        if not is_number(r.get(key)):
+            raise ValueError(f"{where}: {key} is a {type(r[key]).__name__}, not a number")
+    faces = r.get("faces")  # missing, null or [] = no face
+    if faces is not None and not isinstance(faces, list):
+        raise ValueError(f"{where}: faces is a {type(faces).__name__}, not a list")
+    for j, f in enumerate(faces or []):
+        if not isinstance(f, dict):
+            raise ValueError(f"{where}: faces[{j}] is a {type(f).__name__}, not an object")
+        for key in ("h", "quality"):
+            if not is_number(f.get(key)):
+                raise ValueError(f"{where}: faces[{j}].{key} is a {type(f[key]).__name__}, not a number")
+
+
 def faces_in_images(paths):
-    """Main (largest) face per image: {"path", "width", "height", "h", "quality"} (h None = no face)."""
+    """Main (largest) face per image: {"path", "width", "height", "h", "quality", "error"}
+    (h None = no face; error = the helper's message for that image). ValueError when the helper's
+    output does not match the request (not JSON, wrong types, or not one record per image)."""
+    paths = list(paths)
     out = subprocess.run([str(helper())] + [str(p) for p in paths], capture_output=True, text=True, check=True).stdout
+    records = []
+    for k, line in enumerate([x for x in out.splitlines() if x.strip()], 1):
+        try:
+            r = json.loads(line)
+        except ValueError as e:
+            raise ValueError(f"face helper output line {k} is not JSON ({e}): {line[:120]!r}") from e
+        if not isinstance(r, dict):
+            raise ValueError(f"face helper output line {k} is a JSON {type(r).__name__}, not an object: {line[:120]!r}")
+        check_record(k, r)
+        records.append(r)
+    if len(records) != len(paths):
+        raise ValueError(f"face helper returned {len(records)} result(s) for {len(paths)} image(s) "
+                         f"({', '.join(pathlib.Path(p).name for p in paths)})")
     res = []
-    for p, line in zip(paths, [x for x in out.splitlines() if x.strip()]):
-        r = json.loads(line)
-        f = max(r.get("faces") or [{}], key=lambda x: x.get("h", 0))
+    for p, r in zip(paths, records):  # same length, checked above
+        f = max(r.get("faces") or [{}], key=lambda x: x.get("h") or 0)  # h None = no usable face
         res.append({"path": str(p), "width": r.get("width"), "height": r.get("height"),
-                    "h": f.get("h"), "quality": f.get("quality")})
+                    "h": f.get("h"), "quality": f.get("quality"), "error": r.get("error")})
     return res
 
 
