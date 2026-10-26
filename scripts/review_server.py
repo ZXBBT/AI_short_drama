@@ -18,6 +18,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import autopick as AP  # noqa: E402
 import episode as E  # noqa: E402
+import take_checks as TC  # noqa: E402
 
 PAGE_CSS = """
 :root { --bg:#f6f5f2; --card:#fff; --ink:#1d1d1f; --muted:#6b6b70; --line:#e2e0db; --accent:#2f6fde;
@@ -99,6 +100,8 @@ def render_page(ep):
             mem = r.get("memory_gib") or {}
             cache = pathlib.Path(r["output"]["file"]).with_suffix(".faces.json")
             fs = json.loads(cache.read_text())["summary"] if cache.exists() else None
+            pc = TC.check_video(r["output"]["file"], E.Episode.params(ep, sid)["prompt"], compute=False)
+            problems = problems + (pc[1] if pc else [])  # Stage 8 picture checks (measured after rendering)
             face = (f" · face q {fs['quality_median']} / {fs['face_h_median']} px"
                     if fs and fs.get("quality_median") is not None else "")
             badge = "<span class='badge'>auto-picked</span>" if picked and AP.is_auto(ep, sid) else ""

@@ -1,0 +1,31 @@
+# v2-hd: cut.yaml v2 with every shot upscaled by SeedVR2 7B sharp (x2, lab colour; scripts/upscale.py --cut)
+# v2 (2026-10-26): generated from the new picks, then edited by hand (generated: false) -
+# P4 starts at frame 22: frames 0-21 repeat P3's look up from the phone. Eyeline checked with
+# Vision head yaw: P3 -45, P4 -20, P5 -45 degrees (same side), so no mirroring.
+episode: sunlight
+version: v2-hd
+generated: false
+generated_from:  # the picks this cut was built from (subtitle timing depends on them)
+  P1: 769280ba_s101
+  P2: 8e54c05f_s201
+  P3: 5d0b76aa_s302
+  P4: d4d43d9d_s402
+  P5: 2dbfc28a_s502
+loudness: {target_lufs: -14.0, ceiling_dbtp: -1.0, per_shot: auto}
+audio_fade_ms: 10
+sizes: [native, 1080x1920]  # native = 960x1728 (SeedVR2 x2)
+
+sequence:
+  - shot: P1
+    upscale: 7b_sharp
+  - shot: P2
+    upscale: 7b_sharp
+  - shot: P3
+    upscale: 7b_sharp
+  - shot: P4
+    upscale: 7b_sharp
+    in: 22  # skip the repeated look-up (P3 already ends looking at the friend)
+    subs:  # timing estimated from the voice: check by ear
+      - {start: 2.45, end: 3.25, text: "Over here!"}
+  - shot: P5
+    upscale: 7b_sharp

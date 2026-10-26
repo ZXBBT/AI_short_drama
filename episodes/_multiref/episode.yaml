@@ -1,0 +1,110 @@
+# To-do #6/#12 (owner 2026-10-26): re-test multi-reference R2V (person + location) in H3's official Ref2VA
+# format (h3-prompt-writing: a location is its own <Subject N>, like the guide's "coffee-shop environment"
+# example) with the direction skill. Earlier, in the old free-text format (episodes/_location, recipe v1):
+#   L1 desk + room plate: room kept, but the camera pulled back to a side view, face 47 px, quality 0.17
+#   L2 window + room plate: opened on the exact plate, then she was seen from behind
+#   L0 control (no plate): face 94 px, quality 0.37, room invented
+# M1/M2 = L1/L2 rewritten (same references); M3 = Lin + an H3 park plate (A3 s31, episodes/_stills).
+# Question: does the official format keep BOTH the room and a large, front-facing face?
+# check-plan reports errors for two-reference R2V and plates as references (S005/L1/L2 lessons): expected
+# here, this episode tests exactly that. Render with: scripts/episode.py render episodes/_multiref
+episode: _multiref
+title: Multi-reference re-test (person + location, official format)
+recipe: h3_base_v2
+defaults:
+  aspect: '9:16'
+  megapixels: 0.4
+  duration: 3.75
+  takes: 2
+  max_rerolls: 0
+review:
+  picks: owner
+  final: true
+assets:
+  kf_woman: inputs/midnight_call/kf_S001_desk_v1.png
+  room_plate: inputs/_location/room_plate_v1.png
+  char_lin_1: inputs/sunlight/ref_lin_v1.png
+  park_plate: inputs/_location/park_plate_v1.png
+characters:
+  woman:
+    description: young East Asian woman, long dark hair in a low side ponytail, long beige-grey cardigan over a
+      light top
+    refs: [kf_woman]
+  lin:
+    description: young East Asian woman, long straight dark hair with bangs, natural light makeup, white T-shirt,
+      black trousers
+    refs: [char_lin_1]
+
+shots:
+  M1:
+    type: r2v
+    refs: [woman, room_plate]
+    seed: 1
+    note: L1 in the official format - desk, room plate as <Subject 2>
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the young woman in <Picture 1>: {woman}. Her face, eye shape, eyebrows and hairstyle follow <Picture 1> exactly.
+      <Subject 2> is the apartment environment in <Picture 2>: a small living room at night with plain light walls, a wooden desk, a lamp with a pleated shade giving warm light, a beige sofa and a tall window with rain on the glass.
+
+      summary:
+      [reference generation] At night in <Subject 2>, <Subject 1> sits at the wooden desk under the warm lamp and reads a handwritten letter; a quiet, thoughtful moment.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - her face, facial proportions, eye shape, eyebrows, low side ponytail and long beige-grey cardigan are retained.
+      <Subject 2> (appears in [Shot 1]): fully_preserved - the light walls, wooden desk, pleated lamp shade, beige sofa and rainy window are retained as the background.
+
+      detailed_description:
+      The target video is a photorealistic, live-action short-drama shot at night, lit mainly by the warm desk lamp, with soft shadows, natural skin texture and realistic colors.
+      [Shot 1] A medium close-up from the front frames <Subject 1> from the chest up as she sits at the wooden desk of <Subject 2>; the camera is at her eye level, a little to the left of the lamp, and her face fills a large part of the frame and is in sharp focus. She wears her long beige-grey cardigan over a light top, and her long dark hair is gathered in a low side ponytail over one shoulder. The lamp with the pleated shade stands at the right edge of the frame and lights the side of her face warmly, leaving a soft golden highlight on her cheekbone and a gentle shadow along her jaw. On the desk in front of her lie an opened envelope and a ceramic mug, slightly out of focus at the lower edge of the frame. Her skin shows natural texture and fine pores, her eyelashes are sharp, and a small moist highlight from the lamp shines in each eye. Behind her, softly out of focus but recognisable, the room of <Subject 2> continues: the plain light wall, the beige sofa, and the tall window with raindrops running down the glass and blurred city lights outside. She holds a handwritten letter in both hands at chest height, the paper facing her. Her eyes move along the lines from left to right in small steps; she blinks once. At one line her eyes stop; she pauses, her eyebrows draw together very slightly, then relax. She lowers the letter a little, her gaze drops to the desk for a moment, and she takes a slow, quiet breath; the corners of her mouth soften but she does not smile. Both eyes stay level and symmetrical, pupils aimed at the same point, and her facial proportions stay unchanged; she never looks into the lens. Her lips stay closed; she does not speak. The camera holds a static shot. There is no text anywhere in the frame.
+
+      overall_soundscape: Rain tapping on the window, a soft paper rustle as she lowers the letter, and her quiet breath in a calm room.
+
+      non_diegetic_music: N/A
+  M2:
+    type: r2v
+    refs: [woman, room_plate]
+    seed: 1
+    note: L2 in the official format - by the window, room plate as <Subject 2> (L2 showed her from behind)
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the young woman in <Picture 1>: {woman}. Her face, eye shape, eyebrows and hairstyle follow <Picture 1> exactly.
+      <Subject 2> is the apartment environment in <Picture 2>: a small living room at night with plain light walls, a wooden desk, a lamp with a pleated shade giving warm light, a beige sofa and a tall window with rain on the glass.
+
+      summary:
+      [reference generation] At night in <Subject 2>, <Subject 1> stands beside the rainy window, turned toward the camera, and looks out at the city, lost in thought.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - her face, facial proportions, eye shape, eyebrows, low side ponytail and long beige-grey cardigan are retained.
+      <Subject 2> (appears in [Shot 1]): fully_preserved - the tall rainy window, light walls, beige sofa and pleated lamp are retained as the setting.
+
+      detailed_description:
+      The target video is a photorealistic, live-action short-drama shot at night, with warm lamp light inside and cool blue city light from the window, natural skin texture and realistic colors.
+      [Shot 1] A medium close-up frames <Subject 1> from the chest up in three-quarter front view, standing beside the tall window of <Subject 2>; the camera is inside the room at her eye level, and her face, turned toward the camera at an angle, is large in the frame and in sharp focus. The window is at the left of the frame, raindrops running down the glass with blurred city lights behind them, and cool blue light falls on one side of her face; warm light from the lamp with the pleated shade, out of focus at the right edge of the frame, lights the other side. Behind her, softly out of focus but recognisable, are the plain light wall and the beige sofa of <Subject 2>. She wears her long beige-grey cardigan over a light top, its soft knit texture visible where the lamp light catches it, her arms loosely folded, and her long dark hair is gathered in a low side ponytail over one shoulder. Faint reflections of the room and of her own silhouette show in the dark glass of the window. Her skin shows natural texture and fine pores, her eyelashes are sharp, and the city lights make small moist highlights in her eyes. Her eyes look out of the window toward the city lights far away, focused in the distance; she blinks once. After a moment her gaze drops to the raindrops on the glass close to her and follows one drop down; then her eyes return to the distance. She takes a slow breath, her shoulders settle, and her mouth stays relaxed without a smile. Both eyes stay level and symmetrical, pupils aimed at the same point, and her facial proportions stay unchanged; she never looks into the lens and never turns her back to the camera. Her lips stay closed; she does not speak. The camera pushes in with small amplitude at slow speed toward her face. There is no text anywhere in the frame.
+
+      overall_soundscape: Steady rain against the window, faint distant traffic, and a quiet room tone.
+
+      non_diegetic_music: N/A
+  M3:
+    type: r2v
+    refs: [lin, park_plate]
+    seed: 31
+    note: Lin + H3 park plate (A3 s31) as <Subject 2> - does the park stay recognisable with a large face?
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the young woman in <Picture 1>: {lin}. Her face, eye shape, eyebrows, bangs and the length and color of her hair follow <Picture 1> exactly.
+      <Subject 2> is the park environment in <Picture 2>: a paved path running away into the distance, a black lamp post, a wooden bench with a curved black iron frame on the grass, and tall trees whose trunks are painted white at the base, in afternoon sunlight.
+
+      summary:
+      [reference generation] In <Subject 2> on a sunny afternoon, <Subject 1> sits on the wooden bench, looks along the path as if waiting for someone, and checks the time on her phone.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - her face, facial proportions, eye shape, eyebrows, bangs, long straight dark hair, natural light makeup, plain white T-shirt and black trousers are retained.
+      <Subject 2> (appears in [Shot 1]): fully_preserved - the paved path, black lamp post, wooden bench with the curved black iron frame and the white-painted tree trunks are retained as the background.
+
+      detailed_description:
+      The target video is a photorealistic, live-action short-drama shot in natural afternoon daylight, with soft dappled sunlight, natural skin texture with visible pores and realistic colors.
+      [Shot 1] A medium close-up frames <Subject 1> from the chest up, sitting on the wooden bench of <Subject 2> and turned slightly toward the right of the frame; her face is large in the frame and in sharp focus. She wears her plain white T-shirt and black trousers, and her long straight dark hair with bangs falls over her shoulders, a few strands moving in a light breeze. The curved black iron armrest of the bench and a strip of its weathered wooden slats show at the lower edge of the frame. Warm afternoon sun comes from behind the trees at the upper left, giving her hair a soft bright rim and lighting her face evenly, with leaf shadows drifting slowly across her shoulders. Her skin shows natural texture and fine pores, her light makeup is subtle, and her eyelashes and the moist highlights in her eyes are sharp. Behind her, softly out of focus but recognisable, is the park of <Subject 2>: the paved path running away into the distance, the black lamp post and the tall trees with trunks painted white at the base, with patches of sunlight on the grass. Nobody else is in the park. She holds a black smartphone loosely in her lap. At the start her eyes look along the path toward the far end, focused in the distance, as if waiting for someone; she blinks once. Her gaze drops to the phone; she lifts it a little, presses the side button so the screen lights toward her, glances at it, and lowers it again. Her eyes return to the far end of the path; she takes a small breath and presses her lips together patiently, without a smile. Both eyes stay level and symmetrical, pupils aimed at the same point, and her facial proportions stay unchanged; she never looks into the lens. Her lips stay closed; she does not speak. The camera holds a static shot. There is no text anywhere in the frame.
+
+      overall_soundscape: Birdsong in the trees, leaves rustling in a light breeze, and a soft click as she presses the phone's button.
+
+      non_diegetic_music: N/A

@@ -1,0 +1,81 @@
+# To-do #11: Sunlight P2 and P4 rewritten in H3's official Ref2VA format (h3-prompt-writing) and directed with
+# h3-short-drama-direction. Compare with episodes/sunlight P2 (fe851aeb_s201/202) and P4 (224814f7_s401/402):
+# same reference picture, 480x864, same seeds. Owner feedback applied (all earlier reviews):
+#  - faces blurred at a distance (S004/S005) -> chest-up / close-up only, face large in frame
+#  - "misalignment of her facial features" -> explicit eye/face stability, eyes on named targets, no lens contact
+#  - focus on and consistency of the female lead -> full appearance in subject_definitions + retention_analysis
+#  - trousers drifting (P5) -> outfit stated as white T-shirt + black trousers
+#  - burned-in "Over here!" caption (P4) -> dialogue only inside <d>, no quoted text, "no subtitles"
+#  - V2 brief: gaze plan, emotion as a sequence of actions, staggered background life, no per-shot music
+#  - P4 lengthened to 90 frames (performance shots 90-107 frames, closer to H3's trained length)
+episode: _format_test
+title: Official format test (Sunlight P2, P4)
+recipe: h3_base_v2
+defaults:
+  aspect: '9:16'
+  megapixels: 0.4
+  takes: 2
+  max_rerolls: 1
+review:
+  picks: owner
+  final: true
+assets:
+  char_lin_1: inputs/sunlight/ref_lin_v1.png
+characters:
+  lin:
+    description: young East Asian woman, long straight dark hair with bangs, natural light makeup, white T-shirt,
+      black trousers
+    refs: [char_lin_1]
+    voice: bright, warm
+locations:
+  park:
+    description: a quiet city park in the afternoon, a tree-lined path, a wooden bench, green leaves, dappled sunlight
+
+shots:
+  F2:
+    type: r2v
+    refs: [lin]
+    seed: 201
+    duration: 4
+    note: P2 rewritten - she reads a message on the bench and a smile spreads (compare sunlight P2)
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the young woman in <Picture 1>: {lin}. Her face, eye shape, eyebrows, bangs and the length and color of her hair follow <Picture 1> exactly.
+
+      summary:
+      [reference generation] On a wooden park bench in afternoon sunlight, <Subject 1> reads a message on her phone, and a small, genuine smile slowly spreads across her face.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - her face, facial proportions, eye shape, eyebrows, bangs, long straight dark hair, natural light makeup, plain white T-shirt and black trousers are retained.
+
+      detailed_description:
+      The target video is a photorealistic, live-action short-drama shot in natural afternoon daylight, with soft dappled sunlight, natural skin texture with visible pores, realistic colors and gentle contrast.
+      [Shot 1] A medium close-up frames <Subject 1> from the chest up, sitting on a wooden park bench and turned slightly toward the left of the frame; her face fills a large part of the frame and is in sharp focus. She wears her plain white T-shirt, its soft cotton creasing slightly at the shoulders, and black trousers on her lap at the lower edge of the frame; her long straight dark hair with bangs falls over her shoulders, a few strands lifting in the breeze and catching warm light. The weathered wooden slats of the bench back show behind her shoulder, with a fine grain and a few sunlit spots. Warm afternoon sun comes from the upper right, giving her face soft, even light with a gentle highlight on her cheek and a natural shadow under her chin. Behind her, softly out of focus, a tree-lined path with green leaves and patches of sunlight stretches away; far down the path, a man walks a small dog and a woman jogs past later at her own pace, both small, blurred and with stable silhouettes. Leaf shadows drift slowly across her face and shoulders in a light breeze. She holds a black smartphone in both hands at chest height, its screen facing her and away from the camera. Her eyes are on the screen and read in small left-to-right movements; she blinks once. Her thumb scrolls once. Her eyes stop on one line; she pauses for a moment, her eyebrows lift very slightly, and the corners of her mouth begin to rise. The smile spreads slowly and naturally, her cheeks lift and the skin around her eyes creases softly; she lets out a quiet, amused breath through her nose and keeps reading with the smile. Both eyes stay level and symmetrical, pupils aimed at the phone, and her facial proportions stay unchanged; she never looks into the lens. Her lips stay closed; she does not speak. The camera pushes in with small amplitude at slow speed toward her face. There is no text and no subtitle anywhere in the frame.
+
+      overall_soundscape: Birdsong in the trees, leaves rustling in a light breeze, distant children's voices in the park without words, and her soft breath.
+
+      non_diegetic_music: N/A
+  F4:
+    type: r2v
+    refs: [lin]
+    seed: 401
+    duration: 3.7
+    dialogue: [{character: lin, line: "Over here!"}]
+    note: P4 rewritten - she looks up to someone far away, waves and calls out (compare sunlight P4, which burned in a caption)
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the young woman in <Picture 1>: {lin}. Her face, eye shape, eyebrows, bangs and the length and color of her hair follow <Picture 1> exactly.
+
+      summary:
+      [reference generation] In a sunny park, <Subject 1> looks up toward a friend in the distance, her face lights up, and she waves and calls out to them.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - her face, facial proportions, eye shape, eyebrows, bangs, long straight dark hair, natural light makeup and plain white T-shirt are retained.
+
+      detailed_description:
+      The target video is a photorealistic, live-action short-drama shot in natural afternoon daylight, with soft dappled sunlight, natural skin texture with visible pores, realistic colors and gentle contrast.
+      [Shot 1] A close-up frames the face and shoulders of <Subject 1> in three-quarter view, sitting on the park bench with green trees and sunlit leaves softly blurred behind her; her face is large in the frame and sharply focused, warm sunlight falling on one cheek and leaf shadows moving gently over her hair. She wears her plain white T-shirt; her long straight dark hair with bangs frames her face, and a few strands move in the light breeze. Behind her, softly out of focus, the tree-lined path runs away into green shade, with bright patches of sunlight on the ground and the dark wooden back of the bench at the edge of the frame. Her skin shows natural texture and fine pores, her light makeup is subtle, and her eyelashes and the moist highlights in her eyes are sharp. At the start her eyes are lowered toward the phone in her lap. She lifts her head and her eyes go up and to the left of the frame, far into the distance along the path, where a friend is approaching out of view; her eyes focus far away and stay on that point, never on the lens. Recognition crosses her face: her eyebrows rise, her eyes widen slightly and brighten, and a wide, warm smile opens. She raises her right hand to shoulder height and waves it from side to side twice. With a bright, warm, slightly raised young female voice, <Subject 1> (S1) calls out toward the distance: <d>[English] Over here!</d> Her lips move clearly in sync with the two words; after the line her mouth settles into the open, happy smile and her hand keeps waving lightly. She blinks once naturally. Both eyes stay level and symmetrical and aim at the same distant point; her facial proportions stay unchanged as her head lifts. The camera holds a static shot. There is no text and no subtitle anywhere in the frame.
+
+      overall_soundscape: Birdsong in the trees and leaves rustling in a light breeze, with the soft rustle of her sleeve as she waves.
+
+      non_diegetic_music: N/A

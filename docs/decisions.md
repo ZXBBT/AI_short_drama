@@ -104,3 +104,33 @@ Each entry: what was decided, why, and what would make us revisit it.
   output to `~/AI_renders/comfyui`, wrapped in `caffeinate -i`.
 - The template library also lists "Comfy Cloud" / "partner" MiniMax nodes and `api_*` templates;
   those send work to paid remote services and are not used.
+
+## D17 — Image model: Qwen-Image 2.1 (owner decision 2026-10-25; downloaded 2026-10-25, MPS-tested 2026-10-26)
+- **Chosen over** Qwen-Image-Edit-2511 (Apache 2.0). Licence read at the source
+  (huggingface.co/Qwen/Qwen-Image-2.1 `LICENSE`, sha256 8dc973f0…, release date 2026-09-20): Qwen RESEARCH
+  LICENSE AGREEMENT — use only for "Non-Commercial" = "research or evaluation purposes only"; commercial use
+  needs a separate licence from Qwen (model-business@notice.qwencloud.com). Pictures made with it are treated
+  as **non-commercial**: they must be tagged as such and replaced (or licensed) before any monetised video.
+- Official ComfyUI files (Comfy-Org/Qwen-Image-2.1, listed 2026-10-25; templates in
+  comfyui-workflow-templates-json 0.1.115): text-to-image = `qwen_image_2.1_int8_convrot` 7.26 GB +
+  `qwen3vl_8b_int8_convrot` 9.35 GB + prompt enhancer `qwen3.5_9b_qwen_image_2.1_pe_t2i.int8_convrot`
+  9.47 GB + `qwen_image_2.1_vae_bf16` 0.68 GB = 26.8 GB; image edit adds `…pe_i2i.int8_convrot` 9.47 GB;
+  background removal needs no extra file; turbo variant +7.26 GB.
+- Downloaded (owner: "everything incl. turbo", 43.5 GB, `models/manifest_qwen_image_2.1.tsv`, rev 0217efd).
+- MPS test 2026-10-26 (docs/qwen-image-results.md): every mode works. Two settings are required on MPS:
+  1. **Edits: start ComfyUI with `--bf16-text-enc`.** The 8B text encoder runs on the CPU in fp16 and
+     overflowed to NaN when it read a reference picture (all-black edits, no error). bf16 keeps fp32's range.
+     Text-to-image is unaffected. H3 renders keep the normal launch (flag not tested with H3's encoder).
+  2. **Edits: `resolution` 0** (the template's value: references keep their size). 1024 upscaled a
+     480x864 reference and gave embossed, sketch-like faces; two references at 1024 ran out of memory.
+  `scripts/qwen_image.py` records the ComfyUI launch flags and marks blank pictures as failed checks.
+
+## D18 — Higher resolution: SeedVR2 as an optional upscale step (owner request 2026-10-26)
+- Owner approved the download ("3B + 7B sharp"): `models/manifest_seedvr2.tsv` (Apache 2.0, Comfy-Org/SeedVR2
+  rev df48879). Graph = official template `utility_seedvr2_3b_int8_upscale_video` (ComfyUI core nodes only).
+- Tested 2026-10-26 (docs/seedvr2-results.md): x2 works on MPS at our sizes (480x864 → 960x1728,
+  864x480 → 1728x960) in ~9-10 min per 4 s shot, 41-52 GiB peak. **Default: 7B sharp + `lab` colour**
+  (3B adds sparkle artefacts; the template's colour `none` warms the picture). Deviation from the template:
+  colour correction only.
+- Workflow: optional, after picks are confirmed and before assembly (`upscale: 7b_sharp` per shot in
+  cut.yaml, `scripts/upscale.py --cut`); never instead of fixing structure.

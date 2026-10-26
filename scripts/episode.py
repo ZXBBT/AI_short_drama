@@ -711,6 +711,12 @@ def render_take(ep, st, seed, swap_limit):
                 rec["status"], rec["error"] = "failed_checks", {"checks": problems}
             first = st["images"].get("first")
             rec["continuity"], rec["warnings"] = continuity(out, first[0] if first else None)
+            try:  # Stage 8 picture checks: warnings for the review page, never a rejection
+                import take_checks
+                rec["picture_checks"], pw = take_checks.check_video(out, p["prompt"])
+                rec["warnings"] += pw
+            except Exception as e:  # a failing check must never lose a finished render
+                rec["warnings"].append(f"picture checks failed: {e}")
         else:
             rec["status"], rec["error"] = "error", {"checks": ["no output file in history"]}
     path = REPO / "runs" / dt.date.today().isoformat() / f"{ep.name}__{p['id']}__{take_id}.json"

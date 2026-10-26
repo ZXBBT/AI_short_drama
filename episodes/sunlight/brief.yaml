@@ -25,7 +25,7 @@ style: realistic, natural afternoon sunlight through green leaves, soft dappled 
 
 characters:
   lin:
-    description: young East Asian woman, long straight dark hair with bangs, natural light makeup, white T-shirt
+    description: young East Asian woman, long straight dark hair with bangs, natural light makeup, white T-shirt, black trousers
     images: [inputs/sunlight/ref_lin_v1.png]
     voice: bright, warm
 

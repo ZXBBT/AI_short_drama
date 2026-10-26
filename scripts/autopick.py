@@ -36,6 +36,16 @@ def face_score(rec):
     return summary
 
 
+def picture_warnings(rec, prompt):
+    """Stage 8 text / lens / lip warnings of a take (scripts/take_checks.py, cached next to the video)."""
+    import take_checks  # noqa: E402
+    try:
+        return take_checks.check_video(rec["output"]["file"], prompt)[1]
+    except Exception as e:  # no verdict is not a bad take
+        print(f"picture checks failed for {rec.get('take_id')}: {e}", flush=True)
+        return []
+
+
 def rank_key(summary):
     """Higher is better; takes without a clearly visible face rank last."""
     if not summary or (summary.get("face_found_pct") or 0) < 50 or summary.get("quality_median") is None:
@@ -57,12 +67,15 @@ def auto_pick(ep):
         scored = []
         for tid in candidates:
             rec = ep.take_record(sid, tid)
-            scored.append((rank_key(face_score(rec)), tid, face_score(rec)))
+            clean = not picture_warnings(rec, ep.params(sid)["prompt"])
+            scored.append(((clean,) + rank_key(face_score(rec)), tid, face_score(rec)))
         scored.sort(key=lambda x: x[0], reverse=True)
         key, tid, s = scored[0]
-        why = (f"face quality {s['quality_median']}, {s['face_h_median']} px" if key[0]
+        why = (f"face quality {s['quality_median']}, {s['face_h_median']} px" if key[1]
                else "no clear face in any take; first good take")
         extra = "" if st["good"] else " (all takes failed checks)"
+        if not key[0]:
+            extra += " (picture-check warnings in every take: see the review page)"
         E.write_selection(ep, sid, tid, note=f"auto-pick: {why}{extra}; confirm on the review page")
         n += 1
     return n

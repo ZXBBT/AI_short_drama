@@ -1,0 +1,333 @@
+{
+ "episode": "_multiref",
+ "shot": "M1",
+ "take_id": "77b39af5_s2",
+ "fingerprint": "77b39af58759db2f946a1753461cd5ca55afb38539b0a574d6ff6b5d0c736bda",
+ "seed": 2,
+ "started": "2026-10-26T01:49:49-07:00",
+ "prompt_id": "ecd7a29e-b814-43fc-89b8-f6e63c5435e9",
+ "status": "success",
+ "error": null,
+ "events": [
+  "execution_start",
+  "execution_cached",
+  "execution_success"
+ ],
+ "wall_seconds": 859.7,
+ "node_seconds": {
+  "RandomNoise": 0.0,
+  "SamplerCustomAdvanced": 831.0,
+  "VAEDecodeAudio": 0.5,
+  "VAEDecode": 27.8,
+  "CreateVideo": 0.0,
+  "SaveVideo": 0.4
+ },
+ "memory_gib": {
+  "system_used_before": 28.3,
+  "system_used_peak": 44.4,
+  "swap_peak": 5.7,
+  "swap_limit": 20.0
+ },
+ "params": {
+  "type": "r2v",
+  "aspect": "9:16",
+  "megapixels": 0.4,
+  "duration": 3.75,
+  "width": 480,
+  "height": 864,
+  "length": 90
+ },
+ "recipe": {
+  "name": "h3_base_v2",
+  "sha256": "7e5b59ee9bb152e0f5298a95d51b3c10d2ab13296645a0107b3e39f527535355",
+  "effective": {
+   "name": "h3_base_v2",
+   "created": "2026-10-24",
+   "sampler": "res_multistep",
+   "scheduler": "simple",
+   "steps": 20,
+   "fps": 24,
+   "bit_depth": 8,
+   "attention": "pytorch",
+   "ref_image_size": "match",
+   "models": {
+    "fl2va": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "ref2va": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "video_vae": "minimax_h3_video_vae_fp16.safetensors",
+    "audio_vae": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  }
+ },
+ "inputs": {
+  "ref0": {
+   "asset": "kf_woman",
+   "file": "inputs/midnight_call/kf_S001_desk_v1.png",
+   "sha256": "22eb5a378b31cc85f5bb12b469875109fbb543f67d47f405dc2696ebdc1fd341",
+   "uploaded_as": "ai_short_drama/22eb5a378b31cc85.png"
+  },
+  "ref1": {
+   "asset": "room_plate",
+   "file": "inputs/_location/room_plate_v1.png",
+   "sha256": "6d88684560266d2e98f2b1ed6d9f58903f62a47493cab6aca94124446491fa37",
+   "uploaded_as": "ai_short_drama/6d88684560266d2e.png"
+  }
+ },
+ "prompt_text": "subject_definitions:\n<Subject 1> is the young woman in <Picture 1>: young East Asian woman, long dark hair in a low side ponytail, long beige-grey cardigan over a light top. Her face, eye shape, eyebrows and hairstyle follow <Picture 1> exactly.\n<Subject 2> is the apartment environment in <Picture 2>: a small living room at night with plain light walls, a wooden desk, a lamp with a pleated shade giving warm light, a beige sofa and a tall window with rain on the glass.\n\nsummary:\n[reference generation] At night in <Subject 2>, <Subject 1> sits at the wooden desk under the warm lamp and reads a handwritten letter; a quiet, thoughtful moment.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - her face, facial proportions, eye shape, eyebrows, low side ponytail and long beige-grey cardigan are retained.\n<Subject 2> (appears in [Shot 1]): fully_preserved - the light walls, wooden desk, pleated lamp shade, beige sofa and rainy window are retained as the background.\n\ndetailed_description:\nThe target video is a photorealistic, live-action short-drama shot at night, lit mainly by the warm desk lamp, with soft shadows, natural skin texture and realistic colors.\n[Shot 1] A medium close-up from the front frames <Subject 1> from the chest up as she sits at the wooden desk of <Subject 2>; the camera is at her eye level, a little to the left of the lamp, and her face fills a large part of the frame and is in sharp focus. She wears her long beige-grey cardigan over a light top, and her long dark hair is gathered in a low side ponytail over one shoulder. The lamp with the pleated shade stands at the right edge of the frame and lights the side of her face warmly, leaving a soft golden highlight on her cheekbone and a gentle shadow along her jaw. On the desk in front of her lie an opened envelope and a ceramic mug, slightly out of focus at the lower edge of the frame. Her skin shows natural texture and fine pores, her eyelashes are sharp, and a small moist highlight from the lamp shines in each eye. Behind her, softly out of focus but recognisable, the room of <Subject 2> continues: the plain light wall, the beige sofa, and the tall window with raindrops running down the glass and blurred city lights outside. She holds a handwritten letter in both hands at chest height, the paper facing her. Her eyes move along the lines from left to right in small steps; she blinks once. At one line her eyes stop; she pauses, her eyebrows draw together very slightly, then relax. She lowers the letter a little, her gaze drops to the desk for a moment, and she takes a slow, quiet breath; the corners of her mouth soften but she does not smile. Both eyes stay level and symmetrical, pupils aimed at the same point, and her facial proportions stay unchanged; she never looks into the lens. Her lips stay closed; she does not speak. The camera holds a static shot. There is no text anywhere in the frame.\n\noverall_soundscape: Rain tapping on the window, a soft paper rustle as she lowers the letter, and her quiet breath in a calm room.\n\nnon_diegetic_music: N/A",
+ "episode_file_sha256": "160ac679d24015af18db1310523e3c5659c861777d5cdc6b88583cdc4e0f7c15",
+ "env": {
+  "comfyui": "0.42.1",
+  "pytorch": "2.14.1",
+  "python": "3.13.17",
+  "comfyui_argv": [
+   "main.py",
+   "--listen",
+   "127.0.0.1",
+   "--port",
+   "8188",
+   "--extra-model-paths-config",
+   "/Users/marcusmao/dev/AI_short_drama/config/extra_model_paths.yaml",
+   "--output-directory",
+   "/Users/marcusmao/AI_renders/comfyui",
+   "--disable-all-custom-nodes",
+   "--use-pytorch-cross-attention"
+  ],
+  "repo_commit": "7b2b08a",
+  "repo_dirty": true
+ },
+ "api_prompt": {
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "clip": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "type": "minimax",
+    "device": "default"
+   }
+  },
+  "vae_v": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+   }
+  },
+  "vae_a": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  },
+  "img_ref0": {
+   "class_type": "LoadImage",
+   "inputs": {
+    "image": "ai_short_drama/22eb5a378b31cc85.png"
+   }
+  },
+  "img_ref1": {
+   "class_type": "LoadImage",
+   "inputs": {
+    "image": "ai_short_drama/6d88684560266d2e.png"
+   }
+  },
+  "cond": {
+   "class_type": "MiniMaxH3ReferenceToVideo",
+   "inputs": {
+    "clip": [
+     "clip",
+     0
+    ],
+    "prompt": "subject_definitions:\n<Subject 1> is the young woman in <Picture 1>: young East Asian woman, long dark hair in a low side ponytail, long beige-grey cardigan over a light top. Her face, eye shape, eyebrows and hairstyle follow <Picture 1> exactly.\n<Subject 2> is the apartment environment in <Picture 2>: a small living room at night with plain light walls, a wooden desk, a lamp with a pleated shade giving warm light, a beige sofa and a tall window with rain on the glass.\n\nsummary:\n[reference generation] At night in <Subject 2>, <Subject 1> sits at the wooden desk under the warm lamp and reads a handwritten letter; a quiet, thoughtful moment.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - her face, facial proportions, eye shape, eyebrows, low side ponytail and long beige-grey cardigan are retained.\n<Subject 2> (appears in [Shot 1]): fully_preserved - the light walls, wooden desk, pleated lamp shade, beige sofa and rainy window are retained as the background.\n\ndetailed_description:\nThe target video is a photorealistic, live-action short-drama shot at night, lit mainly by the warm desk lamp, with soft shadows, natural skin texture and realistic colors.\n[Shot 1] A medium close-up from the front frames <Subject 1> from the chest up as she sits at the wooden desk of <Subject 2>; the camera is at her eye level, a little to the left of the lamp, and her face fills a large part of the frame and is in sharp focus. She wears her long beige-grey cardigan over a light top, and her long dark hair is gathered in a low side ponytail over one shoulder. The lamp with the pleated shade stands at the right edge of the frame and lights the side of her face warmly, leaving a soft golden highlight on her cheekbone and a gentle shadow along her jaw. On the desk in front of her lie an opened envelope and a ceramic mug, slightly out of focus at the lower edge of the frame. Her skin shows natural texture and fine pores, her eyelashes are sharp, and a small moist highlight from the lamp shines in each eye. Behind her, softly out of focus but recognisable, the room of <Subject 2> continues: the plain light wall, the beige sofa, and the tall window with raindrops running down the glass and blurred city lights outside. She holds a handwritten letter in both hands at chest height, the paper facing her. Her eyes move along the lines from left to right in small steps; she blinks once. At one line her eyes stop; she pauses, her eyebrows draw together very slightly, then relax. She lowers the letter a little, her gaze drops to the desk for a moment, and she takes a slow, quiet breath; the corners of her mouth soften but she does not smile. Both eyes stay level and symmetrical, pupils aimed at the same point, and her facial proportions stay unchanged; she never looks into the lens. Her lips stay closed; she does not speak. The camera holds a static shot. There is no text anywhere in the frame.\n\noverall_soundscape: Rain tapping on the window, a soft paper rustle as she lowers the letter, and her quiet breath in a calm room.\n\nnon_diegetic_music: N/A",
+    "width": 480,
+    "height": 864,
+    "length": 90,
+    "vae": [
+     "vae_v",
+     0
+    ],
+    "audio_vae": [
+     "vae_a",
+     0
+    ],
+    "ref_image_size": "match",
+    "ref_images.ref_image_0": [
+     "img_ref0",
+     0
+    ],
+    "ref_images.ref_image_1": [
+     "img_ref1",
+     0
+    ]
+   }
+  },
+  "noise": {
+   "class_type": "RandomNoise",
+   "inputs": {
+    "noise_seed": 2
+   }
+  },
+  "sampler": {
+   "class_type": "KSamplerSelect",
+   "inputs": {
+    "sampler_name": "res_multistep"
+   }
+  },
+  "sigmas": {
+   "class_type": "BasicScheduler",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "scheduler": "simple",
+    "steps": 20,
+    "denoise": 1.0
+   }
+  },
+  "guider": {
+   "class_type": "BasicGuider",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "conditioning": [
+     "cond",
+     0
+    ]
+   }
+  },
+  "sample": {
+   "class_type": "SamplerCustomAdvanced",
+   "inputs": {
+    "noise": [
+     "noise",
+     0
+    ],
+    "guider": [
+     "guider",
+     0
+    ],
+    "sampler": [
+     "sampler",
+     0
+    ],
+    "sigmas": [
+     "sigmas",
+     0
+    ],
+    "latent_image": [
+     "cond",
+     1
+    ]
+   }
+  },
+  "decode_v": {
+   "class_type": "VAEDecode",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "decode_a": {
+   "class_type": "VAEDecodeAudio",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_a",
+     0
+    ]
+   }
+  },
+  "video": {
+   "class_type": "CreateVideo",
+   "inputs": {
+    "images": [
+     "decode_v",
+     0
+    ],
+    "audio": [
+     "decode_a",
+     0
+    ],
+    "fps": 24,
+    "bit_depth": 8
+   }
+  },
+  "save": {
+   "class_type": "SaveVideo",
+   "inputs": {
+    "video": [
+     "video",
+     0
+    ],
+    "filename_prefix": "episodes/_multiref/M1/M1_77b39af5_s2",
+    "format": "auto",
+    "format.codec": "auto"
+   }
+  }
+ },
+ "output": {
+  "file": "/Users/marcusmao/AI_renders/comfyui/episodes/_multiref/M1/M1_77b39af5_s2_00001_.mp4",
+  "bytes": 466146,
+  "video": {
+   "frames": 90,
+   "width": 480,
+   "height": 864,
+   "fps": 24.0,
+   "codec": "h264",
+   "mean_min": 92.4,
+   "mean_max": 94.2,
+   "std_min": 59.9,
+   "black_frames": 0
+  },
+  "audio": {
+   "samples": 240000,
+   "sample_rate": 32000,
+   "finite": true,
+   "rms": 0.004528852589379814,
+   "peak": 0.03670784831047058
+  },
+  "sha256": "34033610e25963fc8a3fc48839cf014926f039f0ff5e2fa93c0e0891d0b88405"
+ },
+ "continuity": {
+  "median_frame_diff": 0.83,
+  "max_frame_diff": 2.3,
+  "cuts": []
+ },
+ "warnings": [],
+ "picture_checks": {
+  "frames_sampled": 45,
+  "text": [],
+  "eyes": {
+   "face_frames": 45,
+   "lens_contact_frames": [],
+   "lens_contact_share": 0.0
+  },
+  "lips": {
+   "cycles": 0,
+   "cycles_per_4s": 0.0,
+   "range": 0.01,
+   "expected": "silent"
+  },
+  "expect": {
+   "allowed_text": [],
+   "lens_contact_ok": false,
+   "speech": "silent"
+  }
+ }
+}

@@ -1,0 +1,333 @@
+{
+ "episode": "_multiref",
+ "shot": "M3",
+ "take_id": "6e895397_s32",
+ "fingerprint": "6e8953974df413cae7b0fd015e88db7dd1f805d0401843b7c6532a8202a41610",
+ "seed": 32,
+ "started": "2026-10-26T02:47:10-07:00",
+ "prompt_id": "adeec562-99cb-4bc9-9258-86e325cbe413",
+ "status": "success",
+ "error": null,
+ "events": [
+  "execution_start",
+  "execution_cached",
+  "execution_success"
+ ],
+ "wall_seconds": 783.3,
+ "node_seconds": {
+  "RandomNoise": 0.0,
+  "SamplerCustomAdvanced": 754.6,
+  "VAEDecodeAudio": 0.5,
+  "VAEDecode": 27.8,
+  "CreateVideo": 0.0,
+  "SaveVideo": 0.4
+ },
+ "memory_gib": {
+  "system_used_before": 32.9,
+  "system_used_peak": 45.8,
+  "swap_peak": 5.09,
+  "swap_limit": 20.0
+ },
+ "params": {
+  "type": "r2v",
+  "aspect": "9:16",
+  "megapixels": 0.4,
+  "duration": 3.75,
+  "width": 480,
+  "height": 864,
+  "length": 90
+ },
+ "recipe": {
+  "name": "h3_base_v2",
+  "sha256": "7e5b59ee9bb152e0f5298a95d51b3c10d2ab13296645a0107b3e39f527535355",
+  "effective": {
+   "name": "h3_base_v2",
+   "created": "2026-10-24",
+   "sampler": "res_multistep",
+   "scheduler": "simple",
+   "steps": 20,
+   "fps": 24,
+   "bit_depth": 8,
+   "attention": "pytorch",
+   "ref_image_size": "match",
+   "models": {
+    "fl2va": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "ref2va": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "video_vae": "minimax_h3_video_vae_fp16.safetensors",
+    "audio_vae": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  }
+ },
+ "inputs": {
+  "ref0": {
+   "asset": "char_lin_1",
+   "file": "inputs/sunlight/ref_lin_v1.png",
+   "sha256": "408f5f917e5a12697265b68a7e8411ad788e204b5a64fa2bdf0e110d0d4ba9c2",
+   "uploaded_as": "ai_short_drama/408f5f917e5a1269.png"
+  },
+  "ref1": {
+   "asset": "park_plate",
+   "file": "inputs/_location/park_plate_v1.png",
+   "sha256": "7185acdb9023226e12d978aaa1664e85179c9eb4ca6c1c3e4cdbb52b3efe7a93",
+   "uploaded_as": "ai_short_drama/7185acdb9023226e.png"
+  }
+ },
+ "prompt_text": "subject_definitions:\n<Subject 1> is the young woman in <Picture 1>: young East Asian woman, long straight dark hair with bangs, natural light makeup, white T-shirt, black trousers. Her face, eye shape, eyebrows, bangs and the length and color of her hair follow <Picture 1> exactly.\n<Subject 2> is the park environment in <Picture 2>: a paved path running away into the distance, a black lamp post, a wooden bench with a curved black iron frame on the grass, and tall trees whose trunks are painted white at the base, in afternoon sunlight.\n\nsummary:\n[reference generation] In <Subject 2> on a sunny afternoon, <Subject 1> sits on the wooden bench, looks along the path as if waiting for someone, and checks the time on her phone.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - her face, facial proportions, eye shape, eyebrows, bangs, long straight dark hair, natural light makeup, plain white T-shirt and black trousers are retained.\n<Subject 2> (appears in [Shot 1]): fully_preserved - the paved path, black lamp post, wooden bench with the curved black iron frame and the white-painted tree trunks are retained as the background.\n\ndetailed_description:\nThe target video is a photorealistic, live-action short-drama shot in natural afternoon daylight, with soft dappled sunlight, natural skin texture with visible pores and realistic colors.\n[Shot 1] A medium close-up frames <Subject 1> from the chest up, sitting on the wooden bench of <Subject 2> and turned slightly toward the right of the frame; her face is large in the frame and in sharp focus. She wears her plain white T-shirt and black trousers, and her long straight dark hair with bangs falls over her shoulders, a few strands moving in a light breeze. The curved black iron armrest of the bench and a strip of its weathered wooden slats show at the lower edge of the frame. Warm afternoon sun comes from behind the trees at the upper left, giving her hair a soft bright rim and lighting her face evenly, with leaf shadows drifting slowly across her shoulders. Her skin shows natural texture and fine pores, her light makeup is subtle, and her eyelashes and the moist highlights in her eyes are sharp. Behind her, softly out of focus but recognisable, is the park of <Subject 2>: the paved path running away into the distance, the black lamp post and the tall trees with trunks painted white at the base, with patches of sunlight on the grass. Nobody else is in the park. She holds a black smartphone loosely in her lap. At the start her eyes look along the path toward the far end, focused in the distance, as if waiting for someone; she blinks once. Her gaze drops to the phone; she lifts it a little, presses the side button so the screen lights toward her, glances at it, and lowers it again. Her eyes return to the far end of the path; she takes a small breath and presses her lips together patiently, without a smile. Both eyes stay level and symmetrical, pupils aimed at the same point, and her facial proportions stay unchanged; she never looks into the lens. Her lips stay closed; she does not speak. The camera holds a static shot. There is no text anywhere in the frame.\n\noverall_soundscape: Birdsong in the trees, leaves rustling in a light breeze, and a soft click as she presses the phone's button.\n\nnon_diegetic_music: N/A",
+ "episode_file_sha256": "160ac679d24015af18db1310523e3c5659c861777d5cdc6b88583cdc4e0f7c15",
+ "env": {
+  "comfyui": "0.42.1",
+  "pytorch": "2.14.1",
+  "python": "3.13.17",
+  "comfyui_argv": [
+   "main.py",
+   "--listen",
+   "127.0.0.1",
+   "--port",
+   "8188",
+   "--extra-model-paths-config",
+   "/Users/marcusmao/dev/AI_short_drama/config/extra_model_paths.yaml",
+   "--output-directory",
+   "/Users/marcusmao/AI_renders/comfyui",
+   "--disable-all-custom-nodes",
+   "--use-pytorch-cross-attention"
+  ],
+  "repo_commit": "7b2b08a",
+  "repo_dirty": true
+ },
+ "api_prompt": {
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "clip": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "type": "minimax",
+    "device": "default"
+   }
+  },
+  "vae_v": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+   }
+  },
+  "vae_a": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  },
+  "img_ref0": {
+   "class_type": "LoadImage",
+   "inputs": {
+    "image": "ai_short_drama/408f5f917e5a1269.png"
+   }
+  },
+  "img_ref1": {
+   "class_type": "LoadImage",
+   "inputs": {
+    "image": "ai_short_drama/7185acdb9023226e.png"
+   }
+  },
+  "cond": {
+   "class_type": "MiniMaxH3ReferenceToVideo",
+   "inputs": {
+    "clip": [
+     "clip",
+     0
+    ],
+    "prompt": "subject_definitions:\n<Subject 1> is the young woman in <Picture 1>: young East Asian woman, long straight dark hair with bangs, natural light makeup, white T-shirt, black trousers. Her face, eye shape, eyebrows, bangs and the length and color of her hair follow <Picture 1> exactly.\n<Subject 2> is the park environment in <Picture 2>: a paved path running away into the distance, a black lamp post, a wooden bench with a curved black iron frame on the grass, and tall trees whose trunks are painted white at the base, in afternoon sunlight.\n\nsummary:\n[reference generation] In <Subject 2> on a sunny afternoon, <Subject 1> sits on the wooden bench, looks along the path as if waiting for someone, and checks the time on her phone.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - her face, facial proportions, eye shape, eyebrows, bangs, long straight dark hair, natural light makeup, plain white T-shirt and black trousers are retained.\n<Subject 2> (appears in [Shot 1]): fully_preserved - the paved path, black lamp post, wooden bench with the curved black iron frame and the white-painted tree trunks are retained as the background.\n\ndetailed_description:\nThe target video is a photorealistic, live-action short-drama shot in natural afternoon daylight, with soft dappled sunlight, natural skin texture with visible pores and realistic colors.\n[Shot 1] A medium close-up frames <Subject 1> from the chest up, sitting on the wooden bench of <Subject 2> and turned slightly toward the right of the frame; her face is large in the frame and in sharp focus. She wears her plain white T-shirt and black trousers, and her long straight dark hair with bangs falls over her shoulders, a few strands moving in a light breeze. The curved black iron armrest of the bench and a strip of its weathered wooden slats show at the lower edge of the frame. Warm afternoon sun comes from behind the trees at the upper left, giving her hair a soft bright rim and lighting her face evenly, with leaf shadows drifting slowly across her shoulders. Her skin shows natural texture and fine pores, her light makeup is subtle, and her eyelashes and the moist highlights in her eyes are sharp. Behind her, softly out of focus but recognisable, is the park of <Subject 2>: the paved path running away into the distance, the black lamp post and the tall trees with trunks painted white at the base, with patches of sunlight on the grass. Nobody else is in the park. She holds a black smartphone loosely in her lap. At the start her eyes look along the path toward the far end, focused in the distance, as if waiting for someone; she blinks once. Her gaze drops to the phone; she lifts it a little, presses the side button so the screen lights toward her, glances at it, and lowers it again. Her eyes return to the far end of the path; she takes a small breath and presses her lips together patiently, without a smile. Both eyes stay level and symmetrical, pupils aimed at the same point, and her facial proportions stay unchanged; she never looks into the lens. Her lips stay closed; she does not speak. The camera holds a static shot. There is no text anywhere in the frame.\n\noverall_soundscape: Birdsong in the trees, leaves rustling in a light breeze, and a soft click as she presses the phone's button.\n\nnon_diegetic_music: N/A",
+    "width": 480,
+    "height": 864,
+    "length": 90,
+    "vae": [
+     "vae_v",
+     0
+    ],
+    "audio_vae": [
+     "vae_a",
+     0
+    ],
+    "ref_image_size": "match",
+    "ref_images.ref_image_0": [
+     "img_ref0",
+     0
+    ],
+    "ref_images.ref_image_1": [
+     "img_ref1",
+     0
+    ]
+   }
+  },
+  "noise": {
+   "class_type": "RandomNoise",
+   "inputs": {
+    "noise_seed": 32
+   }
+  },
+  "sampler": {
+   "class_type": "KSamplerSelect",
+   "inputs": {
+    "sampler_name": "res_multistep"
+   }
+  },
+  "sigmas": {
+   "class_type": "BasicScheduler",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "scheduler": "simple",
+    "steps": 20,
+    "denoise": 1.0
+   }
+  },
+  "guider": {
+   "class_type": "BasicGuider",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "conditioning": [
+     "cond",
+     0
+    ]
+   }
+  },
+  "sample": {
+   "class_type": "SamplerCustomAdvanced",
+   "inputs": {
+    "noise": [
+     "noise",
+     0
+    ],
+    "guider": [
+     "guider",
+     0
+    ],
+    "sampler": [
+     "sampler",
+     0
+    ],
+    "sigmas": [
+     "sigmas",
+     0
+    ],
+    "latent_image": [
+     "cond",
+     1
+    ]
+   }
+  },
+  "decode_v": {
+   "class_type": "VAEDecode",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "decode_a": {
+   "class_type": "VAEDecodeAudio",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_a",
+     0
+    ]
+   }
+  },
+  "video": {
+   "class_type": "CreateVideo",
+   "inputs": {
+    "images": [
+     "decode_v",
+     0
+    ],
+    "audio": [
+     "decode_a",
+     0
+    ],
+    "fps": 24,
+    "bit_depth": 8
+   }
+  },
+  "save": {
+   "class_type": "SaveVideo",
+   "inputs": {
+    "video": [
+     "video",
+     0
+    ],
+    "filename_prefix": "episodes/_multiref/M3/M3_6e895397_s32",
+    "format": "auto",
+    "format.codec": "auto"
+   }
+  }
+ },
+ "output": {
+  "file": "/Users/marcusmao/AI_renders/comfyui/episodes/_multiref/M3/M3_6e895397_s32_00001_.mp4",
+  "bytes": 608619,
+  "video": {
+   "frames": 90,
+   "width": 480,
+   "height": 864,
+   "fps": 24.0,
+   "codec": "h264",
+   "mean_min": 77.5,
+   "mean_max": 80.1,
+   "std_min": 62.9,
+   "black_frames": 0
+  },
+  "audio": {
+   "samples": 240000,
+   "sample_rate": 32000,
+   "finite": true,
+   "rms": 0.0027569581433349853,
+   "peak": 0.02239522710442543
+  },
+  "sha256": "38858138f3858156161da842e9bb85a17cc03542175ef3e78f3ca9fcee2b975c"
+ },
+ "continuity": {
+  "median_frame_diff": 1.46,
+  "max_frame_diff": 6.0,
+  "cuts": []
+ },
+ "warnings": [],
+ "picture_checks": {
+  "frames_sampled": 45,
+  "text": [],
+  "eyes": {
+   "face_frames": 45,
+   "lens_contact_frames": [],
+   "lens_contact_share": 0.0
+  },
+  "lips": {
+   "cycles": 0,
+   "cycles_per_4s": 0.0,
+   "range": 0.039,
+   "expected": "silent"
+  },
+  "expect": {
+   "allowed_text": [],
+   "lens_contact_ok": false,
+   "speech": "silent"
+  }
+ }
+}

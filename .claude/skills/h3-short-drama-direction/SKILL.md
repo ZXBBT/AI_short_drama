@@ -20,7 +20,14 @@ Urban_Lifestyle_Commercial_V2_Revision_Brief_EN.md`, 2026-10-25). Apply both ski
    unless a character speaks on screen). Narration, music and room beds are separate assets mixed in
    the edit (section 7).
 4. Review: anatomy (eyes, hands, background people) frame by frame, then continuity, then sound.
+   `scripts/take_checks.py` flags burned-in text, lens contact and lips moving in silent shots (warnings
+   on the review page, calibrated on owner-reviewed takes); look at every flagged frame by eye.
+   Across a cut, check the eyeline: the head must turn to the same side of the frame toward the same
+   target (Vision head yaw, Sunlight v2: P3 -45, P4 -20, P5 -45 degrees). Trust the measurement over a
+   glance at thumbnails. If one take faces the wrong way, `mirror: true` in cut.yaml flips it.
 5. Only after structure is right: exposure/colour matching, then (never instead) sharpening/upscaling.
+6. Length of an R2V `detailed_description`: 350-500 words (official guide; a single shot does not
+   justify a shorter one; dialogue-dense shots may be shorter). check-plan warns below 350.
 
 ## 2. Eyes and attention (every shot with a face)
 - Give each shot a **gaze plan**: target 1 → (motivated change) → target 2, with timing. Name real
@@ -50,6 +57,11 @@ Urban_Lifestyle_Commercial_V2_Revision_Brief_EN.md`, 2026-10-25). Apply both ski
 - Defocused people still need stable silhouettes: "softly out of focus but with clear, stable heads,
   shoulders and arms".
 - Quiet conversation = indistinct murmur in `overall_soundscape`, never `<d>` lines.
+- **No small, distant figures crossing the frame, and no animals in the background** (owner, Sunlight F2,
+  2026-10-25: a far-away dog walker and dog slid across the frame with legs barely moving). H3 animates
+  small far figures badly: they glide. Give background life with people who stay in place (sitting,
+  standing, talking, reading) and move only a little; if someone must walk, make them large enough to see
+  their steps, or keep them out of the shot.
 
 ## 5. Places and geometry (write the layout as facts)
 - Subway car: "the camera looks along the length of the carriage; sliding passenger doors are set into
@@ -57,11 +69,20 @@ Urban_Lifestyle_Commercial_V2_Revision_Brief_EN.md`, 2026-10-25). Apply both ski
   straps and vertical poles run lengthwise; the end of the car has a separate narrow gangway door;
   through the side windows the tunnel lights streak from front to back".
 - Keep the same layout words in every shot of the location (wide and close-up).
+- **Location pictures as references work in the official format** (`_multiref`, 2026-10-26): one character
+  plus one location plate, the plate defined as its own subject ("<Subject 2> is the park environment in
+  <Picture 2>: …" listing its landmarks), the camera position and a medium close-up written out, and the
+  place described as "softly out of focus but recognisable" behind the face. Results: the room or park
+  is kept, faces are frontal at 165-231 px (old free-text L1: 47 px side view; L2: seen from behind).
+  Two character references in one shot remain untested in this format: keep to one.
 
 ## 6. Continuity of objects and order of actions
 - Track object states across shots in the shot list notes (laptop open/closed, cup position, phone in
   hand/pocket, backpack on/off, can unopened/opened, overshirt on/off).
 - Order actions so states never go backwards (phone → close laptop → leave).
+- The character description names the **whole outfit**: top, trousers/skirt (or a dress), and shoes when
+  a shot shows the feet. Whatever it leaves out, H3 invents per shot and it drifts (Sunlight P5 trousers).
+  check-plan warns when a shot shows the lower body or feet and the description lacks them.
 - Product: one approved reference picture per product shot; small print that must be exact (capacity,
   slogans) is added by compositing, not trusted to the model.
 
@@ -88,3 +109,5 @@ Urban_Lifestyle_Commercial_V2_Revision_Brief_EN.md`, 2026-10-25). Apply both ski
 - 864x480 (0.4 MP) up to 107 frames (4.46 s); 608x352 up to 124 frames. H3's trained length is
   124-362 frames: shots shorter than ~3 s are outside it - prefer 90-107 frames for performance shots.
 - Audio-only assets: tiny picture (e.g. 320x192), up to 15 s (362 frames), only the soundtrack is used.
+- Higher resolution comes after picks, not from rendering bigger: SeedVR2 7B sharp x2 (`upscale: 7b_sharp`
+  in cut.yaml, `scripts/upscale.py --cut`), ~10 min per 4 s shot, D18.

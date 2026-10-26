@@ -1,0 +1,246 @@
+{
+ "tool": "seedvr2_upscale",
+ "name": "sunlight_P2",
+ "model": "seedvr2_3b_int8_convrot.safetensors",
+ "vae": "seedvr2_ema_vae_fp16.safetensors",
+ "scale": 2.0,
+ "seed": 1,
+ "color_correction": "none",
+ "chunk": null,
+ "started": "2026-10-26T03:00:41-07:00",
+ "status": "success",
+ "error": null,
+ "input": {
+  "file": "/Users/marcusmao/AI_renders/comfyui/episodes/sunlight/P2/P2_8e54c05f_s201_00001_.mp4",
+  "sha256": "0f5f7afc006edbd9754936233d1937fa90a2e4045adb22d374cd7d4911942ec5"
+ },
+ "wall_seconds": 544.3,
+ "node_seconds": {
+  "LoadVideo": 0.1,
+  "GetVideoComponents": 0.2,
+  "ResizeImageMaskNode": 1.5,
+  "VAELoader": 0.3,
+  "SeedVR2Preprocess": 0.2,
+  "VAEEncodeTiled": 124.2,
+  "UNETLoader": 0.1,
+  "SeedVR2Conditioning": 0.0,
+  "KSampler": 68.0,
+  "VAEDecodeTiled": 348.3,
+  "SeedVR2PostProcessing": 0.0,
+  "CreateVideo": 0.0,
+  "SaveVideo": 1.5
+ },
+ "memory_gib": {
+  "system_used_before": 29.7,
+  "system_used_peak": 46.6,
+  "swap_peak": 5.02
+ },
+ "outputs": [
+  {
+   "file": "/Users/marcusmao/AI_renders/comfyui/upscaled/sunlight_P2_3b_x2_00001_.mp4",
+   "bytes": 5380007,
+   "video": {
+    "frames": 107,
+    "width": 960,
+    "height": 1728,
+    "fps": 24.0,
+    "codec": "h264",
+    "mean_min": 86.4,
+    "mean_max": 91.4,
+    "std_min": 65.4,
+    "black_frames": 0
+   },
+   "audio": {
+    "samples": 284800,
+    "sample_rate": 32000,
+    "finite": true,
+    "rms": 0.0019482182316398202,
+    "peak": 0.011533566750586033
+   },
+   "sha256": "84251e475fdc82ef128e7d184126532b951a72809bf575ae87db408d07a58937"
+  }
+ ],
+ "comfyui_argv": [
+  "main.py",
+  "--listen",
+  "127.0.0.1",
+  "--port",
+  "8188",
+  "--extra-model-paths-config",
+  "/Users/marcusmao/dev/AI_short_drama/config/extra_model_paths.yaml",
+  "--output-directory",
+  "/Users/marcusmao/AI_renders/comfyui",
+  "--disable-all-custom-nodes",
+  "--use-pytorch-cross-attention"
+ ],
+ "meta": {
+  "episode": "sunlight",
+  "shot": "P2",
+  "take": "8e54c05f_s201"
+ },
+ "api_prompt": {
+  "load": {
+   "class_type": "LoadVideo",
+   "inputs": {
+    "file": "ai_short_drama_0f5f7afc006edbd9.mp4"
+   }
+  },
+  "parts": {
+   "class_type": "GetVideoComponents",
+   "inputs": {
+    "video": [
+     "load",
+     0
+    ]
+   }
+  },
+  "resize": {
+   "class_type": "ResizeImageMaskNode",
+   "inputs": {
+    "input": [
+     "parts",
+     0
+    ],
+    "resize_type": "scale by multiplier",
+    "resize_type.multiplier": 2.0,
+    "scale_method": "lanczos"
+   }
+  },
+  "pre": {
+   "class_type": "SeedVR2Preprocess",
+   "inputs": {
+    "resized_images": [
+     "resize",
+     0
+    ]
+   }
+  },
+  "vae": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "seedvr2_ema_vae_fp16.safetensors"
+   }
+  },
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "seedvr2_3b_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "enc": {
+   "class_type": "VAEEncodeTiled",
+   "inputs": {
+    "tile_size": 512,
+    "overlap": 128,
+    "temporal_size": 64,
+    "temporal_overlap": 8,
+    "pixels": [
+     "pre",
+     0
+    ],
+    "vae": [
+     "vae",
+     0
+    ]
+   }
+  },
+  "cond": {
+   "class_type": "SeedVR2Conditioning",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "vae_conditioning": [
+     "enc",
+     0
+    ]
+   }
+  },
+  "ks": {
+   "class_type": "KSampler",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "positive": [
+     "cond",
+     0
+    ],
+    "negative": [
+     "cond",
+     1
+    ],
+    "latent_image": [
+     "enc",
+     0
+    ],
+    "seed": 1,
+    "steps": 1,
+    "cfg": 1.0,
+    "sampler_name": "euler",
+    "scheduler": "simple",
+    "denoise": 1.0
+   }
+  },
+  "dec": {
+   "class_type": "VAEDecodeTiled",
+   "inputs": {
+    "tile_size": 512,
+    "overlap": 128,
+    "temporal_size": 64,
+    "temporal_overlap": 8,
+    "samples": [
+     "ks",
+     0
+    ],
+    "vae": [
+     "vae",
+     0
+    ]
+   }
+  },
+  "post": {
+   "class_type": "SeedVR2PostProcessing",
+   "inputs": {
+    "images": [
+     "dec",
+     0
+    ],
+    "original_resized_images": [
+     "resize",
+     0
+    ],
+    "color_correction_method": "none"
+   }
+  },
+  "video": {
+   "class_type": "CreateVideo",
+   "inputs": {
+    "images": [
+     "post",
+     0
+    ],
+    "fps": 24.0,
+    "audio": [
+     "parts",
+     1
+    ]
+   }
+  },
+  "save": {
+   "class_type": "SaveVideo",
+   "inputs": {
+    "video": [
+     "video",
+     0
+    ],
+    "filename_prefix": "upscaled/sunlight_P2_3b_x2",
+    "format": "auto",
+    "format.codec": "auto"
+   }
+  }
+ }
+}

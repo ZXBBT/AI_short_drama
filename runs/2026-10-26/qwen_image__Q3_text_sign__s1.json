@@ -1,0 +1,142 @@
+{
+ "tool": "qwen_image",
+ "name": "Q3_text_sign",
+ "seed": 1,
+ "started": "2026-10-26T01:06:25-07:00",
+ "status": "success",
+ "error": null,
+ "wall_seconds": 114.7,
+ "node_seconds": {
+  "EmptyLatentImage": 0.0,
+  "TextEncodeQwenImage21": 7.7,
+  "UNETLoader": 0.0,
+  "QwenImage21Cache": 0.0,
+  "KSampler": 105.4,
+  "VAEDecode": 1.4,
+  "SaveImage": 0.2
+ },
+ "memory_gib": {
+  "system_used_before": 30.8,
+  "system_used_peak": 34.6,
+  "swap_peak": 4.54
+ },
+ "outputs": [
+  {
+   "file": "/Users/marcusmao/AI_renders/comfyui/qwen_image/Q3_text_sign_s1_00001_.png",
+   "sha256": "c7a981cfca7679ab0b9e6f216f0c100890bed8c819ba3dce2b930f113660c8fd"
+  }
+ ],
+ "licence": "Qwen-Image 2.1, Qwen RESEARCH LICENSE: non-commercial (research/evaluation) only",
+ "meta": {
+  "mode": "t2i",
+  "width": 1024,
+  "height": 1024,
+  "steps": 25,
+  "prompt": "Photorealistic photograph of a small cafe storefront on a quiet city street in the afternoon. Above the door hangs a wooden sign with the painted words \"SUNLIGHT CAFE\" in white capital letters, and a chalkboard beside the door reads \"Fresh coffee 9am - 6pm\". Natural light, realistic textures.",
+  "negative": "blurry, watermark"
+ },
+ "api_prompt": {
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "qwen_image_2.1_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "cache": {
+   "class_type": "QwenImage21Cache",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "device": "auto",
+    "dtype": "default"
+   }
+  },
+  "clip": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "qwen3vl_8b_int8_convrot.safetensors",
+    "type": "qwen_image",
+    "device": "default"
+   }
+  },
+  "vae": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "qwen_image_2.1_vae_bf16.safetensors"
+   }
+  },
+  "enc": {
+   "class_type": "TextEncodeQwenImage21",
+   "inputs": {
+    "clip": [
+     "clip",
+     0
+    ],
+    "prompt": "Photorealistic photograph of a small cafe storefront on a quiet city street in the afternoon. Above the door hangs a wooden sign with the painted words \"SUNLIGHT CAFE\" in white capital letters, and a chalkboard beside the door reads \"Fresh coffee 9am - 6pm\". Natural light, realistic textures.",
+    "negative_prompt": "blurry, watermark",
+    "resolution": 1024
+   }
+  },
+  "latent": {
+   "class_type": "EmptyLatentImage",
+   "inputs": {
+    "width": 1024,
+    "height": 1024,
+    "batch_size": 1
+   }
+  },
+  "ks": {
+   "class_type": "KSampler",
+   "inputs": {
+    "model": [
+     "cache",
+     0
+    ],
+    "positive": [
+     "enc",
+     0
+    ],
+    "negative": [
+     "enc",
+     1
+    ],
+    "latent_image": [
+     "latent",
+     0
+    ],
+    "seed": 1,
+    "steps": 25,
+    "cfg": 1.0,
+    "sampler_name": "euler",
+    "scheduler": "simple",
+    "denoise": 1.0
+   }
+  },
+  "decode": {
+   "class_type": "VAEDecode",
+   "inputs": {
+    "samples": [
+     "ks",
+     0
+    ],
+    "vae": [
+     "vae",
+     0
+    ]
+   }
+  },
+  "save": {
+   "class_type": "SaveImage",
+   "inputs": {
+    "images": [
+     "decode",
+     0
+    ],
+    "filename_prefix": "qwen_image/Q3_text_sign_s1"
+   }
+  }
+ }
+}

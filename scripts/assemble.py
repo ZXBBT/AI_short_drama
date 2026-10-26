@@ -7,11 +7,16 @@ Uses only PyAV (bundled FFmpeg libraries); no ComfyUI, no new software. Writes
   ~/AI_renders/comfyui/episodes/<ep>/_final/<ep>_<version>_<size>.mp4 (+ .srt next to each),
   subtitles/<ep>_<version>.srt (in Git) and runs/<date>/<ep>__cut_<version>.json (manifest).
 Video is re-encoded once (H.264 CRF 18); audio is resampled to 48 kHz, faded at every cut,
-levelled as a whole to the target loudness (never limited or compressed), AAC 192 kb/s.
+levelled as a whole to the target loudness (never compressed; limited only with `loudness.limiter: true`,
+which lets a cut reach the target when a few peaks would hit the ceiling), AAC 192 kb/s.
 
 V2 (2026-10-25, revision brief sections 7-9 and 15): a cut can build its soundtrack in layers.
-Sequence entries may set `audio: off` (picture only) or `video_file:` (a composited version of the take,
-same frame count). Top-level `layers:` add music / voice / ambience beds / effects on the timeline:
+Sequence entries may set `audio: off` (picture only) or `video_file:` (a composited or SeedVR2-upscaled
+version of the take: same frame count and aspect, any size; smaller shots are scaled up to match) or
+`upscale: 7b_sharp` (use the SeedVR2 upscale of this exact take, found by its sha256; scripts/upscale.py) or
+`mirror: true` (flip the picture left-right, e.g. to match a look direction across
+a cut; the face is mirrored too, so check identity by eye; the sound is left as rendered).
+Top-level `layers:` add music / voice / ambience beds / effects on the timeline:
   - {role: music, source: <file or {episode, shot}>, at: 0, src_in: 0, length: 15, gain_db: -20,
      fade_in: 0.5, fade_out: 1.0, loop_xfade: 1.0}
 `at` / `until` are seconds or {shot: S3A, offset: -0.8} (relative to that shot's start in this cut);
@@ -95,13 +100,17 @@ def load_entry(ep, entry):
     a, b = int(entry.get("in", 0)), int(entry.get("out", n - 1))
     if not 0 <= a <= b < n:
         raise SystemExit(f"cut: {sid} in/out {a}/{b} outside 0..{n - 1}")
+    if entry.get("upscale") and not entry.get("video_file"):  # SeedVR2 version of exactly this take
+        entry = dict(entry, video_file=upscaled_file(sha, entry["upscale"], sid))
     if entry.get("video_file"):  # e.g. the take with a composited phone screen (screen_insert.py)
         vf = resolve_source_path(entry["video_file"])
         with av.open(str(vf)) as c:
             vframes = [f for f in c.decode(video=0)]
-        if len(vframes) != n:
+        if len(vframes) != n:  # same frames; the size may differ (an upscaled take, scripts/upscale.py)
             raise SystemExit(f"cut: {sid} video_file has {len(vframes)} frames, the take has {n}")
         frames = vframes
+    if entry.get("mirror"):
+        frames = mirror_frames(frames)
     audio = take_audio(path)
     if entry.get("audio", "sync") in ("off", False):  # YAML reads a bare `off` as false
         audio = np.zeros_like(audio)
@@ -115,7 +124,56 @@ def load_entry(ep, entry):
             "audio_len_diff_samples": int(audio_len_diff), "gain_db": float(entry.get("gain_db", 0)),
             "stale": st.get("fp") is not None and not take.startswith(st["fp"][:8]),
             "subs": entry.get("subs") or [], "video_file": entry.get("video_file"),
-            "audio_mode": "off" if entry.get("audio", "sync") in ("off", False) else "sync"}
+            "audio_mode": "off" if entry.get("audio", "sync") in ("off", False) else "sync",
+            "mirror": bool(entry.get("mirror")), "upscale": entry.get("upscale")}
+
+
+def upscaled_file(take_sha, model, sid=""):
+    """Newest successful scripts/upscale.py output for the take with this sha256 and model (3b | 7b_sharp)."""
+    for rec_path in sorted((REPO / "runs").glob("*/upscale__*.json"), key=lambda q: q.stat().st_mtime, reverse=True):
+        r = json.loads(rec_path.read_text())
+        if (r.get("status") == "success" and r["input"]["sha256"] == take_sha and model in r["model"]
+                and r.get("outputs") and pathlib.Path(r["outputs"][0]["file"]).exists()):
+            return r["outputs"][0]["file"]
+    raise SystemExit(f"cut: {sid} has no {model} upscale of its take yet: "
+                     f"scripts/upscale.py episodes/<ep> {sid} --model {model}")
+
+
+def mirror_frames(frames):
+    """Left-right flip of decoded frames."""
+    return [av.VideoFrame.from_ndarray(np.ascontiguousarray(f.to_ndarray(format="rgb24")[:, ::-1]), format="rgb24")
+            for f in frames]
+
+
+LIMITER_MAX_DB = 6.0  # more peak reduction than this audibly squashes a shout or a door slam
+
+
+def limit(audio, ceiling_dbtp, lookahead_ms=5.0, release_ms=150.0, margin_db=0.5, _tries=3):
+    """Look-ahead peak limiter (Stage 8, optional via `loudness.limiter: true`): the gain falls before a
+    peak (look-ahead window) and recovers smoothly (release), so only the loudest moments are turned down;
+    everything under the ceiling is untouched. Returns (audio, largest reduction in dB). The margin keeps
+    the true peak (between samples) under the ceiling; if it still overshoots, the margin is widened."""
+    c = 10 ** ((ceiling_dbtp - margin_db) / 20)
+    peak = np.abs(audio).max(axis=0)
+    need = np.minimum(1.0, c / np.maximum(peak, 1e-9))
+    w = max(1, int(SR * lookahead_ms / 1000))
+    padded = np.concatenate([need, np.ones(w)])
+    ahead = np.lib.stride_tricks.sliding_window_view(padded, w + 1).min(axis=1)[:need.size]
+    rel = 1 - np.exp(-1 / (SR * release_ms / 1000))
+    g = np.empty_like(ahead)
+    prev = 1.0
+    for i, v in enumerate(ahead):  # instant attack (already ahead of the peak), smooth release
+        prev = v if v < prev else prev + (min(1.0, v) - prev) * rel
+        g[i] = prev
+    # soften the attack: a trailing average over the look-ahead window still sits under every peak's need
+    g = np.convolve(np.concatenate([np.full(w - 1, g[0]), g]), np.ones(w) / w, mode="valid")
+    out = audio * g
+    tp = measure(out)[1]
+    if tp > ceiling_dbtp:  # overshoot between samples: limit again with a wider margin, trim only as last resort
+        if _tries > 1:
+            return limit(audio, ceiling_dbtp, lookahead_ms, release_ms, margin_db + tp - ceiling_dbtp + 0.1, _tries - 1)
+        out *= 10 ** ((ceiling_dbtp - tp) / 20)
+    return out, float(-20 * np.log10(max(g.min(), 1e-9)))
 
 
 # ---------- layered soundtrack (V2) ----------
@@ -380,6 +438,16 @@ def fade(seg, ms):
 
 # ---------- encoding ----------
 
+def base_size(frames):
+    """Largest frame size in the cut; every size must share one aspect ratio (within 1 %)."""
+    sizes = {(f.width, f.height) for f in frames}
+    w, h = max(sizes, key=lambda s: s[0] * s[1])
+    for sw, sh in sizes:
+        if abs(sw / sh - w / h) > 0.01 * (w / h):
+            raise SystemExit(f"cut: frame sizes {sorted(sizes)} have different aspect ratios")
+    return w, h
+
+
 def cover_size(w0, h0, w, h):
     """Smallest even size with the source's aspect that covers w x h (the excess is centre-cropped).
     352x608 -> 1080x1920: 1112x1920 (trim the sides); 480x864 -> 1080x1920: 1080x1944 (trim top/bottom)."""
@@ -389,8 +457,9 @@ def cover_size(w0, h0, w, h):
 
 
 def encode(path, frames, audio, size):
-    """frames: decoded yuv420p VideoFrames at the render size; size 'native' or 'WxH'."""
-    w0, h0 = frames[0].width, frames[0].height
+    """frames: decoded VideoFrames; size 'native' (the largest frame size in the cut) or 'WxH'. Frames smaller
+    than the largest (e.g. 480p takes next to SeedVR2-upscaled ones) are scaled up to it first (lanczos)."""
+    w0, h0 = base_size(frames)
     graph = None
     if size == "native":
         w, h = w0, h0
@@ -409,6 +478,8 @@ def encode(path, frames, audio, size):
     aus = out.add_stream("aac", rate=SR, layout="stereo")
     aus.bit_rate = 192000
     for i, fr in enumerate(frames):
+        if (fr.width, fr.height) != (w0, h0):
+            fr = fr.reformat(width=w0, height=h0, format="yuv420p", interpolation="LANCZOS")
         fr = fr.reformat(format="yuv420p")
         fr.pts, fr.time_base = i, vs.codec_context.time_base
         if graph:
@@ -505,12 +576,30 @@ def main():
     target, ceiling = cut["loudness"]["target_lufs"], cut["loudness"]["ceiling_dbtp"]
     gain = target - lufs
     limited = tp + gain > ceiling
-    if limited:
+    use_limiter = bool(cut["loudness"].get("limiter")) and limited
+    reduction = 0.0
+    if limited and not use_limiter:
         gain = ceiling - tp
-    mix *= 10 ** (gain / 20)
+    if use_limiter:  # reach the target; only the loudest peaks are pulled under the ceiling
+        base, best = mix, None
+        for _ in range(4):  # limiting lowers the loudness a little: raise the gain and limit again
+            out, red = limit(base * 10 ** (gain / 20), ceiling)
+            got = measure(out)[0]
+            if best is None or got > best[0]:  # keep the loudest result (a shout cannot be pushed further)
+                best = (got, out, red, gain)
+            if target - got < 0.3 or red >= LIMITER_MAX_DB:
+                break
+            gain += target - got
+        _, mix, reduction, gain = best
+    else:
+        mix *= 10 ** (gain / 20)
     lufs_out, tp_out = measure(mix)
     print(f"loudness {lufs:.1f} LUFS / {tp:.1f} dBTP -> gain {gain:+.1f} dB -> {lufs_out:.1f} LUFS / {tp_out:.1f} dBTP"
-          + ("  (peak ceiling reached: quieter than target)" if limited else ""))
+          + (f"  (limiter: peaks reduced by up to {reduction:.1f} dB)" if use_limiter else "")
+          + ("  (peak ceiling reached: quieter than target; `limiter: true` can raise it)" if limited and not use_limiter else ""))
+    if reduction >= LIMITER_MAX_DB:
+        print(f"warning: the limiter stopped at {reduction:.1f} dB of peak reduction (cap {LIMITER_MAX_DB} dB), so the "
+              f"cut stays under the target: lower the loudest shot with gain_db, or accept the quieter level")
 
     final = E.RENDERS / "episodes" / ep.name / "_final"
     final.mkdir(parents=True, exist_ok=True)
@@ -520,7 +609,7 @@ def main():
     frames = [f for e in entries for f in e["video"]]
     outputs = []
     for size in cut["sizes"]:
-        w, h = (frames[0].width, frames[0].height) if size == "native" else map(int, size.split("x"))
+        w, h = base_size(frames) if size == "native" else map(int, size.split("x"))
         path = final / f"{name}_{w}x{h}.mp4"
         encode(path, frames, mix, size)
         shutil.copyfile(srt_repo, path.with_suffix(".srt"))
@@ -536,7 +625,7 @@ def main():
         "cut_file": str(cut_path.relative_to(REPO)), "cut_sha256": E.sha256(cut_path),
         "timeline": timeline,
         "sources": [{k: e[k] for k in ("shot", "take", "file", "sha256", "frames_in_take", "in", "out",
-                                        "audio_len_diff_samples", "video_file", "audio_mode")} for e in entries],
+                                        "audio_len_diff_samples", "video_file", "audio_mode", "mirror", "upscale")} for e in entries],
         "layers": layer_rows, "duck": cut.get("duck"),
         "audio": {"sample_rate": SR, "fade_ms": cut.get("audio_fade_ms", 10), "per_shot_before_mix": per_shot,
                   "per_shot_mode": cut["loudness"].get("per_shot", "off"),

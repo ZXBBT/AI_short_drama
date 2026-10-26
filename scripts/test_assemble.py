@@ -47,6 +47,39 @@ check("auto: shots inside the window untouched", g["S001"] == g["S004"] == 0.0, 
 check("auto: explicit gain_db wins", "S002" not in A.auto_gains(v, {"S002"}))
 check("auto: capped at 10 dB", A.auto_gains({"a": -20, "b": -20, "c": -60.5, "d": -45}, set())["d"] == 10.0)
 
+# limiter: a short spike is pulled under the ceiling, the quiet part far from it is untouched
+x = sine.copy() * 0.5  # about -26 LUFS
+x[:, A.SR * 2:A.SR * 2 + 240] = 0.99
+y, red = A.limit(x, -1.0)
+check("limiter: true peak under the ceiling", A.measure(y)[1] <= -1.0 + 0.05, A.measure(y)[1])
+check("limiter: reports the reduction", 0.5 < red < 3.0, red)
+check("limiter: audio 1 s away from the spike untouched", np.allclose(y[:, :A.SR], x[:, :A.SR]))
+check("limiter: length unchanged", y.shape == x.shape)
+
+# mirror: the left half moves to the right, size and frame count unchanged
+import av  # noqa: E402
+px = np.zeros((32, 64, 3), np.uint8); px[:, :32] = (255, 0, 0)
+m = A.mirror_frames([av.VideoFrame.from_ndarray(px, format="rgb24")] * 2)
+mp = m[0].to_ndarray(format="rgb24")
+check("mirror: frame count and size kept", len(m) == 2 and mp.shape == px.shape)
+check("mirror: red half now on the right", mp[:, 32:, 0].min() == 255 and mp[:, :32, 0].max() == 0)
+
+# mixed sizes (480p take next to an upscaled one): native = the largest, same aspect required
+small = av.VideoFrame.from_ndarray(np.zeros((864, 480, 3), np.uint8), format="rgb24")
+big = av.VideoFrame.from_ndarray(np.zeros((1728, 960, 3), np.uint8), format="rgb24")
+check("base size is the largest frame", A.base_size([small, big, small]) == (960, 1728), A.base_size([small, big]))
+wide = av.VideoFrame.from_ndarray(np.zeros((480, 864, 3), np.uint8), format="rgb24")
+try:
+    A.base_size([small, wide]); check("different aspect ratios refused", False)
+except SystemExit:
+    check("different aspect ratios refused", True)
+import tempfile as _tf  # noqa: E402
+_p = pathlib.Path(_tf.mkdtemp()) / "mixed.mp4"
+A.encode(_p, [small, big], np.zeros((2, A.SPF * 2)), "native")
+with av.open(str(_p)) as _c:
+    _s = _c.streams.video[0]
+    check("mixed sizes encode at the largest size", (_s.width, _s.height) == (960, 1728), (_s.width, _s.height))
+
 # --init writes a valid cut list in episode file order and never overwrites
 import shutil, tempfile, yaml  # noqa: E401,E402
 d = pathlib.Path(tempfile.mkdtemp(prefix="ep_init_"))

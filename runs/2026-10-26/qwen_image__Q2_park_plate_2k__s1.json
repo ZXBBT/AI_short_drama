@@ -1,0 +1,140 @@
+{
+ "tool": "qwen_image",
+ "name": "Q2_park_plate_2k",
+ "seed": 1,
+ "started": "2026-10-26T01:16:06-07:00",
+ "status": "success",
+ "error": null,
+ "wall_seconds": 229.5,
+ "node_seconds": {
+  "EmptyLatentImage": 0.0,
+  "TextEncodeQwenImage21": 9.5,
+  "KSampler": 216.8,
+  "VAEDecode": 3.0,
+  "SaveImage": 0.3
+ },
+ "memory_gib": {
+  "system_used_before": 25.3,
+  "system_used_peak": 30.3,
+  "swap_peak": 4.43
+ },
+ "outputs": [
+  {
+   "file": "/Users/marcusmao/AI_renders/comfyui/qwen_image/Q2_park_plate_2k_s1_00001_.png",
+   "sha256": "7c631c0784214adb94222f850bc7303c0cbe844bafb299e2023c5a7797fbc7d7"
+  }
+ ],
+ "licence": "Qwen-Image 2.1, Qwen RESEARCH LICENSE: non-commercial (research/evaluation) only",
+ "meta": {
+  "mode": "t2i",
+  "width": 1152,
+  "height": 2048,
+  "steps": 25,
+  "prompt": "Photorealistic vertical photograph of an empty city park path in the afternoon: a tree-lined paved path stretching away from the camera, a wooden park bench on the left, green leaves, dappled sunlight on the ground, soft natural colors, eye-level camera at 1.5 m, nobody in the scene, no text anywhere in the image.",
+  "negative": "blurry, distorted face, extra fingers, watermark, text, logo, cartoon, illustration, plastic skin, people, person"
+ },
+ "api_prompt": {
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "qwen_image_2.1_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "cache": {
+   "class_type": "QwenImage21Cache",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "device": "auto",
+    "dtype": "default"
+   }
+  },
+  "clip": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "qwen3vl_8b_int8_convrot.safetensors",
+    "type": "qwen_image",
+    "device": "default"
+   }
+  },
+  "vae": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "qwen_image_2.1_vae_bf16.safetensors"
+   }
+  },
+  "enc": {
+   "class_type": "TextEncodeQwenImage21",
+   "inputs": {
+    "clip": [
+     "clip",
+     0
+    ],
+    "prompt": "Photorealistic vertical photograph of an empty city park path in the afternoon: a tree-lined paved path stretching away from the camera, a wooden park bench on the left, green leaves, dappled sunlight on the ground, soft natural colors, eye-level camera at 1.5 m, nobody in the scene, no text anywhere in the image.",
+    "negative_prompt": "blurry, distorted face, extra fingers, watermark, text, logo, cartoon, illustration, plastic skin, people, person",
+    "resolution": 1024
+   }
+  },
+  "latent": {
+   "class_type": "EmptyLatentImage",
+   "inputs": {
+    "width": 1152,
+    "height": 2048,
+    "batch_size": 1
+   }
+  },
+  "ks": {
+   "class_type": "KSampler",
+   "inputs": {
+    "model": [
+     "cache",
+     0
+    ],
+    "positive": [
+     "enc",
+     0
+    ],
+    "negative": [
+     "enc",
+     1
+    ],
+    "latent_image": [
+     "latent",
+     0
+    ],
+    "seed": 1,
+    "steps": 25,
+    "cfg": 1.0,
+    "sampler_name": "euler",
+    "scheduler": "simple",
+    "denoise": 1.0
+   }
+  },
+  "decode": {
+   "class_type": "VAEDecode",
+   "inputs": {
+    "samples": [
+     "ks",
+     0
+    ],
+    "vae": [
+     "vae",
+     0
+    ]
+   }
+  },
+  "save": {
+   "class_type": "SaveImage",
+   "inputs": {
+    "images": [
+     "decode",
+     0
+    ],
+    "filename_prefix": "qwen_image/Q2_park_plate_2k_s1"
+   }
+  }
+ }
+}

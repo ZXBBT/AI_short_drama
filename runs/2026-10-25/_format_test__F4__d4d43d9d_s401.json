@@ -1,0 +1,299 @@
+{
+ "episode": "_format_test",
+ "shot": "F4",
+ "take_id": "d4d43d9d_s401",
+ "fingerprint": "d4d43d9d6d5c7c9ccd66a7df6039e597cf412aede9a516cd25ab26e99c67cc2c",
+ "seed": 401,
+ "started": "2026-10-25T23:10:21-07:00",
+ "prompt_id": "0a3bcd1b-59c3-4362-99a7-67e41e44ff87",
+ "status": "success",
+ "error": null,
+ "events": [
+  "execution_start",
+  "execution_cached",
+  "execution_success"
+ ],
+ "wall_seconds": 890.9,
+ "node_seconds": {
+  "MiniMaxH3ReferenceToVideo": 51.2,
+  "BasicGuider": 0.0,
+  "RandomNoise": 0.0,
+  "SamplerCustomAdvanced": 809.5,
+  "VAEDecodeAudio": 0.6,
+  "VAEDecode": 29.2,
+  "CreateVideo": 0.0,
+  "SaveVideo": 0.5
+ },
+ "memory_gib": {
+  "system_used_before": 33.2,
+  "system_used_peak": 51.6,
+  "swap_peak": 5.61,
+  "swap_limit": 20.0
+ },
+ "params": {
+  "type": "r2v",
+  "aspect": "9:16",
+  "megapixels": 0.4,
+  "duration": 3.7,
+  "width": 480,
+  "height": 864,
+  "length": 90
+ },
+ "recipe": {
+  "name": "h3_base_v2",
+  "sha256": "7e5b59ee9bb152e0f5298a95d51b3c10d2ab13296645a0107b3e39f527535355",
+  "effective": {
+   "name": "h3_base_v2",
+   "created": "2026-10-24",
+   "sampler": "res_multistep",
+   "scheduler": "simple",
+   "steps": 20,
+   "fps": 24,
+   "bit_depth": 8,
+   "attention": "pytorch",
+   "ref_image_size": "match",
+   "models": {
+    "fl2va": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "ref2va": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "video_vae": "minimax_h3_video_vae_fp16.safetensors",
+    "audio_vae": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  }
+ },
+ "inputs": {
+  "ref0": {
+   "asset": "char_lin_1",
+   "file": "inputs/sunlight/ref_lin_v1.png",
+   "sha256": "408f5f917e5a12697265b68a7e8411ad788e204b5a64fa2bdf0e110d0d4ba9c2",
+   "uploaded_as": "ai_short_drama/408f5f917e5a1269.png"
+  }
+ },
+ "prompt_text": "subject_definitions:\n<Subject 1> is the young woman in <Picture 1>: young East Asian woman, long straight dark hair with bangs, natural light makeup, white T-shirt, black trousers. Her face, eye shape, eyebrows, bangs and the length and color of her hair follow <Picture 1> exactly.\n\nsummary:\n[reference generation] In a sunny park, <Subject 1> looks up toward a friend in the distance, her face lights up, and she waves and calls out to them.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - her face, facial proportions, eye shape, eyebrows, bangs, long straight dark hair, natural light makeup and plain white T-shirt are retained.\n\ndetailed_description:\nThe target video is a photorealistic, live-action short-drama shot in natural afternoon daylight, with soft dappled sunlight, natural skin texture with visible pores, realistic colors and gentle contrast.\n[Shot 1] A close-up frames the face and shoulders of <Subject 1> in three-quarter view, sitting on the park bench with green trees and sunlit leaves softly blurred behind her; her face is large in the frame and sharply focused, warm sunlight falling on one cheek and leaf shadows moving gently over her hair. She wears her plain white T-shirt; her long straight dark hair with bangs frames her face, and a few strands move in the light breeze. Behind her, softly out of focus, the tree-lined path runs away into green shade, with bright patches of sunlight on the ground and the dark wooden back of the bench at the edge of the frame. Her skin shows natural texture and fine pores, her light makeup is subtle, and her eyelashes and the moist highlights in her eyes are sharp. At the start her eyes are lowered toward the phone in her lap. She lifts her head and her eyes go up and to the left of the frame, far into the distance along the path, where a friend is approaching out of view; her eyes focus far away and stay on that point, never on the lens. Recognition crosses her face: her eyebrows rise, her eyes widen slightly and brighten, and a wide, warm smile opens. She raises her right hand to shoulder height and waves it from side to side twice. With a bright, warm, slightly raised young female voice, <Subject 1> (S1) calls out toward the distance: <d>[English] Over here!</d> Her lips move clearly in sync with the two words; after the line her mouth settles into the open, happy smile and her hand keeps waving lightly. She blinks once naturally. Both eyes stay level and symmetrical and aim at the same distant point; her facial proportions stay unchanged as her head lifts. The camera holds a static shot. There is no text and no subtitle anywhere in the frame.\n\noverall_soundscape: Birdsong in the trees and leaves rustling in a light breeze, with the soft rustle of her sleeve as she waves.\n\nnon_diegetic_music: N/A",
+ "episode_file_sha256": "fb27c69279b8d3b1dfd39860a6a80124b17ea5e2c1ca1e488eae31dd92e73f8d",
+ "env": {
+  "comfyui": "0.42.1",
+  "pytorch": "2.14.1",
+  "python": "3.13.17",
+  "comfyui_argv": [
+   "main.py",
+   "--listen",
+   "127.0.0.1",
+   "--port",
+   "8188",
+   "--extra-model-paths-config",
+   "/Users/marcusmao/dev/AI_short_drama/config/extra_model_paths.yaml",
+   "--output-directory",
+   "/Users/marcusmao/AI_renders/comfyui",
+   "--disable-all-custom-nodes",
+   "--use-pytorch-cross-attention"
+  ],
+  "repo_commit": "7b2b08a",
+  "repo_dirty": true
+ },
+ "api_prompt": {
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "clip": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "type": "minimax",
+    "device": "default"
+   }
+  },
+  "vae_v": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+   }
+  },
+  "vae_a": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  },
+  "img_ref0": {
+   "class_type": "LoadImage",
+   "inputs": {
+    "image": "ai_short_drama/408f5f917e5a1269.png"
+   }
+  },
+  "cond": {
+   "class_type": "MiniMaxH3ReferenceToVideo",
+   "inputs": {
+    "clip": [
+     "clip",
+     0
+    ],
+    "prompt": "subject_definitions:\n<Subject 1> is the young woman in <Picture 1>: young East Asian woman, long straight dark hair with bangs, natural light makeup, white T-shirt, black trousers. Her face, eye shape, eyebrows, bangs and the length and color of her hair follow <Picture 1> exactly.\n\nsummary:\n[reference generation] In a sunny park, <Subject 1> looks up toward a friend in the distance, her face lights up, and she waves and calls out to them.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - her face, facial proportions, eye shape, eyebrows, bangs, long straight dark hair, natural light makeup and plain white T-shirt are retained.\n\ndetailed_description:\nThe target video is a photorealistic, live-action short-drama shot in natural afternoon daylight, with soft dappled sunlight, natural skin texture with visible pores, realistic colors and gentle contrast.\n[Shot 1] A close-up frames the face and shoulders of <Subject 1> in three-quarter view, sitting on the park bench with green trees and sunlit leaves softly blurred behind her; her face is large in the frame and sharply focused, warm sunlight falling on one cheek and leaf shadows moving gently over her hair. She wears her plain white T-shirt; her long straight dark hair with bangs frames her face, and a few strands move in the light breeze. Behind her, softly out of focus, the tree-lined path runs away into green shade, with bright patches of sunlight on the ground and the dark wooden back of the bench at the edge of the frame. Her skin shows natural texture and fine pores, her light makeup is subtle, and her eyelashes and the moist highlights in her eyes are sharp. At the start her eyes are lowered toward the phone in her lap. She lifts her head and her eyes go up and to the left of the frame, far into the distance along the path, where a friend is approaching out of view; her eyes focus far away and stay on that point, never on the lens. Recognition crosses her face: her eyebrows rise, her eyes widen slightly and brighten, and a wide, warm smile opens. She raises her right hand to shoulder height and waves it from side to side twice. With a bright, warm, slightly raised young female voice, <Subject 1> (S1) calls out toward the distance: <d>[English] Over here!</d> Her lips move clearly in sync with the two words; after the line her mouth settles into the open, happy smile and her hand keeps waving lightly. She blinks once naturally. Both eyes stay level and symmetrical and aim at the same distant point; her facial proportions stay unchanged as her head lifts. The camera holds a static shot. There is no text and no subtitle anywhere in the frame.\n\noverall_soundscape: Birdsong in the trees and leaves rustling in a light breeze, with the soft rustle of her sleeve as she waves.\n\nnon_diegetic_music: N/A",
+    "width": 480,
+    "height": 864,
+    "length": 90,
+    "vae": [
+     "vae_v",
+     0
+    ],
+    "audio_vae": [
+     "vae_a",
+     0
+    ],
+    "ref_image_size": "match",
+    "ref_images.ref_image_0": [
+     "img_ref0",
+     0
+    ]
+   }
+  },
+  "noise": {
+   "class_type": "RandomNoise",
+   "inputs": {
+    "noise_seed": 401
+   }
+  },
+  "sampler": {
+   "class_type": "KSamplerSelect",
+   "inputs": {
+    "sampler_name": "res_multistep"
+   }
+  },
+  "sigmas": {
+   "class_type": "BasicScheduler",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "scheduler": "simple",
+    "steps": 20,
+    "denoise": 1.0
+   }
+  },
+  "guider": {
+   "class_type": "BasicGuider",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "conditioning": [
+     "cond",
+     0
+    ]
+   }
+  },
+  "sample": {
+   "class_type": "SamplerCustomAdvanced",
+   "inputs": {
+    "noise": [
+     "noise",
+     0
+    ],
+    "guider": [
+     "guider",
+     0
+    ],
+    "sampler": [
+     "sampler",
+     0
+    ],
+    "sigmas": [
+     "sigmas",
+     0
+    ],
+    "latent_image": [
+     "cond",
+     1
+    ]
+   }
+  },
+  "decode_v": {
+   "class_type": "VAEDecode",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "decode_a": {
+   "class_type": "VAEDecodeAudio",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_a",
+     0
+    ]
+   }
+  },
+  "video": {
+   "class_type": "CreateVideo",
+   "inputs": {
+    "images": [
+     "decode_v",
+     0
+    ],
+    "audio": [
+     "decode_a",
+     0
+    ],
+    "fps": 24,
+    "bit_depth": 8
+   }
+  },
+  "save": {
+   "class_type": "SaveVideo",
+   "inputs": {
+    "video": [
+     "video",
+     0
+    ],
+    "filename_prefix": "episodes/_format_test/F4/F4_d4d43d9d_s401",
+    "format": "auto",
+    "format.codec": "auto"
+   }
+  }
+ },
+ "output": {
+  "file": "/Users/marcusmao/AI_renders/comfyui/episodes/_format_test/F4/F4_d4d43d9d_s401_00001_.mp4",
+  "bytes": 1013206,
+  "video": {
+   "frames": 90,
+   "width": 480,
+   "height": 864,
+   "fps": 24.0,
+   "codec": "h264",
+   "mean_min": 106.0,
+   "mean_max": 112.1,
+   "std_min": 67.4,
+   "black_frames": 0
+  },
+  "audio": {
+   "samples": 240000,
+   "sample_rate": 32000,
+   "finite": true,
+   "rms": 0.09757611135607709,
+   "peak": 0.8789921998977661
+  },
+  "sha256": "d1229d20386c33443e0ac5dd2d2c6eb973794de396eb961fdad28b703e9c2322"
+ },
+ "continuity": {
+  "median_frame_diff": 4.35,
+  "max_frame_diff": 11.9,
+  "cuts": []
+ },
+ "warnings": []
+}

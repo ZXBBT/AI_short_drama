@@ -34,3 +34,8 @@ Findings: H3's trained clip length is 124-362 frames (ComfyUI node tooltip) - mo
 
 Open: owner's ear check of the narrator; V1 store/river shots reused without a frame-by-frame eye check;
 small readable shop-sign text in S2E; optional limiter to reach -14 LUFS.
+
+## Owner review after the Stage 8 picture checks (2026-10-26)
+`scripts/take_checks.py` flagged S3C2 (fridge point of view, in the V2 cut) for lens contact in 67 % of its
+face frames: the camera sits where the cans are, so looking at the cans reads as looking into the lens.
+**Owner decision: keep it.**

@@ -1,0 +1,14 @@
+# Source: https://huggingface.co/Comfy-Org/Qwen-Image-2.1  pinned revision 0217efd1d9c9452e84f6448903d6e21bfa171ffd (lastModified 2026-10-22)
+# Sizes and sha256 read from the Hugging Face API on 2026-10-25. Owner-approved download (D17): all int8 files
+# of the official templates (t2i, image edit, background removal) + turbo.
+# LICENCE: Qwen RESEARCH LICENSE (non-commercial = research/evaluation only) - see docs/decisions.md D17.
+# Local path = ~/AI_models/comfyui/<repo_path>; download/verify: scripts/fetch_models.sh models/manifest_qwen_image_2.1.tsv
+#repo: Comfy-Org/Qwen-Image-2.1
+#revision: 0217efd1d9c9452e84f6448903d6e21bfa171ffd
+repo_path	size	sha256	role
+diffusion_models/qwen_image_2.1_int8_convrot.safetensors	7256783064	cb74113cb03faecd79611b01fd7fd642f0aa60d6f0b95086abee214d75eaa57d	required
+diffusion_models/qwen_image_2.1_turbo_int8_convrot.safetensors	7256787829	8144a0182964aa8403ad6dbc011db837304167d235161b9aabaa8532e967314c	required_turbo
+text_encoders/qwen3vl_8b_int8_convrot.safetensors	9350798360	8bfd0f6e12abf2d2d697ecc888e5e90b0d6741d6708f05799f53afa560452e8f	required
+text_encoders/qwen3.5_9b_qwen_image_2.1_pe_t2i.int8_convrot.safetensors	9471072252	9182abae56fe05459840a86d22abd21f972061c92fce032630af680c8c5178d3	required
+text_encoders/qwen3.5_9b_qwen_image_2.1_pe_i2i.int8_convrot.safetensors	9471072252	32707d01b427e488af252b95c551989aad59f9fec611a694f5db6bde7f0f1f6c	required_edit
+vae/qwen_image_2.1_vae_bf16.safetensors	675509688	bb21f7473051e1ac368515dd3f2e15cd44d7a11748ee8823e1ddca3e4876b7c9	required

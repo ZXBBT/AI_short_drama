@@ -96,6 +96,9 @@ check("location placeholder expands", "small dim room" in E.Episode(ep_dir).para
 errs, _, _ = with_shots("  A: {type: r2v, refs: [woman, loc_room_1], seed: 1, prompt: '<Picture 1> is {woman}. <Picture 2>'}\n")
 check("rejects a location plate as R2V reference", any("plate" in e for e in errs), errs)
 check("rejects two references in one R2V shot", any("exactly one character" in e for e in errs), errs)
+errs, _, _ = with_shots("  A: {type: r2v, refs: [woman, loc_room_1], seed: 1, prompt: 'subject_definitions: <Subject 1> is "
+                        "the woman in <Picture 1>: {woman}. <Subject 2> is the room environment in <Picture 2>: a lamp.'}\n")
+check("official format: person + environment <Subject 2> allowed (_multiref)", not errs, errs)
 errs, _, _ = with_shots("  A: {type: r2v, refs: [woman], seed: 1, megapixels: 0.4, duration: 5, prompt: '<Picture 1> is {woman}.'}\n")
 check("rejects an unproven size/length (0.4 MP x 5 s)", any("not been rendered" in e for e in errs), errs)
 _, warns, _ = with_shots("  A: {type: r2v, refs: [woman], seed: 1, prompt: '<Picture 1> is a woman.'}\n")
@@ -138,6 +141,28 @@ check("sound: edit -> voice-over and music in a picture render warn",
 w = B.direction_problems(dict(P, prompt="A wide view. non_diegetic_music: N/A", length=56), sound_in_edit=True)
 check("sound: edit + music N/A is clean; 56 frames warns about the trained length",
       len(w) == 1 and "trained length" in w[0], w)
+
+# official guide: R2V detailed_description 350-500 words
+R = "subject_definitions: a. summary: b. retention_analysis: c. detailed_description: {} overall_soundscape: d. non_diegetic_music: N/A"
+w = B.official_format_problems({"type": "r2v", "length": 90, "prompt": R.format("word " * 200)}, [])
+check("R2V description under 350 words warns", any("350-500" in x for x in w), w)
+w = B.official_format_problems({"type": "r2v", "length": 90, "prompt": R.format("word " * 360)}, [])
+check("R2V description of 360 words is fine", not any("350-500" in x for x in w), w)
+
+# outfit completeness (Sunlight P5: trousers changed between shots)
+w = B.outfit_problems("lin", "young woman, long dark hair, white T-shirt", "She stands up from the bench and walks away.")
+check("outfit: lower body shown, no trousers named -> warns", any("trousers" in x for x in w), w)
+check("outfit: walking shot without shoes named -> warns", any("shoes" in x for x in w), w)
+w = B.outfit_problems("lin", "young woman, white T-shirt, black trousers, white sneakers", "She walks away along the path.")
+check("outfit: complete description is clean", w == [], w)
+w = B.outfit_problems("lin", "young woman, white T-shirt", "A close-up of her face as she smiles.")
+check("outfit: close-up needs only the top", w == [], w)
+w = B.outfit_problems("mia", "woman in a long red dress", "Full-body shot: she walks in.")
+check("outfit: a dress counts as top and bottom", len(w) == 1 and "shoes" in w[0], w)
+w = B.outfit_problems("lin", "woman, white T-shirt, black trousers", "She sits on the bench. Nobody walks across the frame.")
+check("outfit: other people walking do not count", w == [], w)
+w = B.outfit_problems("max", "young man with short hair", "A close-up of his face.")
+check("outfit: no top named -> warns", any("no top" in x for x in w), w)
 
 shutil.rmtree(root)
 print(f"\n{'ALL PASSED' if not failures else f'{len(failures)} FAILED: {failures}'}")

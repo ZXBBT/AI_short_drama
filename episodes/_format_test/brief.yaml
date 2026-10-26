@@ -1,0 +1,20 @@
+# To-do #11 (owner 2026-10-25): re-test Sunlight P2 and P4 in H3's official prompt format, applying both
+# skills (h3-prompt-writing + h3-short-drama-direction) and every point from the owner's earlier reviews.
+# Same reference, size and seeds as Sunlight P2/P4, so the takes compare directly with the V1 ones.
+episode: _format_test
+title: Official format test (Sunlight P2, P4)
+plot: Lin reads a message on a park bench and smiles; later she looks up, waves and calls "Over here!".
+target: {length_s: 8, aspect: "9:16", language: en}
+characters:
+  lin:
+    description: young East Asian woman, long straight dark hair with bangs, natural light makeup, white T-shirt,
+      black trousers
+    images: [inputs/sunlight/ref_lin_v1.png]
+    voice: bright, warm
+locations:
+  park:
+    description: a quiet city park in the afternoon, a tree-lined path, a wooden bench, green leaves, dappled sunlight
+dialogue:
+  - {character: lin, line: "Over here!"}
+budget: {takes_per_shot: 2, max_render_hours: 2}
+review: {picks: owner, final: true}

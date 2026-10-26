@@ -1,0 +1,138 @@
+{
+ "tool": "qwen_image",
+ "name": "Q1_portrait",
+ "seed": 2,
+ "started": "2026-10-26T01:02:26-07:00",
+ "status": "success",
+ "error": null,
+ "wall_seconds": 173.2,
+ "node_seconds": {
+  "KSampler": 170.4,
+  "VAEDecode": 2.5,
+  "SaveImage": 0.2
+ },
+ "memory_gib": {
+  "system_used_before": 34.4,
+  "system_used_peak": 38.6,
+  "swap_peak": 4.58
+ },
+ "outputs": [
+  {
+   "file": "/Users/marcusmao/AI_renders/comfyui/qwen_image/Q1_portrait_s2_00001_.png",
+   "sha256": "8f813259374c74add88d462d3cc167b3ce507a0dbae52747851f229a7286021c"
+  }
+ ],
+ "licence": "Qwen-Image 2.1, Qwen RESEARCH LICENSE: non-commercial (research/evaluation) only",
+ "meta": {
+  "mode": "t2i",
+  "width": 1024,
+  "height": 1536,
+  "steps": 25,
+  "prompt": "Live-action, photorealistic portrait photograph. A young East Asian woman framed from the chest up, centered and facing the camera, in soft natural afternoon daylight under green trees, with a gently blurred park background. She has long straight dark hair with bangs, natural light makeup, and wears a plain white T-shirt. Her expression is calm with a faint natural smile; she looks straight into the lens. Realistic skin texture with visible pores and fine facial hair, natural colors, sharp focus on the eyes, no retouching, no text anywhere in the image.",
+  "negative": "blurry, distorted face, extra fingers, watermark, text, logo, cartoon, illustration, plastic skin"
+ },
+ "api_prompt": {
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "qwen_image_2.1_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "cache": {
+   "class_type": "QwenImage21Cache",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "device": "auto",
+    "dtype": "default"
+   }
+  },
+  "clip": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "qwen3vl_8b_int8_convrot.safetensors",
+    "type": "qwen_image",
+    "device": "default"
+   }
+  },
+  "vae": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "qwen_image_2.1_vae_bf16.safetensors"
+   }
+  },
+  "enc": {
+   "class_type": "TextEncodeQwenImage21",
+   "inputs": {
+    "clip": [
+     "clip",
+     0
+    ],
+    "prompt": "Live-action, photorealistic portrait photograph. A young East Asian woman framed from the chest up, centered and facing the camera, in soft natural afternoon daylight under green trees, with a gently blurred park background. She has long straight dark hair with bangs, natural light makeup, and wears a plain white T-shirt. Her expression is calm with a faint natural smile; she looks straight into the lens. Realistic skin texture with visible pores and fine facial hair, natural colors, sharp focus on the eyes, no retouching, no text anywhere in the image.",
+    "negative_prompt": "blurry, distorted face, extra fingers, watermark, text, logo, cartoon, illustration, plastic skin",
+    "resolution": 1024
+   }
+  },
+  "latent": {
+   "class_type": "EmptyLatentImage",
+   "inputs": {
+    "width": 1024,
+    "height": 1536,
+    "batch_size": 1
+   }
+  },
+  "ks": {
+   "class_type": "KSampler",
+   "inputs": {
+    "model": [
+     "cache",
+     0
+    ],
+    "positive": [
+     "enc",
+     0
+    ],
+    "negative": [
+     "enc",
+     1
+    ],
+    "latent_image": [
+     "latent",
+     0
+    ],
+    "seed": 2,
+    "steps": 25,
+    "cfg": 1.0,
+    "sampler_name": "euler",
+    "scheduler": "simple",
+    "denoise": 1.0
+   }
+  },
+  "decode": {
+   "class_type": "VAEDecode",
+   "inputs": {
+    "samples": [
+     "ks",
+     0
+    ],
+    "vae": [
+     "vae",
+     0
+    ]
+   }
+  },
+  "save": {
+   "class_type": "SaveImage",
+   "inputs": {
+    "images": [
+     "decode",
+     0
+    ],
+    "filename_prefix": "qwen_image/Q1_portrait_s2"
+   }
+  }
+ }
+}

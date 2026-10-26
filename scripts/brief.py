@@ -34,6 +34,8 @@ OFFICIAL_SECTIONS = {"r2v": ["subject_definitions:", "summary:", "retention_anal
 I2V_FIRST_LINE = "For the target video, at 0.00 seconds into the target video, <Picture 1> (from [Shot 1]) is fully referenced."
 FLF2V_FIRST_LINE = "How the reference pictures align with the target video"
 CUT_TIME = re.compile(r"\[Shot \d+\] At (\d+):(\d+(?:\.\d+)?)")
+ENV_SUBJECT = re.compile(r"<Subject \d+> is the [^.\n]*\b(?:environment|location|place|room|park|street)\b[^.\n]*<Picture \d+>", re.I)
+R2V_MIN_WORDS = 350  # ref-en.txt: "detailed_description is normally 350-500 English words" (generation tasks)
 
 
 def official_format_problems(p, dialogue_lines):
@@ -43,6 +45,11 @@ def official_format_problems(p, dialogue_lines):
     missing = [s for s in OFFICIAL_SECTIONS[kind] if s not in text]
     if missing:
         out.append(f"not in H3's official prompt format: missing {', '.join(missing)} (see the h3-prompt-writing skill)")
+    if kind == "r2v" and "detailed_description:" in text:
+        words = len(re.split(r"overall_soundscape:", text.split("detailed_description:", 1)[1])[0].split())
+        if words < R2V_MIN_WORDS and "<d>" not in text:  # dialogue-dense shots may be shorter (guide)
+            out.append(f"detailed_description has {words} words; the official guide asks for 350-500 for "
+                       f"generation (a single shot does not justify a shorter one)")
     if p["type"] == "i2v" and not text.startswith(I2V_FIRST_LINE):
         out.append("I2V prompts start with the official first-frame line: " + I2V_FIRST_LINE)
     if p["type"] == "flf2v" and not text.startswith(FLF2V_FIRST_LINE):
@@ -79,6 +86,40 @@ def direction_problems(p, sound_in_edit=False):
     if p["length"] < 73:
         out.append(f"{p['length']} frames is far below H3's trained length ({TRAINED_MIN_FRAMES}-362); keep "
                    f"performance shots at 90-107 frames")
+    return out
+
+
+TOPS = r"t-?shirts?|shirts?|blouses?|sweaters?|jumpers?|hoodies?|jackets?|coats?|overshirts?|cardigans?|tops?|vests?|tank tops?|polos?|sweatshirts?|blazers?"
+BOTTOMS = r"trousers|pants|jeans|skirts?|shorts|leggings|slacks|chinos|joggers"
+ONE_PIECE = r"dress(?:es)?|suits?|uniforms?|jumpsuits?|overalls|robes?|gowns?"
+SHOES = r"shoes|sneakers|trainers|boots|sandals|heels|loafers|slippers|flats|barefoot"
+LOWER_BODY = re.compile(r"full[- ]body|full[- ]length|head to toe|wide shot|wide view|\bwalks?\b|walking|stands? up|"
+                        r"gets? up|\bsteps?\b|\blegs?\b|\bknees?\b|\blap\b|\bfeet\b|\bfoot\b", re.I)
+FEET = re.compile(r"full[- ]body|full[- ]length|head to toe|\bfeet\b|\bfoot\b|\bshoes?\b|walks?\b|walking", re.I)
+
+OTHERS = re.compile(r"\b(?:nobody|no one|background|behind (?:her|him|them)|in the distance|passers?-?by|"
+                    r"other people|a man|a woman|two (?:older )?(?:women|men|people))\b", re.I)
+
+
+def has(words, text):
+    return re.search(rf"\b(?:{words})\b", text, re.I) is not None
+
+
+def outfit_problems(cid, description, prompt):
+    """Outfit completeness (Sunlight P5: the description named only the T-shirt and H3 changed her trousers
+    between shots). Whatever the description leaves out, H3 invents per shot, so it drifts."""
+    out, desc = [], description or ""
+    # sentences about other people (background, "nobody walks across") do not show this character's legs
+    prompt = " ".join(s for s in re.split(r"(?<=[.;!?])\s+", prompt) if not OTHERS.search(s))
+    one_piece = has(ONE_PIECE, desc)
+    if not (has(TOPS, desc) or one_piece):
+        out.append(f"character '{cid}': the description names no top (shirt, jacket, dress...); H3 will invent "
+                   f"one per shot and it can change between shots")
+    if LOWER_BODY.search(prompt) and not (has(BOTTOMS, desc) or one_piece):
+        out.append(f"character '{cid}': the shot shows the lower body but the description names no trousers/skirt/"
+                   f"dress; add them so they stay the same in every shot (Sunlight P5)")
+    if FEET.search(prompt) and not has(SHOES, desc):
+        out.append(f"character '{cid}': the shot may show the feet but the description names no shoes")
     return out
 
 
@@ -239,16 +280,21 @@ def check_plan(ep_dir):
         takes = len(p["seeds"]) or 1
         minutes += takes * estimate_minutes(p, rates)
         refs = s.get("refs") or []
+        # official format with the plate defined as an environment <Subject N> (_multiref M1-M3, 2026-10-26:
+        # room/park kept, frontal faces 165-231 px) - the old free-text L1/L2 problems do not apply
+        env_subject = "subject_definitions:" in (s.get("prompt") or "") and ENV_SUBJECT.search(s.get("prompt") or "")
         if p["type"] == "r2v":
             chars = [r for r in refs if r in ep.characters]
-            if len(refs) != 1 or len(chars) != 1:
+            others = [r for r in refs if r not in ep.characters]
+            if len(chars) != 1 or (others and not env_subject):
                 errors.append(f"shot {sid}: R2V must reference exactly one character (two references pulled the "
-                              f"camera back and shrank faces: S005, L1); has {refs}")
+                              f"camera back and shrank faces: S005, L1); a location picture is fine only in the "
+                              f"official format as an environment <Subject N> (_multiref); has {refs}")
             used_chars.update(chars)
         for k in ("first", "last"):
             if isinstance(s.get(k), str) and s[k] in plates and p["type"] != "i2v":
                 errors.append(f"shot {sid}: location plates only as the start frame of an I2V establishing shot")
-        if any(r in plates for r in refs):
+        if any(r in plates for r in refs) and not env_subject:
             errors.append(f"shot {sid}: a location plate as an R2V reference takes over the camera (L2); "
                           f"use it as `first:` of an establishing shot instead")
         for cid in ep.characters:
@@ -261,6 +307,9 @@ def check_plan(ep_dir):
         lines.update(shot_lines)
         warnings += [f"shot {sid}: {w}" for w in official_format_problems(p, shot_lines)]
         warnings += [f"shot {sid}: {w}" for w in direction_problems(p, sound_in_edit=b.get("sound") == "edit")]
+        for cid, c in ep.characters.items():
+            if c.get("kind") != "object" and (cid in refs or "{" + cid + "}" in (s.get("prompt") or "")):
+                warnings += [f"shot {sid}: {w}" for w in outfit_problems(cid, c.get("description"), p["prompt"])]
     for cid in (b.get("characters") or {}):
         if cid not in ep.characters:
             errors.append(f"brief character '{cid}' is missing from episode.yaml (run scaffold for a new episode)")

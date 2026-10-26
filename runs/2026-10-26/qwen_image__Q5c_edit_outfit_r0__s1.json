@@ -1,0 +1,164 @@
+{
+ "tool": "qwen_image",
+ "name": "Q5c_edit_outfit_r0",
+ "seed": 1,
+ "started": "2026-10-26T01:33:29-07:00",
+ "status": "success",
+ "error": null,
+ "wall_seconds": 59.8,
+ "node_seconds": {
+  "TextEncodeQwenImage21": 17.0,
+  "KSampler": 42.3,
+  "VAEDecode": 0.4,
+  "SaveImage": 0.1
+ },
+ "memory_gib": {
+  "system_used_before": 19.1,
+  "system_used_peak": 26.4,
+  "swap_peak": 4.38
+ },
+ "outputs": [
+  {
+   "file": "/Users/marcusmao/AI_renders/comfyui/qwen_image/Q5c_edit_outfit_r0_s1_00001_.png",
+   "sha256": "71345dc733ed664293c83b08b1280218c5cf930dd31963737f524a8003f9fd94"
+  }
+ ],
+ "comfyui_argv": [
+  "main.py",
+  "--listen",
+  "127.0.0.1",
+  "--port",
+  "8188",
+  "--extra-model-paths-config",
+  "/Users/marcusmao/dev/AI_short_drama/config/extra_model_paths.yaml",
+  "--output-directory",
+  "/Users/marcusmao/AI_renders/comfyui",
+  "--disable-all-custom-nodes",
+  "--use-pytorch-cross-attention",
+  "--bf16-text-enc"
+ ],
+ "licence": "Qwen-Image 2.1, Qwen RESEARCH LICENSE: non-commercial (research/evaluation) only",
+ "meta": {
+  "mode": "edit",
+  "inputs": [
+   {
+    "file": "inputs/sunlight/ref_lin_v1.png",
+    "sha256": "408f5f917e5a12697265b68a7e8411ad788e204b5a64fa2bdf0e110d0d4ba9c2"
+   }
+  ],
+  "resolution": 0,
+  "steps": 25,
+  "prompt": "Change the plain white T-shirt of the woman in <image1> to a light blue denim shirt with the sleeves rolled up. Keep her face, hair, expression, pose, the lighting and the background exactly the same.",
+  "negative": ""
+ },
+ "api_prompt": {
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "qwen_image_2.1_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "cache": {
+   "class_type": "QwenImage21Cache",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "device": "auto",
+    "dtype": "default"
+   }
+  },
+  "clip": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "qwen3vl_8b_int8_convrot.safetensors",
+    "type": "qwen_image",
+    "device": "default"
+   }
+  },
+  "vae": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "qwen_image_2.1_vae_bf16.safetensors"
+   }
+  },
+  "img1": {
+   "class_type": "LoadImage",
+   "inputs": {
+    "image": "ai_short_drama/408f5f917e5a1269.png"
+   }
+  },
+  "enc": {
+   "class_type": "TextEncodeQwenImage21",
+   "inputs": {
+    "clip": [
+     "clip",
+     0
+    ],
+    "vae": [
+     "vae",
+     0
+    ],
+    "prompt": "Change the plain white T-shirt of the woman in <image1> to a light blue denim shirt with the sleeves rolled up. Keep her face, hair, expression, pose, the lighting and the background exactly the same.",
+    "negative_prompt": "",
+    "resolution": 0,
+    "images.image_1": [
+     "img1",
+     0
+    ]
+   }
+  },
+  "ks": {
+   "class_type": "KSampler",
+   "inputs": {
+    "model": [
+     "cache",
+     0
+    ],
+    "positive": [
+     "enc",
+     0
+    ],
+    "negative": [
+     "enc",
+     1
+    ],
+    "latent_image": [
+     "enc",
+     2
+    ],
+    "seed": 1,
+    "steps": 25,
+    "cfg": 1.0,
+    "sampler_name": "euler",
+    "scheduler": "simple",
+    "denoise": 1.0
+   }
+  },
+  "decode": {
+   "class_type": "VAEDecode",
+   "inputs": {
+    "samples": [
+     "ks",
+     0
+    ],
+    "vae": [
+     "vae",
+     0
+    ]
+   }
+  },
+  "save": {
+   "class_type": "SaveImage",
+   "inputs": {
+    "images": [
+     "decode",
+     0
+    ],
+    "filename_prefix": "qwen_image/Q5c_edit_outfit_r0_s1"
+   }
+  }
+ }
+}

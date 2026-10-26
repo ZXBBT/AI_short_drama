@@ -17,8 +17,10 @@ assets:
   char_lin_1: inputs/sunlight/ref_lin_v1.png
 characters:
   lin:
+    # owner 2026-10-26: full outfit named (check-plan outfit rule); P5 keeps the old wording written out so its
+    # rendered takes stay valid
     description: young East Asian woman, long straight dark hair with bangs, natural light makeup, white
-      T-shirt
+      T-shirt, black trousers
     refs:
     - char_lin_1
     voice: bright, warm
@@ -41,36 +43,63 @@ shots:
     type: r2v
     refs: [lin]
     seed: 201
-    duration: 4          # 107 frames: the longest proven length at 480x864
-    note: she reads the message and starts to smile
+    duration: 4
+    note: V2 2026-10-25 - official format + direction skill (from _format_test F2); background changed after the owner's review (the far dog walker glided with frozen legs), so seated people only; lin's description is written out with black trousers so the takes match
     prompt: |-
-      <Picture 1> is {lin}. Keep her face, hair and outfit exactly.
-      {park}. Single continuous shot, no cut. Medium shot from the waist up, static camera.
-      She sits on the wooden bench reading a message on her phone. Dappled sunlight moves softly across her face. Slowly a gentle smile spreads across her face. Natural blinking and breathing.
-      Realistic skin texture, natural daylight, no plastic look.
-      Audio: birdsong, leaves rustling.
+      subject_definitions:
+      <Subject 1> is the young woman in <Picture 1>: young East Asian woman, long straight dark hair with bangs, natural light makeup, white T-shirt, black trousers. Her face, eye shape, eyebrows, bangs and the length and color of her hair follow <Picture 1> exactly.
+
+      summary:
+      [reference generation] On a wooden park bench in afternoon sunlight, <Subject 1> reads a message on her phone, and a small, genuine smile slowly spreads across her face.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - her face, facial proportions, eye shape, eyebrows, bangs, long straight dark hair, natural light makeup, plain white T-shirt and black trousers are retained.
+
+      detailed_description:
+      The target video is a photorealistic, live-action short-drama shot in natural afternoon daylight, with soft dappled sunlight, natural skin texture with visible pores, realistic colors and gentle contrast.
+      [Shot 1] A medium close-up frames <Subject 1> from the chest up, sitting on a wooden park bench and turned slightly toward the left of the frame; her face fills a large part of the frame and is in sharp focus. She wears her plain white T-shirt, its soft cotton creasing slightly at the shoulders, and black trousers on her lap at the lower edge of the frame; her long straight dark hair with bangs falls over her shoulders, a few strands lifting in the breeze and catching warm light. The weathered wooden slats of the bench back show behind her shoulder, with a fine grain and a few sunlit spots. Warm afternoon sun comes from the upper right, giving her face soft, even light with a gentle highlight on her cheek and a natural shadow under her chin. Behind her, softly out of focus, a tree-lined path with green leaves and patches of sunlight stretches away; on a bench further along the path, two older women sit side by side and talk quietly, one nodding and the other gesturing gently with one hand at her own pace; they stay in place, softly out of focus but with clear, stable heads, shoulders and arms. Nobody walks across the frame and there are no animals. Leaf shadows drift slowly across her face and shoulders in a light breeze. She holds a black smartphone in both hands at chest height, its screen facing her and away from the camera. Her eyes are on the screen and read in small left-to-right movements; she blinks once. Her thumb scrolls once. Her eyes stop on one line; she pauses for a moment, her eyebrows lift very slightly, and the corners of her mouth begin to rise. The smile spreads slowly and naturally, her cheeks lift and the skin around her eyes creases softly; she lets out a quiet, amused breath through her nose and keeps reading with the smile. Both eyes stay level and symmetrical, pupils aimed at the phone, and her facial proportions stay unchanged; she never looks into the lens. Her lips stay closed; she does not speak. The camera pushes in with small amplitude at slow speed toward her face. There is no text and no subtitle anywhere in the frame.
+
+      overall_soundscape: Birdsong in the trees, leaves rustling in a light breeze, a faint murmur of the two women talking far away without intelligible words, and her soft breath.
+
+      non_diegetic_music: N/A
   P3:
     type: i2v
     first: {shot: P2, frame: last}
     seed: 301
-    note: same camera continues P2; she hears her name
+    duration: 3.7
+    note: V2 2026-10-25 - continues the new P2; official I2V format + direction skill (the old prompt quoted "Lin!", a caption risk)
     prompt: |-
-      Continue the same shot from <Picture 1> with no cut, static camera.
-      Someone off-screen calls her name. She looks up from the phone toward the left, surprised, and her face lights up.
-      Realistic skin texture, dappled afternoon sunlight.
-      Audio: a friendly voice calling "Lin!" from a distance, birdsong.
+      For the target video, at 0.00 seconds into the target video, <Picture 1> (from [Shot 1]) is fully referenced.
+
+      integrated_multimodal_description: [Shot 1] Live-action, photorealistic short-drama shot in warm afternoon daylight with natural skin texture, continuing exactly from <Picture 1>: a close medium shot of the young East Asian woman with long straight dark hair and bangs and a plain white T-shirt, sitting on a wooden park bench, smiling down at the black smartphone in both hands, with a sunlit tree-lined path softly out of focus behind her. Her face, hair, clothing, the phone and the framing stay exactly as in <Picture 1>, and the camera holds a static shot. For a moment she keeps reading with the same smile. A friendly young voice from far away off-screen to the left (S1) calls out: <d>[English] Lin!</d> She hears it: her smile pauses, her eyes lift from the phone, and she raises her head and turns it slightly to the left, her eyes searching far along the path. Her eyebrows rise in surprise, her lips part a little, and then her eyes find someone in the distance and her face lights up with recognition. She lowers the phone toward her lap. She blinks once. Both eyes stay level and symmetrical and aim at the same far point to the left; her facial proportions stay unchanged as her head turns, and she never looks into the lens. She does not speak. There is no text and no subtitle anywhere in the frame.
+
+      overall_soundscape: Birdsong in the trees, leaves rustling in a light breeze, and the soft rustle of her sleeve as she lowers the phone.
+
+      non_diegetic_music: N/A
   P4:
     type: r2v
     refs: [lin]
     seed: 401
-    note: close-up; her line
+    duration: 3.7
     dialogue: [{character: lin, line: "Over here!"}]
+    note: V2 2026-10-25 - official format + direction skill, tested as _format_test F4 (no burned-in caption, eyes off-lens)
     prompt: |-
-      <Picture 1> is {lin}. Keep her face, hair and outfit exactly.
-      {park}. Single continuous shot, no cut. Close-up of her face in soft dappled sunlight.
-      She smiles brightly, raises her hand to wave and calls out "Over here!".
-      Realistic skin texture with visible pores, natural light, no plastic look.
-      Audio: her bright, warm voice saying "Over here!", birdsong.
+      subject_definitions:
+      <Subject 1> is the young woman in <Picture 1>: young East Asian woman, long straight dark hair with bangs, natural light makeup, white T-shirt, black trousers. Her face, eye shape, eyebrows, bangs and the length and color of her hair follow <Picture 1> exactly.
+
+      summary:
+      [reference generation] In a sunny park, <Subject 1> looks up toward a friend in the distance, her face lights up, and she waves and calls out to them.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - her face, facial proportions, eye shape, eyebrows, bangs, long straight dark hair, natural light makeup and plain white T-shirt are retained.
+
+      detailed_description:
+      The target video is a photorealistic, live-action short-drama shot in natural afternoon daylight, with soft dappled sunlight, natural skin texture with visible pores, realistic colors and gentle contrast.
+      [Shot 1] A close-up frames the face and shoulders of <Subject 1> in three-quarter view, sitting on the park bench with green trees and sunlit leaves softly blurred behind her; her face is large in the frame and sharply focused, warm sunlight falling on one cheek and leaf shadows moving gently over her hair. She wears her plain white T-shirt; her long straight dark hair with bangs frames her face, and a few strands move in the light breeze. Behind her, softly out of focus, the tree-lined path runs away into green shade, with bright patches of sunlight on the ground and the dark wooden back of the bench at the edge of the frame. Her skin shows natural texture and fine pores, her light makeup is subtle, and her eyelashes and the moist highlights in her eyes are sharp. At the start her eyes are lowered toward the phone in her lap. She lifts her head and her eyes go up and to the left of the frame, far into the distance along the path, where a friend is approaching out of view; her eyes focus far away and stay on that point, never on the lens. Recognition crosses her face: her eyebrows rise, her eyes widen slightly and brighten, and a wide, warm smile opens. She raises her right hand to shoulder height and waves it from side to side twice. With a bright, warm, slightly raised young female voice, <Subject 1> (S1) calls out toward the distance: <d>[English] Over here!</d> Her lips move clearly in sync with the two words; after the line her mouth settles into the open, happy smile and her hand keeps waving lightly. She blinks once naturally. Both eyes stay level and symmetrical and aim at the same distant point; her facial proportions stay unchanged as her head lifts. The camera holds a static shot. There is no text and no subtitle anywhere in the frame.
+
+      overall_soundscape: Birdsong in the trees and leaves rustling in a light breeze, with the soft rustle of her sleeve as she waves.
+
+      non_diegetic_music: N/A
   P5:
     type: r2v
     refs: [lin]
@@ -79,7 +108,7 @@ shots:
       she gets up to meet them. 2026-10-24: owner asked to fix the trousers (first takes showed jeans,
       P2/P3 show black trousers); added to this prompt only, so P2-P4 keep their takes.
     prompt: |-
-      <Picture 1> is {lin}. Keep her face, hair and outfit exactly. She wears black trousers, the same as in the earlier shots, not jeans.
+      <Picture 1> is young East Asian woman, long straight dark hair with bangs, natural light makeup, white T-shirt. Keep her face, hair and outfit exactly. She wears black trousers, the same as in the earlier shots, not jeans.
       {park}. Single continuous shot, no cut. Medium shot from the waist up, the camera follows her slightly.
       She stands up from the bench, slips the phone into her pocket and walks off toward the left, smiling.
       Realistic skin texture, natural afternoon sunlight.

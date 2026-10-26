@@ -1,0 +1,207 @@
+{
+ "episode": "sunlight",
+ "version": "v2",
+ "created": "2026-10-26T01:01:49-07:00",
+ "cut_file": "episodes/sunlight/cut.yaml",
+ "cut_sha256": "986aa26cc416a56b09d5f9f6d6938e4823efb670ff2f770cb2517fce935b0c19",
+ "timeline": [
+  {
+   "shot": "P1",
+   "take": "769280ba_s101",
+   "in": 0,
+   "out": 72,
+   "frames": 73,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 0.0,
+   "end_s": 3.042
+  },
+  {
+   "shot": "P2",
+   "take": "8e54c05f_s201",
+   "in": 0,
+   "out": 106,
+   "frames": 107,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 3.042,
+   "end_s": 7.5
+  },
+  {
+   "shot": "P3",
+   "take": "5d0b76aa_s302",
+   "in": 0,
+   "out": 89,
+   "frames": 90,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 7.5,
+   "end_s": 11.25
+  },
+  {
+   "shot": "P4",
+   "take": "d4d43d9d_s402",
+   "in": 22,
+   "out": 89,
+   "frames": 68,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 11.25,
+   "end_s": 14.083
+  },
+  {
+   "shot": "P5",
+   "take": "2dbfc28a_s502",
+   "in": 0,
+   "out": 72,
+   "frames": 73,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 14.083,
+   "end_s": 17.125
+  }
+ ],
+ "sources": [
+  {
+   "shot": "P1",
+   "take": "769280ba_s101",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/sunlight/P1/P1_769280ba_s101_00001_.mp4",
+   "sha256": "265bb1420ae7a24f7db4385ba3b197e03f30af671e6fce804c3674edf4442de1",
+   "frames_in_take": 73,
+   "in": 0,
+   "out": 72,
+   "audio_len_diff_samples": 1,
+   "video_file": null,
+   "audio_mode": "sync",
+   "mirror": false
+  },
+  {
+   "shot": "P2",
+   "take": "8e54c05f_s201",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/sunlight/P2/P2_8e54c05f_s201_00001_.mp4",
+   "sha256": "0f5f7afc006edbd9754936233d1937fa90a2e4045adb22d374cd7d4911942ec5",
+   "frames_in_take": 107,
+   "in": 0,
+   "out": 106,
+   "audio_len_diff_samples": -400,
+   "video_file": null,
+   "audio_mode": "sync",
+   "mirror": false
+  },
+  {
+   "shot": "P3",
+   "take": "5d0b76aa_s302",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/sunlight/P3/P3_5d0b76aa_s302_00001_.mp4",
+   "sha256": "8e732d307edb75caa86fd8c59e09af751433fd4f21d2788f983d33ef8a43093c",
+   "frames_in_take": 90,
+   "in": 0,
+   "out": 89,
+   "audio_len_diff_samples": 0,
+   "video_file": null,
+   "audio_mode": "sync",
+   "mirror": false
+  },
+  {
+   "shot": "P4",
+   "take": "d4d43d9d_s402",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/_format_test/F4/F4_d4d43d9d_s402_00001_.mp4",
+   "sha256": "aca19642a92bc1c0c2a77c5fc2185207218ae0de6eafa9ccd398c360f7dfe323",
+   "frames_in_take": 90,
+   "in": 22,
+   "out": 89,
+   "audio_len_diff_samples": 0,
+   "video_file": null,
+   "audio_mode": "sync",
+   "mirror": false
+  },
+  {
+   "shot": "P5",
+   "take": "2dbfc28a_s502",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/sunlight/P5/P5_2dbfc28a_s502_00001_.mp4",
+   "sha256": "709478c6202b838bfa39081fba1321ad3989bd5a45a5556109dd3b1d45dece18",
+   "frames_in_take": 73,
+   "in": 0,
+   "out": 72,
+   "audio_len_diff_samples": 1,
+   "video_file": null,
+   "audio_mode": "sync",
+   "mirror": false
+  }
+ ],
+ "layers": [],
+ "duck": null,
+ "audio": {
+  "sample_rate": 48000,
+  "fade_ms": 10,
+  "per_shot_before_mix": {
+   "P1": {
+    "lufs": -38.3,
+    "true_peak_dbtp": -28.2
+   },
+   "P2": {
+    "lufs": -52.1,
+    "true_peak_dbtp": -38.4,
+    "auto_gain_db": 7.8
+   },
+   "P3": {
+    "lufs": -18.4,
+    "true_peak_dbtp": -8.2,
+    "auto_gain_db": -10.0
+   },
+   "P4": {
+    "lufs": -11.3,
+    "true_peak_dbtp": -1.1,
+    "auto_gain_db": -10.0
+   },
+   "P5": {
+    "lufs": -51.2,
+    "true_peak_dbtp": -37.1,
+    "auto_gain_db": 6.9
+   }
+  },
+  "per_shot_mode": "auto",
+  "mix_lufs": -27.66,
+  "mix_true_peak_dbtp": -11.06,
+  "gain_db": 10.06,
+  "peak_limited": true,
+  "out_lufs": -17.61,
+  "out_true_peak_dbtp": -0.99,
+  "codec": "aac 192k"
+ },
+ "video": {
+  "codec": "libx264",
+  "crf": 18,
+  "preset": "medium",
+  "pix_fmt": "yuv420p",
+  "fps": 24,
+  "upscale": "lanczos to target height, centre crop"
+ },
+ "subtitles": {
+  "file": "subtitles/sunlight_v2.srt",
+  "entries": 1
+ },
+ "outputs": [
+  {
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/sunlight/_final/sunlight_v2_480x864.mp4",
+   "width": 480,
+   "height": 864,
+   "frames": 411,
+   "bytes": 8446221,
+   "sha256": "9caf8b97e321eef459b586960ba92b44864b1020bffa13d883b412b5860b6227"
+  },
+  {
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/sunlight/_final/sunlight_v2_1080x1920.mp4",
+   "width": 1080,
+   "height": 1920,
+   "frames": 411,
+   "bytes": 25068666,
+   "sha256": "19a4f83b9cdca5e1a03cd0e5dcaf327849914a51b825290b80d89739f0bf133b"
+  }
+ ],
+ "env": {
+  "pyav": "19.0.2",
+  "libavcodec": "63.1.102",
+  "repo_commit": "7b2b08a",
+  "repo_dirty": true
+ }
+}

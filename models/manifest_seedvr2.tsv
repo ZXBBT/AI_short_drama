@@ -1,0 +1,11 @@
+# Source: https://huggingface.co/Comfy-Org/SeedVR2  pinned revision df48879708206a403d2a61acd55578c2e80fd233 (lastModified 2026-09-23)
+# Sizes and sha256 read from the Hugging Face API on 2026-10-26. Owner-approved download (3B + 7B sharp) for the
+# higher-resolution setup: SeedVR2 video upscaler (official ComfyUI template utility_seedvr2_3b_int8_upscale_video).
+# LICENCE: Apache 2.0 (Comfy-Org/SeedVR2 and ByteDance-Seed/SeedVR2-3B model cards).
+# Local path = ~/AI_models/comfyui/<repo_path>; download/verify: scripts/fetch_models.sh models/manifest_seedvr2.tsv
+#repo: Comfy-Org/SeedVR2
+#revision: df48879708206a403d2a61acd55578c2e80fd233
+repo_path	size	sha256	role
+diffusion_models/seedvr2_3b_int8_convrot.safetensors	3458259704	c3dec8bcc5916843a8a858572970597462e1f2dc598d6dfd818f6cd40f53a157	required
+diffusion_models/seedvr2_7b_sharp_int8_convrot.safetensors	8334897976	db48be2f1cc7e36b01a2aa529810f5d9c6a971edd29be225cf1b0eb18d51c366	required_7b
+vae/seedvr2_ema_vae_fp16.safetensors	501324814	20678548f420d98d26f11442d3528f8b8c94e57ee046ef93dbb7633da8612ca1	required

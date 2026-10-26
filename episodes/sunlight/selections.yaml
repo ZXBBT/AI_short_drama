@@ -5,21 +5,19 @@ P1:
   take: 769280ba_s101
   note: 'auto-pick: no clear face in any take; first good take; confirm on the review
     page'
-P2:
-  take: fe851aeb_s201
-  note: 'auto-pick: face quality 0.509, 117.9 px; confirm on the review page'
-P4: 224814f7_s401
+P4: d4d43d9d_s402
 P5:
   take: 2dbfc28a_s502
   note: 'auto-pick: face quality 0.414, 95.9 px; confirm on the review page'
-P3:
-  take: 62e6e7c3_s302
-  note: 'auto-pick: face quality 0.528, 111.9 px; confirm on the review page'
 _confirmed:
-  at: '2026-10-24T16:19:46-07:00'
+  at: '2026-10-26T13:16:53-07:00'
   picks:
     P1: 769280ba_s101
-    P2: fe851aeb_s201
-    P3: 62e6e7c3_s302
-    P4: 224814f7_s401
+    P2: 8e54c05f_s201
+    P3: 5d0b76aa_s302
+    P4: d4d43d9d_s402
     P5: 2dbfc28a_s502
+P2: 8e54c05f_s201
+P3:
+  take: 5d0b76aa_s302
+  note: 'auto-pick: face quality 0.562, 205.2 px; confirm on the review page'

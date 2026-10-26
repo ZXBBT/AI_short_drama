@@ -1,0 +1,245 @@
+{
+ "tool": "seedvr2_upscale",
+ "name": "Urban_Lifestyle_Commercial_S2B2",
+ "model": "seedvr2_3b_int8_convrot.safetensors",
+ "vae": "seedvr2_ema_vae_fp16.safetensors",
+ "scale": 2.0,
+ "seed": 1,
+ "color_correction": "none",
+ "chunk": null,
+ "started": "2026-10-26T03:19:39-07:00",
+ "status": "success",
+ "error": null,
+ "input": {
+  "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial/S2B2/S2B2_7aa87c96_s2801_00001_.mp4",
+  "sha256": "8478dfb71eb5315f2a37c19a6b81d17ada3dd3f608f25561a69c64c0b487c7a6"
+ },
+ "wall_seconds": 512.8,
+ "node_seconds": {
+  "LoadVideo": 0.0,
+  "GetVideoComponents": 0.1,
+  "ResizeImageMaskNode": 1.2,
+  "SeedVR2Preprocess": 0.2,
+  "VAEEncodeTiled": 116.3,
+  "UNETLoader": 0.1,
+  "SeedVR2Conditioning": 0.0,
+  "KSampler": 60.7,
+  "VAEDecodeTiled": 333.0,
+  "SeedVR2PostProcessing": 0.0,
+  "CreateVideo": 0.0,
+  "SaveVideo": 1.2
+ },
+ "memory_gib": {
+  "system_used_before": 20.8,
+  "system_used_peak": 41.2,
+  "swap_peak": 4.91
+ },
+ "outputs": [
+  {
+   "file": "/Users/marcusmao/AI_renders/comfyui/upscaled/Urban_Lifestyle_Commercial_S2B2_3b_x2_00001_.mp4",
+   "bytes": 2731274,
+   "video": {
+    "frames": 90,
+    "width": 1728,
+    "height": 960,
+    "fps": 24.0,
+    "codec": "h264",
+    "mean_min": 62.4,
+    "mean_max": 73.0,
+    "std_min": 55.6,
+    "black_frames": 0
+   },
+   "audio": {
+    "samples": 240000,
+    "sample_rate": 32000,
+    "finite": true,
+    "rms": 0.014080664518547613,
+    "peak": 0.8934584259986877
+   },
+   "sha256": "20c6765669e85282b81c00df7f78f11bc696c3f1608d5f3a8b16436d40327fbc"
+  }
+ ],
+ "comfyui_argv": [
+  "main.py",
+  "--listen",
+  "127.0.0.1",
+  "--port",
+  "8188",
+  "--extra-model-paths-config",
+  "/Users/marcusmao/dev/AI_short_drama/config/extra_model_paths.yaml",
+  "--output-directory",
+  "/Users/marcusmao/AI_renders/comfyui",
+  "--disable-all-custom-nodes",
+  "--use-pytorch-cross-attention"
+ ],
+ "meta": {
+  "episode": "Urban_Lifestyle_Commercial",
+  "shot": "S2B2",
+  "take": "7aa87c96_s2801"
+ },
+ "api_prompt": {
+  "load": {
+   "class_type": "LoadVideo",
+   "inputs": {
+    "file": "ai_short_drama_8478dfb71eb5315f.mp4"
+   }
+  },
+  "parts": {
+   "class_type": "GetVideoComponents",
+   "inputs": {
+    "video": [
+     "load",
+     0
+    ]
+   }
+  },
+  "resize": {
+   "class_type": "ResizeImageMaskNode",
+   "inputs": {
+    "input": [
+     "parts",
+     0
+    ],
+    "resize_type": "scale by multiplier",
+    "resize_type.multiplier": 2.0,
+    "scale_method": "lanczos"
+   }
+  },
+  "pre": {
+   "class_type": "SeedVR2Preprocess",
+   "inputs": {
+    "resized_images": [
+     "resize",
+     0
+    ]
+   }
+  },
+  "vae": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "seedvr2_ema_vae_fp16.safetensors"
+   }
+  },
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "seedvr2_3b_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "enc": {
+   "class_type": "VAEEncodeTiled",
+   "inputs": {
+    "tile_size": 512,
+    "overlap": 128,
+    "temporal_size": 64,
+    "temporal_overlap": 8,
+    "pixels": [
+     "pre",
+     0
+    ],
+    "vae": [
+     "vae",
+     0
+    ]
+   }
+  },
+  "cond": {
+   "class_type": "SeedVR2Conditioning",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "vae_conditioning": [
+     "enc",
+     0
+    ]
+   }
+  },
+  "ks": {
+   "class_type": "KSampler",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "positive": [
+     "cond",
+     0
+    ],
+    "negative": [
+     "cond",
+     1
+    ],
+    "latent_image": [
+     "enc",
+     0
+    ],
+    "seed": 1,
+    "steps": 1,
+    "cfg": 1.0,
+    "sampler_name": "euler",
+    "scheduler": "simple",
+    "denoise": 1.0
+   }
+  },
+  "dec": {
+   "class_type": "VAEDecodeTiled",
+   "inputs": {
+    "tile_size": 512,
+    "overlap": 128,
+    "temporal_size": 64,
+    "temporal_overlap": 8,
+    "samples": [
+     "ks",
+     0
+    ],
+    "vae": [
+     "vae",
+     0
+    ]
+   }
+  },
+  "post": {
+   "class_type": "SeedVR2PostProcessing",
+   "inputs": {
+    "images": [
+     "dec",
+     0
+    ],
+    "original_resized_images": [
+     "resize",
+     0
+    ],
+    "color_correction_method": "none"
+   }
+  },
+  "video": {
+   "class_type": "CreateVideo",
+   "inputs": {
+    "images": [
+     "post",
+     0
+    ],
+    "fps": 24.0,
+    "audio": [
+     "parts",
+     1
+    ]
+   }
+  },
+  "save": {
+   "class_type": "SaveVideo",
+   "inputs": {
+    "video": [
+     "video",
+     0
+    ],
+    "filename_prefix": "upscaled/Urban_Lifestyle_Commercial_S2B2_3b_x2",
+    "format": "auto",
+    "format.codec": "auto"
+   }
+  }
+ }
+}
