@@ -1,0 +1,299 @@
+{
+ "episode": "Urban_Lifestyle_Commercial",
+ "shot": "S4B",
+ "take_id": "c95d850f_s4201",
+ "fingerprint": "c95d850f299df04e35830fa4a15b95862eabf83f369bb449f2f806d54d4c0075",
+ "seed": 4201,
+ "started": "2026-10-25T04:52:14-07:00",
+ "prompt_id": "5690c902-88e2-45da-b852-23853897a63b",
+ "status": "success",
+ "error": null,
+ "events": [
+  "execution_start",
+  "execution_cached",
+  "execution_success"
+ ],
+ "wall_seconds": 1070.3,
+ "node_seconds": {
+  "MiniMaxH3ReferenceToVideo": 49.8,
+  "BasicGuider": 0.0,
+  "RandomNoise": 0.0,
+  "SamplerCustomAdvanced": 976.4,
+  "VAEDecodeAudio": 0.7,
+  "VAEDecode": 42.9,
+  "CreateVideo": 0.0,
+  "SaveVideo": 0.6
+ },
+ "memory_gib": {
+  "system_used_before": 36.5,
+  "system_used_peak": 50.2,
+  "swap_peak": 5.23,
+  "swap_limit": 20.0
+ },
+ "params": {
+  "type": "r2v",
+  "aspect": "16:9",
+  "megapixels": 0.4,
+  "duration": 3.7,
+  "width": 864,
+  "height": 480,
+  "length": 90
+ },
+ "recipe": {
+  "name": "h3_base_v2",
+  "sha256": "7e5b59ee9bb152e0f5298a95d51b3c10d2ab13296645a0107b3e39f527535355",
+  "effective": {
+   "name": "h3_base_v2",
+   "created": "2026-10-24",
+   "sampler": "res_multistep",
+   "scheduler": "simple",
+   "steps": 20,
+   "fps": 24,
+   "bit_depth": 8,
+   "attention": "pytorch",
+   "ref_image_size": "match",
+   "models": {
+    "fl2va": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "ref2va": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "video_vae": "minimax_h3_video_vae_fp16.safetensors",
+    "audio_vae": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  }
+ },
+ "inputs": {
+  "ref0": {
+   "asset": "char_man_1",
+   "file": "inputs/Urban_Lifestyle_Commercial/ref_man_v1.png",
+   "sha256": "8688675982d745f668720ece25289cbdc99d5d60ac739d1bb801e7fb81f0c2ae",
+   "uploaded_as": "ai_short_drama/8688675982d745f6.png"
+  }
+ },
+ "prompt_text": "subject_definitions:\n<Subject 1> is the young man in <Picture 1>: a Chinese man about 26 years old with a lean but healthy build, natural short black hair, a clean-shaven face, straight dark eyebrows and fresh, ordinary, approachable features, wearing a plain gray crew-neck T-shirt under an unbuttoned dark blue-gray casual overshirt, black straight-leg trousers and white sneakers.\n\nsummary:\n[reference generation] By the river at night, <Subject 1> takes one small sip from a beer can, exhales and looks across the water with a softened expression.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - his face, natural short black hair, straight dark eyebrows, lean build, plain gray crew-neck T-shirt and unbuttoned dark blue-gray overshirt are retained.\n\ndetailed_description:\nThe target video is a photorealistic premium television commercial filmed with a 35 mm lens, shallow depth of field, natural skin texture and soft highlight roll-off, with deep blue night tones and warm golden light.\n[Shot 1] A medium close-up frames <Subject 1> from the chest up in three-quarter view, seated on the riverside stone steps at night and facing toward the right of the frame, where the river lies out of view. He wears his plain gray crew-neck T-shirt under the unbuttoned dark blue-gray overshirt; his natural short black hair moves very slightly in a light breeze. Behind him, warm city lights across the water form large, round golden bokeh circles against a deep blue background. A soft warm light from the city falls on the side of his face nearest the river, while the other side stays in cool blue shadow. He raises a silver-blue beer can with a blue top in his right hand, held in a plausible, relaxed grip with his fingers around the middle of the can. He takes one small sip; the rim of the can touches his lower lip naturally and his throat moves once as he swallows. He lowers the can slightly to chest height. The can stays rigid and keeps its cylindrical shape throughout. He exhales gently, his shoulders relax, and he looks out across the river. His expression softens a little, his eyes calm and his mouth at rest, without any exaggerated smile. The camera pushes in with small amplitude at slow speed toward his face across the whole shot. Light reflections from the water flicker softly on his cheek. There is no text anywhere in the frame.\n\noverall_soundscape: Soft water movement and distant city ambience continue, with a quiet swallow, a subtle rustle of his overshirt and the light tap of the can against his fingers as he lowers it.\n\nnon_diegetic_music: Ambient electronic music at a slow tempo: sustained synth pads with a soft low pulse and a low, sustained bass note, rising slightly in volume.",
+ "episode_file_sha256": "c1271b87b704458102edef48f1b2c311386afadf5f6f3f06f3955c2c273e10b3",
+ "env": {
+  "comfyui": "0.42.1",
+  "pytorch": "2.14.1",
+  "python": "3.13.17",
+  "comfyui_argv": [
+   "main.py",
+   "--listen",
+   "127.0.0.1",
+   "--port",
+   "8188",
+   "--extra-model-paths-config",
+   "/Users/marcusmao/dev/AI_short_drama/config/extra_model_paths.yaml",
+   "--output-directory",
+   "/Users/marcusmao/AI_renders/comfyui",
+   "--disable-all-custom-nodes",
+   "--use-pytorch-cross-attention"
+  ],
+  "repo_commit": "99ac687",
+  "repo_dirty": true
+ },
+ "api_prompt": {
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "clip": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "type": "minimax",
+    "device": "default"
+   }
+  },
+  "vae_v": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+   }
+  },
+  "vae_a": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  },
+  "img_ref0": {
+   "class_type": "LoadImage",
+   "inputs": {
+    "image": "ai_short_drama/8688675982d745f6.png"
+   }
+  },
+  "cond": {
+   "class_type": "MiniMaxH3ReferenceToVideo",
+   "inputs": {
+    "clip": [
+     "clip",
+     0
+    ],
+    "prompt": "subject_definitions:\n<Subject 1> is the young man in <Picture 1>: a Chinese man about 26 years old with a lean but healthy build, natural short black hair, a clean-shaven face, straight dark eyebrows and fresh, ordinary, approachable features, wearing a plain gray crew-neck T-shirt under an unbuttoned dark blue-gray casual overshirt, black straight-leg trousers and white sneakers.\n\nsummary:\n[reference generation] By the river at night, <Subject 1> takes one small sip from a beer can, exhales and looks across the water with a softened expression.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - his face, natural short black hair, straight dark eyebrows, lean build, plain gray crew-neck T-shirt and unbuttoned dark blue-gray overshirt are retained.\n\ndetailed_description:\nThe target video is a photorealistic premium television commercial filmed with a 35 mm lens, shallow depth of field, natural skin texture and soft highlight roll-off, with deep blue night tones and warm golden light.\n[Shot 1] A medium close-up frames <Subject 1> from the chest up in three-quarter view, seated on the riverside stone steps at night and facing toward the right of the frame, where the river lies out of view. He wears his plain gray crew-neck T-shirt under the unbuttoned dark blue-gray overshirt; his natural short black hair moves very slightly in a light breeze. Behind him, warm city lights across the water form large, round golden bokeh circles against a deep blue background. A soft warm light from the city falls on the side of his face nearest the river, while the other side stays in cool blue shadow. He raises a silver-blue beer can with a blue top in his right hand, held in a plausible, relaxed grip with his fingers around the middle of the can. He takes one small sip; the rim of the can touches his lower lip naturally and his throat moves once as he swallows. He lowers the can slightly to chest height. The can stays rigid and keeps its cylindrical shape throughout. He exhales gently, his shoulders relax, and he looks out across the river. His expression softens a little, his eyes calm and his mouth at rest, without any exaggerated smile. The camera pushes in with small amplitude at slow speed toward his face across the whole shot. Light reflections from the water flicker softly on his cheek. There is no text anywhere in the frame.\n\noverall_soundscape: Soft water movement and distant city ambience continue, with a quiet swallow, a subtle rustle of his overshirt and the light tap of the can against his fingers as he lowers it.\n\nnon_diegetic_music: Ambient electronic music at a slow tempo: sustained synth pads with a soft low pulse and a low, sustained bass note, rising slightly in volume.",
+    "width": 864,
+    "height": 480,
+    "length": 90,
+    "vae": [
+     "vae_v",
+     0
+    ],
+    "audio_vae": [
+     "vae_a",
+     0
+    ],
+    "ref_image_size": "match",
+    "ref_images.ref_image_0": [
+     "img_ref0",
+     0
+    ]
+   }
+  },
+  "noise": {
+   "class_type": "RandomNoise",
+   "inputs": {
+    "noise_seed": 4201
+   }
+  },
+  "sampler": {
+   "class_type": "KSamplerSelect",
+   "inputs": {
+    "sampler_name": "res_multistep"
+   }
+  },
+  "sigmas": {
+   "class_type": "BasicScheduler",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "scheduler": "simple",
+    "steps": 20,
+    "denoise": 1.0
+   }
+  },
+  "guider": {
+   "class_type": "BasicGuider",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "conditioning": [
+     "cond",
+     0
+    ]
+   }
+  },
+  "sample": {
+   "class_type": "SamplerCustomAdvanced",
+   "inputs": {
+    "noise": [
+     "noise",
+     0
+    ],
+    "guider": [
+     "guider",
+     0
+    ],
+    "sampler": [
+     "sampler",
+     0
+    ],
+    "sigmas": [
+     "sigmas",
+     0
+    ],
+    "latent_image": [
+     "cond",
+     1
+    ]
+   }
+  },
+  "decode_v": {
+   "class_type": "VAEDecode",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "decode_a": {
+   "class_type": "VAEDecodeAudio",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_a",
+     0
+    ]
+   }
+  },
+  "video": {
+   "class_type": "CreateVideo",
+   "inputs": {
+    "images": [
+     "decode_v",
+     0
+    ],
+    "audio": [
+     "decode_a",
+     0
+    ],
+    "fps": 24,
+    "bit_depth": 8
+   }
+  },
+  "save": {
+   "class_type": "SaveVideo",
+   "inputs": {
+    "video": [
+     "video",
+     0
+    ],
+    "filename_prefix": "episodes/Urban_Lifestyle_Commercial/S4B/S4B_c95d850f_s4201",
+    "format": "auto",
+    "format.codec": "auto"
+   }
+  }
+ },
+ "output": {
+  "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial/S4B/S4B_c95d850f_s4201_00001_.mp4",
+  "bytes": 734719,
+  "video": {
+   "frames": 90,
+   "width": 864,
+   "height": 480,
+   "fps": 24.0,
+   "codec": "h264",
+   "mean_min": 47.9,
+   "mean_max": 51.5,
+   "std_min": 43.0,
+   "black_frames": 0
+  },
+  "audio": {
+   "samples": 240000,
+   "sample_rate": 32000,
+   "finite": true,
+   "rms": 0.046965762077464585,
+   "peak": 0.37722551822662354
+  },
+  "sha256": "00876c211b43dcddcac628cb2044edfafd39239221b397552c75214d2b7f3019"
+ },
+ "continuity": {
+  "median_frame_diff": 2.66,
+  "max_frame_diff": 4.8,
+  "cuts": []
+ },
+ "warnings": []
+}

@@ -1,0 +1,277 @@
+{
+ "episode": "Urban_Lifestyle_Commercial_refs",
+ "shot": "R2",
+ "take_id": "aa621a6c_s21",
+ "fingerprint": "aa621a6c2ef93b56a2ef34ee775a27408254b522cf89ab1c823ec30ee835fa50",
+ "seed": 21,
+ "started": "2026-10-24T23:12:37-07:00",
+ "prompt_id": "5e59bbb6-90c1-4346-b805-a066c7c4287d",
+ "status": "success",
+ "error": null,
+ "events": [
+  "execution_start",
+  "execution_cached",
+  "execution_success"
+ ],
+ "wall_seconds": 144.0,
+ "node_seconds": {
+  "MiniMaxH3ImageToVideo": 24.5,
+  "BasicGuider": 0.0,
+  "RandomNoise": 0.0,
+  "SamplerCustomAdvanced": 110.0,
+  "VAEDecodeAudio": 0.2,
+  "VAEDecode": 9.2,
+  "CreateVideo": 0.0,
+  "SaveVideo": 0.1
+ },
+ "memory_gib": {
+  "system_used_before": 32.3,
+  "system_used_peak": 47.4,
+  "swap_peak": 4.65,
+  "swap_limit": 20.0
+ },
+ "params": {
+  "type": "t2v",
+  "aspect": "9:16",
+  "megapixels": 1.0,
+  "duration": 0.2,
+  "width": 768,
+  "height": 1376,
+  "length": 5
+ },
+ "recipe": {
+  "name": "h3_base_v2",
+  "sha256": "7e5b59ee9bb152e0f5298a95d51b3c10d2ab13296645a0107b3e39f527535355",
+  "effective": {
+   "name": "h3_base_v2",
+   "created": "2026-10-24",
+   "sampler": "res_multistep",
+   "scheduler": "simple",
+   "steps": 20,
+   "fps": 24,
+   "bit_depth": 8,
+   "attention": "pytorch",
+   "ref_image_size": "match",
+   "models": {
+    "fl2va": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "ref2va": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "video_vae": "minimax_h3_video_vae_fp16.safetensors",
+    "audio_vae": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  }
+ },
+ "inputs": {},
+ "prompt_text": "integrated_multimodal_description: [Shot 1] Live-action, photorealistic studio product photograph. A static, front-facing shot shows one tall 500 ml aluminum beer can standing upright in the center of the frame on a plain light-gray tabletop against a plain light-gray background; the can fills most of the frame height. The can has a blue top and lid and a silver-white metallic body. Near the top, small blue capital letters read \"BRAVE THE WORLD\"; across the middle, large bold blue capital letters read \"SUPER DRY\"; below them, a red rectangular label block reads \"SUPER DRY DRAFT BEER\" in white capital letters. Fine condensation droplets cover the cold metal, and soft realistic reflections run along its cylindrical edge. Sharp focus on the label, natural colors, no other objects and no other text anywhere in the frame.\n\noverall_soundscape: Quiet studio room tone.\n\nnon_diegetic_music: N/A",
+ "episode_file_sha256": "26ccdbfd2f311f5eca2e4b1bca90aa3d4fe4a69c20d7778e2ab54e5ba881d009",
+ "env": {
+  "comfyui": "0.42.1",
+  "pytorch": "2.14.1",
+  "python": "3.13.17",
+  "comfyui_argv": [
+   "main.py",
+   "--listen",
+   "127.0.0.1",
+   "--port",
+   "8188",
+   "--extra-model-paths-config",
+   "/Users/marcusmao/dev/AI_short_drama/config/extra_model_paths.yaml",
+   "--output-directory",
+   "/Users/marcusmao/AI_renders/comfyui",
+   "--disable-all-custom-nodes",
+   "--use-pytorch-cross-attention"
+  ],
+  "repo_commit": "99ac687",
+  "repo_dirty": true
+ },
+ "api_prompt": {
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "clip": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "type": "minimax",
+    "device": "default"
+   }
+  },
+  "vae_v": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+   }
+  },
+  "vae_a": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  },
+  "cond": {
+   "class_type": "MiniMaxH3ImageToVideo",
+   "inputs": {
+    "clip": [
+     "clip",
+     0
+    ],
+    "prompt": "integrated_multimodal_description: [Shot 1] Live-action, photorealistic studio product photograph. A static, front-facing shot shows one tall 500 ml aluminum beer can standing upright in the center of the frame on a plain light-gray tabletop against a plain light-gray background; the can fills most of the frame height. The can has a blue top and lid and a silver-white metallic body. Near the top, small blue capital letters read \"BRAVE THE WORLD\"; across the middle, large bold blue capital letters read \"SUPER DRY\"; below them, a red rectangular label block reads \"SUPER DRY DRAFT BEER\" in white capital letters. Fine condensation droplets cover the cold metal, and soft realistic reflections run along its cylindrical edge. Sharp focus on the label, natural colors, no other objects and no other text anywhere in the frame.\n\noverall_soundscape: Quiet studio room tone.\n\nnon_diegetic_music: N/A",
+    "width": 768,
+    "height": 1376,
+    "length": 5,
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "noise": {
+   "class_type": "RandomNoise",
+   "inputs": {
+    "noise_seed": 21
+   }
+  },
+  "sampler": {
+   "class_type": "KSamplerSelect",
+   "inputs": {
+    "sampler_name": "res_multistep"
+   }
+  },
+  "sigmas": {
+   "class_type": "BasicScheduler",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "scheduler": "simple",
+    "steps": 20,
+    "denoise": 1.0
+   }
+  },
+  "guider": {
+   "class_type": "BasicGuider",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "conditioning": [
+     "cond",
+     0
+    ]
+   }
+  },
+  "sample": {
+   "class_type": "SamplerCustomAdvanced",
+   "inputs": {
+    "noise": [
+     "noise",
+     0
+    ],
+    "guider": [
+     "guider",
+     0
+    ],
+    "sampler": [
+     "sampler",
+     0
+    ],
+    "sigmas": [
+     "sigmas",
+     0
+    ],
+    "latent_image": [
+     "cond",
+     1
+    ]
+   }
+  },
+  "decode_v": {
+   "class_type": "VAEDecode",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "decode_a": {
+   "class_type": "VAEDecodeAudio",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_a",
+     0
+    ]
+   }
+  },
+  "video": {
+   "class_type": "CreateVideo",
+   "inputs": {
+    "images": [
+     "decode_v",
+     0
+    ],
+    "audio": [
+     "decode_a",
+     0
+    ],
+    "fps": 24,
+    "bit_depth": 8
+   }
+  },
+  "save": {
+   "class_type": "SaveVideo",
+   "inputs": {
+    "video": [
+     "video",
+     0
+    ],
+    "filename_prefix": "episodes/Urban_Lifestyle_Commercial_refs/R2/R2_aa621a6c_s21",
+    "format": "auto",
+    "format.codec": "auto"
+   }
+  }
+ },
+ "output": {
+  "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial_refs/R2/R2_aa621a6c_s21_00001_.mp4",
+  "bytes": 138068,
+  "video": {
+   "frames": 5,
+   "width": 768,
+   "height": 1376,
+   "fps": 24.0,
+   "codec": "h264",
+   "mean_min": 160.2,
+   "mean_max": 200.1,
+   "std_min": 36.3,
+   "black_frames": 0
+  },
+  "audio": {
+   "samples": 12800,
+   "sample_rate": 32000,
+   "finite": true,
+   "rms": 1.969081310539413e-05,
+   "peak": 0.0004160055541433394
+  },
+  "sha256": "e0da209552547d7af2b0ca608539bb4134ad67d3b8245ea70cef0e31002d9120"
+ },
+ "continuity": {
+  "median_frame_diff": 6.69,
+  "max_frame_diff": 26.3,
+  "cuts": []
+ },
+ "warnings": []
+}

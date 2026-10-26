@@ -1,0 +1,7 @@
+# Chosen take per shot (take id = fingerprint prefix + seed). Edit by hand, via
+# scripts/episode.py select or the review page. Shots that continue another shot use
+# this take. _confirmed = the picks the owner confirmed on the review page (Stage 8).
+R1: 4501ae01_s11
+R2: aa621a6c_s22
+R3: 881dfc40_s31
+R4: c1e9b907_s42

@@ -1,0 +1,297 @@
+{
+ "episode": "Urban_Lifestyle_Commercial",
+ "shot": "S4A",
+ "take_id": "24721da8_s4102",
+ "fingerprint": "24721da8497d0b51206f8564bfeca8f493978b29d4fba7045886561576986155",
+ "seed": 4102,
+ "started": "2026-10-25T04:32:43-07:00",
+ "prompt_id": "53f1271e-1845-4ffc-b1b0-62c7f83b1f13",
+ "status": "success",
+ "error": null,
+ "events": [
+  "execution_start",
+  "execution_cached",
+  "execution_success"
+ ],
+ "wall_seconds": 1170.6,
+ "node_seconds": {
+  "RandomNoise": 0.0,
+  "SamplerCustomAdvanced": 1128.1,
+  "VAEDecodeAudio": 0.6,
+  "VAEDecode": 41.4,
+  "CreateVideo": 0.0,
+  "SaveVideo": 0.5
+ },
+ "memory_gib": {
+  "system_used_before": 35.8,
+  "system_used_peak": 46.9,
+  "swap_peak": 5.23,
+  "swap_limit": 20.0
+ },
+ "params": {
+  "type": "r2v",
+  "aspect": "16:9",
+  "megapixels": 0.4,
+  "duration": 3.7,
+  "width": 864,
+  "height": 480,
+  "length": 90
+ },
+ "recipe": {
+  "name": "h3_base_v2",
+  "sha256": "7e5b59ee9bb152e0f5298a95d51b3c10d2ab13296645a0107b3e39f527535355",
+  "effective": {
+   "name": "h3_base_v2",
+   "created": "2026-10-24",
+   "sampler": "res_multistep",
+   "scheduler": "simple",
+   "steps": 20,
+   "fps": 24,
+   "bit_depth": 8,
+   "attention": "pytorch",
+   "ref_image_size": "match",
+   "models": {
+    "fl2va": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "ref2va": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "video_vae": "minimax_h3_video_vae_fp16.safetensors",
+    "audio_vae": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  }
+ },
+ "inputs": {
+  "ref0": {
+   "asset": "char_man_1",
+   "file": "inputs/Urban_Lifestyle_Commercial/ref_man_v1.png",
+   "sha256": "8688675982d745f668720ece25289cbdc99d5d60ac739d1bb801e7fb81f0c2ae",
+   "uploaded_as": "ai_short_drama/8688675982d745f6.png"
+  }
+ },
+ "prompt_text": "subject_definitions:\n<Subject 1> is the young man in <Picture 1>: a Chinese man about 26 years old with a lean but healthy build, natural short black hair, a clean-shaven face, straight dark eyebrows and fresh, ordinary, approachable features, wearing a plain gray crew-neck T-shirt under an unbuttoned dark blue-gray casual overshirt, black straight-leg trousers and white sneakers. His simple black commuting backpack rests beside him.\n\nsummary:\n[reference generation] A wide night view of <Subject 1> sitting comfortably on broad stone steps beside a river, the city lights reflected in the water.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - his natural short black hair, lean build, unbuttoned dark blue-gray overshirt, black trousers and white sneakers are retained at a distance.\n\ndetailed_description:\nThe target video is a photorealistic premium television commercial filmed with a 35 mm lens and restrained contrast, with deep blue night tones and warm golden city reflections.\n[Shot 1] A wide shot at night of broad, clean, light-gray stone steps that lead down to a wide, calm river. The steps run diagonally from the lower left toward the middle of the frame. <Subject 1> sits comfortably on one of the steps in the right third of the frame, seen from the side and slightly from behind, at a distance where his whole figure is visible: his natural short black hair, the unbuttoned dark blue-gray overshirt over the gray T-shirt, black straight-leg trousers and white sneakers resting on the step below. His simple black commuting backpack stands on the step beside him, and he holds a silver-blue beer can loosely in one hand on his knee. Across the water, the far bank is lined with warm illuminated buildings and a few tall towers, their windows glowing gold; their light stretches across the river in long, shimmering golden reflections. The sky is deep blue, almost black at the top, with a faint glow over the city. The water ripples gently and slowly, breaking the reflections into soft moving lines. Soft lamplight from a low lamp post behind the steps rims his shoulders. He makes a small, relaxed posture adjustment, leaning forward slightly and resting his forearms on his knees as he looks across the water. The camera pushes in with small amplitude at slow speed toward him while keeping the spacious composition, so the river and the far bank still fill most of the frame. The scene is calm and unhurried. There is no text anywhere in the frame.\n\noverall_soundscape: Soft water laps against the bottom of the stone steps while distant city traffic and faint voices drift across the river.\n\nnon_diegetic_music: Ambient electronic music at a slow tempo: sustained synth pads with a soft low pulse, joined by a low, sustained warm bass note, kept low in volume.",
+ "episode_file_sha256": "c1271b87b704458102edef48f1b2c311386afadf5f6f3f06f3955c2c273e10b3",
+ "env": {
+  "comfyui": "0.42.1",
+  "pytorch": "2.14.1",
+  "python": "3.13.17",
+  "comfyui_argv": [
+   "main.py",
+   "--listen",
+   "127.0.0.1",
+   "--port",
+   "8188",
+   "--extra-model-paths-config",
+   "/Users/marcusmao/dev/AI_short_drama/config/extra_model_paths.yaml",
+   "--output-directory",
+   "/Users/marcusmao/AI_renders/comfyui",
+   "--disable-all-custom-nodes",
+   "--use-pytorch-cross-attention"
+  ],
+  "repo_commit": "99ac687",
+  "repo_dirty": true
+ },
+ "api_prompt": {
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "clip": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "type": "minimax",
+    "device": "default"
+   }
+  },
+  "vae_v": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+   }
+  },
+  "vae_a": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  },
+  "img_ref0": {
+   "class_type": "LoadImage",
+   "inputs": {
+    "image": "ai_short_drama/8688675982d745f6.png"
+   }
+  },
+  "cond": {
+   "class_type": "MiniMaxH3ReferenceToVideo",
+   "inputs": {
+    "clip": [
+     "clip",
+     0
+    ],
+    "prompt": "subject_definitions:\n<Subject 1> is the young man in <Picture 1>: a Chinese man about 26 years old with a lean but healthy build, natural short black hair, a clean-shaven face, straight dark eyebrows and fresh, ordinary, approachable features, wearing a plain gray crew-neck T-shirt under an unbuttoned dark blue-gray casual overshirt, black straight-leg trousers and white sneakers. His simple black commuting backpack rests beside him.\n\nsummary:\n[reference generation] A wide night view of <Subject 1> sitting comfortably on broad stone steps beside a river, the city lights reflected in the water.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - his natural short black hair, lean build, unbuttoned dark blue-gray overshirt, black trousers and white sneakers are retained at a distance.\n\ndetailed_description:\nThe target video is a photorealistic premium television commercial filmed with a 35 mm lens and restrained contrast, with deep blue night tones and warm golden city reflections.\n[Shot 1] A wide shot at night of broad, clean, light-gray stone steps that lead down to a wide, calm river. The steps run diagonally from the lower left toward the middle of the frame. <Subject 1> sits comfortably on one of the steps in the right third of the frame, seen from the side and slightly from behind, at a distance where his whole figure is visible: his natural short black hair, the unbuttoned dark blue-gray overshirt over the gray T-shirt, black straight-leg trousers and white sneakers resting on the step below. His simple black commuting backpack stands on the step beside him, and he holds a silver-blue beer can loosely in one hand on his knee. Across the water, the far bank is lined with warm illuminated buildings and a few tall towers, their windows glowing gold; their light stretches across the river in long, shimmering golden reflections. The sky is deep blue, almost black at the top, with a faint glow over the city. The water ripples gently and slowly, breaking the reflections into soft moving lines. Soft lamplight from a low lamp post behind the steps rims his shoulders. He makes a small, relaxed posture adjustment, leaning forward slightly and resting his forearms on his knees as he looks across the water. The camera pushes in with small amplitude at slow speed toward him while keeping the spacious composition, so the river and the far bank still fill most of the frame. The scene is calm and unhurried. There is no text anywhere in the frame.\n\noverall_soundscape: Soft water laps against the bottom of the stone steps while distant city traffic and faint voices drift across the river.\n\nnon_diegetic_music: Ambient electronic music at a slow tempo: sustained synth pads with a soft low pulse, joined by a low, sustained warm bass note, kept low in volume.",
+    "width": 864,
+    "height": 480,
+    "length": 90,
+    "vae": [
+     "vae_v",
+     0
+    ],
+    "audio_vae": [
+     "vae_a",
+     0
+    ],
+    "ref_image_size": "match",
+    "ref_images.ref_image_0": [
+     "img_ref0",
+     0
+    ]
+   }
+  },
+  "noise": {
+   "class_type": "RandomNoise",
+   "inputs": {
+    "noise_seed": 4102
+   }
+  },
+  "sampler": {
+   "class_type": "KSamplerSelect",
+   "inputs": {
+    "sampler_name": "res_multistep"
+   }
+  },
+  "sigmas": {
+   "class_type": "BasicScheduler",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "scheduler": "simple",
+    "steps": 20,
+    "denoise": 1.0
+   }
+  },
+  "guider": {
+   "class_type": "BasicGuider",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "conditioning": [
+     "cond",
+     0
+    ]
+   }
+  },
+  "sample": {
+   "class_type": "SamplerCustomAdvanced",
+   "inputs": {
+    "noise": [
+     "noise",
+     0
+    ],
+    "guider": [
+     "guider",
+     0
+    ],
+    "sampler": [
+     "sampler",
+     0
+    ],
+    "sigmas": [
+     "sigmas",
+     0
+    ],
+    "latent_image": [
+     "cond",
+     1
+    ]
+   }
+  },
+  "decode_v": {
+   "class_type": "VAEDecode",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "decode_a": {
+   "class_type": "VAEDecodeAudio",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_a",
+     0
+    ]
+   }
+  },
+  "video": {
+   "class_type": "CreateVideo",
+   "inputs": {
+    "images": [
+     "decode_v",
+     0
+    ],
+    "audio": [
+     "decode_a",
+     0
+    ],
+    "fps": 24,
+    "bit_depth": 8
+   }
+  },
+  "save": {
+   "class_type": "SaveVideo",
+   "inputs": {
+    "video": [
+     "video",
+     0
+    ],
+    "filename_prefix": "episodes/Urban_Lifestyle_Commercial/S4A/S4A_24721da8_s4102",
+    "format": "auto",
+    "format.codec": "auto"
+   }
+  }
+ },
+ "output": {
+  "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial/S4A/S4A_24721da8_s4102_00001_.mp4",
+  "bytes": 880735,
+  "video": {
+   "frames": 90,
+   "width": 864,
+   "height": 480,
+   "fps": 24.0,
+   "codec": "h264",
+   "mean_min": 55.1,
+   "mean_max": 57.1,
+   "std_min": 44.9,
+   "black_frames": 0
+  },
+  "audio": {
+   "samples": 240000,
+   "sample_rate": 32000,
+   "finite": true,
+   "rms": 0.05638828015049758,
+   "peak": 0.3365215063095093
+  },
+  "sha256": "b8f80c1c4fed2ee73daf2e621e3c082c9488764ec5a758bd2bd721584d19d560"
+ },
+ "continuity": {
+  "median_frame_diff": 1.71,
+  "max_frame_diff": 3.4,
+  "cuts": []
+ },
+ "warnings": []
+}

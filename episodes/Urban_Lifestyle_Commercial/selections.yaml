@@ -1,0 +1,109 @@
+# Chosen take per shot (take id = fingerprint prefix + seed). Edit by hand, via
+# scripts/episode.py select or the review page. Shots that continue another shot use
+# this take. _confirmed = the picks the owner confirmed on the review page (Stage 8).
+S1A:
+  take: 32b27d08_s1102
+  note: 'auto-pick: face quality 0.133, 58.6 px; confirm on the review page'
+S1B:
+  take: 29c27b3a_s2201
+  note: 'auto-pick: face quality 0.591, 155.8 px; confirm on the review page'
+S2A:
+  take: 860d11ec_s2102
+  note: 'auto-pick: face quality 0.474, 78.6 px; confirm on the review page'
+S2B:
+  take: 93ae464b_s2201
+  note: 'auto-pick: face quality 0.581, 98.2 px; confirm on the review page'
+S2C:
+  take: bff8a161_s2302
+  note: 'auto-pick: face quality 0.539, 117.0 px; confirm on the review page'
+S2D:
+  take: 2eb11065_s2401
+  note: 'auto-pick: no clear face in any take; first good take; confirm on the review
+    page'
+S3A:
+  take: f8341b29_s3102
+  note: 'auto-pick: face quality 0.182, 50.7 px; confirm on the review page'
+S3B:
+  take: 745c6142_s3201
+  note: 'auto-pick: no clear face in any take; first good take; confirm on the review
+    page'
+S3C:
+  take: 63a77465_s3302
+  note: 'auto-pick: face quality 0.762, 183.2 px; confirm on the review page'
+S3D:
+  take: 3d88d9e3_s3401
+  note: 'auto-pick: no clear face in any take; first good take; confirm on the review
+    page'
+S4A:
+  take: 24721da8_s4101
+  note: 'auto-pick: no clear face in any take; first good take; confirm on the review
+    page'
+S4B:
+  take: c95d850f_s4201
+  note: 'auto-pick: face quality 0.557, 152.8 px; confirm on the review page'
+S5A:
+  take: 24366291_s5101
+  note: 'auto-pick: no clear face in any take; first good take; confirm on the review
+    page'
+S5C:
+  take: ba1aa8ed_s5302
+  note: 'auto-pick: face quality 0.689, 296.8 px; confirm on the review page'
+S6A:
+  take: 8b5970d0_s6101
+  note: 'auto-pick: face quality 0.52, 185.5 px; confirm on the review page'
+S7A:
+  take: 9b14fba7_s7102
+  note: 'auto-pick: face quality 0.596, 125.0 px; confirm on the review page'
+S8A:
+  take: fe777dbb_s8101
+  note: 'auto-pick: no clear face in any take; first good take; confirm on the review
+    page'
+S5B:
+  take: c628eeab_s5201
+  note: 'auto-pick: no clear face in any take; first good take; confirm on the review
+    page'
+S7B:
+  take: 28b49aa3_s7202
+  note: 'auto-pick: face quality 0.505, 136.0 px; confirm on the review page'
+_confirmed:
+  at: '2026-10-25T13:58:37-07:00'
+  picks:
+    S1A: 32b27d08_s1102
+    S1B: 29c27b3a_s2201
+    S2A: 860d11ec_s2102
+    S2B: 93ae464b_s2201
+    S2C: bff8a161_s2302
+    S2D: 2eb11065_s2401
+    S3A: f8341b29_s3102
+    S3B: 745c6142_s3201
+    S3C: 63a77465_s3302
+    S3D: 3d88d9e3_s3401
+    S4A: 24721da8_s4101
+    S4B: c95d850f_s4201
+    S5A: 24366291_s5101
+    S5B: c628eeab_s5201
+    S5C: ba1aa8ed_s5302
+    S6A: 8b5970d0_s6101
+    S7A: 9b14fba7_s7102
+    S7B: 28b49aa3_s7202
+    S8A: fe777dbb_s8101
+S2C2:
+  take: 8155164d_s2601
+  note: 'auto-pick: face quality 0.54, 102.1 px; confirm on the review page'
+S2E: 1b5d393f_s2701
+S3C2:
+  take: 72d4c5bc_s3501
+  note: 'auto-pick: face quality 0.709, 212.1 px; confirm on the review page'
+S7A2:
+  take: 451e0d16_s7501
+  note: 'auto-pick: face quality 0.591, 124.7 px; confirm on the review page'
+S5B2: 78e3ace5_s5502
+S7B2:
+  take: 33c276a3_s7601
+  note: 'auto-pick: face quality 0.521, 124.5 px; confirm on the review page'
+S1A2:
+  take: 18034b61_s1501
+  note: 'auto-pick: face quality 0.102, 46.1 px; confirm on the review page'
+S1B2: 8e8363ac_s1601
+S2A2: fa903350_s2502
+S2B2: 7aa87c96_s2801

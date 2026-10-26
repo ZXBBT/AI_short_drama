@@ -52,6 +52,13 @@ for what in ("folder name", "length_s", "aspect", "review.picks"):
     check(f"rejects bad {what}", any(what in e for e in errs), errs)
 errs, _, _ = B.validate_brief(dict(GOOD, characters={"woman": {"description": "x", "images": ["nope.png"]}}), ep_dir)
 check("rejects missing image", any("not found" in e for e in errs), errs)
+# a product reference (kind: object) has no face: no face check, no "no face found" error
+obj = dict(GOOD, characters=dict(GOOD["characters"], can={"description": "a beer can", "kind": "object",
+                                                          "images": ["inputs/_location/room_plate_v1.png"]}))
+errs, _, info = B.validate_brief(obj, ep_dir)
+check("object reference: no face check", not errs and not any("'can'" in i for i in info), (errs, info))
+errs, _, _ = B.validate_brief(dict(GOOD, characters={"can": {"description": "x", "kind": "thing"}}), ep_dir)
+check("rejects an unknown character kind", any("kind must be" in e for e in errs), errs)
 
 # scaffold
 out = B.scaffold(GOOD, ep_dir, ep_dir / "brief.yaml")
@@ -98,6 +105,39 @@ _, warns, _ = with_shots("".join(f"  S{i}: {{type: r2v, refs: [woman], seed: {i}
                                  for i in range(12)))
 check("warns when the plan is far longer than the target", any("add up to" in w for w in warns), warns)
 check("warns when the render budget is exceeded", any("exceeds budget" in w for w in warns), warns)
+
+# official H3 prompt format (h3-prompt-writing skill)
+OFFICIAL_R2V = (
+    "subject_definitions:\n<Subject 1> is {woman}, from <Picture 1>.\n\nsummary:\n[reference generation] She greets someone.\n\n"
+    "retention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - face, hair and outfit.\n\n"
+    "detailed_description:\nThe target video is live-action with soft daylight.\n[Shot 1] A close-up of <Subject 1> (S1), who says: "
+    "<d>[English] Hello?</d>\n\noverall_soundscape: Birdsong.\n\nnon_diegetic_music: N/A")
+def r2v_shot(prompt, sid="B"):
+    return (f"  {sid}:\n    type: r2v\n    refs: [woman]\n    seed: 2\n    dialogue: [{{character: woman, line: 'Hello?'}}]\n"
+            "    prompt: |-\n" + "".join(f"      {l}\n" for l in prompt.splitlines()))
+_, warns, _ = with_shots(r2v_shot(OFFICIAL_R2V))
+check("official-format R2V prompt: no format warnings", not any("official" in w or "double quotes" in w for w in warns), warns)
+_, warns, _ = with_shots(r2v_shot('<Picture 1> is {woman}. She says "Hello?"'))
+check("quoted dialogue warns (on-screen text risk)", any("double quotes" in w for w in warns), warns)
+check("free-form R2V prompt warns about the official format", any("subject_definitions" in w for w in warns), warns)
+_, warns, _ = with_shots("  C: {type: i2v, first: loc_room_1, seed: 3, prompt: 'integrated_multimodal_description: [Shot 1] room. "
+                         "overall_soundscape: quiet. non_diegetic_music: N/A'}\n")
+check("I2V without the official first-frame line warns", any("first-frame line" in w for w in warns), warns)
+_, warns, _ = with_shots("  D: {type: t2v, seed: 4, prompt: 'integrated_multimodal_description: [Shot 1] a. [Shot 2] At 00:05.000, b. "
+                         "overall_soundscape: x. non_diegetic_music: N/A'}\n")
+check("a cut after the end of a 3 s clip warns", any("after the clip ends" in w for w in warns), warns)
+
+# direction skill (V2 revision brief): screen text, sound mixed in the edit, very short clips
+P = {"type": "t2v", "length": 73, "prompt": 'A phone screen shows the app title "SUPER DRY CLUB". non_diegetic_music: soft pads'}
+w = B.direction_problems(P)
+check("screen/interface text warns (composite instead)", any("chroma-key" in x for x in w), w)
+check("music in the picture is fine unless sound is mixed in the edit", not any("continuous track" in x for x in w), w)
+w = B.direction_problems(dict(P, prompt="He (S1) says in an off-screen voiceover: <d>[English] Hi.</d>"), sound_in_edit=True)
+check("sound: edit -> voice-over and music in a picture render warn",
+      any("lips stay closed" in x for x in w) and any("continuous track" in x for x in w), w)
+w = B.direction_problems(dict(P, prompt="A wide view. non_diegetic_music: N/A", length=56), sound_in_edit=True)
+check("sound: edit + music N/A is clean; 56 frames warns about the trained length",
+      len(w) == 1 and "trained length" in w[0], w)
 
 shutil.rmtree(root)
 print(f"\n{'ALL PASSED' if not failures else f'{len(failures)} FAILED: {failures}'}")

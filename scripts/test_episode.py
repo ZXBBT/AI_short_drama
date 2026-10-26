@@ -250,5 +250,19 @@ for name in ("midnight_call", "_selftest", "_e2e"):
     check(f"{name}: finished shots still recognised (v1 fingerprints unchanged)",
           all(E.shot_status(ep_, s_)["state"] == "done" for s_ in ep_.shots))
 
+# V2: audio inputs (narrator voice reference, music continuation anchor)
+rcp = E.load_yaml(E.REPO / "config/recipes/h3_base_v2.yaml")
+pa = {"type": "r2v", "prompt": "x", "width": 320, "height": 192, "length": 362, "recipe": rcp}
+g = E.build_graph(pa, {"aref0": "ai_short_drama_abc.wav"}, "p", 1)
+check("audio reference -> LoadAudio wired to ref_audios",
+      g["aud_aref0"]["class_type"] == "LoadAudio" and g["cond"]["inputs"]["ref_audios.ref_audio_0"] == ["aud_aref0", 0]
+      and "img_aref0" not in g)
+g = E.build_graph(dict(pa, type="t2v"), {"anchor": "ai_short_drama_abc.wav"}, "p", 1)
+check("audio anchor -> AddGuide at frame 0 feeds the guider",
+      g["guide"]["class_type"] == "MiniMaxH3AddGuide" and g["guide"]["inputs"]["frame_idx"] == 0
+      and g["guider"]["inputs"]["conditioning"] == ["guide", 0] and g["sample"]["inputs"]["latent_image"] == ["cond", 1])
+check("no audio inputs -> graph unchanged (guider reads cond)",
+      E.build_graph(dict(pa, type="t2v"), {}, "p", 1)["guider"]["inputs"]["conditioning"] == ["cond", 0])
+
 print(f"\n{'ALL PASSED' if not failures else f'{len(failures)} FAILED: {failures}'}")
 sys.exit(1 if failures else 0)

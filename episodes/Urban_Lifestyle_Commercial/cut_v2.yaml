@@ -1,0 +1,84 @@
+# V2 edit, hand-made by Claude 2026-10-25 from the owner's revision brief
+# (Urban_Lifestyle_Commercial_V2_Revision_Brief_EN.md). Never regenerated automatically.
+#   picture: V2 shots where the brief asked for changes, V1 shots where it did not; S6A (store return) removed
+#   sound:   reused V1 takes are silent (their own music and narration would clash); V2 takes keep only their
+#            sync sound (no music, no narration), levelled low; on top: one narrator (N1 + its continuation N2b),
+#            one continuous music track (M1-M5, each piece continues the last), one ambience bed per location
+#            that starts ~0.7 s before its cut and fades out after it. Music ducks 7 dB under narration.
+# Assemble: ~/dev/ComfyUI/.venv/bin/python scripts/assemble.py episodes/Urban_Lifestyle_Commercial/cut_v2.yaml
+episode: Urban_Lifestyle_Commercial
+version: v2
+generated: false
+loudness: {target_lufs: -14.0, ceiling_dbtp: -1.0, per_shot: off, sync_target_lufs: -30.0}
+audio_fade_ms: 30
+sizes: [native, 1920x1080]
+duck: {db: -7, ramp_ms: 300}
+
+sequence:
+  # 1 subway (brief 1-3): layout from checked stills; passengers move; hesitation beat
+  - {shot: S1A2, take: 18034b61_s1501}
+  - {shot: S1B2, take: 8e8363ac_s1601}
+  # 2 office (brief 4-5, 14): nod -> phone -> close laptop -> leave
+  - {shot: S2A2, take: fa903350_s2502}
+  - {shot: S2C2, take: 8155164d_s2601}
+  - {shot: S2B2, take: 7aa87c96_s2801}
+  - {shot: S2D, take: 2eb11065_s2401, audio: off}
+  # 3 store (brief 7): approach and door (chime) -> match cut inside on the step through the door
+  - {shot: S2E, take: 1b5d393f_s2701, out: 80}
+  - {shot: S3A, take: f8341b29_s3102, in: 14, audio: off}
+  - {shot: S3B, take: 745c6142_s3201, audio: off}
+  - {shot: S3C2, take: 72d4c5bc_s3501}
+  - {shot: S3D, take: 3d88d9e3_s3401, audio: off}
+  # 4 riverside (brief 8-9): wide establishing first, one continuous river bed through the phone moment
+  - {shot: S4A, take: 24721da8_s4101, audio: off}
+  - {shot: S4B, take: c95d850f_s4201, audio: off}
+  - {shot: S5A, take: 24366291_s5101, audio: off}
+  - {shot: S5B2, take: 78e3ace5_s5502, video_file: episodes/Urban_Lifestyle_Commercial/_ui/S5B2_s5502_comp.mp4}
+  - {shot: S5C, take: ba1aa8ed_s5302, audio: off}
+  # 5 home (brief 11-12): he replies and sends -> she receives (no store return)
+  - {shot: S7A2, take: 451e0d16_s7501}
+  - {shot: S7B2, take: 33c276a3_s7601}
+  # 6 product hero (brief 13)
+  - {shot: S8A, take: fe777dbb_s8101, audio: off}
+
+layers:
+  # ---- narrator: N1 = lines 1-3, N2b = lines 4-7 (N2b continues N1's own recording: same voice) ----
+  - {name: L1, role: voice, text: "It's not that I don't want to meet people.", source: {episode: Urban_Lifestyle_Commercial_audio, shot: N1},
+     src_in: 0.75, src_out: 3.6, at: {shot: S1A2, offset: 0.6}, target_lufs: -17, fade_in: 0.05, fade_out: 0.1, sub_s: 2.85}
+  - {name: L2, role: voice, text: "I just don't know how to start.", source: {episode: Urban_Lifestyle_Commercial_audio, shot: N1},
+     src_in: 4.7, src_out: 6.7, at: {shot: S1B2, offset: 1.9}, target_lufs: -17, fade_in: 0.05, fade_out: 0.1, sub_s: 2.0}
+  - {name: L3, role: voice, text: "After I started working, I realized...", source: {episode: Urban_Lifestyle_Commercial_audio, shot: N1},
+     src_in: 8.6, src_out: 11.75, at: {shot: S2A2, offset: 1.4}, target_lufs: -17, fade_in: 0.05, fade_out: 0.15, sub_s: 3.15}
+  - {name: L4, role: voice, text: "Every day brings more new work.", source: {episode: Urban_Lifestyle_Commercial_audio, shot: N2b},
+     src_in: 4.45, src_out: 6.85, at: {shot: S2C2, offset: 1.0}, target_lufs: -17, fade_in: 0.05, fade_out: 0.1, sub_s: 2.4}
+  - {name: L5, role: voice, text: "Not new people.", source: {episode: Urban_Lifestyle_Commercial_audio, shot: N2b},
+     src_in: 7.6, src_out: 8.95, at: {shot: S2B2, offset: 1.5}, target_lufs: -17, fade_in: 0.05, fade_out: 0.1, sub_s: 1.35}
+  - {name: L6, role: voice, text: "Then I thought...", source: {episode: Urban_Lifestyle_Commercial_audio, shot: N2b},
+     src_in: 9.85, src_out: 11.1, at: {shot: S3B, offset: 0.7}, target_lufs: -17, fade_in: 0.05, fade_out: 0.1, sub_s: 1.25}
+  - {name: L7, role: voice, text: "Maybe I don't need to be someone else.", source: {episode: Urban_Lifestyle_Commercial_audio, shot: N2b},
+     src_in: 11.8, src_out: 14.15, at: {shot: S3C2, offset: 1.1}, target_lufs: -17, fade_in: 0.05, fade_out: 0.15, sub_s: 2.35}
+
+  # ---- music: five 15.07 s pieces, each starting with the last 4.07 s of the one before (overlap = same
+  # notes, crossfaded); the chain is anchored so M5's final chord ends with the product hero ----
+  - {name: M1, role: music, source: {episode: Urban_Lifestyle_Commercial_audio, shot: M1}, at: {shot: S8A, offset: -56.03},
+     target_lufs: -28, fade_out: 3.5}
+  - {name: M2, role: music, source: {episode: Urban_Lifestyle_Commercial_audio, shot: M2}, at: {shot: S8A, offset: -45.03},
+     target_lufs: -27, fade_in: 3.0, fade_out: 3.5}
+  - {name: M3, role: music, source: {episode: Urban_Lifestyle_Commercial_audio, shot: M3}, at: {shot: S8A, offset: -34.03},
+     target_lufs: -26, fade_in: 3.0, fade_out: 3.5}
+  - {name: M4, role: music, source: {episode: Urban_Lifestyle_Commercial_audio, shot: M4}, at: {shot: S8A, offset: -23.03},
+     target_lufs: -25.5, fade_in: 3.0, fade_out: 3.5}
+  - {name: M5, role: music, source: {episode: Urban_Lifestyle_Commercial_audio, shot: M5}, at: {shot: S8A, offset: -12.03},
+     target_lufs: -27, fade_in: 3.0, fade_out: 0.8}
+
+  # ---- ambience beds: lead in before each location cut, fade out after it ----
+  - {name: subway, role: bed, source: {episode: Urban_Lifestyle_Commercial_audio, shot: B_subway}, at: 0,
+     until: {shot: S2A2, offset: 0.6}, target_lufs: -31, fade_out: 0.9}
+  - {name: office, role: bed, source: {episode: Urban_Lifestyle_Commercial_audio, shot: B_office}, at: {shot: S2A2, offset: -0.6},
+     until: {shot: S2E, offset: 0.8}, target_lufs: -33, fade_in: 0.6, fade_out: 1.0}
+  - {name: store, role: bed, source: {episode: Urban_Lifestyle_Commercial_audio, shot: B_store}, at: {shot: S3A, offset: -0.8},
+     until: {shot: S4A, offset: 0.5}, target_lufs: -32, fade_in: 0.8, fade_out: 1.3}
+  - {name: river, role: bed, source: {episode: Urban_Lifestyle_Commercial_audio, shot: B_river}, at: {shot: S4A, offset: -0.8},
+     until: {shot: S7A2, offset: 0.5}, target_lufs: -31, fade_in: 0.8, fade_out: 1.0}
+  - {name: home, role: bed, source: {episode: Urban_Lifestyle_Commercial_audio, shot: B_home}, at: {shot: S7A2, offset: -0.6},
+     until: {shot: S8A, offset: 0.8}, target_lufs: -34, fade_in: 0.6, fade_out: 0.8}

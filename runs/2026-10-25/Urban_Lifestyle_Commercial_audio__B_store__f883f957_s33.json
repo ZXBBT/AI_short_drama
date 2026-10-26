@@ -1,0 +1,277 @@
+{
+ "episode": "Urban_Lifestyle_Commercial_audio",
+ "shot": "B_store",
+ "take_id": "f883f957_s33",
+ "fingerprint": "f883f95733f810e8ac4e883e1632e89da3707ea57fed6d554f5aaf5311b79687",
+ "seed": 33,
+ "started": "2026-10-25T16:11:04-07:00",
+ "prompt_id": "156f9b49-7b2c-4ff3-81b7-a13faa6cc6c4",
+ "status": "success",
+ "error": null,
+ "events": [
+  "execution_start",
+  "execution_cached",
+  "execution_success"
+ ],
+ "wall_seconds": 338.9,
+ "node_seconds": {
+  "MiniMaxH3ImageToVideo": 15.5,
+  "BasicGuider": 0.0,
+  "RandomNoise": 0.0,
+  "SamplerCustomAdvanced": 311.9,
+  "VAEDecodeAudio": 1.1,
+  "VAEDecode": 9.7,
+  "CreateVideo": 0.0,
+  "SaveVideo": 0.7
+ },
+ "memory_gib": {
+  "system_used_before": 33.8,
+  "system_used_peak": 47.8,
+  "swap_peak": 4.55,
+  "swap_limit": 20.0
+ },
+ "params": {
+  "type": "t2v",
+  "aspect": "16:9",
+  "megapixels": 0.06,
+  "duration": 12.0,
+  "width": 320,
+  "height": 192,
+  "length": 294
+ },
+ "recipe": {
+  "name": "h3_base_v2",
+  "sha256": "7e5b59ee9bb152e0f5298a95d51b3c10d2ab13296645a0107b3e39f527535355",
+  "effective": {
+   "name": "h3_base_v2",
+   "created": "2026-10-24",
+   "sampler": "res_multistep",
+   "scheduler": "simple",
+   "steps": 20,
+   "fps": 24,
+   "bit_depth": 8,
+   "attention": "pytorch",
+   "ref_image_size": "match",
+   "models": {
+    "fl2va": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "ref2va": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "video_vae": "minimax_h3_video_vae_fp16.safetensors",
+    "audio_vae": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  }
+ },
+ "inputs": {},
+ "prompt_text": "integrated_multimodal_description: [Shot 1] Live-action, a static shot of a quiet, brightly lit convenience store aisle at night with glowing drinks refrigerators.\n\noverall_soundscape: A steady refrigeration hum with the faint buzz of fluorescent lights, a soft distant compressor cycle, and a faint muffled street sound from outside, with no voices.\n\nnon_diegetic_music: N/A",
+ "episode_file_sha256": "f6a2fbb39120a88ce7dcb3b773b7494d335a0f0697c0f7f36952e0fec69d79ca",
+ "env": {
+  "comfyui": "0.42.1",
+  "pytorch": "2.14.1",
+  "python": "3.13.17",
+  "comfyui_argv": [
+   "main.py",
+   "--listen",
+   "127.0.0.1",
+   "--port",
+   "8188",
+   "--extra-model-paths-config",
+   "/Users/marcusmao/dev/AI_short_drama/config/extra_model_paths.yaml",
+   "--output-directory",
+   "/Users/marcusmao/AI_renders/comfyui",
+   "--disable-all-custom-nodes",
+   "--use-pytorch-cross-attention"
+  ],
+  "repo_commit": "99ac687",
+  "repo_dirty": true
+ },
+ "api_prompt": {
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "clip": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "type": "minimax",
+    "device": "default"
+   }
+  },
+  "vae_v": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+   }
+  },
+  "vae_a": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  },
+  "cond": {
+   "class_type": "MiniMaxH3ImageToVideo",
+   "inputs": {
+    "clip": [
+     "clip",
+     0
+    ],
+    "prompt": "integrated_multimodal_description: [Shot 1] Live-action, a static shot of a quiet, brightly lit convenience store aisle at night with glowing drinks refrigerators.\n\noverall_soundscape: A steady refrigeration hum with the faint buzz of fluorescent lights, a soft distant compressor cycle, and a faint muffled street sound from outside, with no voices.\n\nnon_diegetic_music: N/A",
+    "width": 320,
+    "height": 192,
+    "length": 294,
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "noise": {
+   "class_type": "RandomNoise",
+   "inputs": {
+    "noise_seed": 33
+   }
+  },
+  "sampler": {
+   "class_type": "KSamplerSelect",
+   "inputs": {
+    "sampler_name": "res_multistep"
+   }
+  },
+  "sigmas": {
+   "class_type": "BasicScheduler",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "scheduler": "simple",
+    "steps": 20,
+    "denoise": 1.0
+   }
+  },
+  "guider": {
+   "class_type": "BasicGuider",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "conditioning": [
+     "cond",
+     0
+    ]
+   }
+  },
+  "sample": {
+   "class_type": "SamplerCustomAdvanced",
+   "inputs": {
+    "noise": [
+     "noise",
+     0
+    ],
+    "guider": [
+     "guider",
+     0
+    ],
+    "sampler": [
+     "sampler",
+     0
+    ],
+    "sigmas": [
+     "sigmas",
+     0
+    ],
+    "latent_image": [
+     "cond",
+     1
+    ]
+   }
+  },
+  "decode_v": {
+   "class_type": "VAEDecode",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "decode_a": {
+   "class_type": "VAEDecodeAudio",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_a",
+     0
+    ]
+   }
+  },
+  "video": {
+   "class_type": "CreateVideo",
+   "inputs": {
+    "images": [
+     "decode_v",
+     0
+    ],
+    "audio": [
+     "decode_a",
+     0
+    ],
+    "fps": 24,
+    "bit_depth": 8
+   }
+  },
+  "save": {
+   "class_type": "SaveVideo",
+   "inputs": {
+    "video": [
+     "video",
+     0
+    ],
+    "filename_prefix": "episodes/Urban_Lifestyle_Commercial_audio/B_store/B_store_f883f957_s33",
+    "format": "auto",
+    "format.codec": "auto"
+   }
+  }
+ },
+ "output": {
+  "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial_audio/B_store/B_store_f883f957_s33_00001_.mp4",
+  "bytes": 1766104,
+  "video": {
+   "frames": 294,
+   "width": 320,
+   "height": 192,
+   "fps": 24.0,
+   "codec": "h264",
+   "mean_min": 14.8,
+   "mean_max": 115.2,
+   "std_min": 32.9,
+   "black_frames": 0
+  },
+  "audio": {
+   "samples": 784000,
+   "sample_rate": 32000,
+   "finite": true,
+   "rms": 0.008569860551207677,
+   "peak": 0.031169725582003593
+  },
+  "sha256": "daca013c07063288ed0e107c20cb4a4a7be108e7e4479c0ca6f3fda0f3a4563e"
+ },
+ "continuity": {
+  "median_frame_diff": 17.53,
+  "max_frame_diff": 44.0,
+  "cuts": []
+ },
+ "warnings": []
+}

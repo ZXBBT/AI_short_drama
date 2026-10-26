@@ -27,6 +27,59 @@ REPO = E.REPO
 PROVEN = [(352 * 608, 124), (480 * 864, 107), (544 * 960, 73), (768 * 1376, 5)]
 REF_FACE_MIN_PX, REF_FACE_MIN_Q = 300, 0.5  # owner's selfie reference: 1031 px / 0.70 -> photoreal
 LENGTH_TOLERANCE = 0.3
+# MiniMax's official prompt structure (h3-prompt-writing skill, MiniMax-AI/MiniMax-H3 @ d21241f)
+OFFICIAL_SECTIONS = {"r2v": ["subject_definitions:", "summary:", "retention_analysis:", "detailed_description:",
+                             "overall_soundscape:", "non_diegetic_music:"],
+                     "base": ["integrated_multimodal_description:", "overall_soundscape:", "non_diegetic_music:"]}
+I2V_FIRST_LINE = "For the target video, at 0.00 seconds into the target video, <Picture 1> (from [Shot 1]) is fully referenced."
+FLF2V_FIRST_LINE = "How the reference pictures align with the target video"
+CUT_TIME = re.compile(r"\[Shot \d+\] At (\d+):(\d+(?:\.\d+)?)")
+
+
+def official_format_problems(p, dialogue_lines):
+    """Differences from H3's official prompt format (the h3-prompt-writing guides)."""
+    text, out = p["prompt"], []
+    kind = "r2v" if p["type"] == "r2v" else "base"
+    missing = [s for s in OFFICIAL_SECTIONS[kind] if s not in text]
+    if missing:
+        out.append(f"not in H3's official prompt format: missing {', '.join(missing)} (see the h3-prompt-writing skill)")
+    if p["type"] == "i2v" and not text.startswith(I2V_FIRST_LINE):
+        out.append("I2V prompts start with the official first-frame line: " + I2V_FIRST_LINE)
+    if p["type"] == "flf2v" and not text.startswith(FLF2V_FIRST_LINE):
+        out.append("FLF2V prompts start with the official alignment line ('How the reference pictures align ...')")
+    for line in dialogue_lines:
+        if f'"{line}"' in text and f"<d>" not in text:
+            out.append(f'dialogue {line!r} is in double quotes: H3 treats quoted text as visible on-screen text (P4 '
+                       f'burned-in caption). Write it as (S1) says: <d>[English] {line}</d>')
+    dur = p["length"] / 24
+    for m in CUT_TIME.finditer(text):
+        t_ = int(m.group(1)) * 60 + float(m.group(2))
+        if t_ >= dur:
+            out.append(f"cut at {m.group(1)}:{m.group(2)} is after the clip ends ({dur:.2f} s)")
+    return out
+
+
+SCREEN_TEXT = re.compile(r"\b(?:screen|interface|app)\b[^.]*\"[^\"]+\"", re.I)
+MUSIC_NONE = re.compile(r"non_diegetic_music:\s*N/A", re.I)
+TRAINED_MIN_FRAMES = 124  # H3's trained clip length is ~124-362 frames (ComfyUI node tooltip)
+
+
+def direction_problems(p, sound_in_edit=False):
+    """The h3-short-drama-direction skill's checkable rules (V2 revision brief, 2026-10-25)."""
+    text, out = p["prompt"], []
+    if SCREEN_TEXT.search(text):
+        out.append("asks H3 to draw text on a screen/interface (V1 S5B came out unreadable): render the screen as "
+                   "flat chroma-key green and composite the graphic with scripts/screen_insert.py")
+    if sound_in_edit:
+        if "off-screen voiceover" in text:
+            out.append("narration is mixed in the edit (brief sound: edit): remove the voice-over from the picture "
+                       "render and say his lips stay closed")
+        if not MUSIC_NONE.search(text):
+            out.append("music is one continuous track in the edit (brief sound: edit): set non_diegetic_music: N/A")
+    if p["length"] < 73:
+        out.append(f"{p['length']} frames is far below H3's trained length ({TRAINED_MIN_FRAMES}-362); keep "
+                   f"performance shots at 90-107 frames")
+    return out
 
 
 def load_brief(ep_dir):
@@ -66,6 +119,8 @@ def validate_brief(b, ep_dir):
     images = []
     for kind in ("characters", "locations"):
         for cid, c in (b.get(kind) or {}).items():
+            if kind == "characters" and (c or {}).get("kind", "person") not in ("person", "object"):
+                errors.append(f"character '{cid}': kind must be person (default) or object")
             if not re.fullmatch(r"[A-Za-z_][\w-]*", str(cid)):
                 errors.append(f"{kind} id '{cid}' must be a simple name (letters, digits, _ or -)")
             if not (c or {}).get("description"):
@@ -73,8 +128,8 @@ def validate_brief(b, ep_dir):
             for i, img in enumerate((c or {}).get("images") or []):
                 if not repo_path(img).exists():
                     errors.append(f"{kind[:-1]} '{cid}': image not found: {img}")
-                elif kind == "characters":
-                    images.append((cid, i, repo_path(img)))
+                elif kind == "characters" and (c or {}).get("kind", "person") == "person":
+                    images.append((cid, i, repo_path(img)))  # objects (kind: object, e.g. a product) have no face
     if (b.get("characters") or {}) and not images:
         warnings.append("no character images: H3 will invent the look and it may drift between shots")
     if images:
@@ -111,6 +166,8 @@ def scaffold(b, ep_dir, brief_path):
             chars[cid]["refs"] = names[:1]  # one picture per character: extra pictures changed the acting (Q1S)
         if c.get("voice"):
             chars[cid]["voice"] = c["voice"]
+        if c.get("kind", "person") != "person":
+            chars[cid]["kind"] = c["kind"]
     for lid, loc in (b.get("locations") or {}).items():
         names = []
         for i, img in enumerate(loc.get("images") or []):
@@ -200,7 +257,10 @@ def check_plan(ep_dir):
         if not proven(p["width"] * p["height"], p["length"]):
             errors.append(f"shot {sid}: {p['width']}x{p['height']} x {p['length']} frames has not been rendered "
                           f"successfully on this Mac; use 480x864 (0.4 MP) up to 4.5 s or 352x608 up to 5.2 s")
-        lines.update(d["line"] for d in s.get("dialogue") or [] if isinstance(d, dict) and d.get("line"))
+        shot_lines = [d["line"] for d in s.get("dialogue") or [] if isinstance(d, dict) and d.get("line")]
+        lines.update(shot_lines)
+        warnings += [f"shot {sid}: {w}" for w in official_format_problems(p, shot_lines)]
+        warnings += [f"shot {sid}: {w}" for w in direction_problems(p, sound_in_edit=b.get("sound") == "edit")]
     for cid in (b.get("characters") or {}):
         if cid not in ep.characters:
             errors.append(f"brief character '{cid}' is missing from episode.yaml (run scaffold for a new episode)")

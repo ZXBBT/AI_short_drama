@@ -43,7 +43,9 @@ IMAGE_INPUTS = {"t2v": (), "i2v": ("first",), "flf2v": ("first", "last"), "r2v":
 TESTED = {"pixels": 864 * 480, "frames": 124}  # largest sizes rendered successfully on this Mac
 OVERRIDABLE = ("sampler", "scheduler", "steps", "ref_image_size")
 SHOT_KEYS = {"type", "prompt", "prompt_file", "seed", "seeds", "takes", "aspect", "megapixels", "duration",
-             "first", "last", "refs", "recipe_overrides", "note", "allow_cuts", "max_rerolls", "dialogue"}
+             "first", "last", "refs", "recipe_overrides", "note", "allow_cuts", "max_rerolls", "dialogue",
+             "audio_refs", "audio_anchor"}
+AUDIO_SUFFIXES = (".wav", ".flac", ".mp3", ".m4a")  # audio assets: voice references, music to continue
 PLACEHOLDER = re.compile(r"\{([A-Za-z_][\w-]*)\}")  # {woman} -> that character's description
 # shot-size terms only ("eyes wide" must not count)
 WIDE_WORDS = re.compile(r"\bwide(?:-angle)?\s+(?:static\s+)?(?:shot|angle|view)\b|\bfull[- ]body\b"
@@ -285,9 +287,14 @@ def validate(ep):
             E(f"asset {aid}: file missing {rel}")
         else:
             try:
-                Image.open(f).verify()
+                if f.suffix.lower() in AUDIO_SUFFIXES:
+                    with av.open(str(f)) as c:
+                        if not c.streams.audio:
+                            raise ValueError("no audio stream")
+                else:
+                    Image.open(f).verify()
             except Exception as e:  # noqa: BLE001
-                E(f"asset {aid}: not a readable image ({e})")
+                E(f"asset {aid}: not a readable {'audio file' if f.suffix.lower() in AUDIO_SUFFIXES else 'image'} ({e})")
     for cid, c in ep.characters.items():
         for r in (c or {}).get("refs") or []:
             if r not in ep.assets:
@@ -350,18 +357,28 @@ def validate(ep):
                 E(f"{pre} {k}: must be an asset id or {{shot: ..., frame: ...}}")
         refs = s.get("refs")
         n_img = len(IMAGE_INPUTS[t])
+        for k in ("audio_refs", "audio_anchor"):
+            for a in ([s[k]] if isinstance(s.get(k), str) else s.get(k) or []):
+                if a not in ep.assets or not str(ep.assets[a]).lower().endswith(AUDIO_SUFFIXES):
+                    E(f"{pre} {k}: '{a}' is not an audio asset id")
+        if s.get("audio_refs") and t != "r2v":
+            E(f"{pre} only r2v takes audio_refs (use audio_anchor to continue a soundtrack)")
+        n_aud = len(s.get("audio_refs") or [])
+        for m in re.findall(r"<Audio (\d+)>", p["prompt"]):
+            if not 1 <= int(m) <= n_aud:
+                E(f"{pre} prompt mentions <Audio {m}> but the shot has {n_aud} audio reference(s)")
         if t == "r2v":
-            if not refs:
-                E(f"{pre} r2v needs refs")
+            if not refs and not n_aud:
+                E(f"{pre} r2v needs refs (images) or audio_refs")
             for r in refs or []:
                 if r not in ep.assets and r not in ep.characters:
                     E(f"{pre} ref '{r}' is not an asset or character id")
             n_img = len(ep.ref_assets(sid))
             if n_img > 9:
                 E(f"{pre} at most 9 reference images (has {n_img})")
-            if re.search(r"<(Video|Audio) \d+>", p["prompt"]):
-                E(f"{pre} <Video n>/<Audio n> tags need video/audio references, not supported yet")
-            if not re.search(r"<Picture \d+>", p["prompt"]):
+            if re.search(r"<Video \d+>", p["prompt"]):
+                E(f"{pre} <Video n> tags need video references, not supported yet")
+            if n_img and not re.search(r"<Picture \d+>", p["prompt"]):
                 W(f"{pre} r2v prompt has no <Picture n> tags; references work best when named")
         elif refs:
             E(f"{pre} only r2v takes refs")
@@ -411,25 +428,36 @@ def build_graph(p, images, prefix, seed):
         "vae_a": {"class_type": "VAELoader", "inputs": {"vae_name": r["models"]["audio_vae"]}},
     }
     for key, name in images.items():
-        g[f"img_{key}"] = {"class_type": "LoadImage", "inputs": {"image": name}}
+        if is_audio_slot(key):
+            g[f"aud_{key}"] = {"class_type": "LoadAudio", "inputs": {"audio": name}}
+        else:
+            g[f"img_{key}"] = {"class_type": "LoadImage", "inputs": {"image": name}}
     common = {"clip": ["clip", 0], "prompt": p["prompt"], "width": p["width"], "height": p["height"], "length": p["length"]}
     if t == "r2v":
         cond = {"class_type": "MiniMaxH3ReferenceToVideo", "inputs": dict(
             common, vae=["vae_v", 0], audio_vae=["vae_a", 0], ref_image_size=r["ref_image_size"])}
         for key in sorted((k for k in images if k.startswith("ref")), key=lambda k: int(k[3:])):
             cond["inputs"][f"ref_images.ref_image_{key[3:]}"] = [f"img_{key}", 0]
+        for key in sorted((k for k in images if k.startswith("aref")), key=lambda k: int(k[4:])):
+            cond["inputs"][f"ref_audios.ref_audio_{key[4:]}"] = [f"aud_{key}", 0]
     else:
         cond = {"class_type": "MiniMaxH3ImageToVideo", "inputs": dict(common, vae=["vae_v", 0])}
         for key in ("first", "last"):
             if key in images:
                 cond["inputs"][f"{key}_frame"] = [f"img_{key}", 0]
+    positive = ["cond", 0]
+    if "anchor" in images:  # the soundtrack starts with this audio and H3 continues it (music chains)
+        g["guide"] = {"class_type": "MiniMaxH3AddGuide", "inputs": {
+            "positive": ["cond", 0], "latent": ["cond", 1], "audio_vae": ["vae_a", 0],
+            "audio": ["aud_anchor", 0], "frame_idx": 0}}
+        positive = ["guide", 0]
     g.update({
         "cond": cond,
         "noise": {"class_type": "RandomNoise", "inputs": {"noise_seed": seed}},
         "sampler": {"class_type": "KSamplerSelect", "inputs": {"sampler_name": r["sampler"]}},
         "sigmas": {"class_type": "BasicScheduler", "inputs": {
             "model": ["unet", 0], "scheduler": r["scheduler"], "steps": r["steps"], "denoise": 1.0}},
-        "guider": {"class_type": "BasicGuider", "inputs": {"model": ["unet", 0], "conditioning": ["cond", 0]}},
+        "guider": {"class_type": "BasicGuider", "inputs": {"model": ["unet", 0], "conditioning": positive}},
         "sample": {"class_type": "SamplerCustomAdvanced", "inputs": {
             "noise": ["noise", 0], "guider": ["guider", 0], "sampler": ["sampler", 0],
             "sigmas": ["sigmas", 0], "latent_image": ["cond", 1]}},
@@ -441,6 +469,10 @@ def build_graph(p, images, prefix, seed):
             "video": ["video", 0], "filename_prefix": prefix, "format": "auto", "format.codec": "auto"}},
     })
     return g
+
+
+def is_audio_slot(key):
+    return key == "anchor" or key.startswith("aref")
 
 
 def recipe_attention(recipe):
@@ -498,6 +530,12 @@ def resolve_images(ep, sid):
             out[key] = (frame_png, prov)
     for i, aid in enumerate(ep.ref_assets(sid)):
         out[f"ref{i}"] = (REPO / ep.assets[aid], {"asset": aid, "file": ep.assets[aid]})
+    # audio inputs: <Audio N> references (R2V) and a soundtrack anchored at frame 0 (continuation)
+    for i, aid in enumerate(s.get("audio_refs") or []):
+        out[f"aref{i}"] = (REPO / ep.assets[aid], {"asset": aid, "file": ep.assets[aid]})
+    if s.get("audio_anchor"):
+        aid = s["audio_anchor"]
+        out["anchor"] = (REPO / ep.assets[aid], {"asset": aid, "file": ep.assets[aid]})
     return out, None
 
 
@@ -598,10 +636,12 @@ class SwapGuard(MemorySampler):
             time.sleep(1)
 
 
-async def _upload(path, name):
+async def _upload(path, name, audio=False):
     data = aiohttp.FormData()
-    data.add_field("image", open(path, "rb"), filename=name, content_type="image/png")
-    data.add_field("subfolder", UPLOAD_SUBFOLDER)
+    data.add_field("image", open(path, "rb"), filename=name,
+                   content_type="application/octet-stream" if audio else "image/png")
+    # LoadAudio only lists files at the top of input/, so audio goes there (prefixed, content-addressed)
+    data.add_field("subfolder", "" if audio else UPLOAD_SUBFOLDER)
     data.add_field("type", "input")
     data.add_field("overwrite", "true")
     async with aiohttp.ClientSession() as s:
@@ -613,7 +653,10 @@ async def _upload(path, name):
 
 def upload(path, sha):
     """Upload under a content-addressed name, so the graph names exactly these pixels."""
-    return asyncio.run(_upload(path, f"{sha[:16]}{pathlib.Path(path).suffix.lower()}"))
+    suffix = pathlib.Path(path).suffix.lower()
+    if suffix in AUDIO_SUFFIXES:
+        return asyncio.run(_upload(path, f"{UPLOAD_SUBFOLDER}_{sha[:16]}{suffix}", audio=True))
+    return asyncio.run(_upload(path, f"{sha[:16]}{suffix}"))
 
 
 def render_take(ep, st, seed, swap_limit):

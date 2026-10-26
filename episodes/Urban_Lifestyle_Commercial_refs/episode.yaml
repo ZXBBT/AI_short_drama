@@ -1,0 +1,97 @@
+# Reference stills for "Be a Little Braver" (episodes/Urban_Lifestyle_Commercial, owner's guide
+# Urban_Lifestyle_Commercial_Recreation_Guide_EN.md, 2026-10-24). The guide gives no pictures, so the
+# protagonist and the product are made here first with H3 itself (to-do #6 method: 5-frame clips at
+# 768x1376, sharpest frame kept), then used as the one R2V reference per shot in the commercial.
+#   R1  the protagonist, waist up, neutral wall (T2V)   -> identity + wardrobe for every shot with him
+#   R2  the BRAVE THE WORLD SUPER DRY can (T2V)          -> product for the store, river, insert and hero shots
+# The woman appears in one shot only, so she is made from text there (no reference needed).
+episode: Urban_Lifestyle_Commercial_refs
+title: Be a Little Braver - reference stills
+recipe: h3_base_v2
+
+defaults:
+  aspect: "9:16"
+  megapixels: 1.0      # 768x1376
+  duration: 0.2        # 5 frames
+  takes: 2
+  max_rerolls: 0
+
+assets:  # V2 stills use the approved R1 picture
+  char_man_1: inputs/Urban_Lifestyle_Commercial/ref_man_v1.png
+characters:
+  man:
+    description: a Chinese man about 26 years old with a lean but healthy build, natural short black hair, a clean-shaven
+      face, straight dark eyebrows and fresh, ordinary, approachable features, wearing a plain gray crew-neck T-shirt
+      under an unbuttoned dark blue-gray casual overshirt, black straight-leg trousers and white sneakers
+    refs: [char_man_1]
+
+shots:
+  R1:
+    type: t2v
+    seed: 11
+    note: protagonist reference (waist up, overshirt on, no backpack or earbuds)
+    prompt: |-
+      integrated_multimodal_description: [Shot 1] Live-action, photorealistic portrait photograph. A static shot frames a Chinese man about 26 years old from the waist up, standing centered and facing the camera directly in front of a plain light-gray wall, in soft, even daylight from a large window on the left. He has a lean but healthy build, natural short black hair, a clean-shaven face, straight dark eyebrows and fresh, ordinary, approachable facial features; he looks like a real office worker, not a model or a celebrity. He wears a plain gray crew-neck T-shirt under an unbuttoned dark blue-gray casual overshirt, and black straight-leg trousers. His arms hang relaxed at his sides. His expression is calm and quietly friendly with a faint natural smile; he holds still and looks straight into the lens. Realistic skin texture with visible pores, natural colors, sharp focus on the eyes, no retouching, no text anywhere in the frame.
+
+      overall_soundscape: Quiet indoor room tone.
+
+      non_diegetic_music: N/A
+  R2:
+    type: t2v
+    seeds: [21, 22, 23]
+    note: product reference (text on the can is the hard part, so three seeds)
+    prompt: |-
+      integrated_multimodal_description: [Shot 1] Live-action, photorealistic studio product photograph. A static, front-facing shot shows one tall 500 ml aluminum beer can standing upright in the center of the frame on a plain light-gray tabletop against a plain light-gray background; the can fills most of the frame height. The can has a blue top and lid and a silver-white metallic body. Near the top, small blue capital letters read "BRAVE THE WORLD"; across the middle, large bold blue capital letters read "SUPER DRY"; below them, a red rectangular label block reads "SUPER DRY DRAFT BEER" in white capital letters. Fine condensation droplets cover the cold metal, and soft realistic reflections run along its cylindrical edge. Sharp focus on the label, natural colors, no other objects and no other text anywhere in the frame.
+
+      overall_soundscape: Quiet studio room tone.
+
+      non_diegetic_music: N/A
+
+  # ---- V2 (owner's revision brief 2026-10-25, section 1): subway geometry fixed in stills first, then animated
+  # with I2V (h3-short-drama-direction skill, sections 1-5). 16:9 at ~1 MP = 1376x768, 5 frames.
+  R3:
+    type: r2v
+    refs: [man]
+    seeds: [31, 32]
+    aspect: "16:9"
+    note: subway wide - correct carriage layout, protagonist by a side door
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the young man in <Picture 1>: {man}. Here he also wears white wireless earbuds and a simple black commuting backpack.
+
+      summary:
+      [reference generation] A still, photographic wide view along the length of a modern Chinese subway carriage in the morning rush hour, with <Subject 1> standing beside a side door.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - his face, short black hair, lean build, gray T-shirt, dark blue-gray overshirt and black trousers are retained, with earbuds and backpack added.
+
+      detailed_description:
+      The target video is a photorealistic premium television commercial frame filmed with a 35 mm lens, natural skin texture, soft highlight roll-off and cool blue-gray tones.
+      [Shot 1] A static, eye-level wide shot that looks straight down the length of a modern Chinese subway carriage. The carriage's layout is simple and symmetrical: a central aisle runs away from the camera toward the far end; long rows of seats line the left and right walls; the side walls hold large windows, and between the window sections each side wall has a pair of wide sliding passenger doors, set into the left wall and into the right wall, parallel to the aisle; silver ceiling rails with hanging hand straps and a row of vertical steel poles run lengthwise above and along the aisle; at the far end of the car is a separate narrow gangway door with a small window, clearly different from the side doors. Through the side windows on both walls, the dark tunnel shows thin streaks of light. Adult office workers stand and sit in an orderly, slightly crowded way, facing different directions. In the right half of the frame, about a third of the way down the car, <Subject 1> stands beside the sliding door in the right side wall, his body turned toward the door window, one hand on a vertical pole, white earbuds in, black backpack on his shoulders, his face in clear three-quarter view. A few steps from him in the aisle, two young friends stand close together looking at one phone. Everyone has a clear, stable face and body. There is no text anywhere in the frame.
+
+      overall_soundscape: Low subway rumble.
+
+      non_diegetic_music: N/A
+  R4:
+    type: r2v
+    refs: [man]
+    seeds: [41, 42]
+    aspect: "16:9"
+    note: subway medium close-up at the side-door window, same layout
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the young man in <Picture 1>: {man}. Here he also wears white wireless earbuds and a simple black commuting backpack.
+
+      summary:
+      [reference generation] A still, photographic medium close-up of <Subject 1> standing at the window of a sliding passenger door in the side wall of a subway carriage.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - his face, short black hair, straight dark eyebrows, gray T-shirt and dark blue-gray overshirt are retained, with earbuds and backpack straps added.
+
+      detailed_description:
+      The target video is a photorealistic premium television commercial frame filmed with a 35 mm lens, shallow depth of field, natural skin texture, soft highlight roll-off and cool blue-gray tones.
+      [Shot 1] A static medium close-up frames <Subject 1> from the chest up in three-quarter profile, facing left toward the window of a sliding passenger door set into the side wall of a subway carriage; the door's vertical rubber edge and its dark window fill the left third of the frame, and his faint reflection is visible in the glass. A white earbud sits in his ear and the black strap of his backpack crosses the dark blue-gray overshirt. Behind him on the right, softly out of focus, the carriage continues lengthwise: a vertical steel pole, the ceiling rail with hand straps running away from the camera, and two young friends standing in the aisle looking at one phone, with clear, stable heads and shoulders. Through the door window, the dark tunnel shows thin streaks of light. Both of his eyes are level and symmetrical, looking toward the window; his mouth is closed and his expression is calm and thoughtful. Cool overhead light falls softly on his face. There is no text anywhere in the frame.
+
+      overall_soundscape: Low subway rumble.
+
+      non_diegetic_music: N/A

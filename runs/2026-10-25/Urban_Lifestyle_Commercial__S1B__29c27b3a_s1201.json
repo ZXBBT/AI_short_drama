@@ -1,0 +1,299 @@
+{
+ "episode": "Urban_Lifestyle_Commercial",
+ "shot": "S1B",
+ "take_id": "29c27b3a_s1201",
+ "fingerprint": "29c27b3acaa6513cdcad01895e4676980d3624403fb4093ef38fb4bc72747e83",
+ "seed": 1201,
+ "started": "2026-10-25T00:21:59-07:00",
+ "prompt_id": "bcb33958-d7c0-45e2-9768-24dae47eecc1",
+ "status": "success",
+ "error": null,
+ "events": [
+  "execution_start",
+  "execution_cached",
+  "execution_success"
+ ],
+ "wall_seconds": 772.8,
+ "node_seconds": {
+  "MiniMaxH3ReferenceToVideo": 45.9,
+  "BasicGuider": 0.0,
+  "RandomNoise": 0.0,
+  "SamplerCustomAdvanced": 690.8,
+  "VAEDecodeAudio": 0.7,
+  "VAEDecode": 34.9,
+  "CreateVideo": 0.0,
+  "SaveVideo": 0.6
+ },
+ "memory_gib": {
+  "system_used_before": 34.5,
+  "system_used_peak": 50.4,
+  "swap_peak": 5.16,
+  "swap_limit": 20.0
+ },
+ "params": {
+  "type": "r2v",
+  "aspect": "16:9",
+  "megapixels": 0.4,
+  "duration": 3.7,
+  "width": 864,
+  "height": 480,
+  "length": 90
+ },
+ "recipe": {
+  "name": "h3_base_v2",
+  "sha256": "7e5b59ee9bb152e0f5298a95d51b3c10d2ab13296645a0107b3e39f527535355",
+  "effective": {
+   "name": "h3_base_v2",
+   "created": "2026-10-24",
+   "sampler": "res_multistep",
+   "scheduler": "simple",
+   "steps": 20,
+   "fps": 24,
+   "bit_depth": 8,
+   "attention": "pytorch",
+   "ref_image_size": "match",
+   "models": {
+    "fl2va": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "ref2va": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "video_vae": "minimax_h3_video_vae_fp16.safetensors",
+    "audio_vae": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  }
+ },
+ "inputs": {
+  "ref0": {
+   "asset": "char_man_1",
+   "file": "inputs/Urban_Lifestyle_Commercial/ref_man_v1.png",
+   "sha256": "8688675982d745f668720ece25289cbdc99d5d60ac739d1bb801e7fb81f0c2ae",
+   "uploaded_as": "ai_short_drama/8688675982d745f6.png"
+  }
+ },
+ "prompt_text": "subject_definitions:\n<Subject 1> is the young man in <Picture 1>: a Chinese man about 26 years old with a lean but healthy build, natural short black hair, a clean-shaven face, straight dark eyebrows and fresh, ordinary, approachable features, wearing a plain gray crew-neck T-shirt under an unbuttoned dark blue-gray casual overshirt, black straight-leg trousers and white sneakers. Here he also wears white wireless earbuds and a simple black commuting backpack.\n\nsummary:\n[reference generation] A medium close-up of <Subject 1> by the subway door: he glances toward a nearby conversation, then back to his reflection, while his inner voice speaks.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - his face, short black hair, straight eyebrows, gray T-shirt and dark blue-gray overshirt are retained, with earbuds and backpack straps added.\n\ndetailed_description:\nThe target video is a photorealistic premium television commercial filmed with a cinematic 35 mm lens, shallow depth of field, natural skin texture, soft highlight roll-off, restrained contrast and cool blue-gray tones.\n[Shot 1] A medium close-up frames <Subject 1> from the chest up in three-quarter profile beside the subway door window, a white earbud in his ear and the black strap of his backpack over the dark blue-gray overshirt. His faint reflection is visible in the dark glass next to him. Behind him, softly out of focus, two friends look at a phone together and smile. <Subject 1> briefly glances toward their conversation, a small wish to connect showing in his eyes without envy or sadness, then naturally returns his gaze to his reflection. The camera pushes in with small amplitude at slow speed toward his three-quarter profile and the reflection. <Subject 1> (S1), in the same clean, slightly low-pitched, relaxed male voice, says in an off-screen voiceover: <d>[English] I just don't know how to start.</d> while his lips remain completely closed. His expression stays calm and thoughtful. There is no text anywhere in the frame.\n\noverall_soundscape: A low steady subway rumble and soft, indistinct passenger conversation in the background.\n\nnon_diegetic_music: Spacious ambient electronic music: soft sustained synth pads at a slow tempo with no beat, low in volume.",
+ "episode_file_sha256": "9ecffb057f6de26f4561543501cabab3e8a3b2a4223e9d1a3c0862fda7205f6b",
+ "env": {
+  "comfyui": "0.42.1",
+  "pytorch": "2.14.1",
+  "python": "3.13.17",
+  "comfyui_argv": [
+   "main.py",
+   "--listen",
+   "127.0.0.1",
+   "--port",
+   "8188",
+   "--extra-model-paths-config",
+   "/Users/marcusmao/dev/AI_short_drama/config/extra_model_paths.yaml",
+   "--output-directory",
+   "/Users/marcusmao/AI_renders/comfyui",
+   "--disable-all-custom-nodes",
+   "--use-pytorch-cross-attention"
+  ],
+  "repo_commit": "99ac687",
+  "repo_dirty": true
+ },
+ "api_prompt": {
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "clip": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "type": "minimax",
+    "device": "default"
+   }
+  },
+  "vae_v": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+   }
+  },
+  "vae_a": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  },
+  "img_ref0": {
+   "class_type": "LoadImage",
+   "inputs": {
+    "image": "ai_short_drama/8688675982d745f6.png"
+   }
+  },
+  "cond": {
+   "class_type": "MiniMaxH3ReferenceToVideo",
+   "inputs": {
+    "clip": [
+     "clip",
+     0
+    ],
+    "prompt": "subject_definitions:\n<Subject 1> is the young man in <Picture 1>: a Chinese man about 26 years old with a lean but healthy build, natural short black hair, a clean-shaven face, straight dark eyebrows and fresh, ordinary, approachable features, wearing a plain gray crew-neck T-shirt under an unbuttoned dark blue-gray casual overshirt, black straight-leg trousers and white sneakers. Here he also wears white wireless earbuds and a simple black commuting backpack.\n\nsummary:\n[reference generation] A medium close-up of <Subject 1> by the subway door: he glances toward a nearby conversation, then back to his reflection, while his inner voice speaks.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - his face, short black hair, straight eyebrows, gray T-shirt and dark blue-gray overshirt are retained, with earbuds and backpack straps added.\n\ndetailed_description:\nThe target video is a photorealistic premium television commercial filmed with a cinematic 35 mm lens, shallow depth of field, natural skin texture, soft highlight roll-off, restrained contrast and cool blue-gray tones.\n[Shot 1] A medium close-up frames <Subject 1> from the chest up in three-quarter profile beside the subway door window, a white earbud in his ear and the black strap of his backpack over the dark blue-gray overshirt. His faint reflection is visible in the dark glass next to him. Behind him, softly out of focus, two friends look at a phone together and smile. <Subject 1> briefly glances toward their conversation, a small wish to connect showing in his eyes without envy or sadness, then naturally returns his gaze to his reflection. The camera pushes in with small amplitude at slow speed toward his three-quarter profile and the reflection. <Subject 1> (S1), in the same clean, slightly low-pitched, relaxed male voice, says in an off-screen voiceover: <d>[English] I just don't know how to start.</d> while his lips remain completely closed. His expression stays calm and thoughtful. There is no text anywhere in the frame.\n\noverall_soundscape: A low steady subway rumble and soft, indistinct passenger conversation in the background.\n\nnon_diegetic_music: Spacious ambient electronic music: soft sustained synth pads at a slow tempo with no beat, low in volume.",
+    "width": 864,
+    "height": 480,
+    "length": 90,
+    "vae": [
+     "vae_v",
+     0
+    ],
+    "audio_vae": [
+     "vae_a",
+     0
+    ],
+    "ref_image_size": "match",
+    "ref_images.ref_image_0": [
+     "img_ref0",
+     0
+    ]
+   }
+  },
+  "noise": {
+   "class_type": "RandomNoise",
+   "inputs": {
+    "noise_seed": 1201
+   }
+  },
+  "sampler": {
+   "class_type": "KSamplerSelect",
+   "inputs": {
+    "sampler_name": "res_multistep"
+   }
+  },
+  "sigmas": {
+   "class_type": "BasicScheduler",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "scheduler": "simple",
+    "steps": 20,
+    "denoise": 1.0
+   }
+  },
+  "guider": {
+   "class_type": "BasicGuider",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "conditioning": [
+     "cond",
+     0
+    ]
+   }
+  },
+  "sample": {
+   "class_type": "SamplerCustomAdvanced",
+   "inputs": {
+    "noise": [
+     "noise",
+     0
+    ],
+    "guider": [
+     "guider",
+     0
+    ],
+    "sampler": [
+     "sampler",
+     0
+    ],
+    "sigmas": [
+     "sigmas",
+     0
+    ],
+    "latent_image": [
+     "cond",
+     1
+    ]
+   }
+  },
+  "decode_v": {
+   "class_type": "VAEDecode",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "decode_a": {
+   "class_type": "VAEDecodeAudio",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_a",
+     0
+    ]
+   }
+  },
+  "video": {
+   "class_type": "CreateVideo",
+   "inputs": {
+    "images": [
+     "decode_v",
+     0
+    ],
+    "audio": [
+     "decode_a",
+     0
+    ],
+    "fps": 24,
+    "bit_depth": 8
+   }
+  },
+  "save": {
+   "class_type": "SaveVideo",
+   "inputs": {
+    "video": [
+     "video",
+     0
+    ],
+    "filename_prefix": "episodes/Urban_Lifestyle_Commercial/S1B/S1B_29c27b3a_s1201",
+    "format": "auto",
+    "format.codec": "auto"
+   }
+  }
+ },
+ "output": {
+  "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial/S1B/S1B_29c27b3a_s1201_00001_.mp4",
+  "bytes": 765309,
+  "video": {
+   "frames": 90,
+   "width": 864,
+   "height": 480,
+   "fps": 24.0,
+   "codec": "h264",
+   "mean_min": 60.0,
+   "mean_max": 77.4,
+   "std_min": 55.5,
+   "black_frames": 0
+  },
+  "audio": {
+   "samples": 240000,
+   "sample_rate": 32000,
+   "finite": true,
+   "rms": 0.13803644824051647,
+   "peak": 0.9853512048721313
+  },
+  "sha256": "af576ace258739ad697b88364673828ccc9df4ab1c7930eee1d9c2dc4f18118d"
+ },
+ "continuity": {
+  "median_frame_diff": 4.62,
+  "max_frame_diff": 10.3,
+  "cuts": []
+ },
+ "warnings": []
+}

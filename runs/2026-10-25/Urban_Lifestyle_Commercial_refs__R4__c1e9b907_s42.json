@@ -1,0 +1,297 @@
+{
+ "episode": "Urban_Lifestyle_Commercial_refs",
+ "shot": "R4",
+ "take_id": "c1e9b907_s42",
+ "fingerprint": "c1e9b907cbb085d50c2f27bdba0c9992fcf9917a07696d5e621fbf1707242b17",
+ "seed": 42,
+ "started": "2026-10-25T15:49:35-07:00",
+ "prompt_id": "d591fac9-0ee6-4e99-ad99-b24a634e87d7",
+ "status": "success",
+ "error": null,
+ "events": [
+  "execution_start",
+  "execution_cached",
+  "execution_success"
+ ],
+ "wall_seconds": 207.7,
+ "node_seconds": {
+  "RandomNoise": 0.0,
+  "SamplerCustomAdvanced": 198.3,
+  "VAEDecodeAudio": 0.1,
+  "VAEDecode": 9.1,
+  "CreateVideo": 0.0,
+  "SaveVideo": 0.2
+ },
+ "memory_gib": {
+  "system_used_before": 38.1,
+  "system_used_peak": 45.8,
+  "swap_peak": 3.97,
+  "swap_limit": 20.0
+ },
+ "params": {
+  "type": "r2v",
+  "aspect": "16:9",
+  "megapixels": 1.0,
+  "duration": 0.2,
+  "width": 1376,
+  "height": 768,
+  "length": 5
+ },
+ "recipe": {
+  "name": "h3_base_v2",
+  "sha256": "7e5b59ee9bb152e0f5298a95d51b3c10d2ab13296645a0107b3e39f527535355",
+  "effective": {
+   "name": "h3_base_v2",
+   "created": "2026-10-24",
+   "sampler": "res_multistep",
+   "scheduler": "simple",
+   "steps": 20,
+   "fps": 24,
+   "bit_depth": 8,
+   "attention": "pytorch",
+   "ref_image_size": "match",
+   "models": {
+    "fl2va": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "ref2va": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "video_vae": "minimax_h3_video_vae_fp16.safetensors",
+    "audio_vae": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  }
+ },
+ "inputs": {
+  "ref0": {
+   "asset": "char_man_1",
+   "file": "inputs/Urban_Lifestyle_Commercial/ref_man_v1.png",
+   "sha256": "8688675982d745f668720ece25289cbdc99d5d60ac739d1bb801e7fb81f0c2ae",
+   "uploaded_as": "ai_short_drama/8688675982d745f6.png"
+  }
+ },
+ "prompt_text": "subject_definitions:\n<Subject 1> is the young man in <Picture 1>: a Chinese man about 26 years old with a lean but healthy build, natural short black hair, a clean-shaven face, straight dark eyebrows and fresh, ordinary, approachable features, wearing a plain gray crew-neck T-shirt under an unbuttoned dark blue-gray casual overshirt, black straight-leg trousers and white sneakers. Here he also wears white wireless earbuds and a simple black commuting backpack.\n\nsummary:\n[reference generation] A still, photographic medium close-up of <Subject 1> standing at the window of a sliding passenger door in the side wall of a subway carriage.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - his face, short black hair, straight dark eyebrows, gray T-shirt and dark blue-gray overshirt are retained, with earbuds and backpack straps added.\n\ndetailed_description:\nThe target video is a photorealistic premium television commercial frame filmed with a 35 mm lens, shallow depth of field, natural skin texture, soft highlight roll-off and cool blue-gray tones.\n[Shot 1] A static medium close-up frames <Subject 1> from the chest up in three-quarter profile, facing left toward the window of a sliding passenger door set into the side wall of a subway carriage; the door's vertical rubber edge and its dark window fill the left third of the frame, and his faint reflection is visible in the glass. A white earbud sits in his ear and the black strap of his backpack crosses the dark blue-gray overshirt. Behind him on the right, softly out of focus, the carriage continues lengthwise: a vertical steel pole, the ceiling rail with hand straps running away from the camera, and two young friends standing in the aisle looking at one phone, with clear, stable heads and shoulders. Through the door window, the dark tunnel shows thin streaks of light. Both of his eyes are level and symmetrical, looking toward the window; his mouth is closed and his expression is calm and thoughtful. Cool overhead light falls softly on his face. There is no text anywhere in the frame.\n\noverall_soundscape: Low subway rumble.\n\nnon_diegetic_music: N/A",
+ "episode_file_sha256": "547f72f8cea1ed4e5eb21f71a744687e2181ce1673dddb24fe01871771eca259",
+ "env": {
+  "comfyui": "0.42.1",
+  "pytorch": "2.14.1",
+  "python": "3.13.17",
+  "comfyui_argv": [
+   "main.py",
+   "--listen",
+   "127.0.0.1",
+   "--port",
+   "8188",
+   "--extra-model-paths-config",
+   "/Users/marcusmao/dev/AI_short_drama/config/extra_model_paths.yaml",
+   "--output-directory",
+   "/Users/marcusmao/AI_renders/comfyui",
+   "--disable-all-custom-nodes",
+   "--use-pytorch-cross-attention"
+  ],
+  "repo_commit": "99ac687",
+  "repo_dirty": true
+ },
+ "api_prompt": {
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "clip": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "type": "minimax",
+    "device": "default"
+   }
+  },
+  "vae_v": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+   }
+  },
+  "vae_a": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  },
+  "img_ref0": {
+   "class_type": "LoadImage",
+   "inputs": {
+    "image": "ai_short_drama/8688675982d745f6.png"
+   }
+  },
+  "cond": {
+   "class_type": "MiniMaxH3ReferenceToVideo",
+   "inputs": {
+    "clip": [
+     "clip",
+     0
+    ],
+    "prompt": "subject_definitions:\n<Subject 1> is the young man in <Picture 1>: a Chinese man about 26 years old with a lean but healthy build, natural short black hair, a clean-shaven face, straight dark eyebrows and fresh, ordinary, approachable features, wearing a plain gray crew-neck T-shirt under an unbuttoned dark blue-gray casual overshirt, black straight-leg trousers and white sneakers. Here he also wears white wireless earbuds and a simple black commuting backpack.\n\nsummary:\n[reference generation] A still, photographic medium close-up of <Subject 1> standing at the window of a sliding passenger door in the side wall of a subway carriage.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - his face, short black hair, straight dark eyebrows, gray T-shirt and dark blue-gray overshirt are retained, with earbuds and backpack straps added.\n\ndetailed_description:\nThe target video is a photorealistic premium television commercial frame filmed with a 35 mm lens, shallow depth of field, natural skin texture, soft highlight roll-off and cool blue-gray tones.\n[Shot 1] A static medium close-up frames <Subject 1> from the chest up in three-quarter profile, facing left toward the window of a sliding passenger door set into the side wall of a subway carriage; the door's vertical rubber edge and its dark window fill the left third of the frame, and his faint reflection is visible in the glass. A white earbud sits in his ear and the black strap of his backpack crosses the dark blue-gray overshirt. Behind him on the right, softly out of focus, the carriage continues lengthwise: a vertical steel pole, the ceiling rail with hand straps running away from the camera, and two young friends standing in the aisle looking at one phone, with clear, stable heads and shoulders. Through the door window, the dark tunnel shows thin streaks of light. Both of his eyes are level and symmetrical, looking toward the window; his mouth is closed and his expression is calm and thoughtful. Cool overhead light falls softly on his face. There is no text anywhere in the frame.\n\noverall_soundscape: Low subway rumble.\n\nnon_diegetic_music: N/A",
+    "width": 1376,
+    "height": 768,
+    "length": 5,
+    "vae": [
+     "vae_v",
+     0
+    ],
+    "audio_vae": [
+     "vae_a",
+     0
+    ],
+    "ref_image_size": "match",
+    "ref_images.ref_image_0": [
+     "img_ref0",
+     0
+    ]
+   }
+  },
+  "noise": {
+   "class_type": "RandomNoise",
+   "inputs": {
+    "noise_seed": 42
+   }
+  },
+  "sampler": {
+   "class_type": "KSamplerSelect",
+   "inputs": {
+    "sampler_name": "res_multistep"
+   }
+  },
+  "sigmas": {
+   "class_type": "BasicScheduler",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "scheduler": "simple",
+    "steps": 20,
+    "denoise": 1.0
+   }
+  },
+  "guider": {
+   "class_type": "BasicGuider",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "conditioning": [
+     "cond",
+     0
+    ]
+   }
+  },
+  "sample": {
+   "class_type": "SamplerCustomAdvanced",
+   "inputs": {
+    "noise": [
+     "noise",
+     0
+    ],
+    "guider": [
+     "guider",
+     0
+    ],
+    "sampler": [
+     "sampler",
+     0
+    ],
+    "sigmas": [
+     "sigmas",
+     0
+    ],
+    "latent_image": [
+     "cond",
+     1
+    ]
+   }
+  },
+  "decode_v": {
+   "class_type": "VAEDecode",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "decode_a": {
+   "class_type": "VAEDecodeAudio",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_a",
+     0
+    ]
+   }
+  },
+  "video": {
+   "class_type": "CreateVideo",
+   "inputs": {
+    "images": [
+     "decode_v",
+     0
+    ],
+    "audio": [
+     "decode_a",
+     0
+    ],
+    "fps": 24,
+    "bit_depth": 8
+   }
+  },
+  "save": {
+   "class_type": "SaveVideo",
+   "inputs": {
+    "video": [
+     "video",
+     0
+    ],
+    "filename_prefix": "episodes/Urban_Lifestyle_Commercial_refs/R4/R4_c1e9b907_s42",
+    "format": "auto",
+    "format.codec": "auto"
+   }
+  }
+ },
+ "output": {
+  "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial_refs/R4/R4_c1e9b907_s42_00001_.mp4",
+  "bytes": 170038,
+  "video": {
+   "frames": 5,
+   "width": 1376,
+   "height": 768,
+   "fps": 24.0,
+   "codec": "h264",
+   "mean_min": 62.2,
+   "mean_max": 79.9,
+   "std_min": 53.1,
+   "black_frames": 0
+  },
+  "audio": {
+   "samples": 12800,
+   "sample_rate": 32000,
+   "finite": true,
+   "rms": 0.05315661860174388,
+   "peak": 0.21826805174350739
+  },
+  "sha256": "630c1c30eca56fd0b981d9756372c8c1bbb9b83c2e0d35488e16d22dcf901415"
+ },
+ "continuity": {
+  "median_frame_diff": 4.98,
+  "max_frame_diff": 9.8,
+  "cuts": []
+ },
+ "warnings": []
+}

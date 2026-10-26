@@ -1,0 +1,277 @@
+{
+ "episode": "Urban_Lifestyle_Commercial_audio",
+ "shot": "M1",
+ "take_id": "0a57579c_s21",
+ "fingerprint": "0a57579cef49540f51b565e53d9cd3c5ba0b527c70c217344b1eec6c5187c880",
+ "seed": 21,
+ "started": "2026-10-25T15:18:49-07:00",
+ "prompt_id": "f63c49e9-22e9-4b25-99e2-8671520198e9",
+ "status": "success",
+ "error": null,
+ "events": [
+  "execution_start",
+  "execution_cached",
+  "execution_success"
+ ],
+ "wall_seconds": 334.2,
+ "node_seconds": {
+  "MiniMaxH3ImageToVideo": 21.5,
+  "BasicGuider": 0.0,
+  "RandomNoise": 0.0,
+  "SamplerCustomAdvanced": 302.1,
+  "VAEDecodeAudio": 1.0,
+  "VAEDecode": 8.8,
+  "CreateVideo": 0.0,
+  "SaveVideo": 0.8
+ },
+ "memory_gib": {
+  "system_used_before": 33.1,
+  "system_used_peak": 48.5,
+  "swap_peak": 4.48,
+  "swap_limit": 20.0
+ },
+ "params": {
+  "type": "t2v",
+  "aspect": "16:9",
+  "megapixels": 0.06,
+  "duration": 15.0,
+  "width": 320,
+  "height": 192,
+  "length": 362
+ },
+ "recipe": {
+  "name": "h3_base_v2",
+  "sha256": "7e5b59ee9bb152e0f5298a95d51b3c10d2ab13296645a0107b3e39f527535355",
+  "effective": {
+   "name": "h3_base_v2",
+   "created": "2026-10-24",
+   "sampler": "res_multistep",
+   "scheduler": "simple",
+   "steps": 20,
+   "fps": 24,
+   "bit_depth": 8,
+   "attention": "pytorch",
+   "ref_image_size": "match",
+   "models": {
+    "fl2va": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "ref2va": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "video_vae": "minimax_h3_video_vae_fp16.safetensors",
+    "audio_vae": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  }
+ },
+ "inputs": {},
+ "prompt_text": "integrated_multimodal_description: [Shot 1] Live-action, a static shot of a quiet city skyline at dawn under a pale blue-gray sky; nothing moves.\n\noverall_soundscape: N/A\n\nnon_diegetic_music: Ambient electronic music at about 92 BPM: soft sustained synth pads in a minor-to-major key with a wide stereo reverb, no drums for the first eight seconds; then a soft, steady low pulse on every beat enters underneath and continues to the end at a constant low volume.",
+ "episode_file_sha256": "b56cab039aa0e1bc639a1d7c749427404cc941db7989ce8e8aa5689ab12918b9",
+ "env": {
+  "comfyui": "0.42.1",
+  "pytorch": "2.14.1",
+  "python": "3.13.17",
+  "comfyui_argv": [
+   "main.py",
+   "--listen",
+   "127.0.0.1",
+   "--port",
+   "8188",
+   "--extra-model-paths-config",
+   "/Users/marcusmao/dev/AI_short_drama/config/extra_model_paths.yaml",
+   "--output-directory",
+   "/Users/marcusmao/AI_renders/comfyui",
+   "--disable-all-custom-nodes",
+   "--use-pytorch-cross-attention"
+  ],
+  "repo_commit": "99ac687",
+  "repo_dirty": true
+ },
+ "api_prompt": {
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "clip": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "type": "minimax",
+    "device": "default"
+   }
+  },
+  "vae_v": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+   }
+  },
+  "vae_a": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  },
+  "cond": {
+   "class_type": "MiniMaxH3ImageToVideo",
+   "inputs": {
+    "clip": [
+     "clip",
+     0
+    ],
+    "prompt": "integrated_multimodal_description: [Shot 1] Live-action, a static shot of a quiet city skyline at dawn under a pale blue-gray sky; nothing moves.\n\noverall_soundscape: N/A\n\nnon_diegetic_music: Ambient electronic music at about 92 BPM: soft sustained synth pads in a minor-to-major key with a wide stereo reverb, no drums for the first eight seconds; then a soft, steady low pulse on every beat enters underneath and continues to the end at a constant low volume.",
+    "width": 320,
+    "height": 192,
+    "length": 362,
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "noise": {
+   "class_type": "RandomNoise",
+   "inputs": {
+    "noise_seed": 21
+   }
+  },
+  "sampler": {
+   "class_type": "KSamplerSelect",
+   "inputs": {
+    "sampler_name": "res_multistep"
+   }
+  },
+  "sigmas": {
+   "class_type": "BasicScheduler",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "scheduler": "simple",
+    "steps": 20,
+    "denoise": 1.0
+   }
+  },
+  "guider": {
+   "class_type": "BasicGuider",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "conditioning": [
+     "cond",
+     0
+    ]
+   }
+  },
+  "sample": {
+   "class_type": "SamplerCustomAdvanced",
+   "inputs": {
+    "noise": [
+     "noise",
+     0
+    ],
+    "guider": [
+     "guider",
+     0
+    ],
+    "sampler": [
+     "sampler",
+     0
+    ],
+    "sigmas": [
+     "sigmas",
+     0
+    ],
+    "latent_image": [
+     "cond",
+     1
+    ]
+   }
+  },
+  "decode_v": {
+   "class_type": "VAEDecode",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "decode_a": {
+   "class_type": "VAEDecodeAudio",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_a",
+     0
+    ]
+   }
+  },
+  "video": {
+   "class_type": "CreateVideo",
+   "inputs": {
+    "images": [
+     "decode_v",
+     0
+    ],
+    "audio": [
+     "decode_a",
+     0
+    ],
+    "fps": 24,
+    "bit_depth": 8
+   }
+  },
+  "save": {
+   "class_type": "SaveVideo",
+   "inputs": {
+    "video": [
+     "video",
+     0
+    ],
+    "filename_prefix": "episodes/Urban_Lifestyle_Commercial_audio/M1/M1_0a57579c_s21",
+    "format": "auto",
+    "format.codec": "auto"
+   }
+  }
+ },
+ "output": {
+  "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial_audio/M1/M1_0a57579c_s21_00001_.mp4",
+  "bytes": 1493815,
+  "video": {
+   "frames": 362,
+   "width": 320,
+   "height": 192,
+   "fps": 24.0,
+   "codec": "h264",
+   "mean_min": 119.0,
+   "mean_max": 160.8,
+   "std_min": 49.4,
+   "black_frames": 0
+  },
+  "audio": {
+   "samples": 964800,
+   "sample_rate": 32000,
+   "finite": true,
+   "rms": 0.0523874822460102,
+   "peak": 0.29326191544532776
+  },
+  "sha256": "ea9cf88af0b7cfd9e88462101db2dc9d71abc79b5d94583a002713de0d9f002a"
+ },
+ "continuity": {
+  "median_frame_diff": 13.64,
+  "max_frame_diff": 28.4,
+  "cuts": []
+ },
+ "warnings": []
+}

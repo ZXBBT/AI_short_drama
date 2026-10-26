@@ -1,0 +1,726 @@
+{
+ "episode": "Urban_Lifestyle_Commercial",
+ "version": "v2",
+ "created": "2026-10-25T20:51:43-07:00",
+ "cut_file": "episodes/Urban_Lifestyle_Commercial/cut_v2.yaml",
+ "cut_sha256": "e761ad8be7fe930bd0c68821470f470d699c595c3e8e3518e0eb737fd8275a03",
+ "timeline": [
+  {
+   "shot": "S1A2",
+   "take": "18034b61_s1501",
+   "in": 0,
+   "out": 89,
+   "frames": 90,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 0.0,
+   "end_s": 3.75
+  },
+  {
+   "shot": "S1B2",
+   "take": "8e8363ac_s1601",
+   "in": 0,
+   "out": 106,
+   "frames": 107,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 3.75,
+   "end_s": 8.208
+  },
+  {
+   "shot": "S2A2",
+   "take": "fa903350_s2502",
+   "in": 0,
+   "out": 89,
+   "frames": 90,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 8.208,
+   "end_s": 11.958
+  },
+  {
+   "shot": "S2C2",
+   "take": "8155164d_s2601",
+   "in": 0,
+   "out": 89,
+   "frames": 90,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 11.958,
+   "end_s": 15.708
+  },
+  {
+   "shot": "S2B2",
+   "take": "7aa87c96_s2801",
+   "in": 0,
+   "out": 89,
+   "frames": 90,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 15.708,
+   "end_s": 19.458
+  },
+  {
+   "shot": "S2D",
+   "take": "2eb11065_s2401",
+   "in": 0,
+   "out": 55,
+   "frames": 56,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 19.458,
+   "end_s": 21.792
+  },
+  {
+   "shot": "S2E",
+   "take": "1b5d393f_s2701",
+   "in": 0,
+   "out": 80,
+   "frames": 81,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 21.792,
+   "end_s": 25.167
+  },
+  {
+   "shot": "S3A",
+   "take": "f8341b29_s3102",
+   "in": 14,
+   "out": 89,
+   "frames": 76,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 25.167,
+   "end_s": 28.333
+  },
+  {
+   "shot": "S3B",
+   "take": "745c6142_s3201",
+   "in": 0,
+   "out": 72,
+   "frames": 73,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 28.333,
+   "end_s": 31.375
+  },
+  {
+   "shot": "S3C2",
+   "take": "72d4c5bc_s3501",
+   "in": 0,
+   "out": 89,
+   "frames": 90,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 31.375,
+   "end_s": 35.125
+  },
+  {
+   "shot": "S3D",
+   "take": "3d88d9e3_s3401",
+   "in": 0,
+   "out": 55,
+   "frames": 56,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 35.125,
+   "end_s": 37.458
+  },
+  {
+   "shot": "S4A",
+   "take": "24721da8_s4101",
+   "in": 0,
+   "out": 89,
+   "frames": 90,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 37.458,
+   "end_s": 41.208
+  },
+  {
+   "shot": "S4B",
+   "take": "c95d850f_s4201",
+   "in": 0,
+   "out": 89,
+   "frames": 90,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 41.208,
+   "end_s": 44.958
+  },
+  {
+   "shot": "S5A",
+   "take": "24366291_s5101",
+   "in": 0,
+   "out": 55,
+   "frames": 56,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 44.958,
+   "end_s": 47.292
+  },
+  {
+   "shot": "S5B2",
+   "take": "78e3ace5_s5502",
+   "in": 0,
+   "out": 89,
+   "frames": 90,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 47.292,
+   "end_s": 51.042
+  },
+  {
+   "shot": "S5C",
+   "take": "ba1aa8ed_s5302",
+   "in": 0,
+   "out": 55,
+   "frames": 56,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 51.042,
+   "end_s": 53.375
+  },
+  {
+   "shot": "S7A2",
+   "take": "451e0d16_s7501",
+   "in": 0,
+   "out": 89,
+   "frames": 90,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 53.375,
+   "end_s": 57.125
+  },
+  {
+   "shot": "S7B2",
+   "take": "33c276a3_s7601",
+   "in": 0,
+   "out": 89,
+   "frames": 90,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 57.125,
+   "end_s": 60.875
+  },
+  {
+   "shot": "S8A",
+   "take": "fe777dbb_s8101",
+   "in": 0,
+   "out": 72,
+   "frames": 73,
+   "gain_db": 0.0,
+   "stale": false,
+   "start_s": 60.875,
+   "end_s": 63.917
+  }
+ ],
+ "sources": [
+  {
+   "shot": "S1A2",
+   "take": "18034b61_s1501",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial/S1A2/S1A2_18034b61_s1501_00001_.mp4",
+   "sha256": "993091f5381eb2671dd79775b477badbd339d15c8c2a592c45d952990cfd6847",
+   "frames_in_take": 90,
+   "in": 0,
+   "out": 89,
+   "audio_len_diff_samples": 0,
+   "video_file": null,
+   "audio_mode": "sync"
+  },
+  {
+   "shot": "S1B2",
+   "take": "8e8363ac_s1601",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial/S1B2/S1B2_8e8363ac_s1601_00001_.mp4",
+   "sha256": "c8d07954fc66d81d20b195ab1a02dd7eb3fc94c938cd5986b4f5c29840472342",
+   "frames_in_take": 107,
+   "in": 0,
+   "out": 106,
+   "audio_len_diff_samples": -400,
+   "video_file": null,
+   "audio_mode": "sync"
+  },
+  {
+   "shot": "S2A2",
+   "take": "fa903350_s2502",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial/S2A2/S2A2_fa903350_s2502_00001_.mp4",
+   "sha256": "00262bf966d49479dc335189d95b7d518c7bb0bba2d1789fb6b4198dd74cf37e",
+   "frames_in_take": 90,
+   "in": 0,
+   "out": 89,
+   "audio_len_diff_samples": 0,
+   "video_file": null,
+   "audio_mode": "sync"
+  },
+  {
+   "shot": "S2C2",
+   "take": "8155164d_s2601",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial/S2C2/S2C2_8155164d_s2601_00001_.mp4",
+   "sha256": "a11a230850e4709848930b0202565bc0b1e888c08cedaabbde23937b277d4f04",
+   "frames_in_take": 90,
+   "in": 0,
+   "out": 89,
+   "audio_len_diff_samples": 0,
+   "video_file": null,
+   "audio_mode": "sync"
+  },
+  {
+   "shot": "S2B2",
+   "take": "7aa87c96_s2801",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial/S2B2/S2B2_7aa87c96_s2801_00001_.mp4",
+   "sha256": "8478dfb71eb5315f2a37c19a6b81d17ada3dd3f608f25561a69c64c0b487c7a6",
+   "frames_in_take": 90,
+   "in": 0,
+   "out": 89,
+   "audio_len_diff_samples": 0,
+   "video_file": null,
+   "audio_mode": "sync"
+  },
+  {
+   "shot": "S2D",
+   "take": "2eb11065_s2401",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial/S2D/S2D_2eb11065_s2401_00001_.mp4",
+   "sha256": "39a720fda688a3afabe69bfc20d0a24cde50c529d66a21079856bbe9d7460018",
+   "frames_in_take": 56,
+   "in": 0,
+   "out": 55,
+   "audio_len_diff_samples": -400,
+   "video_file": null,
+   "audio_mode": "off"
+  },
+  {
+   "shot": "S2E",
+   "take": "1b5d393f_s2701",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial/S2E/S2E_1b5d393f_s2701_00001_.mp4",
+   "sha256": "b0f3b4a503b8ead0641d0dcf099cd3bd5b8463ee6fe6584860545f676f8fa3f2",
+   "frames_in_take": 90,
+   "in": 0,
+   "out": 80,
+   "audio_len_diff_samples": 0,
+   "video_file": null,
+   "audio_mode": "sync"
+  },
+  {
+   "shot": "S3A",
+   "take": "f8341b29_s3102",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial/S3A/S3A_f8341b29_s3102_00001_.mp4",
+   "sha256": "597d25d163b967df78a8bf60a7ab812fca43c6e33a75e92d135b8c6472fe4044",
+   "frames_in_take": 90,
+   "in": 14,
+   "out": 89,
+   "audio_len_diff_samples": 0,
+   "video_file": null,
+   "audio_mode": "off"
+  },
+  {
+   "shot": "S3B",
+   "take": "745c6142_s3201",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial/S3B/S3B_745c6142_s3201_00001_.mp4",
+   "sha256": "f745a8815f8b9ad3275ea0565c7e6e57df5dd0a0f89d06ac38c128f516799614",
+   "frames_in_take": 73,
+   "in": 0,
+   "out": 72,
+   "audio_len_diff_samples": 1,
+   "video_file": null,
+   "audio_mode": "off"
+  },
+  {
+   "shot": "S3C2",
+   "take": "72d4c5bc_s3501",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial/S3C2/S3C2_72d4c5bc_s3501_00001_.mp4",
+   "sha256": "e8522e40ecac84bc04db1e4b0f1bcffd86c57d7edefb0d30873ed935b4e5033e",
+   "frames_in_take": 90,
+   "in": 0,
+   "out": 89,
+   "audio_len_diff_samples": 0,
+   "video_file": null,
+   "audio_mode": "sync"
+  },
+  {
+   "shot": "S3D",
+   "take": "3d88d9e3_s3401",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial/S3D/S3D_3d88d9e3_s3401_00001_.mp4",
+   "sha256": "6b3bb67770c0cf1a1156756f74f9b9b17837c281ab16afbd492b18ad50f76f72",
+   "frames_in_take": 56,
+   "in": 0,
+   "out": 55,
+   "audio_len_diff_samples": -400,
+   "video_file": null,
+   "audio_mode": "off"
+  },
+  {
+   "shot": "S4A",
+   "take": "24721da8_s4101",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial/S4A/S4A_24721da8_s4101_00001_.mp4",
+   "sha256": "08e46f838334766c450bb530f75d6c5e0a3e1a3111bf7108b0ae8d7a17f8a9d2",
+   "frames_in_take": 90,
+   "in": 0,
+   "out": 89,
+   "audio_len_diff_samples": 0,
+   "video_file": null,
+   "audio_mode": "off"
+  },
+  {
+   "shot": "S4B",
+   "take": "c95d850f_s4201",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial/S4B/S4B_c95d850f_s4201_00001_.mp4",
+   "sha256": "00876c211b43dcddcac628cb2044edfafd39239221b397552c75214d2b7f3019",
+   "frames_in_take": 90,
+   "in": 0,
+   "out": 89,
+   "audio_len_diff_samples": 0,
+   "video_file": null,
+   "audio_mode": "off"
+  },
+  {
+   "shot": "S5A",
+   "take": "24366291_s5101",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial/S5A/S5A_24366291_s5101_00001_.mp4",
+   "sha256": "f0c0756fe3d1b5c41290abedb0d063d4e10fc9f60da2d16af67c97160ebaac3d",
+   "frames_in_take": 56,
+   "in": 0,
+   "out": 55,
+   "audio_len_diff_samples": -400,
+   "video_file": null,
+   "audio_mode": "off"
+  },
+  {
+   "shot": "S5B2",
+   "take": "78e3ace5_s5502",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial/S5B2/S5B2_78e3ace5_s5502_00001_.mp4",
+   "sha256": "6fd76078d570b681bfe9874e438134584276923c2f34769dd2b4606359b86611",
+   "frames_in_take": 90,
+   "in": 0,
+   "out": 89,
+   "audio_len_diff_samples": 0,
+   "video_file": "episodes/Urban_Lifestyle_Commercial/_ui/S5B2_s5502_comp.mp4",
+   "audio_mode": "sync"
+  },
+  {
+   "shot": "S5C",
+   "take": "ba1aa8ed_s5302",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial/S5C/S5C_ba1aa8ed_s5302_00001_.mp4",
+   "sha256": "91fd56bd52bfdec5ee5181fe8eb096e2d2da98cf0bf803c4b9815cfe4363cd34",
+   "frames_in_take": 56,
+   "in": 0,
+   "out": 55,
+   "audio_len_diff_samples": -400,
+   "video_file": null,
+   "audio_mode": "off"
+  },
+  {
+   "shot": "S7A2",
+   "take": "451e0d16_s7501",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial/S7A2/S7A2_451e0d16_s7501_00001_.mp4",
+   "sha256": "191a13c774a15df515771590468c65f38320843475e38c1b1041563301566164",
+   "frames_in_take": 90,
+   "in": 0,
+   "out": 89,
+   "audio_len_diff_samples": 0,
+   "video_file": null,
+   "audio_mode": "sync"
+  },
+  {
+   "shot": "S7B2",
+   "take": "33c276a3_s7601",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial/S7B2/S7B2_33c276a3_s7601_00001_.mp4",
+   "sha256": "c5841a57ea296ca5d2f0f2ef73e83d57f6a765b2e988a42c102b8a7cdbbe3c55",
+   "frames_in_take": 90,
+   "in": 0,
+   "out": 89,
+   "audio_len_diff_samples": 0,
+   "video_file": null,
+   "audio_mode": "sync"
+  },
+  {
+   "shot": "S8A",
+   "take": "fe777dbb_s8101",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial/S8A/S8A_fe777dbb_s8101_00001_.mp4",
+   "sha256": "06fc272e5f36e5f8bf04c2c2255befaee2221ef42529016c5193918fe75b102a",
+   "frames_in_take": 73,
+   "in": 0,
+   "out": 72,
+   "audio_len_diff_samples": 1,
+   "video_file": null,
+   "audio_mode": "off"
+  }
+ ],
+ "layers": [
+  {
+   "name": "L1",
+   "role": "voice",
+   "source": "{'episode': 'Urban_Lifestyle_Commercial_audio', 'shot': 'N1'}",
+   "start_s": 0.6,
+   "end_s": 3.45,
+   "gain_db": -0.7
+  },
+  {
+   "name": "L2",
+   "role": "voice",
+   "source": "{'episode': 'Urban_Lifestyle_Commercial_audio', 'shot': 'N1'}",
+   "start_s": 5.65,
+   "end_s": 7.65,
+   "gain_db": -0.1
+  },
+  {
+   "name": "L3",
+   "role": "voice",
+   "source": "{'episode': 'Urban_Lifestyle_Commercial_audio', 'shot': 'N1'}",
+   "start_s": 9.608,
+   "end_s": 12.758,
+   "gain_db": -2.0
+  },
+  {
+   "name": "L4",
+   "role": "voice",
+   "source": "{'episode': 'Urban_Lifestyle_Commercial_audio', 'shot': 'N2b'}",
+   "start_s": 12.958,
+   "end_s": 15.358,
+   "gain_db": -5.4
+  },
+  {
+   "name": "L5",
+   "role": "voice",
+   "source": "{'episode': 'Urban_Lifestyle_Commercial_audio', 'shot': 'N2b'}",
+   "start_s": 17.208,
+   "end_s": 18.558,
+   "gain_db": -3.6
+  },
+  {
+   "name": "L6",
+   "role": "voice",
+   "source": "{'episode': 'Urban_Lifestyle_Commercial_audio', 'shot': 'N2b'}",
+   "start_s": 29.033,
+   "end_s": 30.283,
+   "gain_db": -5.6
+  },
+  {
+   "name": "L7",
+   "role": "voice",
+   "source": "{'episode': 'Urban_Lifestyle_Commercial_audio', 'shot': 'N2b'}",
+   "start_s": 32.475,
+   "end_s": 34.825,
+   "gain_db": -4.9
+  },
+  {
+   "name": "M1",
+   "role": "music",
+   "source": "{'episode': 'Urban_Lifestyle_Commercial_audio', 'shot': 'M1'}",
+   "start_s": 4.845,
+   "end_s": 19.92,
+   "gain_db": -5.5
+  },
+  {
+   "name": "M2",
+   "role": "music",
+   "source": "{'episode': 'Urban_Lifestyle_Commercial_audio', 'shot': 'M2'}",
+   "start_s": 15.845,
+   "end_s": 30.92,
+   "gain_db": -9.3
+  },
+  {
+   "name": "M3",
+   "role": "music",
+   "source": "{'episode': 'Urban_Lifestyle_Commercial_audio', 'shot': 'M3'}",
+   "start_s": 26.845,
+   "end_s": 41.92,
+   "gain_db": -12.4
+  },
+  {
+   "name": "M4",
+   "role": "music",
+   "source": "{'episode': 'Urban_Lifestyle_Commercial_audio', 'shot': 'M4'}",
+   "start_s": 37.845,
+   "end_s": 52.92,
+   "gain_db": -14.1
+  },
+  {
+   "name": "M5",
+   "role": "music",
+   "source": "{'episode': 'Urban_Lifestyle_Commercial_audio', 'shot': 'M5'}",
+   "start_s": 48.845,
+   "end_s": 63.917,
+   "gain_db": -16.2
+  },
+  {
+   "name": "subway",
+   "role": "bed",
+   "source": "{'episode': 'Urban_Lifestyle_Commercial_audio', 'shot': 'B_subway'}",
+   "start_s": 0.0,
+   "end_s": 8.808,
+   "gain_db": 12.0
+  },
+  {
+   "name": "office",
+   "role": "bed",
+   "source": "{'episode': 'Urban_Lifestyle_Commercial_audio', 'shot': 'B_office'}",
+   "start_s": 7.608,
+   "end_s": 22.592,
+   "gain_db": 12.0
+  },
+  {
+   "name": "store",
+   "role": "bed",
+   "source": "{'episode': 'Urban_Lifestyle_Commercial_audio', 'shot': 'B_store'}",
+   "start_s": 24.367,
+   "end_s": 37.958,
+   "gain_db": 8.1
+  },
+  {
+   "name": "river",
+   "role": "bed",
+   "source": "{'episode': 'Urban_Lifestyle_Commercial_audio', 'shot': 'B_river'}",
+   "start_s": 36.658,
+   "end_s": 53.875,
+   "gain_db": 6.7
+  },
+  {
+   "name": "home",
+   "role": "bed",
+   "source": "{'episode': 'Urban_Lifestyle_Commercial_audio', 'shot': 'B_home'}",
+   "start_s": 52.775,
+   "end_s": 61.675,
+   "gain_db": 12.0
+  }
+ ],
+ "duck": {
+  "db": -7,
+  "ramp_ms": 300
+ },
+ "audio": {
+  "sample_rate": 48000,
+  "fade_ms": 30,
+  "per_shot_before_mix": {
+   "S1A2": {
+    "lufs": -28.4,
+    "true_peak_dbtp": -17.0,
+    "sync_gain_db": -1.6
+   },
+   "S1B2": {
+    "lufs": -26.6,
+    "true_peak_dbtp": -15.6,
+    "sync_gain_db": -3.4
+   },
+   "S2A2": {
+    "lufs": -36.9,
+    "true_peak_dbtp": -11.2,
+    "sync_gain_db": 6.9
+   },
+   "S2C2": {
+    "lufs": -55.5,
+    "true_peak_dbtp": -40.9,
+    "sync_gain_db": 12.0
+   },
+   "S2B2": {
+    "lufs": -24.3,
+    "true_peak_dbtp": -0.7,
+    "sync_gain_db": -5.7
+   },
+   "S2D": {
+    "lufs": null,
+    "true_peak_dbtp": null
+   },
+   "S2E": {
+    "lufs": -27.3,
+    "true_peak_dbtp": -3.9,
+    "sync_gain_db": -2.7
+   },
+   "S3A": {
+    "lufs": null,
+    "true_peak_dbtp": null
+   },
+   "S3B": {
+    "lufs": null,
+    "true_peak_dbtp": null
+   },
+   "S3C2": {
+    "lufs": -22.3,
+    "true_peak_dbtp": -2.3,
+    "sync_gain_db": -7.7
+   },
+   "S3D": {
+    "lufs": null,
+    "true_peak_dbtp": null
+   },
+   "S4A": {
+    "lufs": null,
+    "true_peak_dbtp": null
+   },
+   "S4B": {
+    "lufs": null,
+    "true_peak_dbtp": null
+   },
+   "S5A": {
+    "lufs": null,
+    "true_peak_dbtp": null
+   },
+   "S5B2": {
+    "lufs": -30.8,
+    "true_peak_dbtp": -19.1,
+    "sync_gain_db": 0.8
+   },
+   "S5C": {
+    "lufs": null,
+    "true_peak_dbtp": null
+   },
+   "S7A2": {
+    "lufs": -50.2,
+    "true_peak_dbtp": -39.2,
+    "sync_gain_db": 12.0
+   },
+   "S7B2": {
+    "lufs": -23.8,
+    "true_peak_dbtp": -7.2,
+    "sync_gain_db": -6.2
+   },
+   "S8A": {
+    "lufs": null,
+    "true_peak_dbtp": null
+   }
+  },
+  "per_shot_mode": false,
+  "mix_lufs": -21.46,
+  "mix_true_peak_dbtp": -4.05,
+  "gain_db": 3.05,
+  "peak_limited": true,
+  "out_lufs": -18.41,
+  "out_true_peak_dbtp": -0.99,
+  "codec": "aac 192k"
+ },
+ "video": {
+  "codec": "libx264",
+  "crf": 18,
+  "preset": "medium",
+  "pix_fmt": "yuv420p",
+  "fps": 24,
+  "upscale": "lanczos to target height, centre crop"
+ },
+ "subtitles": {
+  "file": "subtitles/Urban_Lifestyle_Commercial_v2.srt",
+  "entries": 7
+ },
+ "outputs": [
+  {
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial/_final/Urban_Lifestyle_Commercial_v2_864x480.mp4",
+   "width": 864,
+   "height": 480,
+   "frames": 1534,
+   "bytes": 12865650,
+   "sha256": "73a20836bb6246d7677b1b57a5d08aa1f9ce38d7c8803fcd8ec952035d9d173e"
+  },
+  {
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial/_final/Urban_Lifestyle_Commercial_v2_1920x1080.mp4",
+   "width": 1920,
+   "height": 1080,
+   "frames": 1534,
+   "bytes": 45276793,
+   "sha256": "4674d85c82d49560f74c795cab7a8ffef2fe402b21f5dc990d5f8a35bbc2837f"
+  }
+ ],
+ "env": {
+  "pyav": "19.0.2",
+  "libavcodec": "63.1.102",
+  "repo_commit": "99ac687",
+  "repo_dirty": true
+ }
+}

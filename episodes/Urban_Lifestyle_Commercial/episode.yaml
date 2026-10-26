@@ -1,0 +1,669 @@
+# "Be a Little Braver" (16:9 commercial), shot list drafted by Claude 2026-10-24 from the owner's guide
+# Urban_Lifestyle_Commercial_Recreation_Guide_EN.md (via brief.yaml); owner asked to generate directly.
+# Same header as scripts/brief.py scaffold would write, plus 16:9 and the product as an object reference.
+# Rules applied: one R2V reference per shot (the man OR the can); faces at medium close-up or closer, wides
+# show him small/from behind; 864x480 (0.4 MP) and <= 3.75 s per shot (proven sizes); prompts in H3's
+# official format (h3-prompt-writing skill); narration word for word as off-screen voice-over in <d>;
+# quoted text = text that must be visible (the can, the SUPER DRY CLUB title) and nothing else.
+# Limits we cannot avoid with H3 alone: every shot generates its own voice and music, so the narrator's
+# voice and the music theme are similar, not identical, from shot to shot.
+episode: Urban_Lifestyle_Commercial
+title: Be a Little Braver
+recipe: h3_base_v2
+defaults:
+  aspect: '16:9'
+  megapixels: 0.4      # 864x480
+  duration: 3
+  takes: 2
+  max_rerolls: 1
+review:
+  picks: auto
+  final: true
+assets:
+  char_man_1: inputs/Urban_Lifestyle_Commercial/ref_man_v1.png
+  char_can_1: inputs/Urban_Lifestyle_Commercial/ref_can_v1.png
+  subway_wide_v1: inputs/Urban_Lifestyle_Commercial/subway_wide_v1.png    # V2 geometry still (refs R3 s31)
+  subway_close_v1: inputs/Urban_Lifestyle_Commercial/subway_close_v1.png  # V2 geometry still (refs R4 s42)
+characters:
+  man:
+    description: a Chinese man about 26 years old with a lean but healthy build, natural short black hair, a clean-shaven
+      face, straight dark eyebrows and fresh, ordinary, approachable features, wearing a plain gray crew-neck T-shirt
+      under an unbuttoned dark blue-gray casual overshirt, black straight-leg trousers and white sneakers
+    refs: [char_man_1]
+    voice: male narrator, 25-30, clean, natural, slightly low-pitched, relaxed and reflective
+  can:
+    kind: object
+    description: a 500 ml aluminum beer can with a blue top and lid, a silver-white metallic body, small blue letters
+      "BRAVE THE WORLD" near the top, large bold blue letters "SUPER DRY" across the middle and a red label block
+      reading "SUPER DRY DRAFT BEER"
+    refs: [char_can_1]
+  woman:
+    description: a Chinese woman in her late twenties with long straight dark hair in a natural side part, minimal
+      makeup and a warm, understated expression, wearing a loose beige T-shirt under a muted brown pinafore dress
+
+shots:
+  # ---------- Scene 1: morning rush-hour subway (guide 0-7 s) ----------
+  S1A:
+    type: r2v
+    refs: [man]
+    seed: 1101
+    duration: 3.7
+    note: carriage view, camera moves through passengers to find him by the doors; voice-over 1
+    dialogue: [{character: man, line: "It's not that I don't want to meet people."}]
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the young man in <Picture 1>: {man}. Here he also wears white wireless earbuds and a simple black commuting backpack.
+
+      summary:
+      [reference generation] In a crowded morning subway carriage, the camera drifts past other commuters and finds <Subject 1> standing by the doors while his inner voice speaks.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - his face, short black hair, eyebrows, lean build, gray T-shirt and dark blue-gray overshirt are retained, with earbuds and backpack added.
+
+      detailed_description:
+      The target video is a photorealistic premium television commercial filmed with a cinematic 35 mm lens, shallow depth of field, natural skin texture, soft highlight roll-off, restrained contrast and cool blue-gray tones.
+      [Shot 1] A medium-wide shot inside a realistic Chinese subway carriage during the morning rush hour. Adult office workers stand in an orderly, slightly crowded space under cool overhead light; two coworkers chat quietly near the middle, and two friends look at one phone together and smile. The camera trucks right with small amplitude at slow speed past the softly blurred shoulders of foreground passengers and settles on <Subject 1>, who stands beside the doors with one hand resting on a vertical steel pole, white earbuds in his ears and his black backpack on his shoulders. He is framed from the waist up, his face clearly visible in three-quarter view, calm and thoughtful, looking toward his reflection in the dark door window. City tunnel lights streak past outside the glass. <Subject 1> (S1), in a clean, natural, slightly low-pitched male voice of a man in his late twenties, relaxed and reflective, says in an off-screen voiceover: <d>[English] It's not that I don't want to meet people.</d> while his lips remain completely closed. His expression stays calm. There is no text anywhere in the frame.
+
+      overall_soundscape: A low steady subway rumble, very faint indistinct station announcements and soft, indistinct passenger conversation.
+
+      non_diegetic_music: Spacious ambient electronic music: soft sustained synth pads at a slow tempo with no beat, low in volume.
+  S1B:
+    type: r2v
+    refs: [man]
+    seed: 1201
+    duration: 3.7
+    note: three-quarter profile and window reflection, glance toward the chatting friends; voice-over 2
+    dialogue: [{character: man, line: "I just don't know how to start."}]
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the young man in <Picture 1>: {man}. Here he also wears white wireless earbuds and a simple black commuting backpack.
+
+      summary:
+      [reference generation] A medium close-up of <Subject 1> by the subway door: he glances toward a nearby conversation, then back to his reflection, while his inner voice speaks.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - his face, short black hair, straight eyebrows, gray T-shirt and dark blue-gray overshirt are retained, with earbuds and backpack straps added.
+
+      detailed_description:
+      The target video is a photorealistic premium television commercial filmed with a cinematic 35 mm lens, shallow depth of field, natural skin texture, soft highlight roll-off, restrained contrast and cool blue-gray tones.
+      [Shot 1] A medium close-up frames <Subject 1> from the chest up in three-quarter profile beside the subway door window, a white earbud in his ear and the black strap of his backpack over the dark blue-gray overshirt. His faint reflection is visible in the dark glass next to him. Behind him, softly out of focus, two friends look at a phone together and smile. <Subject 1> briefly glances toward their conversation, a small wish to connect showing in his eyes without envy or sadness, then naturally returns his gaze to his reflection. The camera pushes in with small amplitude at slow speed toward his three-quarter profile and the reflection. <Subject 1> (S1), in the same clean, slightly low-pitched, relaxed male voice, says in an off-screen voiceover: <d>[English] I just don't know how to start.</d> while his lips remain completely closed. His expression stays calm and thoughtful. There is no text anywhere in the frame.
+
+      overall_soundscape: A low steady subway rumble and soft, indistinct passenger conversation in the background.
+
+      non_diegetic_music: Spacious ambient electronic music: soft sustained synth pads at a slow tempo with no beat, low in volume.
+
+  # ---------- Scene 2: another working day (guide 7-17 s) ----------
+  # Scenes 2-8 rewritten 2026-10-25 after a check against the h3-prompt-writing skill: detailed_description
+  # at the official 350-500 words for generation, one camera movement per shot, music without mood words.
+  S2A:
+    type: r2v
+    refs: [man]
+    seed: 2101
+    duration: 3.7
+    note: open-plan office at dusk, a colleague waves, he smiles and nods; voice-over 3
+    dialogue: [{character: man, line: "After I started working, I realized..."}]
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the young man in <Picture 1>: {man}.
+
+      summary:
+      [reference generation] At dusk in an open-plan office, a coworker passing by waves to <Subject 1> at his desk and he answers with a small smile and nod, while his inner voice speaks off-screen.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - his face, natural short black hair, straight dark eyebrows, lean build, plain gray crew-neck T-shirt and unbuttoned dark blue-gray overshirt are retained.
+
+      detailed_description:
+      The target video is a photorealistic premium television commercial filmed with a 35 mm lens, shallow depth of field, natural skin texture, soft highlight roll-off and restrained contrast. The palette is cool blue-gray, with the last warm orange light of sunset on the horizon.
+      [Shot 1] A medium shot of a contemporary open-plan office at dusk. Floor-to-ceiling windows fill the background, showing a city skyline of glass towers under a fading blue sky, with a thin band of orange light at the horizon and the first office lights coming on in the buildings outside. Rows of light wooden desks with black monitors run toward the windows. <Subject 1> sits at his desk in the right third of the frame, framed from the waist up and turned three-quarters toward the camera, his face clearly visible and in focus. He wears his plain gray crew-neck T-shirt under the unbuttoned dark blue-gray overshirt; his short black hair is neat and natural. On his desk are an open silver laptop, a white coffee cup and a closed black notebook. In the softly blurred background, two coworkers stand up, sling bags over their shoulders and walk toward the exit on the left. A third coworker, a young man in a light-blue shirt with a black bag over his shoulder, walks past behind the desk from left to right, slows for a moment and gives a friendly wave. <Subject 1> looks up from his laptop, answers with a small, natural smile and a nod, and then turns his eyes back to the laptop screen; the gesture is relaxed and ordinary. The camera pushes in with small amplitude at slow speed toward <Subject 1> across the entire shot. Cool light from the windows falls on the side of his face, and the warm glow of the laptop screen lights his hands. <Subject 1> (S1), in a clean, natural, slightly low-pitched male voice of a man in his late twenties, relaxed and reflective, says in an off-screen voiceover: <d>[English] After I started working, I realized...</d> while his lips remain completely closed. His expression stays calm and neutral throughout. Computer screens, papers and notebooks show no readable text, and there is no text anywhere in the frame.
+
+      overall_soundscape: Quiet office ventilation hums under faint keyboard clicks and distant footsteps. A bag zipper closes and a chair rolls back somewhere behind him.
+
+      non_diegetic_music: Ambient electronic music: sustained synth pads at a slow tempo with a soft, steady low pulse entering underneath, kept low in volume.
+  S2B:
+    type: r2v
+    refs: [man]
+    seed: 2201
+    note: his desk, the office now emptier; he closes the laptop, leans back, small breath; voice-over 4
+    dialogue: [{character: man, line: "Every day brings more new work."}]
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the young man in <Picture 1>: {man}.
+
+      summary:
+      [reference generation] At his tidy desk in the emptying office at dusk, <Subject 1> closes his laptop, leans back and releases a small breath, while his inner voice speaks off-screen.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - his face, natural short black hair, straight dark eyebrows, lean build, plain gray crew-neck T-shirt and unbuttoned dark blue-gray overshirt are retained.
+
+      detailed_description:
+      The target video is a photorealistic premium television commercial filmed with a 35 mm lens, shallow depth of field, natural skin texture, soft highlight roll-off and restrained contrast, in cool blue-gray evening tones.
+      [Shot 1] A medium close-up frames <Subject 1> from the chest up, seated at his desk and facing the camera at a slight three-quarter angle, his face sharp and clearly lit. He wears his plain gray crew-neck T-shirt under the unbuttoned dark blue-gray overshirt. In front of him on the light wooden desk stand an open silver laptop, a white ceramic coffee cup and a closed black notebook with a pen lying on it. Behind him, softly out of focus, the open-plan office is now almost empty: rows of unoccupied desks and pushed-in chairs under dimmed ceiling lights, and beyond the floor-to-ceiling windows a dark-blue skyline dotted with lit windows. Cool evening light from the windows falls on one side of his face, while the soft glow of the laptop screen lights the other. <Subject 1> looks at the laptop for a moment, then lowers the lid with both hands in one gentle, unhurried movement until it closes with a soft click. He leans back slightly in his chair, lets his shoulders drop and releases a small, quiet breath through his nose. His face is calm and neutral; he looks tired in an ordinary way, not upset or sad. His hands come to rest on the armrests. The camera holds a static shot for the whole duration. <Subject 1> (S1), in the same clean, natural, slightly low-pitched male voice, relaxed and reflective, says in an off-screen voiceover: <d>[English] Every day brings more new work.</d> while his lips remain completely closed. There is no text anywhere in the frame, and the laptop shows no readable screen content.
+
+      overall_soundscape: Quiet ventilation hums in the empty office. The laptop lid closes with a soft click, the office chair creaks gently as he leans back, and his breath is faintly audible.
+
+      non_diegetic_music: Ambient electronic music: sustained synth pads at a slow tempo over a soft, steady low pulse, kept low in volume.
+  S2C:
+    type: r2v
+    refs: [man]
+    seed: 2301
+    note: phone with indistinct notifications, locks it, pockets it; voice-over 5
+    dialogue: [{character: man, line: "Not new people."}]
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the young man in <Picture 1>: {man}. He holds a black smartphone.
+
+      summary:
+      [reference generation] In the nearly empty office at dusk, <Subject 1> glances at work notifications on his phone, locks it and puts it in his pocket, while his inner voice speaks off-screen.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - his face, natural short black hair, straight dark eyebrows, lean build, plain gray crew-neck T-shirt and unbuttoned dark blue-gray overshirt are retained.
+
+      detailed_description:
+      The target video is a photorealistic premium television commercial filmed with a 35 mm lens, shallow depth of field, natural skin texture, soft highlight roll-off and restrained contrast, in cool blue-gray evening tones.
+      [Shot 1] A medium close-up frames <Subject 1> from the chest up as he sits at his desk in the nearly empty open-plan office at dusk, turned three-quarters toward the camera, his face sharp and evenly lit. He wears his plain gray crew-neck T-shirt under the unbuttoned dark blue-gray overshirt. The closed silver laptop and a white coffee cup sit at the lower edge of the frame. Behind him, out of focus, empty desks and the floor-to-ceiling windows show a dark-blue skyline with scattered lit windows. He picks up a black smartphone from the desk with his right hand and raises it to chest height, looking down at the screen. The screen glows with a few soft, blurred notification shapes in gray and white, with no readable text. The cool light of the screen touches his chin and cheeks. His response is familiar and neutral: his eyebrows stay relaxed and his mouth stays still, without disappointment. After a brief look, he presses the side button to lock the phone, the screen goes dark, and he slips the phone into the front pocket of his black trousers in one ordinary, fluid movement, then rests his hand on his knee. The camera holds a static shot for the whole duration. <Subject 1> (S1), in the same clean, natural, slightly low-pitched male voice, relaxed and reflective, says in an off-screen voiceover: <d>[English] Not new people.</d> while his lips remain completely closed. Cool evening light from the windows falls softly across his face and shoulders. There is no text anywhere in the frame.
+
+      overall_soundscape: Quiet office ventilation continues. The phone lock button clicks softly, fabric rustles as the phone slides into his pocket, and the chair creaks once.
+
+      non_diegetic_music: Ambient electronic music: sustained synth pads at a slow tempo over a soft, steady low pulse, kept low in volume.
+  S2D:
+    type: r2v
+    refs: [man]
+    seed: 2401
+    duration: 2.3
+    note: rear-following shot through the office corridor with his backpack
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the young man in <Picture 1>: {man}. Here he wears a simple black commuting backpack.
+
+      summary:
+      [reference generation] The camera follows <Subject 1> from behind as he walks out through a quiet office corridor at dusk with his backpack.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - his natural short black hair, lean build, unbuttoned dark blue-gray overshirt, black straight-leg trousers and white sneakers are retained, seen from behind, with the black backpack added.
+
+      detailed_description:
+      The target video is a photorealistic premium television commercial filmed with a 35 mm lens, shallow depth of field and restrained contrast, in cool blue-gray evening tones.
+      [Shot 1] A medium-wide tracking shot from behind shows <Subject 1> walking away from the camera down a clean, quiet office corridor at dusk. He is centered in the frame and seen from head to knees: his natural short black hair, the simple black commuting backpack worn on both shoulders over his unbuttoned dark blue-gray overshirt, his black straight-leg trousers and, as he steps, his white sneakers. The corridor has a pale gray floor that softly reflects the lights, white walls on the right and a long glass wall on the left. Through the glass wall, the floor-to-ceiling windows of the office show a dark-blue evening skyline with lit windows and a thin last band of orange light. Recessed ceiling lights run in a line down the corridor toward a pair of glass doors at the far end. He walks at a calm, ordinary pace, his arms swinging naturally, the backpack straps moving slightly with each step; he does not turn around. The corridor is empty apart from him. The camera tracks behind him with small amplitude at slow speed, keeping the same distance as he walks toward the glass doors, so his figure stays the same size in the frame. His shadow falls softly on the floor ahead of him. The lighting stays even and cool for the whole shot, with soft reflections of the ceiling lights on the floor and on the glass. There is no text anywhere in the frame, and the signs on the doors are blank.
+
+      overall_soundscape: His soft footsteps squeak lightly on the polished corridor floor over quiet building ventilation, and the backpack straps rustle faintly.
+
+      non_diegetic_music: Ambient electronic music: sustained synth pads at a slow tempo over a soft, steady low pulse, kept low in volume.
+
+  # ---------- Scene 3: first encounter with Super Dry (guide 17-29 s) ----------
+  S3A:
+    type: r2v
+    refs: [man]
+    seed: 3101
+    duration: 3.7
+    note: night, he pushes the convenience-store door and walks past the shelves to the drinks refrigerator
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the young man in <Picture 1>: {man}. Here he wears a simple black commuting backpack.
+
+      summary:
+      [reference generation] At night, <Subject 1> pushes open the glass door of a clean modern convenience store and walks past the shelves toward the drinks refrigerator.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - his face, natural short black hair, straight dark eyebrows, lean build, plain gray T-shirt, unbuttoned dark blue-gray overshirt, black trousers and white sneakers are retained, with the black backpack added.
+
+      detailed_description:
+      The target video is a photorealistic premium television commercial filmed with a 35 mm lens, shallow depth of field, natural skin texture and soft highlight roll-off. The store is lit with clean cool-white light, with crisp silver-blue highlights on glass and metal.
+      [Shot 1] A medium shot from inside a clean, modern convenience store at night, looking toward the glass entrance doors at the left of the frame. Outside the doors, the street is dark blue, with blurred car lights passing. Cool-white light from the store spills through the glass onto the pavement. Neat white shelves of snacks, bottles and boxes line the aisle in the foreground and on the right, their packaging softly out of focus. <Subject 1>, his simple black commuting backpack on both shoulders over his unbuttoned dark blue-gray overshirt and plain gray T-shirt, pushes the glass door open with his right hand and steps inside. His face is clearly visible: a natural, composed after-work expression, calm, slightly tired, not sad. A soft electronic entrance chime sounds as the door opens. The door swings closed behind him. He walks into the store along the aisle at an ordinary pace, past the neat shelves, heading toward the glowing drinks refrigerators at the back of the store on the right. The camera tracks with him from the side with small amplitude at slow speed, keeping him at the same size in the frame, his face in three-quarter profile. The clean floor tiles reflect the ceiling lights. The store is quiet, with no other customers. All packaging, price labels and signs are softly out of focus, and there is no readable text anywhere in the frame.
+
+      overall_soundscape: A soft electronic entrance chime rings once as the door opens, the glass door swings closed with a gentle thud, his footsteps tap lightly on the tiled floor, and a quiet refrigeration hum fills the store.
+
+      non_diegetic_music: Ambient electronic music at a slow tempo: sustained synth pads and a soft, steady low pulse, joined by light, bright electronic plucks, kept low in volume.
+  S3B:
+    type: r2v
+    refs: [can]
+    seed: 3201
+    note: over-the-shoulder, he opens the refrigerator door; the BRAVE THE WORLD SUPER DRY display; voice-over 6
+    dialogue: [{character: man, line: "Then I thought..."}]
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the beer can in <Picture 1>: {can}.
+
+      summary:
+      [reference generation] Over a young man's shoulder, a convenience-store refrigerator door opens to reveal a tidy display of <Subject 1> cans among other drinks, while his inner voice speaks off-screen.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - the can's proportions, blue top, silver-white body, small "BRAVE THE WORLD" text, large bold blue "SUPER DRY" lettering and red "SUPER DRY DRAFT BEER" block are retained exactly on every can.
+
+      detailed_description:
+      The target video is a photorealistic premium television commercial filmed with a 35 mm lens, shallow depth of field and soft highlight roll-off, in clean cool-white light with crisp silver-blue highlights.
+      [Shot 1] An over-the-shoulder shot from behind a young man with natural short black hair and an unbuttoned dark blue-gray overshirt; the back of his head and his right shoulder are soft and out of focus in the left foreground. In front of him stands a tall convenience-store drinks refrigerator with a transparent glass door and bright white interior lights. His right hand takes the door handle and pulls the glass door open toward the camera, and a faint trace of cold mist drifts out and fades. Inside, on the middle shelf at eye level, a tidy row of six <Subject 1> cans stands upright in a neat line, all with their front labels facing the camera: blue tops, silver-white metallic bodies, small blue letters "BRAVE THE WORLD", large bold blue letters "SUPER DRY" and the red block "SUPER DRY DRAFT BEER", with fine condensation droplets on the cold metal. The cans are all identical and keep their shape. Beside the display, a plain silver-blue panel on the refrigerator wall carries no text. The shelves above and below hold other bottled drinks and other beers in assorted colors, softly out of focus, with indistinct labels. The camera pushes in with small amplitude at slow speed over his shoulder toward the row of cans, so the cans grow slightly larger and sharper. Cool light from the refrigerator rims his shoulder and hair. The young man (S1), in a clean, natural, slightly low-pitched male voice of a man in his late twenties, relaxed and reflective, says in an off-screen voiceover: <d>[English] Then I thought...</d> while his lips remain completely closed. There is no other text anywhere in the frame.
+
+      overall_soundscape: The refrigerator door seal opens with a soft suction sound, the refrigeration hum grows slightly louder, and quiet store ambience continues behind it.
+
+      non_diegetic_music: Ambient electronic music at a slow tempo: sustained synth pads and a soft, steady low pulse with light, bright electronic plucks, rising slightly in volume but staying low.
+  S3C:
+    type: r2v
+    refs: [man]
+    seed: 3301
+    duration: 3.7
+    note: his face, quiet recognition and a faint smile; he takes one can; voice-over 7
+    dialogue: [{character: man, line: "Maybe I don't need to be someone else."}]
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the young man in <Picture 1>: {man}.
+
+      summary:
+      [reference generation] Lit by the open drinks refrigerator, <Subject 1> pauses, gives a faint smile of quiet recognition and takes one beer can from the shelf, while his inner voice speaks off-screen.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - his face, natural short black hair, straight dark eyebrows, lean build, plain gray crew-neck T-shirt and unbuttoned dark blue-gray overshirt are retained.
+
+      detailed_description:
+      The target video is a photorealistic premium television commercial filmed with a 35 mm lens, shallow depth of field, natural skin texture and soft highlight roll-off, in clean cool-white light with crisp silver-blue highlights.
+      [Shot 1] A medium close-up frames <Subject 1> from the chest up, seen from inside the open drinks refrigerator so that he faces the camera through the open glass door; the edge of the door and the blurred tops of bottles frame the left and lower edges of the picture. He wears his plain gray crew-neck T-shirt under the unbuttoned dark blue-gray overshirt. The cool white refrigerator light falls evenly and softly on his face, showing natural skin texture, his straight dark eyebrows and his short black hair; behind him, the store aisle and its shelves are blurred into soft shapes of white and color. He looks at the shelf in front of him and pauses for a moment. His eyebrows rise very slightly and a faint, natural smile forms at the corners of his mouth: quiet recognition, as if this simply feels right for him, not surprise or excitement. Then he reaches forward with his right hand and takes one beer can with a blue top and a silver-white body from the shelf in a clean, ordinary movement, closing his fingers around it and holding it upright. The can is rigid and keeps its shape in his hand. He lowers the can slightly toward his chest, still looking at it with the same faint smile. The camera holds a static shot for the whole duration. <Subject 1> (S1), in the same clean, natural, slightly low-pitched male voice, relaxed and reflective, says in an off-screen voiceover: <d>[English] Maybe I don't need to be someone else.</d> while his lips remain completely closed. There is no text anywhere in the frame.
+
+      overall_soundscape: The refrigeration hum continues, the can slides off the metal shelf with a light clink, and quiet store ambience sits underneath.
+
+      non_diegetic_music: Ambient electronic music at a slow tempo: sustained synth pads and a soft, steady low pulse with light, bright electronic plucks, kept low in volume.
+  S3D:
+    type: r2v
+    refs: [can]
+    seed: 3401
+    duration: 2.3
+    note: front-facing product close-up in his hand, condensation, refrigerator light on the edge
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the beer can in <Picture 1>: {can}.
+
+      summary:
+      [reference generation] A front-facing close-up of <Subject 1> held steady in a young man's hand in front of the glowing drinks refrigerator.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - the can's proportions, blue top, silver-white body, small "BRAVE THE WORLD" text, large bold blue "SUPER DRY" lettering and red "SUPER DRY DRAFT BEER" block are retained exactly.
+
+      detailed_description:
+      The target video is a photorealistic premium television commercial product close-up filmed with a 35 mm lens, shallow depth of field and soft highlight roll-off, in clean cool-white light with crisp silver-blue highlights.
+      [Shot 1] A static, front-facing product close-up of <Subject 1> held upright in a young man's right hand, the can centered and filling most of the frame height, its label facing the camera squarely. The blue top and lid sit at the upper edge. Near the top of the silver-white metallic body, small blue letters read "BRAVE THE WORLD"; across the middle, large bold blue letters read "SUPER DRY"; below them, a red rectangular block reads "SUPER DRY DRAFT BEER" in white letters. Fine condensation droplets cover the cold aluminum, and a few small droplets slowly run down the side. The cool white refrigerator light draws one thin, controlled vertical highlight along the left edge of the metal, and a soft reflection of the shelves glows on the right edge. His fingers wrap naturally around the lower part of the can, with realistic knuckles and nails, without covering any of the lettering; the sleeve cuff of a dark blue-gray overshirt is just visible at the bottom of the frame. The can stays perfectly steady, cylindrical and unchanged in shape for the whole shot, and the label lettering stays sharp and readable. Behind the can, the refrigerator shelves and bottles glow as soft, out-of-focus shapes of white, blue and amber. The camera holds a static shot for the whole duration. There is no other text anywhere in the frame.
+
+      overall_soundscape: A soft refrigeration hum continues and his fingers make a faint squeak on the cold, wet aluminum.
+
+      non_diegetic_music: Ambient electronic music at a slow tempo: sustained synth pads and a soft, steady low pulse with light, bright electronic plucks, kept low in volume.
+
+  # ---------- Scene 4: a moment by the river (guide 29-36 s) ----------
+  S4A:
+    type: r2v
+    refs: [man]
+    seed: 4101
+    duration: 3.7
+    note: wide night view of the stone steps by the river, golden reflections; he sits with his backpack
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the young man in <Picture 1>: {man}. His simple black commuting backpack rests beside him.
+
+      summary:
+      [reference generation] A wide night view of <Subject 1> sitting comfortably on broad stone steps beside a river, the city lights reflected in the water.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - his natural short black hair, lean build, unbuttoned dark blue-gray overshirt, black trousers and white sneakers are retained at a distance.
+
+      detailed_description:
+      The target video is a photorealistic premium television commercial filmed with a 35 mm lens and restrained contrast, with deep blue night tones and warm golden city reflections.
+      [Shot 1] A wide shot at night of broad, clean, light-gray stone steps that lead down to a wide, calm river. The steps run diagonally from the lower left toward the middle of the frame. <Subject 1> sits comfortably on one of the steps in the right third of the frame, seen from the side and slightly from behind, at a distance where his whole figure is visible: his natural short black hair, the unbuttoned dark blue-gray overshirt over the gray T-shirt, black straight-leg trousers and white sneakers resting on the step below. His simple black commuting backpack stands on the step beside him, and he holds a silver-blue beer can loosely in one hand on his knee. Across the water, the far bank is lined with warm illuminated buildings and a few tall towers, their windows glowing gold; their light stretches across the river in long, shimmering golden reflections. The sky is deep blue, almost black at the top, with a faint glow over the city. The water ripples gently and slowly, breaking the reflections into soft moving lines. Soft lamplight from a low lamp post behind the steps rims his shoulders. He makes a small, relaxed posture adjustment, leaning forward slightly and resting his forearms on his knees as he looks across the water. The camera pushes in with small amplitude at slow speed toward him while keeping the spacious composition, so the river and the far bank still fill most of the frame. The scene is calm and unhurried. There is no text anywhere in the frame.
+
+      overall_soundscape: Soft water laps against the bottom of the stone steps while distant city traffic and faint voices drift across the river.
+
+      non_diegetic_music: Ambient electronic music at a slow tempo: sustained synth pads with a soft low pulse, joined by a low, sustained warm bass note, kept low in volume.
+  S4B:
+    type: r2v
+    refs: [man]
+    seed: 4201
+    duration: 3.7
+    note: medium close-up, one small sip, exhales, looks across the river; warm bokeh
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the young man in <Picture 1>: {man}.
+
+      summary:
+      [reference generation] By the river at night, <Subject 1> takes one small sip from a beer can, exhales and looks across the water with a softened expression.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - his face, natural short black hair, straight dark eyebrows, lean build, plain gray crew-neck T-shirt and unbuttoned dark blue-gray overshirt are retained.
+
+      detailed_description:
+      The target video is a photorealistic premium television commercial filmed with a 35 mm lens, shallow depth of field, natural skin texture and soft highlight roll-off, with deep blue night tones and warm golden light.
+      [Shot 1] A medium close-up frames <Subject 1> from the chest up in three-quarter view, seated on the riverside stone steps at night and facing toward the right of the frame, where the river lies out of view. He wears his plain gray crew-neck T-shirt under the unbuttoned dark blue-gray overshirt; his natural short black hair moves very slightly in a light breeze. Behind him, warm city lights across the water form large, round golden bokeh circles against a deep blue background. A soft warm light from the city falls on the side of his face nearest the river, while the other side stays in cool blue shadow. He raises a silver-blue beer can with a blue top in his right hand, held in a plausible, relaxed grip with his fingers around the middle of the can. He takes one small sip; the rim of the can touches his lower lip naturally and his throat moves once as he swallows. He lowers the can slightly to chest height. The can stays rigid and keeps its cylindrical shape throughout. He exhales gently, his shoulders relax, and he looks out across the river. His expression softens a little, his eyes calm and his mouth at rest, without any exaggerated smile. The camera pushes in with small amplitude at slow speed toward his face across the whole shot. Light reflections from the water flicker softly on his cheek. There is no text anywhere in the frame.
+
+      overall_soundscape: Soft water movement and distant city ambience continue, with a quiet swallow, a subtle rustle of his overshirt and the light tap of the can against his fingers as he lowers it.
+
+      non_diegetic_music: Ambient electronic music at a slow tempo: sustained synth pads with a soft low pulse and a low, sustained bass note, rising slightly in volume.
+
+  # ---------- Scene 5: a small step toward connection (guide 36-41 s) ----------
+  S5A:
+    type: r2v
+    refs: [can]
+    seed: 5101
+    duration: 2.3
+    note: insert, black phone beside the can on the stone ledge; he frames the can with the phone camera and taps
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the beer can in <Picture 1>: {can}.
+
+      summary:
+      [reference generation] A close insert of <Subject 1> standing on a stone ledge by the river at night while a young man's hand frames it with a black smartphone camera and taps once.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - the can's proportions, blue top, silver-white body, blue "SUPER DRY" lettering, small "BRAVE THE WORLD" text and red "SUPER DRY DRAFT BEER" block are retained exactly.
+
+      detailed_description:
+      The target video is a photorealistic premium television commercial filmed with a 35 mm lens and shallow depth of field, with deep blue night tones and warm golden bokeh.
+      [Shot 1] A close insert shot at the height of a smooth, light-gray stone ledge beside the river at night. <Subject 1> stands upright on the ledge slightly right of center, its label facing the camera: the blue top, the silver-white metallic body, small blue letters "BRAVE THE WORLD", large bold blue letters "SUPER DRY" and the red block "SUPER DRY DRAFT BEER", with fine condensation droplets catching the light. A soft warm highlight from the city lights runs along its left edge. Behind the can, warm city lights across the dark water glow as soft, round golden bokeh circles against deep blue darkness. A young man's right hand, with the cuff of a dark blue-gray overshirt at the wrist, enters from the left of the frame holding a black smartphone sideways at the left of the can, its camera lens pointed at the can and its screen turned toward him, away from the camera. He holds the phone steady about an arm's length from the can to frame it, then makes one small tap on the screen with his thumb; the phone's edge catches a faint reflection. The can stays completely still and unchanged, and its lettering stays sharp. The stone surface shows a fine natural grain and a few small damp patches. The camera holds a static shot for the whole duration. There is no other text anywhere in the frame.
+
+      overall_soundscape: Low riverside ambience and soft water movement continue under one subtle, quiet phone camera shutter sound.
+
+      non_diegetic_music: Ambient electronic music at a slow tempo: sustained synth pads with a soft low pulse and a low, sustained bass note, kept low in volume.
+  S5B:
+    type: t2v
+    seed: 5201
+    duration: 2.3
+    note: the phone screen, a clean blue-and-white social app titled SUPER DRY CLUB
+    prompt: |-
+      integrated_multimodal_description: [Shot 1] Live-action, photorealistic premium television commercial filmed with a 35 mm lens and shallow depth of field, with deep blue night tones and warm golden bokeh. A static close-up of a black smartphone held upright in a young man's right hand at night; the phone is centered, its screen facing the camera and filling most of the frame, his thumb resting lightly at the lower edge of the screen and the cuff of a dark blue-gray overshirt visible at his wrist. The screen shows a clean, bright blue-and-white social app. At the top is a solid blue header bar with the white title "SUPER DRY CLUB". Below it, a small square photo shows a silver beer can with a blue top standing on a stone ledge at night. Below the photo is a simple row of five round profile circles with soft, blurred faces, and under them a few plain gray lines and small blue dots instead of words. The only readable text on the screen is "SUPER DRY CLUB"; every other interface element is a simple shape or line. The screen geometry stays stable and the interface does not change or flicker for the whole shot. The cool white light of the screen falls softly on his fingers. Behind the phone, warm city lights across a river glow as soft, round golden bokeh circles against deep blue darkness. There is no other text anywhere in the frame.
+
+      overall_soundscape: Low riverside ambience continues under one subtle, soft phone tap.
+
+      non_diegetic_music: Ambient electronic music at a slow tempo: sustained synth pads with a soft low pulse and a low, sustained bass note, kept low in volume.
+  S5C:
+    type: r2v
+    refs: [man]
+    seed: 5301
+    duration: 2.3
+    note: close-up of his face, faint genuine smile, cool screen light, warm river lights behind
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the young man in <Picture 1>: {man}.
+
+      summary:
+      [reference generation] A close-up of <Subject 1> at night by the river, looking down at his phone as a faint, genuine smile appears.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - his face, natural short black hair, straight dark eyebrows, plain gray crew-neck T-shirt and the collar of his dark blue-gray overshirt are retained.
+
+      detailed_description:
+      The target video is a photorealistic premium television commercial filmed with a 35 mm lens, shallow depth of field, natural skin texture and soft highlight roll-off, with deep blue night tones and warm golden bokeh.
+      [Shot 1] A close-up frames the face and shoulders of <Subject 1>, slightly from below and in three-quarter view, as he looks down at a phone held just below the bottom edge of the frame. His natural short black hair, his straight dark eyebrows and the collar of his dark blue-gray overshirt over the gray T-shirt are clearly visible. Cool white light from the phone screen softly lights his face from below, catching his cheekbones, the tip of his nose and his eyes, which reflect two small points of light. Behind him, warm city lights across the river form large, round golden bokeh circles against deep blue darkness, and a soft warm rim of light outlines the back of his hair and shoulder. His face starts calm and attentive as he reads. Then a faint, genuine smile slowly appears: the corners of his mouth lift a little and his eyes soften, and the smile stays. His eyes remain on the screen. His expression is warm and quietly confident, natural and restrained, with no laugh and no exaggerated reaction. His lips stay together. The camera holds a static shot for the whole duration, with his face in sharp focus. There is no text anywhere in the frame.
+
+      overall_soundscape: Low riverside ambience and soft water movement continue, with a light breeze.
+
+      non_diegetic_music: Ambient electronic music at a slow tempo: sustained synth pads with a soft low pulse and a low, sustained bass note, kept low in volume.
+
+  # ---------- Scene 6: convenience-store phone close-up (guide 41-45 s) ----------
+  S6A:
+    type: r2v
+    refs: [man]
+    seed: 6101
+    note: short motion-blur transition into a close shot in the store; thumb movement, restrained confident smile
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the young man in <Picture 1>: {man}. He holds a black smartphone.
+
+      summary:
+      [reference generation] After a brief motion-blur transition, a close shot of <Subject 1> in the bright convenience store, reading his phone and smiling with restrained confidence.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - his face, natural short black hair, straight dark eyebrows, plain gray crew-neck T-shirt and unbuttoned dark blue-gray overshirt are retained.
+
+      detailed_description:
+      The target video is a photorealistic premium television commercial filmed with a 35 mm lens, shallow depth of field, natural skin texture and soft highlight roll-off, in clean cool-white store light with crisp silver-blue highlights.
+      [Shot 1] The shot opens with a brief, controlled horizontal motion blur of bright white and blue light streaks that resolves within the first half second into a close shot of <Subject 1>, framed from the chest up and turned three-quarters toward the camera, standing in the convenience store. He wears his plain gray crew-neck T-shirt under the unbuttoned dark blue-gray overshirt, and his natural short black hair and straight dark eyebrows are sharp. He holds a black smartphone in his right hand at chest height and looks down at its screen, which faces away from the camera. Behind him, bright white shelves and the glowing glass doors of the drinks refrigerators are softly blurred into shapes of white, silver and blue. The even, cool store light falls on his face from above, with a soft glow from the phone on his chin. He makes one small upward thumb movement on the screen and reads quietly for a moment. Then a restrained, confident smile appears: the corners of his mouth lift slightly and his eyes brighten, while his posture stays relaxed. His lips stay together. The camera stays nearly fixed in a static shot after the opening blur. In the final half second, the whole image softens slightly, as if beginning to dissolve. There is no text anywhere in the frame.
+
+      overall_soundscape: Low store ambience and a soft refrigeration hum continue under a faint scroll sound from the phone.
+
+      non_diegetic_music: Ambient electronic music at a slow tempo: sustained synth pads with a soft low pulse and light, bright electronic plucks, kept low in volume.
+
+  # ---------- Scene 7: connection at home (guide 45-50 s) ----------
+  S7A:
+    type: r2v
+    refs: [man]
+    seed: 7101
+    note: at home in the gray T-shirt only (overshirt off), desk chair, lamp, bookshelves, the can on the desk; smiles at his phone
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the young man in <Picture 1>, with his lean but healthy build, natural short black hair, clean-shaven face, straight dark eyebrows and fresh, ordinary, approachable features; at home he wears only his plain gray crew-neck T-shirt, without the overshirt.
+
+      summary:
+      [reference generation] At home in the evening, <Subject 1> sits in a desk chair reading his phone, smiles subtly and leans back, a beer can standing on the desk beside him.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): partially_preserved - his face, natural short black hair, straight dark eyebrows, lean build and plain gray crew-neck T-shirt are retained; the dark blue-gray overshirt is removed for the home scene.
+
+      detailed_description:
+      The target video is a photorealistic premium television commercial filmed with a 35 mm lens, shallow depth of field and natural skin texture, in soft warm practical lighting.
+      [Shot 1] A medium close-up frames <Subject 1> from the chest up, seated comfortably in a dark desk chair at home in the evening and turned three-quarters toward the camera. He wears only his plain gray crew-neck T-shirt with short sleeves and no overshirt; his natural short black hair and straight dark eyebrows match his usual look. A warm desk lamp with a beige shade stands at the left of the frame and casts soft golden light across his face and arms. Behind him, slightly out of focus, wooden bookshelves hold rows of books with plain spines, a small green plant and a few ordinary objects, creating a believable lived-in room; the window behind is dark blue. On the light wooden desk in the lower right of the frame lie an open book and, beside it, one silver-blue beer can with a blue top standing upright. He holds a black smartphone in both hands in front of his chest, its screen facing away from the camera, and reads. A subtle smile appears and stays; then he leans back a little in the chair, his shoulders relaxing against the backrest, still looking at the phone. His lips stay together and his movements are small and natural. The camera holds a static shot for the whole duration. There is no text anywhere in the frame.
+
+      overall_soundscape: Quiet domestic room tone, a faint phone tap, and the soft creak of the desk chair as he leans back.
+
+      non_diegetic_music: Ambient electronic music at a slow tempo: sustained synth pads with a soft low pulse and a low, sustained bass note, rising slightly in volume.
+  S7B:
+    type: t2v
+    seed: 7201
+    note: the woman at a wooden table with an open laptop, gentle smile at her phone, small thumb movement
+    prompt: |-
+      integrated_multimodal_description: [Shot 1] Live-action, photorealistic premium television commercial filmed with a 35 mm lens and shallow depth of field, with natural skin tones in soft warm practical lighting. A medium close-up frames {woman}, from the chest up, seated at a wooden table in a softly lit home interior in the evening and turned three-quarters toward the camera. An open silver laptop stands on the table beside her at the right of the frame, its screen facing away from the camera, and a ceramic mug sits next to it. A warm floor lamp behind her at the left glows golden, and a shelf with a few books and a small plant is softly out of focus in the background. She holds a smartphone in her right hand at chest height, its screen facing away from the camera, and looks down at it. A gentle smile appears on her face, and she makes one small thumb movement on the screen as she responds. Her long dark hair falls naturally over one shoulder, and her expression stays warm and understated, her lips together. The camera holds a static shot for the whole duration, her face in sharp focus. There is no text anywhere in the frame.
+
+      overall_soundscape: Quiet domestic room tone with a subtle phone tap and the faint rustle of her T-shirt sleeve.
+
+      non_diegetic_music: Ambient electronic music at a slow tempo: sustained synth pads with a soft low pulse and a low, sustained bass note, kept low in volume.
+
+  # ---------- Scene 8: product hero (guide 50-53 s) ----------
+  S8A:
+    type: r2v
+    refs: [can]
+    seed: 8101
+    note: the can centered on a glossy deep-blue surface, geometric light beams, very slow push-in, moving highlight
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the beer can in <Picture 1>: {can}.
+
+      summary:
+      [reference generation] A product hero shot of a single <Subject 1> standing centered and front-facing on a glossy deep-blue surface while a soft highlight moves across the metal.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - the can's proportions, blue top, silver-white body, small "BRAVE THE WORLD" text, large bold blue "SUPER DRY" lettering and red "SUPER DRY DRAFT BEER" block are retained exactly.
+
+      detailed_description:
+      The target video is a photorealistic premium beer commercial product shot with controlled studio lighting and a rich deep-blue palette, with crisp silver highlights.
+      [Shot 1] A single <Subject 1> stands upright in the exact center of the frame on a glossy deep-blue surface that mirrors its base and lower label in a soft reflection. The background is a rich, smooth blue that darkens toward the edges, crossed by three restrained, thin geometric beams of soft white-blue light that slant diagonally behind the can and fade out at the top of the frame. The can faces the camera squarely with its full label visible: the blue top and lid, the silver-white metallic body, small blue letters "BRAVE THE WORLD" near the top, large bold blue letters "SUPER DRY" across the middle and the red block "SUPER DRY DRAFT BEER" below. Fine condensation droplets cover the cold metal and sparkle where the light touches them. A soft vertical highlight moves slowly across the aluminum from the left edge to the right edge, revealing the curve of the can, while the lettering stays perfectly sharp and readable. The can remains stationary and front-facing throughout; it does not rotate, tilt or change shape, and nothing else appears in the frame. The camera pushes in with small amplitude at slow speed across the whole shot, so the can grows slightly larger, and ends on a clean, stable, centered product frame. There is no other text, slogan, logo, subtitle or graphic anywhere in the frame.
+
+      overall_soundscape: Near silence with a faint, cool studio air tone and a very soft fizz from the condensation.
+
+      non_diegetic_music: Ambient electronic music at a slow tempo: sustained synth pads and a soft low pulse that stop together on a final sustained chord, which fades out at the end.
+
+  # ======================= V2 (owner's revision brief, 2026-10-25) =======================
+  # Regenerated shots only; V1 shots that pass the brief are reused (their sound is replaced in the edit).
+  # Rules: h3-prompt-writing format + h3-short-drama-direction skill: gaze plans, staggered background
+  # people, varied emotional endings, no narration and no music in picture renders (mixed in the edit),
+  # screens as chroma-key green, 90 frames (3.75 s) so performances have room.
+  # Object states: S2C2 laptop OPEN, phone -> pocket; S2B (V1) closes the laptop; S2D (V1) leaves.
+  S2A2:
+    type: r2v
+    refs: [man]
+    seed: 2501
+    duration: 3.7
+    note: V2 office at dusk - polite nod to the departing coworker (replaces S2A; eyes, gaze plan). Mug fixed after review (was a paper cup)
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the young man in <Picture 1>: {man}.
+
+      summary:
+      [reference generation] At dusk in an open-plan office, a departing coworker waves to <Subject 1> at his desk; he looks up, meets the coworker's eyes, gives a small polite nod and returns to his laptop.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - his face, natural short black hair, straight dark eyebrows, lean build, plain gray crew-neck T-shirt and unbuttoned dark blue-gray overshirt are retained.
+
+      detailed_description:
+      The target video is a photorealistic premium television commercial filmed with a 35 mm lens, shallow depth of field, natural skin texture, soft highlight roll-off and restrained contrast, in cool blue-gray tones with the last orange light of sunset on the horizon.
+      [Shot 1] A medium shot of a contemporary open-plan office at dusk. Floor-to-ceiling windows behind show a skyline of glass towers under a fading blue sky with a thin band of orange at the horizon. <Subject 1> sits at his desk in the right third of the frame, framed from the waist up and turned three-quarters toward the left, his face sharp and clearly lit. On the desk are an open silver laptop, a white ceramic coffee mug with a handle to its right (not a paper cup) and a closed black notebook. At the start, his eyes are on the laptop screen, reading, with one blink. A coworker, a young man in a light-blue shirt with a black bag over his shoulder, walks from the right behind the desks toward the exit on the left and raises a hand in a friendly wave as he passes. <Subject 1> lifts his eyes from the screen to the coworker's face, follows him for a moment with a small turn of the head, and gives a small, polite nod with a brief closed-mouth smile that fades quickly; then his eyes return to the laptop screen. Both of his eyes stay level and symmetrical, pupils aimed at the same target, and his facial proportions stay unchanged as his head turns. He never looks into the lens. In the softly blurred background, two other coworkers pack up at their own pace: one zips a bag, the other pushes in a chair and walks away a moment later; nobody moves in sync, and every person keeps a clear, stable silhouette. The camera holds a static shot. His lips stay closed; he does not speak. There is no text anywhere in the frame, and the screens show no readable content.
+
+      overall_soundscape: Quiet office ventilation hums under faint keyboard clicks, a bag zipper, a chair rolling in and distant footsteps toward the exit.
+
+      non_diegetic_music: N/A
+  S2C2:
+    type: r2v
+    refs: [man]
+    seed: 2601
+    duration: 3.7
+    note: V2 phone check BEFORE closing the laptop (laptop open; phone -> pocket); next S2B closes the laptop
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the young man in <Picture 1>: {man}. He uses a black smartphone.
+
+      summary:
+      [reference generation] In the nearly empty office at dusk, <Subject 1> picks up his phone beside his open laptop, reads a few work notifications without expression, and puts the phone into his trouser pocket.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - his face, natural short black hair, straight dark eyebrows, lean build, plain gray crew-neck T-shirt and unbuttoned dark blue-gray overshirt are retained.
+
+      detailed_description:
+      The target video is a photorealistic premium television commercial filmed with a 35 mm lens, shallow depth of field, natural skin texture, soft highlight roll-off and restrained contrast, in cool blue-gray evening tones.
+      [Shot 1] A medium close-up frames <Subject 1> from the chest up, seated at his desk in the nearly empty open-plan office at dusk and turned three-quarters toward the left, his face sharp and evenly lit. The silver laptop on the desk in front of him is still open, its screen glowing softly and facing him, away from the camera; a white coffee cup stands to the right of the laptop. Behind him, out of focus, rows of empty desks and the floor-to-ceiling windows show a dark-blue skyline with scattered lit windows. He picks up a black smartphone lying beside the laptop and raises it to chest height, the screen facing him and away from the camera. His eyes move down to the screen and read in short left-to-right movements, his thumb scrolls once, and he blinks once; his face stays neutral and familiar with the routine, without sadness. He presses the side button to lock the phone, glances back at the open laptop for a moment, and slips the phone into the front pocket of his black trousers. Both eyes stay level and symmetrical and look at the same target; he never looks into the lens. The camera holds a static shot. His lips stay closed; he does not speak. There is no text anywhere in the frame.
+
+      overall_soundscape: Quiet office ventilation, a soft scroll and lock click from the phone, fabric rustling as the phone slides into his pocket, and a faint chair creak.
+
+      non_diegetic_music: N/A
+  S2E:
+    type: r2v
+    refs: [man]
+    seed: 2701
+    duration: 3.7
+    note: V2 new - walks along the night street to the convenience store and pushes the glass door open (bridges office -> store)
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the young man in <Picture 1>: {man}. Here he wears a simple black commuting backpack.
+
+      summary:
+      [reference generation] At night, <Subject 1> walks along a city sidewalk toward a brightly lit convenience store, turns to its glass door and pushes it open to step inside.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - his face, natural short black hair, lean build, gray T-shirt, unbuttoned dark blue-gray overshirt, black trousers and white sneakers are retained, with the black backpack added.
+
+      detailed_description:
+      The target video is a photorealistic premium television commercial filmed with a 35 mm lens, shallow depth of field and restrained contrast, with deep blue night tones and the cool-white glow of a shop front.
+      [Shot 1] A medium-wide shot of a quiet city sidewalk at night. On the right side of the frame stands the glass front of a clean, modern convenience store, its cool-white interior light spilling across the wet-looking pavement; shelves and drinks refrigerators glow softly out of focus inside, and the glass door is in the right third of the frame. <Subject 1>, his black backpack on both shoulders over the unbuttoned dark blue-gray overshirt, walks into the frame from the left at a calm after-work pace, seen in profile. His eyes look ahead along the sidewalk, then move to the glowing shop window as he approaches, and finally to the door handle. He turns toward the door, reaches out with his right hand, pushes the glass door open and steps through it into the light. Behind him, a woman with a tote bag walks past in the other direction at her own pace, and a delivery scooter passes slowly far away on the street; they stay softly out of focus with clear, stable silhouettes. The camera trucks right with small amplitude at slow speed, following him toward the door. His lips stay closed; he never looks into the lens. All shop signs and packaging stay blurred, and there is no readable text anywhere in the frame.
+
+      overall_soundscape: Distant city traffic and a light breeze, his footsteps on the pavement, and a soft electronic entrance chime exactly when the door opens, followed by the hum of the store spilling out.
+
+      non_diegetic_music: N/A
+  S3C2:
+    type: r2v
+    refs: [man]
+    seed: 3501
+    duration: 3.7
+    note: V2 refrigerator - eyes scan the display, stop on the cans, quiet recognition, takes one and lowers it naturally (replaces S3C)
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the young man in <Picture 1>: {man}.
+
+      summary:
+      [reference generation] Lit by the open drinks refrigerator, <Subject 1> scans the shelf, stops on a row of silver-blue beer cans with quiet recognition, takes one and lowers it naturally to his side.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - his face, natural short black hair, straight dark eyebrows, lean build, plain gray crew-neck T-shirt and unbuttoned dark blue-gray overshirt are retained.
+
+      detailed_description:
+      The target video is a photorealistic premium television commercial filmed with a 35 mm lens, shallow depth of field, natural skin texture and soft highlight roll-off, in clean cool-white light with crisp silver-blue highlights.
+      [Shot 1] A medium close-up frames <Subject 1> from the chest up, seen from inside the open drinks refrigerator so that he faces the shelves through the open glass door; the edge of the door and the blurred tops of bottles frame the left and lower edges. Cool white refrigerator light falls evenly on his face. At the start his eyes scan the shelves from left to right at a calm pace, with one blink. His gaze stops on a row of silver-blue beer cans with blue tops at eye level just below the camera and holds there for a moment: his eyebrows rise very slightly and the corners of his mouth soften into a faint closed-mouth expression of quiet recognition, not a grin. His eyes move to one specific can, he reaches forward with his right hand, takes it in a clean, ordinary movement, glances down at it once in his hand, and lowers it naturally to his side, out of the bottom of the frame, while his eyes return to the shelf for a moment. He never presents the can to the camera and never looks into the lens. Both eyes stay level and symmetrical and aim at the same target; his facial proportions stay unchanged. Behind him the store aisle is blurred into soft shapes of white and color. The camera holds a static shot. His lips stay closed; he does not speak. There is no text anywhere in the frame.
+
+      overall_soundscape: A steady refrigeration hum, the light clink of the can leaving the metal shelf, and quiet store ambience.
+
+      non_diegetic_music: N/A
+  S5B2:
+    type: t2v
+    seed: 5501
+    duration: 3.7
+    note: V2 phone screen as flat chroma-key green; one thumb tap at ~1.5 s; SUPER DRY CLUB interface composited by screen_insert.py
+    prompt: |-
+      integrated_multimodal_description: [Shot 1] Live-action, photorealistic premium television commercial filmed with a 35 mm lens and shallow depth of field, with deep blue night tones and warm golden bokeh. A static close-up of a black smartphone held upright in a young man's right hand at night beside a river; the phone is centered and large, filling most of the frame height, its screen facing the camera squarely. The whole display is a uniform, flat, bright chroma-key green from edge to edge, with no content, no icons, no reflections and no light changes, for the entire shot. The cuff of a dark blue-gray overshirt shows at his wrist. His thumb rests at the lower edge of the screen, then moves up over the lower third of the green display, taps once firmly at about one and a half seconds, lifts away and rests on the edge of the phone. The hand holds the phone steady with only slight natural movement. Behind the phone, warm city lights across the river glow as soft round golden bokeh against deep blue darkness. There is no text anywhere in the frame.
+
+      overall_soundscape: Low riverside ambience with soft water movement and one soft phone tap at the moment the thumb touches the screen.
+
+      non_diegetic_music: N/A
+  S7A2:
+    type: r2v
+    refs: [man]
+    seed: 7501
+    duration: 3.7
+    note: V2 home (T-shirt only) - types a short reply, smiles, taps send, leans back (cause for S7B2)
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the young man in <Picture 1>, with his lean but healthy build, natural short black hair, clean-shaven face, straight dark eyebrows and fresh, ordinary, approachable features; at home he wears only his plain gray crew-neck T-shirt, without the overshirt.
+
+      summary:
+      [reference generation] At home in the evening, <Subject 1> types a short reply on his phone, smiles noticeably, taps send and leans back in his desk chair, a beer can on the desk beside him.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): partially_preserved - his face, natural short black hair, straight dark eyebrows, lean build and plain gray crew-neck T-shirt are retained; the dark blue-gray overshirt is removed for the home scene.
+
+      detailed_description:
+      The target video is a photorealistic premium television commercial filmed with a 35 mm lens, shallow depth of field and natural skin texture, in soft warm practical lighting.
+      [Shot 1] A medium close-up frames <Subject 1> from the chest up, seated in a dark desk chair at home in the evening and turned three-quarters toward the left, wearing only his plain gray crew-neck T-shirt with short sleeves. A warm desk lamp with a beige shade at the left casts soft golden light across his face; wooden bookshelves with plain book spines and a small plant stand softly out of focus behind him, and the window is dark blue. On the light wooden desk in the lower right are an open book and one silver-blue beer can with a blue top, standing upright. He holds a black smartphone in both hands at chest height, its screen facing him and away from the camera. His eyes are on the screen; both thumbs type a short message in small, quick movements, he pauses and reads it once, and a noticeable, warm smile spreads across his face. He taps send with his right thumb in one clear motion, exhales, and leans back into the chair, his eyes lifting briefly from the phone toward the lamp-lit room and back to the screen. Both eyes stay level and symmetrical; he never looks into the lens. The camera holds a static shot. His lips stay closed; he does not speak. There is no text anywhere in the frame.
+
+      overall_soundscape: Quiet domestic room tone, soft tapping on the phone screen, a single short send sound, and the creak of the desk chair as he leans back.
+
+      non_diegetic_music: N/A
+  S7B2:
+    type: t2v
+    seed: 7601
+    duration: 3.7
+    note: V2 the woman notices his message - phone lights up on the table, she picks it up, reads, smiles (effect of S7A2)
+    prompt: |-
+      integrated_multimodal_description: [Shot 1] Live-action, photorealistic premium television commercial filmed with a 35 mm lens and shallow depth of field, with natural skin tones in soft warm practical lighting. A medium close-up frames {woman}, from the chest up, seated at a wooden table in a softly lit home interior in the evening and turned three-quarters toward the right. An open silver laptop stands on the table in front of her, its screen facing her and away from the camera, with a ceramic mug beside it; a warm floor lamp glows behind her at the left and a shelf with a few books and a small plant is softly out of focus. At the start her eyes are on the laptop screen, reading, and she blinks once. On the table beside the laptop, a smartphone lying face up lights up with a soft glow and gives a single short vibration. Her eyes move from the laptop to the phone; she picks it up with her right hand, the screen facing her and away from the camera, and reads. A gentle, warm smile appears and stays, and she makes one small thumb movement on the screen. Her long dark hair falls naturally over one shoulder; both eyes stay level and symmetrical and she never looks into the lens. The camera holds a static shot. Her lips stay closed; she does not speak. There is no text anywhere in the frame.
+
+      overall_soundscape: Quiet domestic room tone, one soft notification chime with a short buzz of the phone on the wooden table, and the faint rustle of her sleeve as she picks it up.
+
+      non_diegetic_music: N/A
+  S1A2:
+    type: i2v
+    first: subway_wide_v1
+    seed: 1501
+    duration: 3.7
+    note: V2 subway wide from the checked layout still - passengers move on their own timing (replaces S1A)
+    prompt: |-
+      For the target video, at 0.00 seconds into the target video, <Picture 1> (from [Shot 1]) is fully referenced.
+
+      integrated_multimodal_description: [Shot 1] Live-action, photorealistic premium television commercial with a 35 mm lens, natural skin texture and cool blue-gray tones, starting exactly from <Picture 1>: an eye-level view along the length of a modern subway carriage, the central aisle and the vertical steel pole running away from the camera to the separate gangway door at the far end, sliding passenger doors set into the left and right side walls, rows of seated commuters in white and blue shirts looking at their phones on both sides, and the young man with short black hair, white earbuds, a black backpack, a gray T-shirt and an unbuttoned dark blue-gray overshirt standing at the sliding door in the right side wall, one hand on the grab bar, beside two young men sharing one phone. The carriage layout, the doors, the windows and every person's position stay exactly as in <Picture 1>. The train moves steadily forward, toward the far end of the carriage; through the side windows, thin tunnel lights streak past from the far end toward the camera. Everyone moves a little and on their own timing: one seated woman on the left shifts her weight and scrolls with her thumb; a seated man on the right lifts his eyes from his phone and blinks; the two young men sharing a phone glance at each other and one of them says something quietly while the other smiles with restrained amusement; the standing young man sways slightly with the train and corrects his balance at the shoulder and wrist. Nobody moves in sync. The young man looks at his reflection in the door window, then briefly turns his eyes toward the two friends beside him, holds the look for a moment, and returns his gaze to the window; his face stays calm and his lips stay closed. Every face and body stays clear and stable. The camera pushes in with small amplitude at slow speed toward the young man. There is no readable text anywhere in the frame.
+
+      overall_soundscape: A continuous low subway rumble and rail clatter with ventilation hiss, faint creaking of the hand straps, and a quiet, indistinct murmur of passengers, including the two friends talking softly in turns without intelligible words.
+
+      non_diegetic_music: N/A
+  S1B2:
+    type: i2v
+    first: subway_close_v1
+    seed: 1601
+    duration: 4.2
+    note: V2 subway close-up - hesitation and a fleeting disappointment during "I just don't know how to start" (replaces S1B; narration added in the edit)
+    prompt: |-
+      For the target video, at 0.00 seconds into the target video, <Picture 1> (from [Shot 1]) is fully referenced.
+
+      integrated_multimodal_description: [Shot 1] Live-action, photorealistic premium television commercial with a 35 mm lens, shallow depth of field, natural skin texture and cool blue-gray tones, starting exactly from <Picture 1>: a medium close-up of the young man with short black hair, a white earbud, a black backpack strap over his unbuttoned dark blue-gray overshirt and gray T-shirt, standing in three-quarter profile at the window of the sliding door in the right side wall of a subway carriage, facing left toward the glass; behind him on the right the carriage runs lengthwise with its ceiling rail, hand straps and poles, and two young men stand in the aisle sharing one phone. The layout, the door and the light stay exactly as in <Picture 1>. The train moves steadily; thin tunnel lights streak past in the door window. His performance is restrained and happens in this order: he turns his head slightly to the right and his eyes go to the two young men behind him, who glance at each other and smile quietly over the phone; his gaze pauses on them for a moment, as if he would like to join; then his eyes lower and drift away from them; the corners of his mouth relax and soften very slightly, a fleeting disappointment rather than sadness; he releases a small breath through his nose, his shoulders settle, and he turns back to the window and looks at his faint reflection in the glass. He blinks once, naturally, during the turn. His lips stay closed and still the whole time; he does not speak. Both eyes stay level and symmetrical, pupils aimed at the same target, and his facial proportions stay unchanged as his head turns; he never looks into the lens. In the background the two young men move on their own timing, one scrolling with his thumb, the other shifting his weight with the train; their heads and shoulders stay clear and stable even though they are softly out of focus. The camera pushes in with small amplitude at slow speed toward his face and the reflection. There is no readable text anywhere in the frame.
+
+      overall_soundscape: A continuous low subway rumble and rail clatter with ventilation hiss, the faint creak of hand straps, a quiet indistinct murmur from the two young men talking softly in turns without intelligible words, and his small breath.
+
+      non_diegetic_music: N/A
+  S2B2:
+    type: r2v
+    refs: [man]
+    seed: 2801
+    duration: 3.7
+    note: V2 closes the laptop after the phone check (replaces S2B - V1 take ended looking into the lens); white mug as in S2C2
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the young man in <Picture 1>: {man}.
+
+      summary:
+      [reference generation] In the nearly empty office at dusk, <Subject 1> closes his laptop, leans back and releases a small breath, looking out toward the dark windows.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - his face, natural short black hair, straight dark eyebrows, lean build, plain gray crew-neck T-shirt and unbuttoned dark blue-gray overshirt are retained.
+
+      detailed_description:
+      The target video is a photorealistic premium television commercial filmed with a 35 mm lens, shallow depth of field, natural skin texture, soft highlight roll-off and restrained contrast, in cool blue-gray evening tones.
+      [Shot 1] A medium close-up frames <Subject 1> from the chest up, seated at his desk in the nearly empty open-plan office at dusk and turned three-quarters toward the left, his face sharp and evenly lit. On the light wooden desk in front of him stand an open silver laptop, its screen facing him and away from the camera, and to its right a white ceramic coffee mug with a handle; a closed black notebook lies beside the mug. Behind him, softly out of focus, rows of empty desks and pushed-in chairs sit under dimmed ceiling lights, and the floor-to-ceiling windows show a dark-blue skyline with scattered lit windows. At the start his eyes are on the laptop screen for a moment. He lowers the lid with both hands in one gentle, unhurried movement until it closes with a soft click, and his eyes follow his hands down to the closed laptop. Then he leans back slightly in his chair, lets his shoulders drop, releases a small, quiet breath through his nose, and his gaze drifts to the left toward the dark windows and the city lights, where it rests; he blinks once. His face stays calm and neutral, ordinary end-of-day tiredness without sadness. Both eyes stay level and symmetrical and look at the same target; he never looks into the lens. The camera holds a static shot. His lips stay closed; he does not speak. There is no text anywhere in the frame.
+
+      overall_soundscape: Quiet ventilation in the empty office, the soft click of the laptop lid closing, a gentle chair creak as he leans back and his small breath.
+
+      non_diegetic_music: N/A

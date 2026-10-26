@@ -1,0 +1,282 @@
+{
+ "episode": "Urban_Lifestyle_Commercial",
+ "shot": "S5B2",
+ "take_id": "78e3ace5_s5501",
+ "fingerprint": "78e3ace5b8819027a7e0132e590a436bbb05c0889bf7e85f39fa506b0fc79531",
+ "seed": 5501,
+ "started": "2026-10-25T18:23:04-07:00",
+ "prompt_id": "f9759aaa-e05b-4599-828e-0de261019bca",
+ "status": "success",
+ "error": null,
+ "events": [
+  "execution_start",
+  "execution_cached",
+  "execution_success"
+ ],
+ "wall_seconds": 591.5,
+ "node_seconds": {
+  "VAELoader": 2.7,
+  "CLIPLoader": 1.0,
+  "MiniMaxH3ImageToVideo": 24.1,
+  "UNETLoader": 0.2,
+  "BasicScheduler": 0.0,
+  "KSamplerSelect": 0.0,
+  "BasicGuider": 0.0,
+  "RandomNoise": 0.0,
+  "SamplerCustomAdvanced": 528.7,
+  "VAEDecodeAudio": 0.6,
+  "VAEDecode": 27.1,
+  "CreateVideo": 0.0,
+  "SaveVideo": 0.5
+ },
+ "memory_gib": {
+  "system_used_before": 50.0,
+  "system_used_peak": 53.3,
+  "swap_peak": 13.79,
+  "swap_limit": 20.0
+ },
+ "params": {
+  "type": "t2v",
+  "aspect": "16:9",
+  "megapixels": 0.4,
+  "duration": 3.7,
+  "width": 864,
+  "height": 480,
+  "length": 90
+ },
+ "recipe": {
+  "name": "h3_base_v2",
+  "sha256": "7e5b59ee9bb152e0f5298a95d51b3c10d2ab13296645a0107b3e39f527535355",
+  "effective": {
+   "name": "h3_base_v2",
+   "created": "2026-10-24",
+   "sampler": "res_multistep",
+   "scheduler": "simple",
+   "steps": 20,
+   "fps": 24,
+   "bit_depth": 8,
+   "attention": "pytorch",
+   "ref_image_size": "match",
+   "models": {
+    "fl2va": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "ref2va": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "video_vae": "minimax_h3_video_vae_fp16.safetensors",
+    "audio_vae": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  }
+ },
+ "inputs": {},
+ "prompt_text": "integrated_multimodal_description: [Shot 1] Live-action, photorealistic premium television commercial filmed with a 35 mm lens and shallow depth of field, with deep blue night tones and warm golden bokeh. A static close-up of a black smartphone held upright in a young man's right hand at night beside a river; the phone is centered and large, filling most of the frame height, its screen facing the camera squarely. The whole display is a uniform, flat, bright chroma-key green from edge to edge, with no content, no icons, no reflections and no light changes, for the entire shot. The cuff of a dark blue-gray overshirt shows at his wrist. His thumb rests at the lower edge of the screen, then moves up over the lower third of the green display, taps once firmly at about one and a half seconds, lifts away and rests on the edge of the phone. The hand holds the phone steady with only slight natural movement. Behind the phone, warm city lights across the river glow as soft round golden bokeh against deep blue darkness. There is no text anywhere in the frame.\n\noverall_soundscape: Low riverside ambience with soft water movement and one soft phone tap at the moment the thumb touches the screen.\n\nnon_diegetic_music: N/A",
+ "episode_file_sha256": "9d0efd0feb4de7013e3fbbf5f1e44046e2e3f6fb0775b951bc1ba4adec769869",
+ "env": {
+  "comfyui": "0.42.1",
+  "pytorch": "2.14.1",
+  "python": "3.13.17",
+  "comfyui_argv": [
+   "main.py",
+   "--listen",
+   "127.0.0.1",
+   "--port",
+   "8188",
+   "--extra-model-paths-config",
+   "/Users/marcusmao/dev/AI_short_drama/config/extra_model_paths.yaml",
+   "--output-directory",
+   "/Users/marcusmao/AI_renders/comfyui",
+   "--disable-all-custom-nodes",
+   "--use-pytorch-cross-attention"
+  ],
+  "repo_commit": "99ac687",
+  "repo_dirty": true
+ },
+ "api_prompt": {
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "clip": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "type": "minimax",
+    "device": "default"
+   }
+  },
+  "vae_v": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+   }
+  },
+  "vae_a": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  },
+  "cond": {
+   "class_type": "MiniMaxH3ImageToVideo",
+   "inputs": {
+    "clip": [
+     "clip",
+     0
+    ],
+    "prompt": "integrated_multimodal_description: [Shot 1] Live-action, photorealistic premium television commercial filmed with a 35 mm lens and shallow depth of field, with deep blue night tones and warm golden bokeh. A static close-up of a black smartphone held upright in a young man's right hand at night beside a river; the phone is centered and large, filling most of the frame height, its screen facing the camera squarely. The whole display is a uniform, flat, bright chroma-key green from edge to edge, with no content, no icons, no reflections and no light changes, for the entire shot. The cuff of a dark blue-gray overshirt shows at his wrist. His thumb rests at the lower edge of the screen, then moves up over the lower third of the green display, taps once firmly at about one and a half seconds, lifts away and rests on the edge of the phone. The hand holds the phone steady with only slight natural movement. Behind the phone, warm city lights across the river glow as soft round golden bokeh against deep blue darkness. There is no text anywhere in the frame.\n\noverall_soundscape: Low riverside ambience with soft water movement and one soft phone tap at the moment the thumb touches the screen.\n\nnon_diegetic_music: N/A",
+    "width": 864,
+    "height": 480,
+    "length": 90,
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "noise": {
+   "class_type": "RandomNoise",
+   "inputs": {
+    "noise_seed": 5501
+   }
+  },
+  "sampler": {
+   "class_type": "KSamplerSelect",
+   "inputs": {
+    "sampler_name": "res_multistep"
+   }
+  },
+  "sigmas": {
+   "class_type": "BasicScheduler",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "scheduler": "simple",
+    "steps": 20,
+    "denoise": 1.0
+   }
+  },
+  "guider": {
+   "class_type": "BasicGuider",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "conditioning": [
+     "cond",
+     0
+    ]
+   }
+  },
+  "sample": {
+   "class_type": "SamplerCustomAdvanced",
+   "inputs": {
+    "noise": [
+     "noise",
+     0
+    ],
+    "guider": [
+     "guider",
+     0
+    ],
+    "sampler": [
+     "sampler",
+     0
+    ],
+    "sigmas": [
+     "sigmas",
+     0
+    ],
+    "latent_image": [
+     "cond",
+     1
+    ]
+   }
+  },
+  "decode_v": {
+   "class_type": "VAEDecode",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "decode_a": {
+   "class_type": "VAEDecodeAudio",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_a",
+     0
+    ]
+   }
+  },
+  "video": {
+   "class_type": "CreateVideo",
+   "inputs": {
+    "images": [
+     "decode_v",
+     0
+    ],
+    "audio": [
+     "decode_a",
+     0
+    ],
+    "fps": 24,
+    "bit_depth": 8
+   }
+  },
+  "save": {
+   "class_type": "SaveVideo",
+   "inputs": {
+    "video": [
+     "video",
+     0
+    ],
+    "filename_prefix": "episodes/Urban_Lifestyle_Commercial/S5B2/S5B2_78e3ace5_s5501",
+    "format": "auto",
+    "format.codec": "auto"
+   }
+  }
+ },
+ "output": {
+  "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial/S5B2/S5B2_78e3ace5_s5501_00001_.mp4",
+  "bytes": 343089,
+  "video": {
+   "frames": 90,
+   "width": 864,
+   "height": 480,
+   "fps": 24.0,
+   "codec": "h264",
+   "mean_min": 58.5,
+   "mean_max": 59.9,
+   "std_min": 58.2,
+   "black_frames": 0
+  },
+  "audio": {
+   "samples": 240000,
+   "sample_rate": 32000,
+   "finite": true,
+   "rms": 0.02667635095690337,
+   "peak": 0.12218555808067322
+  },
+  "sha256": "8f706f357b927b0c04f577bb1af26a9a2f9d57fc105adfe8145687512d1b3340"
+ },
+ "continuity": {
+  "median_frame_diff": 0.71,
+  "max_frame_diff": 1.7,
+  "cuts": []
+ },
+ "warnings": []
+}

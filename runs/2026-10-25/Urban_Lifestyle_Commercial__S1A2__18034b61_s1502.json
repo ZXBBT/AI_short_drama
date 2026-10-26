@@ -1,0 +1,293 @@
+{
+ "episode": "Urban_Lifestyle_Commercial",
+ "shot": "S1A2",
+ "take_id": "18034b61_s1502",
+ "fingerprint": "18034b6112a8d6c9955665d93dffe973cddacb965d52ae1d00d107c7feea3796",
+ "seed": 1502,
+ "started": "2026-10-25T19:13:28-07:00",
+ "prompt_id": "b031d119-6426-4f6e-a037-f38973a40bd2",
+ "status": "success",
+ "error": null,
+ "events": [
+  "execution_start",
+  "execution_cached",
+  "execution_success"
+ ],
+ "wall_seconds": 610.9,
+ "node_seconds": {
+  "RandomNoise": 0.0,
+  "SamplerCustomAdvanced": 585.2,
+  "VAEDecodeAudio": 0.5,
+  "VAEDecode": 24.7,
+  "CreateVideo": 0.0,
+  "SaveVideo": 0.5
+ },
+ "memory_gib": {
+  "system_used_before": 38.8,
+  "system_used_peak": 46.3,
+  "swap_peak": 5.53,
+  "swap_limit": 20.0
+ },
+ "params": {
+  "type": "i2v",
+  "aspect": "16:9",
+  "megapixels": 0.4,
+  "duration": 3.7,
+  "width": 864,
+  "height": 480,
+  "length": 90
+ },
+ "recipe": {
+  "name": "h3_base_v2",
+  "sha256": "7e5b59ee9bb152e0f5298a95d51b3c10d2ab13296645a0107b3e39f527535355",
+  "effective": {
+   "name": "h3_base_v2",
+   "created": "2026-10-24",
+   "sampler": "res_multistep",
+   "scheduler": "simple",
+   "steps": 20,
+   "fps": 24,
+   "bit_depth": 8,
+   "attention": "pytorch",
+   "ref_image_size": "match",
+   "models": {
+    "fl2va": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "ref2va": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "video_vae": "minimax_h3_video_vae_fp16.safetensors",
+    "audio_vae": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  }
+ },
+ "inputs": {
+  "first": {
+   "asset": "subway_wide_v1",
+   "file": "inputs/Urban_Lifestyle_Commercial/subway_wide_v1.png",
+   "sha256": "5b4ff98523780227b75ff60e9b13f14444087f19d6283fdd6258f06c926506f9",
+   "uploaded_as": "ai_short_drama/5b4ff98523780227.png"
+  }
+ },
+ "prompt_text": "For the target video, at 0.00 seconds into the target video, <Picture 1> (from [Shot 1]) is fully referenced.\n\nintegrated_multimodal_description: [Shot 1] Live-action, photorealistic premium television commercial with a 35 mm lens, natural skin texture and cool blue-gray tones, starting exactly from <Picture 1>: an eye-level view along the length of a modern subway carriage, the central aisle and the vertical steel pole running away from the camera to the separate gangway door at the far end, sliding passenger doors set into the left and right side walls, rows of seated commuters in white and blue shirts looking at their phones on both sides, and the young man with short black hair, white earbuds, a black backpack, a gray T-shirt and an unbuttoned dark blue-gray overshirt standing at the sliding door in the right side wall, one hand on the grab bar, beside two young men sharing one phone. The carriage layout, the doors, the windows and every person's position stay exactly as in <Picture 1>. The train moves steadily forward, toward the far end of the carriage; through the side windows, thin tunnel lights streak past from the far end toward the camera. Everyone moves a little and on their own timing: one seated woman on the left shifts her weight and scrolls with her thumb; a seated man on the right lifts his eyes from his phone and blinks; the two young men sharing a phone glance at each other and one of them says something quietly while the other smiles with restrained amusement; the standing young man sways slightly with the train and corrects his balance at the shoulder and wrist. Nobody moves in sync. The young man looks at his reflection in the door window, then briefly turns his eyes toward the two friends beside him, holds the look for a moment, and returns his gaze to the window; his face stays calm and his lips stay closed. Every face and body stays clear and stable. The camera pushes in with small amplitude at slow speed toward the young man. There is no readable text anywhere in the frame.\n\noverall_soundscape: A continuous low subway rumble and rail clatter with ventilation hiss, faint creaking of the hand straps, and a quiet, indistinct murmur of passengers, including the two friends talking softly in turns without intelligible words.\n\nnon_diegetic_music: N/A",
+ "episode_file_sha256": "9d0efd0feb4de7013e3fbbf5f1e44046e2e3f6fb0775b951bc1ba4adec769869",
+ "env": {
+  "comfyui": "0.42.1",
+  "pytorch": "2.14.1",
+  "python": "3.13.17",
+  "comfyui_argv": [
+   "main.py",
+   "--listen",
+   "127.0.0.1",
+   "--port",
+   "8188",
+   "--extra-model-paths-config",
+   "/Users/marcusmao/dev/AI_short_drama/config/extra_model_paths.yaml",
+   "--output-directory",
+   "/Users/marcusmao/AI_renders/comfyui",
+   "--disable-all-custom-nodes",
+   "--use-pytorch-cross-attention"
+  ],
+  "repo_commit": "99ac687",
+  "repo_dirty": true
+ },
+ "api_prompt": {
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "clip": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "type": "minimax",
+    "device": "default"
+   }
+  },
+  "vae_v": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+   }
+  },
+  "vae_a": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  },
+  "img_first": {
+   "class_type": "LoadImage",
+   "inputs": {
+    "image": "ai_short_drama/5b4ff98523780227.png"
+   }
+  },
+  "cond": {
+   "class_type": "MiniMaxH3ImageToVideo",
+   "inputs": {
+    "clip": [
+     "clip",
+     0
+    ],
+    "prompt": "For the target video, at 0.00 seconds into the target video, <Picture 1> (from [Shot 1]) is fully referenced.\n\nintegrated_multimodal_description: [Shot 1] Live-action, photorealistic premium television commercial with a 35 mm lens, natural skin texture and cool blue-gray tones, starting exactly from <Picture 1>: an eye-level view along the length of a modern subway carriage, the central aisle and the vertical steel pole running away from the camera to the separate gangway door at the far end, sliding passenger doors set into the left and right side walls, rows of seated commuters in white and blue shirts looking at their phones on both sides, and the young man with short black hair, white earbuds, a black backpack, a gray T-shirt and an unbuttoned dark blue-gray overshirt standing at the sliding door in the right side wall, one hand on the grab bar, beside two young men sharing one phone. The carriage layout, the doors, the windows and every person's position stay exactly as in <Picture 1>. The train moves steadily forward, toward the far end of the carriage; through the side windows, thin tunnel lights streak past from the far end toward the camera. Everyone moves a little and on their own timing: one seated woman on the left shifts her weight and scrolls with her thumb; a seated man on the right lifts his eyes from his phone and blinks; the two young men sharing a phone glance at each other and one of them says something quietly while the other smiles with restrained amusement; the standing young man sways slightly with the train and corrects his balance at the shoulder and wrist. Nobody moves in sync. The young man looks at his reflection in the door window, then briefly turns his eyes toward the two friends beside him, holds the look for a moment, and returns his gaze to the window; his face stays calm and his lips stay closed. Every face and body stays clear and stable. The camera pushes in with small amplitude at slow speed toward the young man. There is no readable text anywhere in the frame.\n\noverall_soundscape: A continuous low subway rumble and rail clatter with ventilation hiss, faint creaking of the hand straps, and a quiet, indistinct murmur of passengers, including the two friends talking softly in turns without intelligible words.\n\nnon_diegetic_music: N/A",
+    "width": 864,
+    "height": 480,
+    "length": 90,
+    "vae": [
+     "vae_v",
+     0
+    ],
+    "first_frame": [
+     "img_first",
+     0
+    ]
+   }
+  },
+  "noise": {
+   "class_type": "RandomNoise",
+   "inputs": {
+    "noise_seed": 1502
+   }
+  },
+  "sampler": {
+   "class_type": "KSamplerSelect",
+   "inputs": {
+    "sampler_name": "res_multistep"
+   }
+  },
+  "sigmas": {
+   "class_type": "BasicScheduler",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "scheduler": "simple",
+    "steps": 20,
+    "denoise": 1.0
+   }
+  },
+  "guider": {
+   "class_type": "BasicGuider",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "conditioning": [
+     "cond",
+     0
+    ]
+   }
+  },
+  "sample": {
+   "class_type": "SamplerCustomAdvanced",
+   "inputs": {
+    "noise": [
+     "noise",
+     0
+    ],
+    "guider": [
+     "guider",
+     0
+    ],
+    "sampler": [
+     "sampler",
+     0
+    ],
+    "sigmas": [
+     "sigmas",
+     0
+    ],
+    "latent_image": [
+     "cond",
+     1
+    ]
+   }
+  },
+  "decode_v": {
+   "class_type": "VAEDecode",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "decode_a": {
+   "class_type": "VAEDecodeAudio",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_a",
+     0
+    ]
+   }
+  },
+  "video": {
+   "class_type": "CreateVideo",
+   "inputs": {
+    "images": [
+     "decode_v",
+     0
+    ],
+    "audio": [
+     "decode_a",
+     0
+    ],
+    "fps": 24,
+    "bit_depth": 8
+   }
+  },
+  "save": {
+   "class_type": "SaveVideo",
+   "inputs": {
+    "video": [
+     "video",
+     0
+    ],
+    "filename_prefix": "episodes/Urban_Lifestyle_Commercial/S1A2/S1A2_18034b61_s1502",
+    "format": "auto",
+    "format.codec": "auto"
+   }
+  }
+ },
+ "output": {
+  "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial/S1A2/S1A2_18034b61_s1502_00001_.mp4",
+  "bytes": 1062372,
+  "video": {
+   "frames": 90,
+   "width": 864,
+   "height": 480,
+   "fps": 24.0,
+   "codec": "h264",
+   "mean_min": 67.9,
+   "mean_max": 79.8,
+   "std_min": 57.7,
+   "black_frames": 0
+  },
+  "audio": {
+   "samples": 240000,
+   "sample_rate": 32000,
+   "finite": true,
+   "rms": 0.041794860190009754,
+   "peak": 0.18367503583431244
+  },
+  "sha256": "b7aa91de352d773a18b81c0fbfd29892e6c4e003f984f65f230db580cdb061bb"
+ },
+ "continuity": {
+  "median_frame_diff": 3.35,
+  "max_frame_diff": 7.9,
+  "cuts": [],
+  "first_frame_diff": 5.0
+ },
+ "warnings": []
+}

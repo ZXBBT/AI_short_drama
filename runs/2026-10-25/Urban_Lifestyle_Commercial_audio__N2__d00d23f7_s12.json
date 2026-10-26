@@ -1,0 +1,305 @@
+{
+ "episode": "Urban_Lifestyle_Commercial_audio",
+ "shot": "N2",
+ "take_id": "d00d23f7_s12",
+ "fingerprint": "d00d23f79dd0ccf01dbd5a27d9f6e9a811cb17745ecc2732962966822417e9c2",
+ "seed": 12,
+ "started": "2026-10-25T15:30:40-07:00",
+ "prompt_id": "9217c502-ddcc-4928-983e-7bf1ece52b84",
+ "status": "success",
+ "error": null,
+ "events": [
+  "execution_start",
+  "execution_cached",
+  "execution_success"
+ ],
+ "wall_seconds": 371.8,
+ "node_seconds": {
+  "VAELoader": 2.9,
+  "LoadAudio": 0.0,
+  "CLIPLoader": 1.0,
+  "MiniMaxH3ReferenceToVideo": 28.6,
+  "UNETLoader": 0.1,
+  "BasicScheduler": 0.0,
+  "KSamplerSelect": 0.0,
+  "BasicGuider": 0.0,
+  "RandomNoise": 0.0,
+  "SamplerCustomAdvanced": 322.8,
+  "VAEDecodeAudio": 1.0,
+  "VAEDecode": 8.9,
+  "CreateVideo": 0.0,
+  "SaveVideo": 0.7
+ },
+ "memory_gib": {
+  "system_used_before": 48.7,
+  "system_used_peak": 53.6,
+  "swap_peak": 11.11,
+  "swap_limit": 20.0
+ },
+ "params": {
+  "type": "r2v",
+  "aspect": "16:9",
+  "megapixels": 0.06,
+  "duration": 12.0,
+  "width": 320,
+  "height": 192,
+  "length": 294
+ },
+ "recipe": {
+  "name": "h3_base_v2",
+  "sha256": "7e5b59ee9bb152e0f5298a95d51b3c10d2ab13296645a0107b3e39f527535355",
+  "effective": {
+   "name": "h3_base_v2",
+   "created": "2026-10-24",
+   "sampler": "res_multistep",
+   "scheduler": "simple",
+   "steps": 20,
+   "fps": 24,
+   "bit_depth": 8,
+   "attention": "pytorch",
+   "ref_image_size": "match",
+   "models": {
+    "fl2va": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "ref2va": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "video_vae": "minimax_h3_video_vae_fp16.safetensors",
+    "audio_vae": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  }
+ },
+ "inputs": {
+  "aref0": {
+   "asset": "voice_n1",
+   "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial_audio/_assets/narrator_N1_voice.wav",
+   "sha256": "ef5763916b49e256186cc8bccf30295444099bb6461d1e4284cd39e9e4411c57",
+   "uploaded_as": "ai_short_drama_ef5763916b49e256.wav"
+  }
+ },
+ "prompt_text": "subject_definitions:\n<Audio 1> is the voice-timbre reference for the off-screen male narrator (S1), a man in his late twenties with a clean, natural, slightly low-pitched voice, relaxed, reflective and quietly confident.\n\nsummary:\n[reference generation + audio reference] An empty, dimly lit room while the narrator from <Audio 1> speaks four short lines off-screen with pauses between them.\n\nretention_analysis:\n<Audio 1>: reference - the narrator's voice timbre, pitch, pace and close-microphone delivery follow <Audio 1> without copying its words or signal.\n\ndetailed_description:\nThe target video is a quiet live-action shot with soft, dim light.\n[Shot 1] A static shot of an empty, dimly lit room with plain gray walls; nothing moves and nobody is visible. The male narrator (S1), with the same clean, natural, slightly low-pitched voice and unhurried, close-microphone delivery referenced from <Audio 1>, says in an off-screen voiceover: <d>[English] Every day brings more new work.</d> After a pause of about one second, the same narrator (S1) says in an off-screen voiceover: <d>[English] Not new people.</d> After a pause of about two seconds, the same narrator (S1) says in an off-screen voiceover: <d>[English] Then I thought...</d> After a pause of about one second, the same narrator (S1) says in an off-screen voiceover: <d>[English] Maybe I don't need to be someone else.</d> Then the room stays silent until the end.\n\noverall_soundscape: N/A\n\nnon_diegetic_music: N/A",
+ "episode_file_sha256": "8ebbbd6f58a2c02382b525d54ffe0aba597767b9be00852d0fb82d97df170416",
+ "env": {
+  "comfyui": "0.42.1",
+  "pytorch": "2.14.1",
+  "python": "3.13.17",
+  "comfyui_argv": [
+   "main.py",
+   "--listen",
+   "127.0.0.1",
+   "--port",
+   "8188",
+   "--extra-model-paths-config",
+   "/Users/marcusmao/dev/AI_short_drama/config/extra_model_paths.yaml",
+   "--output-directory",
+   "/Users/marcusmao/AI_renders/comfyui",
+   "--disable-all-custom-nodes",
+   "--use-pytorch-cross-attention"
+  ],
+  "repo_commit": "99ac687",
+  "repo_dirty": true
+ },
+ "api_prompt": {
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "clip": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "type": "minimax",
+    "device": "default"
+   }
+  },
+  "vae_v": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+   }
+  },
+  "vae_a": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  },
+  "aud_aref0": {
+   "class_type": "LoadAudio",
+   "inputs": {
+    "audio": "ai_short_drama_ef5763916b49e256.wav"
+   }
+  },
+  "cond": {
+   "class_type": "MiniMaxH3ReferenceToVideo",
+   "inputs": {
+    "clip": [
+     "clip",
+     0
+    ],
+    "prompt": "subject_definitions:\n<Audio 1> is the voice-timbre reference for the off-screen male narrator (S1), a man in his late twenties with a clean, natural, slightly low-pitched voice, relaxed, reflective and quietly confident.\n\nsummary:\n[reference generation + audio reference] An empty, dimly lit room while the narrator from <Audio 1> speaks four short lines off-screen with pauses between them.\n\nretention_analysis:\n<Audio 1>: reference - the narrator's voice timbre, pitch, pace and close-microphone delivery follow <Audio 1> without copying its words or signal.\n\ndetailed_description:\nThe target video is a quiet live-action shot with soft, dim light.\n[Shot 1] A static shot of an empty, dimly lit room with plain gray walls; nothing moves and nobody is visible. The male narrator (S1), with the same clean, natural, slightly low-pitched voice and unhurried, close-microphone delivery referenced from <Audio 1>, says in an off-screen voiceover: <d>[English] Every day brings more new work.</d> After a pause of about one second, the same narrator (S1) says in an off-screen voiceover: <d>[English] Not new people.</d> After a pause of about two seconds, the same narrator (S1) says in an off-screen voiceover: <d>[English] Then I thought...</d> After a pause of about one second, the same narrator (S1) says in an off-screen voiceover: <d>[English] Maybe I don't need to be someone else.</d> Then the room stays silent until the end.\n\noverall_soundscape: N/A\n\nnon_diegetic_music: N/A",
+    "width": 320,
+    "height": 192,
+    "length": 294,
+    "vae": [
+     "vae_v",
+     0
+    ],
+    "audio_vae": [
+     "vae_a",
+     0
+    ],
+    "ref_image_size": "match",
+    "ref_audios.ref_audio_0": [
+     "aud_aref0",
+     0
+    ]
+   }
+  },
+  "noise": {
+   "class_type": "RandomNoise",
+   "inputs": {
+    "noise_seed": 12
+   }
+  },
+  "sampler": {
+   "class_type": "KSamplerSelect",
+   "inputs": {
+    "sampler_name": "res_multistep"
+   }
+  },
+  "sigmas": {
+   "class_type": "BasicScheduler",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "scheduler": "simple",
+    "steps": 20,
+    "denoise": 1.0
+   }
+  },
+  "guider": {
+   "class_type": "BasicGuider",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "conditioning": [
+     "cond",
+     0
+    ]
+   }
+  },
+  "sample": {
+   "class_type": "SamplerCustomAdvanced",
+   "inputs": {
+    "noise": [
+     "noise",
+     0
+    ],
+    "guider": [
+     "guider",
+     0
+    ],
+    "sampler": [
+     "sampler",
+     0
+    ],
+    "sigmas": [
+     "sigmas",
+     0
+    ],
+    "latent_image": [
+     "cond",
+     1
+    ]
+   }
+  },
+  "decode_v": {
+   "class_type": "VAEDecode",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "decode_a": {
+   "class_type": "VAEDecodeAudio",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_a",
+     0
+    ]
+   }
+  },
+  "video": {
+   "class_type": "CreateVideo",
+   "inputs": {
+    "images": [
+     "decode_v",
+     0
+    ],
+    "audio": [
+     "decode_a",
+     0
+    ],
+    "fps": 24,
+    "bit_depth": 8
+   }
+  },
+  "save": {
+   "class_type": "SaveVideo",
+   "inputs": {
+    "video": [
+     "video",
+     0
+    ],
+    "filename_prefix": "episodes/Urban_Lifestyle_Commercial_audio/N2/N2_d00d23f7_s12",
+    "format": "auto",
+    "format.codec": "auto"
+   }
+  }
+ },
+ "output": {
+  "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial_audio/N2/N2_d00d23f7_s12_00001_.mp4",
+  "bytes": 574053,
+  "video": {
+   "frames": 294,
+   "width": 320,
+   "height": 192,
+   "fps": 24.0,
+   "codec": "h264",
+   "mean_min": 48.2,
+   "mean_max": 66.1,
+   "std_min": 16.2,
+   "black_frames": 0
+  },
+  "audio": {
+   "samples": 784000,
+   "sample_rate": 32000,
+   "finite": true,
+   "rms": 0.1185797824922507,
+   "peak": 0.8461841344833374
+  },
+  "sha256": "385ba429f3b468fbbfa0a5fd5a8cd0678276ddcbb53d3a79aac84a9131cdb709"
+ },
+ "continuity": {
+  "median_frame_diff": 4.03,
+  "max_frame_diff": 18.1,
+  "cuts": []
+ },
+ "warnings": []
+}

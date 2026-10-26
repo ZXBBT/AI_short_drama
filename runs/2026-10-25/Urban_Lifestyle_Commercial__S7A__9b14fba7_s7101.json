@@ -1,0 +1,298 @@
+{
+ "episode": "Urban_Lifestyle_Commercial",
+ "shot": "S7A",
+ "take_id": "9b14fba7_s7101",
+ "fingerprint": "9b14fba7ba1b732658441a887bf660e3bb7795cd69c60e612462173f82b673e0",
+ "seed": 7101,
+ "started": "2026-10-25T07:03:25-07:00",
+ "prompt_id": "e41c067f-7af6-4164-88f7-968734e2277f",
+ "status": "success",
+ "error": null,
+ "events": [
+  "execution_start",
+  "execution_cached",
+  "execution_success"
+ ],
+ "wall_seconds": 1014.2,
+ "node_seconds": {
+  "MiniMaxH3ReferenceToVideo": 49.9,
+  "BasicGuider": 0.0,
+  "SamplerCustomAdvanced": 925.2,
+  "VAEDecodeAudio": 0.6,
+  "VAEDecode": 38.0,
+  "CreateVideo": 0.0,
+  "SaveVideo": 0.4
+ },
+ "memory_gib": {
+  "system_used_before": 38.3,
+  "system_used_peak": 49.4,
+  "swap_peak": 5.16,
+  "swap_limit": 20.0
+ },
+ "params": {
+  "type": "r2v",
+  "aspect": "16:9",
+  "megapixels": 0.4,
+  "duration": 3.0,
+  "width": 864,
+  "height": 480,
+  "length": 73
+ },
+ "recipe": {
+  "name": "h3_base_v2",
+  "sha256": "7e5b59ee9bb152e0f5298a95d51b3c10d2ab13296645a0107b3e39f527535355",
+  "effective": {
+   "name": "h3_base_v2",
+   "created": "2026-10-24",
+   "sampler": "res_multistep",
+   "scheduler": "simple",
+   "steps": 20,
+   "fps": 24,
+   "bit_depth": 8,
+   "attention": "pytorch",
+   "ref_image_size": "match",
+   "models": {
+    "fl2va": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "ref2va": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "video_vae": "minimax_h3_video_vae_fp16.safetensors",
+    "audio_vae": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  }
+ },
+ "inputs": {
+  "ref0": {
+   "asset": "char_man_1",
+   "file": "inputs/Urban_Lifestyle_Commercial/ref_man_v1.png",
+   "sha256": "8688675982d745f668720ece25289cbdc99d5d60ac739d1bb801e7fb81f0c2ae",
+   "uploaded_as": "ai_short_drama/8688675982d745f6.png"
+  }
+ },
+ "prompt_text": "subject_definitions:\n<Subject 1> is the young man in <Picture 1>, with his lean but healthy build, natural short black hair, clean-shaven face, straight dark eyebrows and fresh, ordinary, approachable features; at home he wears only his plain gray crew-neck T-shirt, without the overshirt.\n\nsummary:\n[reference generation] At home in the evening, <Subject 1> sits in a desk chair reading his phone, smiles subtly and leans back, a beer can standing on the desk beside him.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): partially_preserved - his face, natural short black hair, straight dark eyebrows, lean build and plain gray crew-neck T-shirt are retained; the dark blue-gray overshirt is removed for the home scene.\n\ndetailed_description:\nThe target video is a photorealistic premium television commercial filmed with a 35 mm lens, shallow depth of field and natural skin texture, in soft warm practical lighting.\n[Shot 1] A medium close-up frames <Subject 1> from the chest up, seated comfortably in a dark desk chair at home in the evening and turned three-quarters toward the camera. He wears only his plain gray crew-neck T-shirt with short sleeves and no overshirt; his natural short black hair and straight dark eyebrows match his usual look. A warm desk lamp with a beige shade stands at the left of the frame and casts soft golden light across his face and arms. Behind him, slightly out of focus, wooden bookshelves hold rows of books with plain spines, a small green plant and a few ordinary objects, creating a believable lived-in room; the window behind is dark blue. On the light wooden desk in the lower right of the frame lie an open book and, beside it, one silver-blue beer can with a blue top standing upright. He holds a black smartphone in both hands in front of his chest, its screen facing away from the camera, and reads. A subtle smile appears and stays; then he leans back a little in the chair, his shoulders relaxing against the backrest, still looking at the phone. His lips stay together and his movements are small and natural. The camera holds a static shot for the whole duration. There is no text anywhere in the frame.\n\noverall_soundscape: Quiet domestic room tone, a faint phone tap, and the soft creak of the desk chair as he leans back.\n\nnon_diegetic_music: Ambient electronic music at a slow tempo: sustained synth pads with a soft low pulse and a low, sustained bass note, rising slightly in volume.",
+ "episode_file_sha256": "c1271b87b704458102edef48f1b2c311386afadf5f6f3f06f3955c2c273e10b3",
+ "env": {
+  "comfyui": "0.42.1",
+  "pytorch": "2.14.1",
+  "python": "3.13.17",
+  "comfyui_argv": [
+   "main.py",
+   "--listen",
+   "127.0.0.1",
+   "--port",
+   "8188",
+   "--extra-model-paths-config",
+   "/Users/marcusmao/dev/AI_short_drama/config/extra_model_paths.yaml",
+   "--output-directory",
+   "/Users/marcusmao/AI_renders/comfyui",
+   "--disable-all-custom-nodes",
+   "--use-pytorch-cross-attention"
+  ],
+  "repo_commit": "99ac687",
+  "repo_dirty": true
+ },
+ "api_prompt": {
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "clip": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "type": "minimax",
+    "device": "default"
+   }
+  },
+  "vae_v": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+   }
+  },
+  "vae_a": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  },
+  "img_ref0": {
+   "class_type": "LoadImage",
+   "inputs": {
+    "image": "ai_short_drama/8688675982d745f6.png"
+   }
+  },
+  "cond": {
+   "class_type": "MiniMaxH3ReferenceToVideo",
+   "inputs": {
+    "clip": [
+     "clip",
+     0
+    ],
+    "prompt": "subject_definitions:\n<Subject 1> is the young man in <Picture 1>, with his lean but healthy build, natural short black hair, clean-shaven face, straight dark eyebrows and fresh, ordinary, approachable features; at home he wears only his plain gray crew-neck T-shirt, without the overshirt.\n\nsummary:\n[reference generation] At home in the evening, <Subject 1> sits in a desk chair reading his phone, smiles subtly and leans back, a beer can standing on the desk beside him.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): partially_preserved - his face, natural short black hair, straight dark eyebrows, lean build and plain gray crew-neck T-shirt are retained; the dark blue-gray overshirt is removed for the home scene.\n\ndetailed_description:\nThe target video is a photorealistic premium television commercial filmed with a 35 mm lens, shallow depth of field and natural skin texture, in soft warm practical lighting.\n[Shot 1] A medium close-up frames <Subject 1> from the chest up, seated comfortably in a dark desk chair at home in the evening and turned three-quarters toward the camera. He wears only his plain gray crew-neck T-shirt with short sleeves and no overshirt; his natural short black hair and straight dark eyebrows match his usual look. A warm desk lamp with a beige shade stands at the left of the frame and casts soft golden light across his face and arms. Behind him, slightly out of focus, wooden bookshelves hold rows of books with plain spines, a small green plant and a few ordinary objects, creating a believable lived-in room; the window behind is dark blue. On the light wooden desk in the lower right of the frame lie an open book and, beside it, one silver-blue beer can with a blue top standing upright. He holds a black smartphone in both hands in front of his chest, its screen facing away from the camera, and reads. A subtle smile appears and stays; then he leans back a little in the chair, his shoulders relaxing against the backrest, still looking at the phone. His lips stay together and his movements are small and natural. The camera holds a static shot for the whole duration. There is no text anywhere in the frame.\n\noverall_soundscape: Quiet domestic room tone, a faint phone tap, and the soft creak of the desk chair as he leans back.\n\nnon_diegetic_music: Ambient electronic music at a slow tempo: sustained synth pads with a soft low pulse and a low, sustained bass note, rising slightly in volume.",
+    "width": 864,
+    "height": 480,
+    "length": 73,
+    "vae": [
+     "vae_v",
+     0
+    ],
+    "audio_vae": [
+     "vae_a",
+     0
+    ],
+    "ref_image_size": "match",
+    "ref_images.ref_image_0": [
+     "img_ref0",
+     0
+    ]
+   }
+  },
+  "noise": {
+   "class_type": "RandomNoise",
+   "inputs": {
+    "noise_seed": 7101
+   }
+  },
+  "sampler": {
+   "class_type": "KSamplerSelect",
+   "inputs": {
+    "sampler_name": "res_multistep"
+   }
+  },
+  "sigmas": {
+   "class_type": "BasicScheduler",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "scheduler": "simple",
+    "steps": 20,
+    "denoise": 1.0
+   }
+  },
+  "guider": {
+   "class_type": "BasicGuider",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "conditioning": [
+     "cond",
+     0
+    ]
+   }
+  },
+  "sample": {
+   "class_type": "SamplerCustomAdvanced",
+   "inputs": {
+    "noise": [
+     "noise",
+     0
+    ],
+    "guider": [
+     "guider",
+     0
+    ],
+    "sampler": [
+     "sampler",
+     0
+    ],
+    "sigmas": [
+     "sigmas",
+     0
+    ],
+    "latent_image": [
+     "cond",
+     1
+    ]
+   }
+  },
+  "decode_v": {
+   "class_type": "VAEDecode",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "decode_a": {
+   "class_type": "VAEDecodeAudio",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_a",
+     0
+    ]
+   }
+  },
+  "video": {
+   "class_type": "CreateVideo",
+   "inputs": {
+    "images": [
+     "decode_v",
+     0
+    ],
+    "audio": [
+     "decode_a",
+     0
+    ],
+    "fps": 24,
+    "bit_depth": 8
+   }
+  },
+  "save": {
+   "class_type": "SaveVideo",
+   "inputs": {
+    "video": [
+     "video",
+     0
+    ],
+    "filename_prefix": "episodes/Urban_Lifestyle_Commercial/S7A/S7A_9b14fba7_s7101",
+    "format": "auto",
+    "format.codec": "auto"
+   }
+  }
+ },
+ "output": {
+  "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial/S7A/S7A_9b14fba7_s7101_00001_.mp4",
+  "bytes": 510106,
+  "video": {
+   "frames": 73,
+   "width": 864,
+   "height": 480,
+   "fps": 24.0,
+   "codec": "h264",
+   "mean_min": 64.0,
+   "mean_max": 68.3,
+   "std_min": 50.8,
+   "black_frames": 0
+  },
+  "audio": {
+   "samples": 194668,
+   "sample_rate": 32000,
+   "finite": true,
+   "rms": 0.06503076713131616,
+   "peak": 0.4263908863067627
+  },
+  "sha256": "5b4c2723fc6f7d1d116fc508b06086dac7345b209f8ba123aa3d0ba5a7aaaa93"
+ },
+ "continuity": {
+  "median_frame_diff": 2.25,
+  "max_frame_diff": 4.4,
+  "cuts": []
+ },
+ "warnings": []
+}

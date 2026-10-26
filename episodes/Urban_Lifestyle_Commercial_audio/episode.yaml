@@ -1,0 +1,181 @@
+# Sound assets for "Be a Little Braver" V2 (owner's revision brief, sections 7-9 and 15): one narrator,
+# one continuous music track, one ambience bed per location. Rendered with H3 as audio-only clips: a tiny
+# 320x192 picture that is thrown away, only the soundtrack is used (h3-short-drama-direction skill, sec. 7).
+#   N1, N2   narrator (N2 copies N1's voice via <Audio 1>)
+#   M1..M5   music, each piece starts with the end of the previous one (audio_anchor) and continues it
+#   B_*      ambience beds per location (no music, no voices with words)
+# Sizes beyond 124 frames are new on this Mac: tiny pictures keep the work far below proven limits
+# (320x192x362 = 22 M pixel-frames vs 480x864x107 = 44 M proven).
+episode: Urban_Lifestyle_Commercial_audio
+title: Be a Little Braver - sound assets
+recipe: h3_base_v2
+
+defaults:
+  aspect: "16:9"
+  megapixels: 0.06     # 320x192
+  duration: 12
+  takes: 1
+  max_rerolls: 0
+
+assets:  # audio assets live with the renders (generated, not owner material); each has a .json with its source
+  voice_n1: /Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial_audio/_assets/narrator_N1_voice.wav
+  m1_tail: /Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial_audio/_assets/music_M1_tail.wav
+  m2_tail: /Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial_audio/_assets/music_M2_tail.wav
+  n1_tail: /Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial_audio/_assets/narrator_N1_tail.wav
+  m3_tail: /Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial_audio/_assets/music_M3_tail.wav
+  m4_tail: /Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial_audio/_assets/music_M4_tail.wav
+
+shots:
+  N1:
+    type: t2v
+    seed: 11
+    note: narrator lines 1-3 (subway, office), pauses between lines so they can be cut apart
+    prompt: |-
+      integrated_multimodal_description: [Shot 1] Live-action, a static shot of an empty, dimly lit room with plain gray walls; nothing moves and nobody is visible. A male narrator in his late twenties, with a clean, natural, slightly low-pitched voice, relaxed, reflective and quietly confident, speaking at an unhurried pace close to the microphone (S1), says in an off-screen voiceover: <d>[English] It's not that I don't want to meet people.</d> After a pause of about two seconds, the same narrator (S1) says in an off-screen voiceover: <d>[English] I just don't know how to start.</d> After another pause of about two seconds, the same narrator (S1) says in an off-screen voiceover: <d>[English] After I started working, I realized...</d> Then the room stays silent until the end.
+
+      overall_soundscape: N/A
+
+      non_diegetic_music: N/A
+  M1:
+    type: t2v
+    seed: 21
+    duration: 15
+    note: music 1 of the continuous track (subway -> office)
+    prompt: |-
+      integrated_multimodal_description: [Shot 1] Live-action, a static shot of a quiet city skyline at dawn under a pale blue-gray sky; nothing moves.
+
+      overall_soundscape: N/A
+
+      non_diegetic_music: Ambient electronic music at about 92 BPM: soft sustained synth pads in a minor-to-major key with a wide stereo reverb, no drums for the first eight seconds; then a soft, steady low pulse on every beat enters underneath and continues to the end at a constant low volume.
+  N2:
+    type: r2v
+    audio_refs: [voice_n1]
+    seed: 12
+    note: narrator lines 4-7 in N1's voice (<Audio 1> = N1)
+    prompt: |-
+      subject_definitions:
+      <Audio 1> is the voice-timbre reference for the off-screen male narrator (S1), a man in his late twenties with a clean, natural, slightly low-pitched voice, relaxed, reflective and quietly confident.
+
+      summary:
+      [reference generation + audio reference] An empty, dimly lit room while the narrator from <Audio 1> speaks four short lines off-screen with pauses between them.
+
+      retention_analysis:
+      <Audio 1>: reference - the narrator's voice timbre, pitch, pace and close-microphone delivery follow <Audio 1> without copying its words or signal.
+
+      detailed_description:
+      The target video is a quiet live-action shot with soft, dim light.
+      [Shot 1] A static shot of an empty, dimly lit room with plain gray walls; nothing moves and nobody is visible. The male narrator (S1), with the same clean, natural, slightly low-pitched voice and unhurried, close-microphone delivery referenced from <Audio 1>, says in an off-screen voiceover: <d>[English] Every day brings more new work.</d> After a pause of about one second, the same narrator (S1) says in an off-screen voiceover: <d>[English] Not new people.</d> After a pause of about two seconds, the same narrator (S1) says in an off-screen voiceover: <d>[English] Then I thought...</d> After a pause of about one second, the same narrator (S1) says in an off-screen voiceover: <d>[English] Maybe I don't need to be someone else.</d> Then the room stays silent until the end.
+
+      overall_soundscape: N/A
+
+      non_diegetic_music: N/A
+  M2:
+    type: t2v
+    audio_anchor: m1_tail
+    seed: 22
+    duration: 15
+    note: music 2 - starts with the last 4 s of M1 (audio_anchor) and continues it (office -> store)
+    prompt: |-
+      integrated_multimodal_description: [Shot 1] Live-action, a static shot of a quiet city skyline at dusk under a deep blue sky; nothing moves.
+
+      overall_soundscape: N/A
+
+      non_diegetic_music: The same ambient electronic piece continues without a break at about 92 BPM: the soft synth pads and the steady low pulse carry on unchanged for the first four seconds; then light, bright electronic plucks join in a simple repeating pattern while the pads and pulse continue at a constant low volume to the end.
+  M3:
+    type: t2v
+    audio_anchor: m2_tail
+    seed: 23
+    duration: 15
+    note: music 3 - continues M2 (store -> riverside), warmer
+    prompt: |-
+      integrated_multimodal_description: [Shot 1] Live-action, a static shot of a calm river at night with warm city lights reflected in the water; nothing moves.
+
+      overall_soundscape: N/A
+
+      non_diegetic_music: The same ambient electronic piece continues without a break at about 92 BPM: the pads, the steady low pulse and the bright plucks carry on unchanged for the first four seconds; then the plucks thin out, a warm, sustained low synth bass note enters under the pads, and the arrangement grows slightly fuller while staying at a moderate, constant volume to the end.
+  B_subway:
+    type: t2v
+    seed: 31
+    note: ambience bed, looped under every shot of this location
+    prompt: |-
+      integrated_multimodal_description: [Shot 1] Live-action, a static shot inside a moving subway carriage with standing commuters, seen from the far end.
+
+      overall_soundscape: A continuous low subway rumble and steady rail clatter with a soft ventilation hiss, the gentle sway of hand straps creaking, and a quiet, indistinct murmur of several passengers talking softly in turns at a distance, with no intelligible words.
+
+      non_diegetic_music: N/A
+  B_office:
+    type: t2v
+    seed: 32
+    note: ambience bed, looped under every shot of this location
+    prompt: |-
+      integrated_multimodal_description: [Shot 1] Live-action, a static shot of an almost empty open-plan office at dusk with city lights beyond the windows.
+
+      overall_soundscape: Steady quiet office ventilation and a soft electrical hum, occasional distant keyboard clicks, and one far-off door closing, with no voices.
+
+      non_diegetic_music: N/A
+  B_store:
+    type: t2v
+    seed: 33
+    note: ambience bed, looped under every shot of this location
+    prompt: |-
+      integrated_multimodal_description: [Shot 1] Live-action, a static shot of a quiet, brightly lit convenience store aisle at night with glowing drinks refrigerators.
+
+      overall_soundscape: A steady refrigeration hum with the faint buzz of fluorescent lights, a soft distant compressor cycle, and a faint muffled street sound from outside, with no voices.
+
+      non_diegetic_music: N/A
+  B_river:
+    type: t2v
+    seed: 34
+    note: ambience bed, looped under every shot of this location
+    prompt: |-
+      integrated_multimodal_description: [Shot 1] Live-action, a static shot of broad stone steps beside a wide river at night with warm city lights on the far bank.
+
+      overall_soundscape: Soft water lapping against stone steps, a light breeze, and a distant, low city hum with faraway traffic across the river, with no voices.
+
+      non_diegetic_music: N/A
+  B_home:
+    type: t2v
+    seed: 35
+    note: ambience bed, looped under every shot of this location
+    prompt: |-
+      integrated_multimodal_description: [Shot 1] Live-action, a static shot of a warm, lamp-lit apartment room in the evening with bookshelves and a desk.
+
+      overall_soundscape: Quiet domestic room tone with a very soft air-conditioner hum and faint distant city sound through a closed window, with no voices.
+
+      non_diegetic_music: N/A
+  N2b:
+    type: t2v
+    audio_anchor: n1_tail
+    seed: 13
+    duration: 15
+    note: narrator lines 4-7 as a continuation of N1's own recording (first ~4.3 s = end of N1), for one consistent voice
+    prompt: |-
+      integrated_multimodal_description: [Shot 1] Live-action, a static shot of an empty, dimly lit room with plain gray walls; nothing moves and nobody is visible. The recording continues from the same male narrator in his late twenties, with the same clean, natural, slightly low-pitched voice, relaxed, reflective and quietly confident, speaking at an unhurried pace close to the microphone (S1). He first finishes his line, says in an off-screen voiceover: <d>[English] After I started working, I realized...</d> After a pause of about one second, the same narrator (S1) says in an off-screen voiceover: <d>[English] Every day brings more new work.</d> After a pause of about one second, the same narrator (S1) says in an off-screen voiceover: <d>[English] Not new people.</d> After a pause of about two seconds, the same narrator (S1) says in an off-screen voiceover: <d>[English] Then I thought...</d> After a pause of about one second, the same narrator (S1) says in an off-screen voiceover: <d>[English] Maybe I don't need to be someone else.</d> Then the room stays silent until the end.
+
+      overall_soundscape: N/A
+
+      non_diegetic_music: N/A
+  M4:
+    type: t2v
+    audio_anchor: m3_tail
+    seed: 24
+    duration: 15
+    note: music 4 - continues M3 (phone moment -> home), the fullest part
+    prompt: |-
+      integrated_multimodal_description: [Shot 1] Live-action, a static shot of a warm, lamp-lit window of an apartment at night; nothing moves.
+
+      overall_soundscape: N/A
+
+      non_diegetic_music: The same ambient electronic piece continues without a break at about 92 BPM: the pads, the steady low pulse and the warm bass carry on unchanged for the first four seconds; then a soft, bright melodic synth line of a few rising notes joins over the pads, and the arrangement stays full and steady at a moderate volume to the end.
+  M5:
+    type: t2v
+    audio_anchor: m4_tail
+    seed: 25
+    duration: 15
+    note: music 5 - continues M4 and resolves on a final chord at the product hero (ends the track)
+    prompt: |-
+      integrated_multimodal_description: [Shot 1] Live-action, a static shot of a single silver beer can standing on a glossy deep-blue surface; nothing moves.
+
+      overall_soundscape: N/A
+
+      non_diegetic_music: The same ambient electronic piece continues without a break at about 92 BPM: the pads, pulse, bass and melodic line carry on unchanged for the first four seconds; then the melodic line plays its last rising phrase, the pulse stops after the tenth second, and all instruments land together on one warm, sustained final major chord that rings out and fades to silence by the end.

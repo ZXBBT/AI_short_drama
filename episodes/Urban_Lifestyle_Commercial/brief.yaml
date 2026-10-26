@@ -1,0 +1,71 @@
+# Brief for "Be a Little Braver", written by Claude 2026-10-24 from the owner's guide in this folder
+# (Urban_Lifestyle_Commercial_Recreation_Guide_EN.md), which stays the full specification. Owner's
+# request: "based on the markdown file, generate the video". The guide gives no pictures, so the
+# protagonist and the can were made first with H3 (episodes/Urban_Lifestyle_Commercial_refs).
+# Practice only: the can imitates a real beer brand's "SUPER DRY" trademark (licensing review, to-do #14).
+episode: Urban_Lifestyle_Commercial
+title: Be a Little Braver
+
+plot: |
+  A quiet young office worker in a Chinese city would like to meet people but does not know how to
+  start. Morning subway, an emptying office at dusk, then a convenience store at night where he finds
+  BRAVE THE WORLD SUPER DRY and recognises he can stay himself. By the river he takes a sip, shares a
+  photo of the can in a SUPER DRY CLUB app, smiles at a reply; at home he and a young woman exchange
+  messages with matching small smiles. Product hero shot at the end.
+
+beats:
+  - subway, he glances at chatting passengers, back to his reflection (voice-over 1)
+  - office at dusk, colleagues leave, he closes the laptop, checks his phone, leaves (voice-over 2)
+  - convenience store, the Super Dry display, quiet recognition, he takes a can (voice-over 3)
+  - riverside at night, one sip, looks across the water
+  - phone photo of the can, SUPER DRY CLUB screen, faint smile
+  - store phone close-up
+  - home, he and the woman smile at their phones
+  - product hero on deep blue
+
+target:
+  length_s: 53
+  aspect: "16:9"
+  language: en
+
+style: photorealistic premium beer commercial, cinematic 35 mm lens, shallow depth of field, natural skin texture,
+  restrained contrast, stable smooth camera
+
+characters:
+  man:
+    description: a Chinese man about 26 years old with a lean but healthy build, natural short black hair, a
+      clean-shaven face, straight dark eyebrows and fresh, ordinary, approachable features, wearing a plain gray
+      crew-neck T-shirt under an unbuttoned dark blue-gray casual overshirt, black straight-leg trousers and white
+      sneakers
+    images: [inputs/Urban_Lifestyle_Commercial/ref_man_v1.png]
+    voice: male narrator, 25-30, clean, natural, slightly low-pitched, relaxed and reflective
+  can:
+    kind: object
+    description: a 500 ml aluminum beer can with a blue top and lid, a silver-white metallic body, small blue letters
+      "BRAVE THE WORLD" near the top, large bold blue letters "SUPER DRY" across the middle and a red label block
+      reading "SUPER DRY DRAFT BEER"
+    images: [inputs/Urban_Lifestyle_Commercial/ref_can_v1.png]
+  woman:
+    description: a Chinese woman in her late twenties with long straight dark hair in a natural side part, minimal
+      makeup and a warm, understated expression, wearing a loose beige T-shirt under a muted brown pinafore dress
+
+dialogue:  # narration from the guide, word for word (off-screen voice-over, split where the shots change)
+  - {character: man, line: "It's not that I don't want to meet people."}
+  - {character: man, line: "I just don't know how to start."}
+  - {character: man, line: "After I started working, I realized..."}
+  - {character: man, line: "Every day brings more new work."}
+  - {character: man, line: "Not new people."}
+  - {character: man, line: "Then I thought..."}
+  - {character: man, line: "Maybe I don't need to be someone else."}
+
+budget:
+  takes_per_shot: 2
+  max_render_hours: 8
+
+review:
+  picks: auto
+  final: true
+
+# V2 (owner revision brief 2026-10-25): narration, music and room beds are mixed in the edit, so picture
+# renders carry no narration and no music (check-plan enforces it; h3-short-drama-direction skill).
+sound: edit

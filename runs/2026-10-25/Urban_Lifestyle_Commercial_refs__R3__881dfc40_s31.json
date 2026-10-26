@@ -1,0 +1,305 @@
+{
+ "episode": "Urban_Lifestyle_Commercial_refs",
+ "shot": "R3",
+ "take_id": "881dfc40_s31",
+ "fingerprint": "881dfc403ff4d17890e11ab0376254b6cb6c9cf5152aeab62203a8a150ccaa5b",
+ "seed": 31,
+ "started": "2026-10-25T15:36:56-07:00",
+ "prompt_id": "83c42a2e-5c1a-416e-b9a1-8f1fdee98d6d",
+ "status": "success",
+ "error": null,
+ "events": [
+  "execution_start",
+  "execution_cached",
+  "execution_success"
+ ],
+ "wall_seconds": 279.7,
+ "node_seconds": {
+  "VAELoader": 2.2,
+  "LoadImage": 0.0,
+  "CLIPLoader": 1.0,
+  "MiniMaxH3ReferenceToVideo": 70.7,
+  "UNETLoader": 0.1,
+  "BasicScheduler": 0.0,
+  "KSamplerSelect": 0.0,
+  "BasicGuider": 0.0,
+  "RandomNoise": 0.0,
+  "SamplerCustomAdvanced": 190.5,
+  "VAEDecodeAudio": 0.5,
+  "VAEDecode": 9.6,
+  "CreateVideo": 0.0,
+  "SaveVideo": 0.2
+ },
+ "memory_gib": {
+  "system_used_before": 49.1,
+  "system_used_peak": 53.0,
+  "swap_peak": 8.87,
+  "swap_limit": 20.0
+ },
+ "params": {
+  "type": "r2v",
+  "aspect": "16:9",
+  "megapixels": 1.0,
+  "duration": 0.2,
+  "width": 1376,
+  "height": 768,
+  "length": 5
+ },
+ "recipe": {
+  "name": "h3_base_v2",
+  "sha256": "7e5b59ee9bb152e0f5298a95d51b3c10d2ab13296645a0107b3e39f527535355",
+  "effective": {
+   "name": "h3_base_v2",
+   "created": "2026-10-24",
+   "sampler": "res_multistep",
+   "scheduler": "simple",
+   "steps": 20,
+   "fps": 24,
+   "bit_depth": 8,
+   "attention": "pytorch",
+   "ref_image_size": "match",
+   "models": {
+    "fl2va": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "ref2va": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "video_vae": "minimax_h3_video_vae_fp16.safetensors",
+    "audio_vae": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  }
+ },
+ "inputs": {
+  "ref0": {
+   "asset": "char_man_1",
+   "file": "inputs/Urban_Lifestyle_Commercial/ref_man_v1.png",
+   "sha256": "8688675982d745f668720ece25289cbdc99d5d60ac739d1bb801e7fb81f0c2ae",
+   "uploaded_as": "ai_short_drama/8688675982d745f6.png"
+  }
+ },
+ "prompt_text": "subject_definitions:\n<Subject 1> is the young man in <Picture 1>: a Chinese man about 26 years old with a lean but healthy build, natural short black hair, a clean-shaven face, straight dark eyebrows and fresh, ordinary, approachable features, wearing a plain gray crew-neck T-shirt under an unbuttoned dark blue-gray casual overshirt, black straight-leg trousers and white sneakers. Here he also wears white wireless earbuds and a simple black commuting backpack.\n\nsummary:\n[reference generation] A still, photographic wide view along the length of a modern Chinese subway carriage in the morning rush hour, with <Subject 1> standing beside a side door.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - his face, short black hair, lean build, gray T-shirt, dark blue-gray overshirt and black trousers are retained, with earbuds and backpack added.\n\ndetailed_description:\nThe target video is a photorealistic premium television commercial frame filmed with a 35 mm lens, natural skin texture, soft highlight roll-off and cool blue-gray tones.\n[Shot 1] A static, eye-level wide shot that looks straight down the length of a modern Chinese subway carriage. The carriage's layout is simple and symmetrical: a central aisle runs away from the camera toward the far end; long rows of seats line the left and right walls; the side walls hold large windows, and between the window sections each side wall has a pair of wide sliding passenger doors, set into the left wall and into the right wall, parallel to the aisle; silver ceiling rails with hanging hand straps and a row of vertical steel poles run lengthwise above and along the aisle; at the far end of the car is a separate narrow gangway door with a small window, clearly different from the side doors. Through the side windows on both walls, the dark tunnel shows thin streaks of light. Adult office workers stand and sit in an orderly, slightly crowded way, facing different directions. In the right half of the frame, about a third of the way down the car, <Subject 1> stands beside the sliding door in the right side wall, his body turned toward the door window, one hand on a vertical pole, white earbuds in, black backpack on his shoulders, his face in clear three-quarter view. A few steps from him in the aisle, two young friends stand close together looking at one phone. Everyone has a clear, stable face and body. There is no text anywhere in the frame.\n\noverall_soundscape: Low subway rumble.\n\nnon_diegetic_music: N/A",
+ "episode_file_sha256": "547f72f8cea1ed4e5eb21f71a744687e2181ce1673dddb24fe01871771eca259",
+ "env": {
+  "comfyui": "0.42.1",
+  "pytorch": "2.14.1",
+  "python": "3.13.17",
+  "comfyui_argv": [
+   "main.py",
+   "--listen",
+   "127.0.0.1",
+   "--port",
+   "8188",
+   "--extra-model-paths-config",
+   "/Users/marcusmao/dev/AI_short_drama/config/extra_model_paths.yaml",
+   "--output-directory",
+   "/Users/marcusmao/AI_renders/comfyui",
+   "--disable-all-custom-nodes",
+   "--use-pytorch-cross-attention"
+  ],
+  "repo_commit": "99ac687",
+  "repo_dirty": true
+ },
+ "api_prompt": {
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "clip": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "type": "minimax",
+    "device": "default"
+   }
+  },
+  "vae_v": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+   }
+  },
+  "vae_a": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  },
+  "img_ref0": {
+   "class_type": "LoadImage",
+   "inputs": {
+    "image": "ai_short_drama/8688675982d745f6.png"
+   }
+  },
+  "cond": {
+   "class_type": "MiniMaxH3ReferenceToVideo",
+   "inputs": {
+    "clip": [
+     "clip",
+     0
+    ],
+    "prompt": "subject_definitions:\n<Subject 1> is the young man in <Picture 1>: a Chinese man about 26 years old with a lean but healthy build, natural short black hair, a clean-shaven face, straight dark eyebrows and fresh, ordinary, approachable features, wearing a plain gray crew-neck T-shirt under an unbuttoned dark blue-gray casual overshirt, black straight-leg trousers and white sneakers. Here he also wears white wireless earbuds and a simple black commuting backpack.\n\nsummary:\n[reference generation] A still, photographic wide view along the length of a modern Chinese subway carriage in the morning rush hour, with <Subject 1> standing beside a side door.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - his face, short black hair, lean build, gray T-shirt, dark blue-gray overshirt and black trousers are retained, with earbuds and backpack added.\n\ndetailed_description:\nThe target video is a photorealistic premium television commercial frame filmed with a 35 mm lens, natural skin texture, soft highlight roll-off and cool blue-gray tones.\n[Shot 1] A static, eye-level wide shot that looks straight down the length of a modern Chinese subway carriage. The carriage's layout is simple and symmetrical: a central aisle runs away from the camera toward the far end; long rows of seats line the left and right walls; the side walls hold large windows, and between the window sections each side wall has a pair of wide sliding passenger doors, set into the left wall and into the right wall, parallel to the aisle; silver ceiling rails with hanging hand straps and a row of vertical steel poles run lengthwise above and along the aisle; at the far end of the car is a separate narrow gangway door with a small window, clearly different from the side doors. Through the side windows on both walls, the dark tunnel shows thin streaks of light. Adult office workers stand and sit in an orderly, slightly crowded way, facing different directions. In the right half of the frame, about a third of the way down the car, <Subject 1> stands beside the sliding door in the right side wall, his body turned toward the door window, one hand on a vertical pole, white earbuds in, black backpack on his shoulders, his face in clear three-quarter view. A few steps from him in the aisle, two young friends stand close together looking at one phone. Everyone has a clear, stable face and body. There is no text anywhere in the frame.\n\noverall_soundscape: Low subway rumble.\n\nnon_diegetic_music: N/A",
+    "width": 1376,
+    "height": 768,
+    "length": 5,
+    "vae": [
+     "vae_v",
+     0
+    ],
+    "audio_vae": [
+     "vae_a",
+     0
+    ],
+    "ref_image_size": "match",
+    "ref_images.ref_image_0": [
+     "img_ref0",
+     0
+    ]
+   }
+  },
+  "noise": {
+   "class_type": "RandomNoise",
+   "inputs": {
+    "noise_seed": 31
+   }
+  },
+  "sampler": {
+   "class_type": "KSamplerSelect",
+   "inputs": {
+    "sampler_name": "res_multistep"
+   }
+  },
+  "sigmas": {
+   "class_type": "BasicScheduler",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "scheduler": "simple",
+    "steps": 20,
+    "denoise": 1.0
+   }
+  },
+  "guider": {
+   "class_type": "BasicGuider",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "conditioning": [
+     "cond",
+     0
+    ]
+   }
+  },
+  "sample": {
+   "class_type": "SamplerCustomAdvanced",
+   "inputs": {
+    "noise": [
+     "noise",
+     0
+    ],
+    "guider": [
+     "guider",
+     0
+    ],
+    "sampler": [
+     "sampler",
+     0
+    ],
+    "sigmas": [
+     "sigmas",
+     0
+    ],
+    "latent_image": [
+     "cond",
+     1
+    ]
+   }
+  },
+  "decode_v": {
+   "class_type": "VAEDecode",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "decode_a": {
+   "class_type": "VAEDecodeAudio",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_a",
+     0
+    ]
+   }
+  },
+  "video": {
+   "class_type": "CreateVideo",
+   "inputs": {
+    "images": [
+     "decode_v",
+     0
+    ],
+    "audio": [
+     "decode_a",
+     0
+    ],
+    "fps": 24,
+    "bit_depth": 8
+   }
+  },
+  "save": {
+   "class_type": "SaveVideo",
+   "inputs": {
+    "video": [
+     "video",
+     0
+    ],
+    "filename_prefix": "episodes/Urban_Lifestyle_Commercial_refs/R3/R3_881dfc40_s31",
+    "format": "auto",
+    "format.codec": "auto"
+   }
+  }
+ },
+ "output": {
+  "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial_refs/R3/R3_881dfc40_s31_00001_.mp4",
+  "bytes": 262105,
+  "video": {
+   "frames": 5,
+   "width": 1376,
+   "height": 768,
+   "fps": 24.0,
+   "codec": "h264",
+   "mean_min": 69.7,
+   "mean_max": 91.8,
+   "std_min": 58.3,
+   "black_frames": 0
+  },
+  "audio": {
+   "samples": 12800,
+   "sample_rate": 32000,
+   "finite": true,
+   "rms": 0.04775266599325361,
+   "peak": 0.19921372830867767
+  },
+  "sha256": "a8f2593799d896564881727851b340094cb78faa0dcdbdeed34464836afbd76c"
+ },
+ "continuity": {
+  "median_frame_diff": 6.09,
+  "max_frame_diff": 14.2,
+  "cuts": []
+ },
+ "warnings": []
+}

@@ -1,0 +1,300 @@
+{
+ "episode": "Urban_Lifestyle_Commercial",
+ "shot": "S3D",
+ "take_id": "3d88d9e3_s3401",
+ "fingerprint": "3d88d9e3197e92df3a29199c5324bf6929f25639fca81495eeb85dc878113688",
+ "seed": 3401,
+ "started": "2026-10-25T03:49:29-07:00",
+ "prompt_id": "3c2c4d22-8d9f-45d4-915e-081c3934cf15",
+ "status": "success",
+ "error": null,
+ "events": [
+  "execution_start",
+  "execution_cached",
+  "execution_success"
+ ],
+ "wall_seconds": 736.9,
+ "node_seconds": {
+  "LoadImage": 0.0,
+  "MiniMaxH3ReferenceToVideo": 53.0,
+  "BasicGuider": 0.0,
+  "RandomNoise": 0.0,
+  "SamplerCustomAdvanced": 659.5,
+  "VAEDecodeAudio": 0.4,
+  "VAEDecode": 23.6,
+  "CreateVideo": 0.0,
+  "SaveVideo": 0.3
+ },
+ "memory_gib": {
+  "system_used_before": 36.2,
+  "system_used_peak": 47.3,
+  "swap_peak": 5.31,
+  "swap_limit": 20.0
+ },
+ "params": {
+  "type": "r2v",
+  "aspect": "16:9",
+  "megapixels": 0.4,
+  "duration": 2.3,
+  "width": 864,
+  "height": 480,
+  "length": 56
+ },
+ "recipe": {
+  "name": "h3_base_v2",
+  "sha256": "7e5b59ee9bb152e0f5298a95d51b3c10d2ab13296645a0107b3e39f527535355",
+  "effective": {
+   "name": "h3_base_v2",
+   "created": "2026-10-24",
+   "sampler": "res_multistep",
+   "scheduler": "simple",
+   "steps": 20,
+   "fps": 24,
+   "bit_depth": 8,
+   "attention": "pytorch",
+   "ref_image_size": "match",
+   "models": {
+    "fl2va": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "ref2va": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "video_vae": "minimax_h3_video_vae_fp16.safetensors",
+    "audio_vae": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  }
+ },
+ "inputs": {
+  "ref0": {
+   "asset": "char_can_1",
+   "file": "inputs/Urban_Lifestyle_Commercial/ref_can_v1.png",
+   "sha256": "822e06c898782830bba1cba69703ad7e9c0c961d5c43304b3ae2d2b50039a3fb",
+   "uploaded_as": "ai_short_drama/822e06c898782830.png"
+  }
+ },
+ "prompt_text": "subject_definitions:\n<Subject 1> is the beer can in <Picture 1>: a 500 ml aluminum beer can with a blue top and lid, a silver-white metallic body, small blue letters \"BRAVE THE WORLD\" near the top, large bold blue letters \"SUPER DRY\" across the middle and a red label block reading \"SUPER DRY DRAFT BEER\".\n\nsummary:\n[reference generation] A front-facing close-up of <Subject 1> held steady in a young man's hand in front of the glowing drinks refrigerator.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - the can's proportions, blue top, silver-white body, small \"BRAVE THE WORLD\" text, large bold blue \"SUPER DRY\" lettering and red \"SUPER DRY DRAFT BEER\" block are retained exactly.\n\ndetailed_description:\nThe target video is a photorealistic premium television commercial product close-up filmed with a 35 mm lens, shallow depth of field and soft highlight roll-off, in clean cool-white light with crisp silver-blue highlights.\n[Shot 1] A static, front-facing product close-up of <Subject 1> held upright in a young man's right hand, the can centered and filling most of the frame height, its label facing the camera squarely. The blue top and lid sit at the upper edge. Near the top of the silver-white metallic body, small blue letters read \"BRAVE THE WORLD\"; across the middle, large bold blue letters read \"SUPER DRY\"; below them, a red rectangular block reads \"SUPER DRY DRAFT BEER\" in white letters. Fine condensation droplets cover the cold aluminum, and a few small droplets slowly run down the side. The cool white refrigerator light draws one thin, controlled vertical highlight along the left edge of the metal, and a soft reflection of the shelves glows on the right edge. His fingers wrap naturally around the lower part of the can, with realistic knuckles and nails, without covering any of the lettering; the sleeve cuff of a dark blue-gray overshirt is just visible at the bottom of the frame. The can stays perfectly steady, cylindrical and unchanged in shape for the whole shot, and the label lettering stays sharp and readable. Behind the can, the refrigerator shelves and bottles glow as soft, out-of-focus shapes of white, blue and amber. The camera holds a static shot for the whole duration. There is no other text anywhere in the frame.\n\noverall_soundscape: A soft refrigeration hum continues and his fingers make a faint squeak on the cold, wet aluminum.\n\nnon_diegetic_music: Ambient electronic music at a slow tempo: sustained synth pads and a soft, steady low pulse with light, bright electronic plucks, kept low in volume.",
+ "episode_file_sha256": "c1271b87b704458102edef48f1b2c311386afadf5f6f3f06f3955c2c273e10b3",
+ "env": {
+  "comfyui": "0.42.1",
+  "pytorch": "2.14.1",
+  "python": "3.13.17",
+  "comfyui_argv": [
+   "main.py",
+   "--listen",
+   "127.0.0.1",
+   "--port",
+   "8188",
+   "--extra-model-paths-config",
+   "/Users/marcusmao/dev/AI_short_drama/config/extra_model_paths.yaml",
+   "--output-directory",
+   "/Users/marcusmao/AI_renders/comfyui",
+   "--disable-all-custom-nodes",
+   "--use-pytorch-cross-attention"
+  ],
+  "repo_commit": "99ac687",
+  "repo_dirty": true
+ },
+ "api_prompt": {
+  "unet": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "clip": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "type": "minimax",
+    "device": "default"
+   }
+  },
+  "vae_v": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+   }
+  },
+  "vae_a": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+   }
+  },
+  "img_ref0": {
+   "class_type": "LoadImage",
+   "inputs": {
+    "image": "ai_short_drama/822e06c898782830.png"
+   }
+  },
+  "cond": {
+   "class_type": "MiniMaxH3ReferenceToVideo",
+   "inputs": {
+    "clip": [
+     "clip",
+     0
+    ],
+    "prompt": "subject_definitions:\n<Subject 1> is the beer can in <Picture 1>: a 500 ml aluminum beer can with a blue top and lid, a silver-white metallic body, small blue letters \"BRAVE THE WORLD\" near the top, large bold blue letters \"SUPER DRY\" across the middle and a red label block reading \"SUPER DRY DRAFT BEER\".\n\nsummary:\n[reference generation] A front-facing close-up of <Subject 1> held steady in a young man's hand in front of the glowing drinks refrigerator.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - the can's proportions, blue top, silver-white body, small \"BRAVE THE WORLD\" text, large bold blue \"SUPER DRY\" lettering and red \"SUPER DRY DRAFT BEER\" block are retained exactly.\n\ndetailed_description:\nThe target video is a photorealistic premium television commercial product close-up filmed with a 35 mm lens, shallow depth of field and soft highlight roll-off, in clean cool-white light with crisp silver-blue highlights.\n[Shot 1] A static, front-facing product close-up of <Subject 1> held upright in a young man's right hand, the can centered and filling most of the frame height, its label facing the camera squarely. The blue top and lid sit at the upper edge. Near the top of the silver-white metallic body, small blue letters read \"BRAVE THE WORLD\"; across the middle, large bold blue letters read \"SUPER DRY\"; below them, a red rectangular block reads \"SUPER DRY DRAFT BEER\" in white letters. Fine condensation droplets cover the cold aluminum, and a few small droplets slowly run down the side. The cool white refrigerator light draws one thin, controlled vertical highlight along the left edge of the metal, and a soft reflection of the shelves glows on the right edge. His fingers wrap naturally around the lower part of the can, with realistic knuckles and nails, without covering any of the lettering; the sleeve cuff of a dark blue-gray overshirt is just visible at the bottom of the frame. The can stays perfectly steady, cylindrical and unchanged in shape for the whole shot, and the label lettering stays sharp and readable. Behind the can, the refrigerator shelves and bottles glow as soft, out-of-focus shapes of white, blue and amber. The camera holds a static shot for the whole duration. There is no other text anywhere in the frame.\n\noverall_soundscape: A soft refrigeration hum continues and his fingers make a faint squeak on the cold, wet aluminum.\n\nnon_diegetic_music: Ambient electronic music at a slow tempo: sustained synth pads and a soft, steady low pulse with light, bright electronic plucks, kept low in volume.",
+    "width": 864,
+    "height": 480,
+    "length": 56,
+    "vae": [
+     "vae_v",
+     0
+    ],
+    "audio_vae": [
+     "vae_a",
+     0
+    ],
+    "ref_image_size": "match",
+    "ref_images.ref_image_0": [
+     "img_ref0",
+     0
+    ]
+   }
+  },
+  "noise": {
+   "class_type": "RandomNoise",
+   "inputs": {
+    "noise_seed": 3401
+   }
+  },
+  "sampler": {
+   "class_type": "KSamplerSelect",
+   "inputs": {
+    "sampler_name": "res_multistep"
+   }
+  },
+  "sigmas": {
+   "class_type": "BasicScheduler",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "scheduler": "simple",
+    "steps": 20,
+    "denoise": 1.0
+   }
+  },
+  "guider": {
+   "class_type": "BasicGuider",
+   "inputs": {
+    "model": [
+     "unet",
+     0
+    ],
+    "conditioning": [
+     "cond",
+     0
+    ]
+   }
+  },
+  "sample": {
+   "class_type": "SamplerCustomAdvanced",
+   "inputs": {
+    "noise": [
+     "noise",
+     0
+    ],
+    "guider": [
+     "guider",
+     0
+    ],
+    "sampler": [
+     "sampler",
+     0
+    ],
+    "sigmas": [
+     "sigmas",
+     0
+    ],
+    "latent_image": [
+     "cond",
+     1
+    ]
+   }
+  },
+  "decode_v": {
+   "class_type": "VAEDecode",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_v",
+     0
+    ]
+   }
+  },
+  "decode_a": {
+   "class_type": "VAEDecodeAudio",
+   "inputs": {
+    "samples": [
+     "sample",
+     0
+    ],
+    "vae": [
+     "vae_a",
+     0
+    ]
+   }
+  },
+  "video": {
+   "class_type": "CreateVideo",
+   "inputs": {
+    "images": [
+     "decode_v",
+     0
+    ],
+    "audio": [
+     "decode_a",
+     0
+    ],
+    "fps": 24,
+    "bit_depth": 8
+   }
+  },
+  "save": {
+   "class_type": "SaveVideo",
+   "inputs": {
+    "video": [
+     "video",
+     0
+    ],
+    "filename_prefix": "episodes/Urban_Lifestyle_Commercial/S3D/S3D_3d88d9e3_s3401",
+    "format": "auto",
+    "format.codec": "auto"
+   }
+  }
+ },
+ "output": {
+  "file": "/Users/marcusmao/AI_renders/comfyui/episodes/Urban_Lifestyle_Commercial/S3D/S3D_3d88d9e3_s3401_00001_.mp4",
+  "bytes": 328274,
+  "video": {
+   "frames": 56,
+   "width": 864,
+   "height": 480,
+   "fps": 24.0,
+   "codec": "h264",
+   "mean_min": 107.9,
+   "mean_max": 108.6,
+   "std_min": 66.1,
+   "black_frames": 0
+  },
+  "audio": {
+   "samples": 148800,
+   "sample_rate": 32000,
+   "finite": true,
+   "rms": 0.035536515049160645,
+   "peak": 0.561848521232605
+  },
+  "sha256": "6b3bb67770c0cf1a1156756f74f9b9b17837c281ab16afbd492b18ad50f76f72"
+ },
+ "continuity": {
+  "median_frame_diff": 1.23,
+  "max_frame_diff": 4.1,
+  "cuts": []
+ },
+ "warnings": []
+}
