@@ -70,7 +70,8 @@ inputs/<name>/                  ← the owner's images (characters, backgrounds)
 PY=~/dev/ComfyUI/.venv/bin/python
 $PY scripts/brief.py validate   episodes/<name>   # 1. check your brief + reference faces
 $PY scripts/brief.py scaffold   episodes/<name>   # 2. episode.yaml without shots (recipe h3_base_v2)
-#    3. Claude drafts the shots + dialogue in episode.yaml; you approve them
+#    3. Claude drafts the shots + dialogue in episode.yaml in H3's official prompt format
+#       (h3-prompt-writing skill, docs/third_party.md); you approve them
 $PY scripts/brief.py check-plan episodes/<name>   # 4. rules + length + render-time estimate
 $PY scripts/pipeline.py episodes/<name> --stop-comfyui    # 5. render -> auto-pick -> render -> cut list
 $PY scripts/review_server.py episodes/<name>      # 6. watch, change picks, press "Confirm picks"

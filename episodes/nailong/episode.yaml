@@ -1,0 +1,49 @@
+# Nailong: owner's request 2026-10-24 — "use that image to generate a 5 s short video".
+# Reference: the owner's PNG in this folder (transparent background, which ComfyUI would turn black),
+# copied onto white as inputs/nailong/nailong_ref_v1.png. Third-party character + SFU trademarks:
+# practice only, image kept out of Git (licensing review before any public use).
+# Scene chosen by Claude (owner gave none): waving the Canadian flag on a sunny campus.
+# Prompt in H3's official full-reference format (h3-prompt-writing skill); visible text in quotes.
+episode: nailong
+title: Nailong
+recipe: h3_base_v2
+
+defaults:
+  aspect: "9:16"
+  megapixels: 0.2      # 352x608: 5 s (124 frames) is proven at this size; 480x864 is proven only to 4.5 s
+  duration: 5
+  takes: 2
+  max_rerolls: 1
+
+assets:
+  ref_nailong: inputs/nailong/nailong_ref_v1.png
+
+characters:
+  nailong:
+    description: a chubby yellow cartoon creature with a round cream-colored belly, big round eyes, brown hands and feet,
+      wearing a red baseball cap and a red bandana, holding a small Canadian flag on a wooden stick
+    refs: [ref_nailong]
+
+shots:
+  N1:
+    type: r2v
+    refs: [nailong]
+    seed: 101
+    note: waves the Canadian flag on a sunny campus
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the character in <Picture 1>: {nailong}. The cap reads "SFU" and the bandana reads "SIMON FRASER UNIVERSITY" above a red-and-white university crest.
+
+      summary:
+      [reference generation] <Subject 1> cheerfully waves its Canadian flag and bounces on a sunny university campus plaza.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - the chubby yellow body, cream belly, big round eyes, brown hands and feet, the red "SFU" cap, the red "SIMON FRASER UNIVERSITY" bandana with its crest, and the Canadian flag on its wooden stick are retained exactly.
+
+      detailed_description:
+      The target video is a bright, high-quality 3D CG animation with soft, sunny daylight and glossy, smooth character shading.
+      [Shot 1] A medium shot frames <Subject 1> from the knees up, standing in the center of a sunny university campus plaza, with modern concrete buildings, green trees and a clear blue sky behind it. <Subject 1> turns to face the camera, lifts the small Canadian flag high and waves it from side to side, and the red-and-white flag flutters in the breeze. It bounces happily twice on its short legs, then pats its round cream belly with its free hand and tilts its head with a proud, content little smile. The camera pushes in with small amplitude at slow speed. Sunlight glints on its glossy yellow skin, and the fabric of the cap and the bandana moves slightly with each bounce. The text "SFU" on the cap and "SIMON FRASER UNIVERSITY" on the bandana stay clearly readable; there is no other text anywhere in the frame.
+
+      overall_soundscape: Light outdoor campus ambience with distant cheerful voices, the flag flapping in the breeze, and soft squishy footsteps as it bounces.
+
+      non_diegetic_music: A bouncy ukulele melody at a moderate tempo with light hand claps, ending on a short cheerful strum.

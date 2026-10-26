@@ -1,0 +1,71 @@
+# To-do #6 (owner-approved 2026-10-24): can H3 itself make better still pictures (character references,
+# background plates) than our current ones? 5-frame clips at ~1 MP (768x1376, the P0 plate size; H3's
+# design canvas is 768x1344), the sharpest frame is kept as the picture. Prompts in H3's official format
+# (h3-prompt-writing skill). Compare with face_check: SDXL keyframe 299 px / 0.85, G1-frame Lin
+# reference 489 px / 0.64, owner's selfie reference 1031 px / 0.70.
+#   A1  new character portrait from text (T2V)      -> can H3 create a reference?
+#   A2  Lin from her current 480x864 reference (R2V) -> can H3 upscale a character, keeping identity?
+#   A3  empty park background plate (T2V)
+episode: _stills
+title: H3 as still-image generator
+recipe: h3_base_v2
+
+defaults:
+  aspect: "9:16"
+  megapixels: 1.0      # 768x1376
+  duration: 0.2        # 5 frames
+  takes: 2
+  max_rerolls: 0
+
+assets:
+  ref_lin: inputs/sunlight/ref_lin_v1.png
+
+characters:
+  lin:
+    description: a young East Asian woman with long straight dark hair and bangs, natural light makeup, wearing a plain white T-shirt
+    refs: [ref_lin]
+
+locations:
+  park:
+    description: a quiet city park in the afternoon, a tree-lined path, a wooden bench, green leaves, dappled sunlight
+
+shots:
+  A1:
+    type: t2v
+    seed: 11
+    prompt: |-
+      integrated_multimodal_description: [Shot 1] Live-action, photorealistic portrait photograph. A static shot frames a young East Asian woman from the chest up, centered and facing the camera directly, in soft natural afternoon daylight under green trees, with a gently blurred park background. She has long straight dark hair with bangs, natural light makeup, and wears a plain white T-shirt. Her expression is calm with a faint natural smile; she holds still and looks straight into the lens. Realistic skin texture with visible pores and fine facial hair, natural colors, sharp focus on the eyes, no retouching, no text anywhere in the frame.
+
+      overall_soundscape: Quiet outdoor ambience with faint birdsong.
+
+      non_diegetic_music: N/A
+  A2:
+    type: r2v
+    refs: [lin]
+    seed: 21
+    prompt: |-
+      subject_definitions:
+      <Subject 1> is the woman in <Picture 1>: {lin}.
+
+      summary:
+      [reference generation] A still, front-facing portrait of <Subject 1> from the chest up in soft afternoon daylight in a park.
+
+      retention_analysis:
+      <Subject 1> (appears in [Shot 1]): fully_preserved - her face, facial features, eye shape, hairstyle with bangs and skin tone are retained exactly.
+
+      detailed_description:
+      The target video is a photorealistic live-action portrait in soft natural daylight.
+      [Shot 1] A static shot frames <Subject 1> from the chest up, centered and facing the camera directly, as in a portrait photograph. She wears a plain white T-shirt. Soft afternoon light falls evenly on her face through green leaves, and the park behind her is gently out of focus. Her expression is calm with a faint natural smile; she holds still and looks straight into the lens, blinking once. Realistic skin texture with visible pores and fine facial hair, natural colors, sharp focus on the eyes, no retouching, no text anywhere in the frame.
+
+      overall_soundscape: Quiet outdoor ambience with faint birdsong.
+
+      non_diegetic_music: N/A
+  A3:
+    type: t2v
+    seed: 31
+    prompt: |-
+      integrated_multimodal_description: [Shot 1] Live-action, photorealistic photograph. A static wide shot shows {park}: an empty wooden bench stands beside the paved path, tall trees with green leaves line both sides, and afternoon sunlight falls through the leaves in soft dappled patches on the paving. No people. Natural colors, sharp detail in the leaves and the wood grain of the bench, no text anywhere in the frame.
+
+      overall_soundscape: Birdsong and leaves rustling in a light breeze.
+
+      non_diegetic_music: N/A

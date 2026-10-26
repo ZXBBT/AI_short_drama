@@ -48,6 +48,11 @@ runs/            per-render metadata (seed, params, versions, output path)
 | 8 | Brief → episode | 🔄 started 2026-10-24 — `docs/stage8-brief-format.md`; 8.1–8.5 built and tested (`brief.py`, `autopick.py`, generated cuts); PyTorch attention adopted (D16); 8.6 end-to-end test next |
 | — | Licensing / commercial-use gate | required before monetization or client delivery |
 
+## Setup notes
+
+- After cloning: `scripts/fetch_h3_skills.sh` installs MiniMax's official `h3-prompt-writing` skill
+  (not in Git: no licence in its source repo; see `docs/third_party.md`).
+
 ## Rules
 
 - One stage at a time; each ends with a checkpoint.

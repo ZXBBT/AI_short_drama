@@ -53,3 +53,10 @@ __pycache__/
 
 # Third-party reference images: kept on this Mac only, never in Git (owner decision 2026-10-24)
 inputs/_owner_selfie/
+
+# Third-party Claude Code skills: no licence in the source repo, installed by scripts/fetch_h3_skills.sh
+.claude/skills/h3-prompt-writing/
+# Third-party character / trademark reference (Nailong, SFU): local only (owner, 2026-10-24)
+inputs/nailong/
+# Product imitating a real beer trademark ("SUPER DRY"): local only until the licensing review (2026-10-24)
+inputs/Urban_Lifestyle_Commercial/ref_can_*.png

@@ -62,3 +62,19 @@ prompt wider (Q3a/Q3b), so their faces are smaller than Q2H's even with more pix
 5. **Location pictures keep a room consistent but take over the camera.** A second reference (room or
    person) pulls the camera back; a room plate can become the opening frame. Use plates as the start
    frame of establishing shots (I2V), and keep close-ups/medium shots on the character reference only.
+
+## To-do #6: H3 as the still-image generator (2026-10-24, episodes/_stills)
+5-frame clips at 768x1376 (~1 MP, H3's design canvas), official prompt format, sharpest/best-face frame
+kept. Recipe h3_base_v2 (PyTorch attention). Sheets: `~/AI_renders/comfyui/episodes/_stills/_review/`.
+
+| Still | Time | Face px | Quality | Verdict |
+|---|---|---|---|---|
+| A1 new character from text (T2V), 2 seeds | 1.7-2.3 min | 540-555 | 0.69-0.70 | natural phone-photo portrait, as good as the owner's selfie reference (0.70); no "AI portrait" look |
+| A2 Lin from her 480x864 reference (R2V), 2 seeds | 2.6-3.6 min | 650-690 | 0.58-0.62 | same identity (face, eye shape, moles), 2.6x the pixels, crisper eyelids/lips/skin; cannot invent detail the small source lacked |
+| A3 park plate (T2V), 2 seeds | 2.0-2.2 min | - | - | clean, realistic; s32 sharper (1398 vs 572) |
+| for comparison: SDXL keyframe / Lin G1-frame reference | - | 299 / 489 | 0.85 / 0.64 | SDXL scores high but looks smooth/artificial; G1 frame is real-looking but small |
+
+**Conclusion:** H3 itself is a good reference and background generator: ~2-4 min per picture, no new
+model or licence, memory peak <= 53 GB. R2V also works as a re-posing tool for an existing character.
+Limits: ~1 MP maximum (H3's canvas), no precise editing (change one detail, remove a background) and
+no reliable text rendering; those are what a dedicated image model would add (to-do #7).
