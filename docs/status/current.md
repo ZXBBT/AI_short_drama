@@ -6,8 +6,8 @@ commits.
 
 **Last updated:** 2026-10-26 · **main:** Phase 1 commit `aac596b34d4ae680bcc0d0756fac588c387589dc`
 fast-forwarded from `4ca5016` on 2026-10-26, followed by the docs-only commit "Record Phase 1 integration
-status" · **Push:** pending owner approval (nothing pushed) · **Worktree:** `worktree-phase1-agent-governance`
-still present (removal not approved)
+status" · **Push:** pending owner approval (nothing pushed) · **Worktree:** the clean, fully merged Phase 1
+worktree and its local branch `worktree-phase1-agent-governance` were removed on 2026-10-26
 
 ## Phases
 
