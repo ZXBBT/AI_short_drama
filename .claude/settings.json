@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "disableBypassPermissionsMode": "disable",
+    "deny": [
+      "Edit(/workflows/official/**)",
+      "Edit(~/AI_models/**)",
+      "Edit(~/dev/ComfyUI/**)",
+      "Read(./.env)",
+      "Read(./**/.env)",
+      "Read(./**/*.token)",
+      "Bash(git push --force *)",
+      "Bash(git push -f *)"
+    ],
+    "ask": [
+      "Edit(/scripts/check.sh)",
+      "Edit(/AGENTS.md)",
+      "Edit(/CLAUDE.md)",
+      "Edit(/.claude/**)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(git rebase *)",
+      "Bash(git reset *)",
+      "Bash(git clean *)",
+      "Bash(git stash *)",
+      "Bash(git merge *)",
+      "Bash(gh release *)",
+      "Bash(gh pr *)",
+      "Bash(*launch_comfyui.sh*)",
+      "Bash(*pipeline.py*)",
+      "Bash(*episode.py render*)",
+      "Bash(*episode.py select*)",
+      "Bash(*run_h3_t2v.py*)",
+      "Bash(*qwen_image.py*)",
+      "Bash(*upscale.py*)",
+      "Bash(*assemble.py*)",
+      "Bash(*autopick.py*)",
+      "Bash(*fetch_models.sh*)",
+      "Bash(*fetch_h3_skills.sh*)",
+      "Bash(curl *)",
+      "Bash(wget *)",
+      "Bash(*pip install*)",
+      "Bash(brew *)"
+    ],
+    "allow": [
+      "Bash(./scripts/check.sh)"
+    ]
+  }
+}
