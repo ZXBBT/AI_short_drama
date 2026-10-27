@@ -6,7 +6,8 @@ commits.
 
 **Last updated:** 2026-10-26 · **main:** Phase 1 commit `aac596b34d4ae680bcc0d0756fac588c387589dc`
 fast-forwarded from `4ca5016` on 2026-10-26, followed by the docs-only commit "Record Phase 1 integration
-status" · **Push:** pending owner approval (nothing pushed) · **Worktree:** the clean, fully merged Phase 1
+status" · **Push:** main pushed to origin 2026-10-26 with owner approval
+(`f72ea34..4c3e668`, normal fast-forward, no force) · **Worktree:** the clean, fully merged Phase 1
 worktree and its local branch `worktree-phase1-agent-governance` were removed on 2026-10-26
 
 ## Phases
@@ -15,7 +16,7 @@ worktree and its local branch `worktree-phase1-agent-governance` were removed on
 |---|---|---|
 | Stages 0-8+ | ✅ done 2026-10-23 … 2026-10-26 (history: README, `docs/stage*`, `docs/*-results.md`) | local H3 pipeline: episodes, takes, checks, review page, assembly, Qwen-Image stills, SeedVR2 upscaling |
 | Phase 0 — stable baseline | ✅ done 2026-10-26, merged to main as `4ca5016` | brief face validation no longer crashes on bad or failed Vision helper output (`scripts/brief.py`, `scripts/face_check.py` + tests); `scripts/check.sh` as the single standard gate; optional real-Vision check `scripts/test_vision_integration.py` |
-| Phase 1 — multi-agent governance | ✅ done 2026-10-26; independent audit PASS, no blocker or major findings; minor findings accepted by the owner as known limitations, no permissions widened (`docs/tasks/2026-10-26-phase1-agent-governance.md`); committed as `aac596b` and fast-forwarded into main 2026-10-26; push pending owner approval | `AGENTS.md`, `CLAUDE.md`, `.claude/settings.json`, `.claude/rules/`, `.claude/agents/`, this file, `docs/tasks/TEMPLATE.md`. No code, episode, prompt or workflow changes; no renders |
+| Phase 1 — multi-agent governance | ✅ done 2026-10-26; independent audit PASS, no blocker or major findings; minor findings accepted by the owner as known limitations, no permissions widened (`docs/tasks/2026-10-26-phase1-agent-governance.md`); committed as `aac596b` and fast-forwarded into main 2026-10-26; pushed to origin/main 2026-10-26 | `AGENTS.md`, `CLAUDE.md`, `.claude/settings.json`, `.claude/rules/`, `.claude/agents/`, this file, `docs/tasks/TEMPLATE.md`. No code, episode, prompt or workflow changes; no renders |
 
 ## Test baseline (`./scripts/check.sh`)
 Measured 2026-10-26 on `4ca5016` (in the Phase 1 worktree): **17 passed, 4 skipped, 0 failed**.

@@ -118,7 +118,7 @@ Frontmatter and JSON were also checked with a throwaway script (session scratchp
 - [x] Bootstrap follow-up (this card, four-field audit prompt, untracked-file audit step) — 2026-10-26
 - [x] Independent audit result reviewed by the owner
 - [x] Commit (and push) — only on the owner's request — local commit `aac596b` approved 2026-10-26;
-      fast-forward into main approved and done 2026-10-26; push pending owner approval
+      fast-forward into main approved and done 2026-10-26; push to origin/main approved and done 2026-10-26
 
 ## Audit record
 I ran the audit and the verdict is **PASS**, with three minor findings and one nit. No blocker or major issues.
@@ -228,6 +228,7 @@ Written by the owner's session after the handoff; not part of the auditor's repo
   conflicts), with the owner's approval.
 - `./scripts/check.sh` on main after the merge (main checkout): `20 passed, 1 skipped, 0 failed`; only
   `vision integration` skipped, because the local-only pictures exist there.
-- Push: pending owner approval; nothing pushed.
-- Worktree `worktree-phase1-agent-governance` (`.claude/worktrees/phase1-agent-governance`): still present;
-  removal not approved.
+- Push: approved by the owner and done 2026-10-26 with `git push origin main` (`f72ea34..4c3e668`, normal
+  fast-forward, no force, no tags).
+- Worktree `worktree-phase1-agent-governance` (`.claude/worktrees/phase1-agent-governance`): clean and fully
+  merged; the worktree and its local branch were removed 2026-10-26 with the owner's approval.
