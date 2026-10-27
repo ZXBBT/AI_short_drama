@@ -4,8 +4,10 @@ The only source for the project's current state (`AGENTS.md` §9). Older stage r
 "Stage status" table are history. Update this file whenever the state changes; write facts with dates and
 commits.
 
-**Last updated:** 2026-10-26 · **main:** `4ca5016` · **Working branch:** `worktree-phase1-agent-governance`
-(based on `4ca5016`; Phase 1 local commit approved; merge into main pending owner approval)
+**Last updated:** 2026-10-26 · **main:** Phase 1 commit `aac596b34d4ae680bcc0d0756fac588c387589dc`
+fast-forwarded from `4ca5016` on 2026-10-26, followed by the docs-only commit "Record Phase 1 integration
+status" · **Push:** pending owner approval (nothing pushed) · **Worktree:** `worktree-phase1-agent-governance`
+still present (removal not approved)
 
 ## Phases
 
@@ -13,7 +15,7 @@ commits.
 |---|---|---|
 | Stages 0-8+ | ✅ done 2026-10-23 … 2026-10-26 (history: README, `docs/stage*`, `docs/*-results.md`) | local H3 pipeline: episodes, takes, checks, review page, assembly, Qwen-Image stills, SeedVR2 upscaling |
 | Phase 0 — stable baseline | ✅ done 2026-10-26, merged to main as `4ca5016` | brief face validation no longer crashes on bad or failed Vision helper output (`scripts/brief.py`, `scripts/face_check.py` + tests); `scripts/check.sh` as the single standard gate; optional real-Vision check `scripts/test_vision_integration.py` |
-| Phase 1 — multi-agent governance | ⏳ implementation complete 2026-10-26; independent audit PASS, no blocker or major findings; minor findings accepted by the owner as known limitations, no permissions widened (`docs/tasks/2026-10-26-phase1-agent-governance.md`); local commit approved 2026-10-26; merge into main pending owner approval | `AGENTS.md`, `CLAUDE.md`, `.claude/settings.json`, `.claude/rules/`, `.claude/agents/`, this file, `docs/tasks/TEMPLATE.md`. No code, episode, prompt or workflow changes; no renders |
+| Phase 1 — multi-agent governance | ✅ done 2026-10-26; independent audit PASS, no blocker or major findings; minor findings accepted by the owner as known limitations, no permissions widened (`docs/tasks/2026-10-26-phase1-agent-governance.md`); committed as `aac596b` and fast-forwarded into main 2026-10-26; push pending owner approval | `AGENTS.md`, `CLAUDE.md`, `.claude/settings.json`, `.claude/rules/`, `.claude/agents/`, this file, `docs/tasks/TEMPLATE.md`. No code, episode, prompt or workflow changes; no renders |
 
 ## Test baseline (`./scripts/check.sh`)
 Measured 2026-10-26 on `4ca5016` (in the Phase 1 worktree): **17 passed, 4 skipped, 0 failed**.
@@ -29,7 +31,8 @@ Measured 2026-10-26 on `4ca5016` (in the Phase 1 worktree): **17 passed, 4 skipp
     trademark reference, owner decision 2026-10-24).
   - `vision integration` — optional, not enabled (`RUN_VISION_INTEGRATION=1`).
 - In the main checkout, where the local-only pictures exist, those three episodes may validate instead of
-  skipping; that is also correct.
+  skipping; that is also correct. Measured 2026-10-26 on main at `aac596b` (main checkout):
+  **20 passed, 1 skipped, 0 failed** (only `vision integration` skipped).
 - Warnings that are not failures: `Urban_Lifestyle_Commercial_refs` shots R1-R4 (768x1376x5) are larger
   than anything tested — watch swap if they are ever rendered.
 
@@ -55,5 +58,5 @@ Measured 2026-10-26 on `4ca5016` (in the Phase 1 worktree): **17 passed, 4 skipp
 - Local "studio" web app (owner request; needs its own plan).
 - Running the project on a Windows/RTX machine (estimate given; not started).
 - Governance follow-ups noted in Phase 1: sessions in a worktree under `.claude/worktrees/` also load the
-  main checkout's `CLAUDE.md` once it exists there; whether `.gitignore` should list `.claude/worktrees/`
+  main checkout's `CLAUDE.md`, which exists there since `aac596b`; whether `.gitignore` should list `.claude/worktrees/`
   (today only the main checkout's `.git/info/exclude` ignores it).

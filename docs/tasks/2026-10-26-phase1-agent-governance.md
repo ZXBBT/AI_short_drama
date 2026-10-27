@@ -117,7 +117,8 @@ Frontmatter and JSON were also checked with a throwaway script (session scratchp
 - [x] Card approved — 2026-10-26 (governance plan approved by the owner in session; bootstrap exception)
 - [x] Bootstrap follow-up (this card, four-field audit prompt, untracked-file audit step) — 2026-10-26
 - [x] Independent audit result reviewed by the owner
-- [x] Commit (and push) — only on the owner's request — local commit approved 2026-10-26; push and merge not approved yet
+- [x] Commit (and push) — only on the owner's request — local commit `aac596b` approved 2026-10-26;
+      fast-forward into main approved and done 2026-10-26; push pending owner approval
 
 ## Audit record
 I ran the audit and the verdict is **PASS**, with three minor findings and one nit. No blocker or major issues.
@@ -219,3 +220,14 @@ Written by the implementing session. The auditor treats this as claims to verify
   the auditor is denied a command it needs under `dontAsk`, the exact rule goes to the owner for approval.
 - Noticed outside the scope (reported, not fixed): `.claude/worktrees/` is not in `.gitignore`; ancestor
   `CLAUDE.md` loading for worktree sessions.
+
+## Integration record — 2026-10-26
+Written by the owner's session after the handoff; not part of the auditor's report.
+- Phase 1 commit `aac596b34d4ae680bcc0d0756fac588c387589dc` ("Add Phase 1 multi-agent governance") was
+  fast-forwarded into main from `4ca5016` on 2026-10-26 (`git merge --ff-only`, no merge commit, no
+  conflicts), with the owner's approval.
+- `./scripts/check.sh` on main after the merge (main checkout): `20 passed, 1 skipped, 0 failed`; only
+  `vision integration` skipped, because the local-only pictures exist there.
+- Push: pending owner approval; nothing pushed.
+- Worktree `worktree-phase1-agent-governance` (`.claude/worktrees/phase1-agent-governance`): still present;
+  removal not approved.
